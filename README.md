@@ -16,7 +16,7 @@
 - [ ] 11 May. Assumed Class Presentation.
 
 - [ ] Prepare Project Environment
-    - [ ] Create Python3 Environment
+    - [X] Create Python3 Environment
     - [ ] Setup LaTeX enviornment 
         - [ ] Create MakeFile
 
