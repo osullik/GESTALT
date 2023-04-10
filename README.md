@@ -5,9 +5,9 @@
 - [X] 14 Mar. Submit Project Proposal.
 - [ ] 26 Mar. 3 x Object Labeled areas generated (manually).
     - [X] Bulahelah (Suburban) - Complete 06 Apr
-    - [ ] Swan Valley (Rural)
+    - [X] Swan Valley (Rural)
     - [ ] TBA (Urban)
-- [ ] 02 Apr. Location retrieval from OSM implemented.
+- [X] 02 Apr. Location retrieval from OSM implemented.
 - [ ] 09 Apr. Ownership Clustering Implemented.
 - [ ] 16 Apr. Concept Mapping Implemented.
 - [ ] 23 Apr. Proof-of-concept querying implemented.
