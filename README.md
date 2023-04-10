@@ -9,6 +9,7 @@
     - [ ] TBA (Urban)
 - [X] 02 Apr. Location retrieval from OSM implemented.
 - [ ] 09 Apr. Ownership Clustering Implemented.
+- [ ] 11 Apr. Interim project report due
 - [ ] 16 Apr. Concept Mapping Implemented.
 - [ ] 23 Apr. Proof-of-concept querying implemented.
 - [ ] 30 Apr. Draft Paper Complete. 
