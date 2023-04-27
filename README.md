@@ -18,6 +18,6 @@
 
 - [ ] Prepare Project Environment
     - [X] Create Python3 Environment
-    - [ ] Setup LaTeX enviornment 
-        - [ ] Create MakeFile
+    - [X] Setup LaTeX enviornment 
+        - [X] Create MakeFile
 
