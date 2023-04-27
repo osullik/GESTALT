@@ -7,7 +7,9 @@
     - [X] Bulahelah (Suburban) - Complete 06 Apr
     - [X] Swan Valley (Rural)
     - [ ] TBA (Urban)
+- [X] 02 Apr. KML Extraction implemented. 
 - [X] 02 Apr. Location retrieval from OSM implemented.
+- [ ] 03 Apr. Fust KML and OSM data. 
 - [ ] 09 Apr. Ownership Clustering Implemented.
 - [ ] 11 Apr. Interim project report due
 - [ ] 16 Apr. Concept Mapping Implemented.
