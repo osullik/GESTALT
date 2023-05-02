@@ -9,11 +9,14 @@
 # 3. Get Specific Locations from OSM
 
 #System Imports
-import os, sys, argparse
+import os, sys, argparse, json
 
 
 #Library Imports
 from fastkml import kml 
+from OSMPythonTools.api import Api
+from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
+from OSMPythonTools.nominatim import Nominatim
 
 #User Imports
 
@@ -149,6 +152,38 @@ class TerrainExtractor():
 
 		return descriptors
 
+class osmQueryEngine():
+
+	def __init__(self):
+		pass
+
+	def queryOSM(self,bbox, typeQuery):
+
+		locationDict = {}
+
+		overpass = Overpass()
+		nominatim = Nominatim()
+
+		query = overpassQueryBuilder(	bbox=bbox, 
+										elementType="node",
+										selector="'craft'="+typeQuery)
+
+		results = overpass.query(query)
+
+		for element in results.elements():
+			locationName = element.tags()['name']
+			latitude = element.geometry()['coordinates'][0]
+			longitude = element.geometry()['coordinates'][1]
+			locationDict[locationName] = {}
+			locationDict[locationName]['latitude'] = latitude
+			locationDict[locationName]['longitude'] = longitude
+
+		return locationDict
+
+
+
+
+
 
 if __name__ == "__main__":
 
@@ -159,14 +194,42 @@ if __name__ == "__main__":
 							type=str,
 							default="data/",
 							required=False)	
+
+	argparser.add_argument(	"-o", "--osm", 							
+							help="issue a query to OpenStreetMaps",
+							action="store_true",
+							default=False,
+							required=False)	
+
+	argparser.add_argument(	"-j", "--jsonDump", 							
+							help="dump the datasets to JSON",
+							action="store_true",
+							default=False,
+							required=False)	
 	
 	flags = argparser.parse_args()											# populate variables from command line arguments
+
 
 	gestalt = TerrainExtractor(flags.directory)
 
 	kmlList = gestalt.Get_kml_file_list()
 
-	gestalt.Ingest_kml_file(kmlList[0])
+	objectLocations = gestalt.Ingest_kml_file(kmlList[0])
+
+	bbox = [-31.90009882641578, 115.96168231510637, -31.77307863942101, 116.05029961853784] # Swan Valley isn't defined as an entity in OSM. BBOX from: https://travellingcorkscrew.com.au/wp-content/uploads/2013/08/Swan-Valley-Wineries-Map.pdf 
+
+	oqe = osmQueryEngine()
+	osmDict = oqe.queryOSM(bbox, "winery")
+	
+	if flags.jsonDump == True:
+		with open("data/osm.json",'w') as outfile:
+			json.dump(osmDict, outfile, indent=4)
+
+		with open("data/objects.json", 'w') as outfile:
+			json.dump(objectLocations, outfile, indent=4)
+
+		sys.exit("Exported osm data and json objects to file")
+	
 
 
 
