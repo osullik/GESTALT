@@ -1,0 +1,1290 @@
+{
+    "Swan_Valley": {
+        "Alis_Vineyard": {
+            "0": {
+                "name": "palm_tree",
+                "latitude": 116.0183374663027,
+                "longitude": -31.81445187554597,
+                "description": null
+            },
+            "1": {
+                "name": "palm_tree",
+                "latitude": 116.0183259785979,
+                "longitude": -31.81451940926452,
+                "description": null
+            },
+            "2": {
+                "name": "palm_tree",
+                "latitude": 116.0183161354075,
+                "longitude": -31.8145718117269,
+                "description": null
+            },
+            "3": {
+                "name": "palm_tree",
+                "latitude": 116.0182529749383,
+                "longitude": -31.81458084078105,
+                "description": null
+            },
+            "4": {
+                "name": "palm_tree",
+                "latitude": 116.0182086643162,
+                "longitude": -31.81462157655873,
+                "description": null
+            },
+            "5": {
+                "name": "palm_tree",
+                "latitude": 116.0182128388363,
+                "longitude": -31.81454971676524,
+                "description": null
+            },
+            "6": {
+                "name": "palm_tree",
+                "latitude": 116.018223361407,
+                "longitude": -31.81448193361258,
+                "description": null
+            },
+            "7": {
+                "name": "palm_tree",
+                "latitude": 116.0182823408421,
+                "longitude": -31.81444773977627,
+                "description": null
+            },
+            "8": {
+                "name": "palm_tree",
+                "latitude": 116.01821750659,
+                "longitude": -31.8143890181285,
+                "description": null
+            },
+            "9": {
+                "name": "palm_tree",
+                "latitude": 116.0182474062873,
+                "longitude": -31.81439660859307,
+                "description": null
+            },
+            "10": {
+                "name": "palm_tree",
+                "latitude": 116.0181813817572,
+                "longitude": -31.81434027785148,
+                "description": null
+            },
+            "11": {
+                "name": "palm_tree",
+                "latitude": 116.0182631395714,
+                "longitude": -31.81429434468795,
+                "description": null
+            },
+            "12": {
+                "name": "pizza_oven",
+                "latitude": 116.0181961643027,
+                "longitude": -31.81429169178455,
+                "description": {
+                    "0": {
+                        "material": "brick"
+                    },
+                    "1": {
+                        "color": "red"
+                    }
+                }
+            },
+            "13": {
+                "name": "air_conditioner",
+                "latitude": 116.0182334670006,
+                "longitude": -31.81420767463152,
+                "description": {
+                    "0": {
+                        "color": "red"
+                    }
+                }
+            },
+            "14": {
+                "name": "building",
+                "latitude": 116.0179055434116,
+                "longitude": -31.81394919889622,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "15": {
+                "name": "shed",
+                "latitude": 116.0180953620699,
+                "longitude": -31.81439717390363,
+                "description": null
+            },
+            "16": {
+                "name": "shed",
+                "latitude": 116.0178051456259,
+                "longitude": -31.81432230857389,
+                "description": null
+            },
+            "17": {
+                "name": "shed",
+                "latitude": 116.0179865644773,
+                "longitude": -31.8135457777316,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    },
+                    "1": {
+                        "color": "red"
+                    }
+                }
+            }
+        },
+        "Little_River_Winery": {
+            "0": {
+                "name": "picnic_bench",
+                "latitude": 116.0009142164415,
+                "longitude": -31.82401586475119,
+                "description": {
+                    "0": {
+                        "color": "blue"
+                    }
+                }
+            },
+            "1": {
+                "name": "picnic_bench",
+                "latitude": 116.000930932033,
+                "longitude": -31.82402821801069,
+                "description": {
+                    "0": {
+                        "color": "green"
+                    }
+                }
+            },
+            "2": {
+                "name": "planter",
+                "latitude": 116.0009778539811,
+                "longitude": -31.82400450902502,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "3": {
+                "name": "planter",
+                "latitude": 116.00092060426,
+                "longitude": -31.82400258090139,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "4": {
+                "name": "building",
+                "latitude": 116.0006048976215,
+                "longitude": -31.82417864772208,
+                "description": null
+            },
+            "5": {
+                "name": "parking_lot",
+                "latitude": 116.0005802543637,
+                "longitude": -31.82406166208574,
+                "description": {
+                    "0": {
+                        "material": "dirt"
+                    }
+                }
+            },
+            "6": {
+                "name": "patio",
+                "latitude": 116.0005190872192,
+                "longitude": -31.82414265894136,
+                "description": null
+            },
+            "7": {
+                "name": "water_tank",
+                "latitude": 116.0007722909438,
+                "longitude": -31.82427841722326,
+                "description": null
+            },
+            "8": {
+                "name": "air_conitioner",
+                "latitude": 116.0010150860718,
+                "longitude": -31.82414274552135,
+                "description": {
+                    "0": {
+                        "color": "gray"
+                    }
+                }
+            },
+            "9": {
+                "name": "patio",
+                "latitude": 116.0009461560145,
+                "longitude": -31.82416289887374,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    }
+                }
+            },
+            "10": {
+                "name": "building",
+                "latitude": 116.0008411872399,
+                "longitude": -31.82414373469494,
+                "description": null
+            },
+            "11": {
+                "name": "shed",
+                "latitude": 116.0011891817338,
+                "longitude": -31.82414175485055,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    }
+                }
+            },
+            "12": {
+                "name": "building",
+                "latitude": 116.0015213385211,
+                "longitude": -31.82429678566091,
+                "description": null
+            },
+            "13": {
+                "name": "building",
+                "latitude": 116.0011641432193,
+                "longitude": -31.8238198185718,
+                "description": null
+            },
+            "14": {
+                "name": "vineyard",
+                "latitude": 116.0008309768264,
+                "longitude": -31.82470742057825,
+                "description": null
+            },
+            "15": {
+                "name": "vineyard",
+                "latitude": 116.0024406990624,
+                "longitude": -31.8242299537138,
+                "description": null
+            },
+            "16": {
+                "name": "vineyard",
+                "latitude": 116.0018976598281,
+                "longitude": -31.82369416405801,
+                "description": null
+            },
+            "17": {
+                "name": "building",
+                "latitude": 116.0008501775059,
+                "longitude": -31.82347585518145,
+                "description": null
+            },
+            "18": {
+                "name": "parking_lot",
+                "latitude": 116.0005857862165,
+                "longitude": -31.82372524293678,
+                "description": {
+                    "0": {
+                        "material": "grass"
+                    }
+                }
+            }
+        },
+        "Faber_Vineyard": {
+            "0": {
+                "name": "retaining_wall",
+                "latitude": 116.0458851425753,
+                "longitude": -31.79711445941102,
+                "description": {
+                    "0": {
+                        "material": "stone"
+                    }
+                }
+            },
+            "1": {
+                "name": "retaining_wall",
+                "latitude": 116.0457670563354,
+                "longitude": -31.79711822124566,
+                "description": {
+                    "0": {
+                        "material": "stone"
+                    }
+                }
+            },
+            "2": {
+                "name": "sign",
+                "latitude": 116.0457670563353,
+                "longitude": -31.79711822124567,
+                "description": {
+                    "0": {
+                        "material": "metal"
+                    }
+                }
+            },
+            "3": {
+                "name": "sign",
+                "latitude": 116.0458851425753,
+                "longitude": -31.79711445941102,
+                "description": {
+                    "0": {
+                        "material": "metal"
+                    }
+                }
+            },
+            "4": {
+                "name": "sign",
+                "latitude": 116.0458175186144,
+                "longitude": -31.79692113693582,
+                "description": {
+                    "0": {
+                        "material": "wood"
+                    },
+                    "1": {
+                        "color": "white"
+                    }
+                }
+            },
+            "5": {
+                "name": "tree",
+                "latitude": 116.0457592802574,
+                "longitude": -31.79707299441964,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "6": {
+                "name": "tree",
+                "latitude": 116.0458562580698,
+                "longitude": -31.79707639334401,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "7": {
+                "name": "tree",
+                "latitude": 116.0458650464963,
+                "longitude": -31.79701796869119,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "8": {
+                "name": "tree",
+                "latitude": 116.0457701043378,
+                "longitude": -31.79702180433045,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "9": {
+                "name": "tree",
+                "latitude": 116.0458575517662,
+                "longitude": -31.79695848151606,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "10": {
+                "name": "tree",
+                "latitude": 116.0457695358829,
+                "longitude": -31.7969572497282,
+                "description": {
+                    "0": {
+                        "species": "liquidamber"
+                    }
+                }
+            },
+            "11": {
+                "name": "parking_lot",
+                "latitude": 116.0456561146581,
+                "longitude": -31.79698640377645,
+                "description": {
+                    "0": {
+                        "material": "dirt"
+                    }
+                }
+            },
+            "12": {
+                "name": "vineyard",
+                "latitude": 116.0459678755513,
+                "longitude": -31.79698932185287,
+                "description": {
+                    "0": {
+                        "size": "small"
+                    }
+                }
+            },
+            "13": {
+                "name": "vineyard",
+                "latitude": 116.0454319290855,
+                "longitude": -31.7946673883335,
+                "description": {
+                    "0": {
+                        "size": "medium"
+                    }
+                }
+            },
+            "14": {
+                "name": "building",
+                "latitude": 116.0458568785181,
+                "longitude": -31.79676259008081,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    },
+                    "1": {
+                        "material": "weatherboard"
+                    },
+                    "2": {
+                        "roof": "red"
+                    }
+                }
+            },
+            "15": {
+                "name": "shed",
+                "latitude": 116.0450705556765,
+                "longitude": -31.79676332889907,
+                "description": null
+            },
+            "16": {
+                "name": "solar_panel",
+                "latitude": 116.0451148633962,
+                "longitude": -31.79669029290958,
+                "description": null
+            },
+            "17": {
+                "name": "building",
+                "latitude": 116.0465802282568,
+                "longitude": -31.79664133173589,
+                "description": {
+                    "0": {
+                        "type": "brewery"
+                    }
+                }
+            },
+            "18": {
+                "name": "parking_lot",
+                "latitude": 116.0452797276304,
+                "longitude": -31.79691654618838,
+                "description": {
+                    "0": {
+                        "material": "dirt"
+                    }
+                }
+            },
+            "19": {
+                "name": "shed",
+                "latitude": 116.045049160885,
+                "longitude": -31.79658001770868,
+                "description": null
+            },
+            "20": {
+                "name": "building",
+                "latitude": 116.0451629606889,
+                "longitude": -31.79630852369076,
+                "description": null
+            },
+            "21": {
+                "name": "swimming_pool",
+                "latitude": 116.0452886782776,
+                "longitude": -31.79620849056571,
+                "description": null
+            },
+            "22": {
+                "name": "courtyard",
+                "latitude": 116.0458601290954,
+                "longitude": -31.79646472091715,
+                "description": {
+                    "0": {
+                        "material": "grass"
+                    }
+                }
+            },
+            "23": {
+                "name": "vineyard",
+                "latitude": 115.998939146043,
+                "longitude": -31.83039735327537,
+                "description": {
+                    "0": {
+                        "size": "medium"
+                    }
+                }
+            }
+        },
+        "Ugly_Duckling_Wines": {
+            "0": {
+                "name": "vineyard",
+                "latitude": 115.9977318524493,
+                "longitude": -31.83060476817275,
+                "description": {
+                    "0": {
+                        "size": "small"
+                    }
+                }
+            },
+            "1": {
+                "name": "generator",
+                "latitude": 115.9974576751721,
+                "longitude": -31.83020873465989,
+                "description": {
+                    "0": {
+                        "color": "blue"
+                    }
+                }
+            },
+            "2": {
+                "name": "parking_lot",
+                "latitude": 115.9977420660818,
+                "longitude": -31.83033573653752,
+                "description": {
+                    "0": {
+                        "material": "grass"
+                    }
+                }
+            },
+            "3": {
+                "name": "carport",
+                "latitude": 115.997502299226,
+                "longitude": -31.83038472086931,
+                "description": {
+                    "0": {
+                        "material": "vines"
+                    }
+                }
+            },
+            "4": {
+                "name": "bicycle_rack",
+                "latitude": 115.9974572459445,
+                "longitude": -31.83023391039609,
+                "description": {
+                    "0": {
+                        "material": "metal"
+                    }
+                }
+            },
+            "5": {
+                "name": "shed",
+                "latitude": 115.9977050969983,
+                "longitude": -31.83047573335856,
+                "description": null
+            },
+            "6": {
+                "name": "sculpture",
+                "latitude": 115.997777721079,
+                "longitude": -31.83050151773064,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "7": {
+                "name": "patio",
+                "latitude": 115.997669167832,
+                "longitude": -31.83051242847542,
+                "description": null
+            },
+            "8": {
+                "name": "patio",
+                "latitude": 115.997431381974,
+                "longitude": -31.83042950292597,
+                "description": null
+            },
+            "9": {
+                "name": "shed",
+                "latitude": 115.9973518616014,
+                "longitude": -31.83048831452484,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    }
+                }
+            },
+            "10": {
+                "name": "picnic_table",
+                "latitude": 115.9973090452622,
+                "longitude": -31.83039290156244,
+                "description": null
+            },
+            "11": {
+                "name": "picnic_table",
+                "latitude": 115.9972816677781,
+                "longitude": -31.83042013524614,
+                "description": null
+            },
+            "12": {
+                "name": "picnic_umbrella",
+                "latitude": 115.9973045597328,
+                "longitude": -31.83039529464335,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "13": {
+                "name": "picnic_umbrella",
+                "latitude": 115.9972807007919,
+                "longitude": -31.83041309005974,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "14": {
+                "name": "picnic_umbrella",
+                "latitude": 115.9974222588125,
+                "longitude": -31.83059039674292,
+                "description": {
+                    "0": {
+                        "color": "wite"
+                    }
+                }
+            },
+            "15": {
+                "name": "picnic_umbrella",
+                "latitude": 115.9973755276259,
+                "longitude": -31.83062496370694,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "16": {
+                "name": "picnic_table",
+                "latitude": 115.9972085542997,
+                "longitude": -31.83044919552612,
+                "description": null
+            },
+            "17": {
+                "name": "picnic_table",
+                "latitude": 115.9971975624587,
+                "longitude": -31.83055048589921,
+                "description": null
+            },
+            "18": {
+                "name": "shed",
+                "latitude": 115.9972416499528,
+                "longitude": -31.83057537982879,
+                "description": {
+                    "0": {
+                        "roof": "curved"
+                    }
+                }
+            },
+            "19": {
+                "name": "shed",
+                "latitude": 115.9971742512736,
+                "longitude": -31.8306575917034,
+                "description": null
+            },
+            "20": {
+                "name": "shed",
+                "latitude": 115.997296680735,
+                "longitude": -31.83065965298827,
+                "description": {
+                    "0": {
+                        "material": "plastic"
+                    }
+                }
+            },
+            "21": {
+                "name": "tree",
+                "latitude": 115.9971388569162,
+                "longitude": -31.83079043292682,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "22": {
+                "name": "tree",
+                "latitude": 115.9971802611804,
+                "longitude": -31.83079112085596,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "23": {
+                "name": "tree",
+                "latitude": 115.9972163578717,
+                "longitude": -31.83079315668379,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "24": {
+                "name": "tree",
+                "latitude": 115.9972577899615,
+                "longitude": -31.83078775293374,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "25": {
+                "name": "tree",
+                "latitude": 115.9973048744194,
+                "longitude": -31.83079115492708,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "26": {
+                "name": "tree",
+                "latitude": 115.9973561509557,
+                "longitude": -31.83078777975723,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            },
+            "27": {
+                "name": "tree",
+                "latitude": 115.9974216940731,
+                "longitude": -31.83079186264361,
+                "description": {
+                    "0": {
+                        "species": "palm"
+                    }
+                }
+            }
+        },
+        "Oakover_Grounds": {
+            "0": {
+                "name": "building",
+                "latitude": 116.0086270958327,
+                "longitude": -31.84668336675156,
+                "description": null
+            },
+            "1": {
+                "name": "pond",
+                "latitude": 116.0076430354346,
+                "longitude": -31.84590359767057,
+                "description": null
+            },
+            "2": {
+                "name": "bridge",
+                "latitude": 116.0075575103231,
+                "longitude": -31.84638920015648,
+                "description": {
+                    "0": {
+                        "material": "wooden"
+                    }
+                }
+            },
+            "3": {
+                "name": "island",
+                "latitude": 116.0077438974485,
+                "longitude": -31.84633325480655,
+                "description": null
+            },
+            "4": {
+                "name": "vineyard",
+                "latitude": 116.0059960349935,
+                "longitude": -31.84630620908671,
+                "description": {
+                    "0": {
+                        "size": "medium"
+                    }
+                }
+            },
+            "5": {
+                "name": "swimming_pool",
+                "latitude": 116.0046871040282,
+                "longitude": -31.84642682355494,
+                "description": null
+            },
+            "6": {
+                "name": "building",
+                "latitude": 116.0047242747774,
+                "longitude": -31.84660379451255,
+                "description": null
+            },
+            "7": {
+                "name": "building",
+                "latitude": 116.0049137333173,
+                "longitude": -31.84534087718281,
+                "description": null
+            },
+            "8": {
+                "name": "tennis_court",
+                "latitude": 116.0049529458494,
+                "longitude": -31.84497134212882,
+                "description": null
+            },
+            "9": {
+                "name": "swimming_pool",
+                "latitude": 116.0046804703044,
+                "longitude": -31.84520480790187,
+                "description": null
+            },
+            "10": {
+                "name": "shade_cloth",
+                "latitude": 116.0046414836387,
+                "longitude": -31.84519057474693,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    },
+                    "1": {
+                        "shape": "shell"
+                    }
+                }
+            },
+            "11": {
+                "name": "sign",
+                "latitude": 116.0066284586833,
+                "longitude": -31.84696779013872,
+                "description": {
+                    "0": {
+                        "color": "brown"
+                    },
+                    "1": {
+                        "color": "white"
+                    },
+                    "2": {
+                        "material": "metal"
+                    }
+                }
+            },
+            "12": {
+                "name": "warehouse",
+                "latitude": 116.0060571495129,
+                "longitude": -31.84505951047444,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    },
+                    "1": {
+                        "color": "green"
+                    }
+                }
+            },
+            "13": {
+                "name": "vat",
+                "latitude": 116.0063688107167,
+                "longitude": -31.84518456887401,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "14": {
+                "name": "vat",
+                "latitude": 116.0063718225668,
+                "longitude": -31.84515103476856,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "15": {
+                "name": "vat",
+                "latitude": 116.0063741620266,
+                "longitude": -31.84510853881709,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "16": {
+                "name": "vat",
+                "latitude": 116.0063804564964,
+                "longitude": -31.84507695999562,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "17": {
+                "name": "building",
+                "latitude": 116.0066406806117,
+                "longitude": -31.84512567428841,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    },
+                    "1": {
+                        "roof": "green"
+                    }
+                }
+            },
+            "18": {
+                "name": "parking_lot",
+                "latitude": 116.0070043014552,
+                "longitude": -31.84527487175123,
+                "description": {
+                    "0": {
+                        "material": "asphalt"
+                    }
+                }
+            },
+            "19": {
+                "name": "solar_panels",
+                "latitude": 116.0073642354885,
+                "longitude": -31.84487684093081,
+                "description": null
+            },
+            "20": {
+                "name": "solar_panels",
+                "latitude": 116.0073623012661,
+                "longitude": -31.84496527724279,
+                "description": null
+            },
+            "21": {
+                "name": "building",
+                "latitude": 116.007341994294,
+                "longitude": -31.84505688510912,
+                "description": {
+                    "0": {
+                        "roof": "green"
+                    },
+                    "1": {
+                        "color": "white"
+                    }
+                }
+            },
+            "22": {
+                "name": "fence",
+                "latitude": 116.0072570321877,
+                "longitude": -31.84523158062051,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    },
+                    "1": {
+                        "material": "wood"
+                    },
+                    "2": {
+                        "style": "picket"
+                    }
+                }
+            },
+            "23": {
+                "name": "jetty",
+                "latitude": 116.007597008791,
+                "longitude": -31.84538040931631,
+                "description": null
+            },
+            "24": {
+                "name": "picnic_table",
+                "latitude": 116.0075393399854,
+                "longitude": -31.84537004084413,
+                "description": null
+            },
+            "25": {
+                "name": "picnic_table",
+                "latitude": 116.0076604504979,
+                "longitude": -31.84537006574641,
+                "description": null
+            },
+            "26": {
+                "name": "tank",
+                "latitude": 116.0068656915519,
+                "longitude": -31.84488600975254,
+                "description": {
+                    "0": {
+                        "contents": "lpg"
+                    }
+                }
+            },
+            "27": {
+                "name": "tank",
+                "latitude": 116.0066919339338,
+                "longitude": -31.84485397635064,
+                "description": {
+                    "0": {
+                        "contents": "rainwater"
+                    }
+                }
+            },
+            "28": {
+                "name": "shed",
+                "latitude": 116.0072291966907,
+                "longitude": -31.84513430001038,
+                "description": {
+                    "0": {
+                        "color": "green"
+                    }
+                }
+            },
+            "29": {
+                "name": "shipping_container",
+                "latitude": 116.0072432872027,
+                "longitude": -31.84466167779774,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "30": {
+                "name": "shipping_container",
+                "latitude": 116.0072381097506,
+                "longitude": -31.84469149573804,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "31": {
+                "name": "shipping_container",
+                "latitude": 116.0072390830616,
+                "longitude": -31.84472428455821,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "32": {
+                "name": "shipping_container",
+                "latitude": 116.0074225863559,
+                "longitude": -31.84468823575176,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "33": {
+                "name": "vineyard",
+                "latitude": 116.0124205441503,
+                "longitude": -31.84538344253644,
+                "description": {
+                    "0": {
+                        "size": "large"
+                    }
+                }
+            },
+            "34": {
+                "name": "vineyard",
+                "latitude": 116.0066393647114,
+                "longitude": -31.84424690471754,
+                "description": {
+                    "0": {
+                        "size": "medium"
+                    }
+                }
+            }
+        },
+        "Lancaster_Wines": {
+            "0": {
+                "name": "river",
+                "latitude": 115.995810298809,
+                "longitude": -31.85109633797458,
+                "description": null
+            },
+            "1": {
+                "name": "vineyard",
+                "latitude": 115.9902290551793,
+                "longitude": -31.85068649170797,
+                "description": {
+                    "0": {
+                        "size": "large"
+                    }
+                }
+            },
+            "2": {
+                "name": "vineyard",
+                "latitude": 115.9901750632805,
+                "longitude": -31.85278296339006,
+                "description": {
+                    "0": {
+                        "size": "large"
+                    }
+                }
+            },
+            "3": {
+                "name": "parking_lot",
+                "latitude": 115.9901520456193,
+                "longitude": -31.85188710724418,
+                "description": {
+                    "0": {
+                        "material": "gravel"
+                    }
+                }
+            },
+            "4": {
+                "name": "shed",
+                "latitude": 115.9903190941192,
+                "longitude": -31.85210550561943,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    },
+                    "1": {
+                        "surface": "vines"
+                    }
+                }
+            },
+            "5": {
+                "name": "sign",
+                "latitude": 115.9903556704859,
+                "longitude": -31.8518872114326,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "6": {
+                "name": "table",
+                "latitude": 115.9905306771903,
+                "longitude": -31.85182659388803,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "7": {
+                "name": "table",
+                "latitude": 115.9905475047897,
+                "longitude": -31.85182616279369,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "8": {
+                "name": "table",
+                "latitude": 115.9905655610603,
+                "longitude": -31.85182820538461,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "9": {
+                "name": "table",
+                "latitude": 115.9905862473149,
+                "longitude": -31.85182506326957,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    }
+                }
+            },
+            "10": {
+                "name": "wine_barrell",
+                "latitude": 115.9904467156551,
+                "longitude": -31.85189307872191,
+                "description": null
+            },
+            "11": {
+                "name": "counter",
+                "latitude": 115.9904835715709,
+                "longitude": -31.85188320881234,
+                "description": {
+                    "0": {
+                        "material": "corrugated_iron"
+                    }
+                }
+            },
+            "12": {
+                "name": "shed",
+                "latitude": 115.990598423206,
+                "longitude": -31.8518732548151,
+                "description": null
+            },
+            "13": {
+                "name": "fence",
+                "latitude": 115.9903645411195,
+                "longitude": -31.85182222748639,
+                "description": {
+                    "0": {
+                        "material": "wine_barrell"
+                    },
+                    "1": {
+                        "marerial": "rope"
+                    }
+                }
+            },
+            "14": {
+                "name": "sign",
+                "latitude": 115.9877336890102,
+                "longitude": -31.85198713829637,
+                "description": {
+                    "0": {
+                        "color": "white"
+                    }
+                }
+            },
+            "15": {
+                "name": "driveway",
+                "latitude": 115.9889759412021,
+                "longitude": -31.85192250139609,
+                "description": {
+                    "0": {
+                        "length": "long"
+                    }
+                }
+            },
+            "16": {
+                "name": "picnic_table",
+                "latitude": 115.9908535353204,
+                "longitude": -31.85189392826163,
+                "description": null
+            },
+            "17": {
+                "name": "picnic_table",
+                "latitude": 115.990901684718,
+                "longitude": -31.85187442908764,
+                "description": null
+            },
+            "18": {
+                "name": "picnic_table",
+                "latitude": 115.9909205172935,
+                "longitude": -31.8518030858586,
+                "description": null
+            },
+            "19": {
+                "name": "picnic_table",
+                "latitude": 115.9908668295001,
+                "longitude": -31.8518024058948,
+                "description": null
+            },
+            "20": {
+                "name": "picnic_table",
+                "latitude": 115.9908006953241,
+                "longitude": -31.85180059356636,
+                "description": null
+            },
+            "21": {
+                "name": "picnic_table",
+                "latitude": 115.9907526922321,
+                "longitude": -31.85180195605045,
+                "description": null
+            }
+        },
+        "Jarrah_Ridge_Wines": {},
+        "Katgully_Wines": {},
+        "Windy_Creek_Estate": {},
+        "Holy_Mary_Cellars": {},
+        "swan_valley_wines": {}
+    }
+}
