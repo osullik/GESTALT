@@ -1,147 +1,147 @@
-object,latitude,longitude,true_location
-palm_tree,116.0183374663027,-31.81445187554597,Alis_Vineyard
-palm_tree,116.0183259785979,-31.81451940926452,Alis_Vineyard
-palm_tree,116.0183161354075,-31.8145718117269,Alis_Vineyard
-palm_tree,116.0182529749383,-31.81458084078105,Alis_Vineyard
-palm_tree,116.0182086643162,-31.81462157655873,Alis_Vineyard
-palm_tree,116.0182128388363,-31.81454971676524,Alis_Vineyard
-palm_tree,116.018223361407,-31.81448193361258,Alis_Vineyard
-palm_tree,116.0182823408421,-31.81444773977627,Alis_Vineyard
-palm_tree,116.01821750659,-31.8143890181285,Alis_Vineyard
-palm_tree,116.0182474062873,-31.81439660859307,Alis_Vineyard
-palm_tree,116.0181813817572,-31.81434027785148,Alis_Vineyard
-palm_tree,116.0182631395714,-31.81429434468795,Alis_Vineyard
-pizza_oven,116.0181961643027,-31.81429169178455,Alis_Vineyard
-air_conditioner,116.0182334670006,-31.81420767463152,Alis_Vineyard
-building,116.0179055434116,-31.81394919889622,Alis_Vineyard
-shed,116.0180953620699,-31.81439717390363,Alis_Vineyard
-shed,116.0178051456259,-31.81432230857389,Alis_Vineyard
-shed,116.0179865644773,-31.8135457777316,Alis_Vineyard
-picnic_bench,116.0009142164415,-31.82401586475119,Little_River_Winery
-picnic_bench,116.000930932033,-31.82402821801069,Little_River_Winery
-planter,116.0009778539811,-31.82400450902502,Little_River_Winery
-planter,116.00092060426,-31.82400258090139,Little_River_Winery
-building,116.0006048976215,-31.82417864772208,Little_River_Winery
-parking_lot,116.0005802543637,-31.82406166208574,Little_River_Winery
-patio,116.0005190872192,-31.82414265894136,Little_River_Winery
-water_tank,116.0007722909438,-31.82427841722326,Little_River_Winery
-air_conitioner,116.0010150860718,-31.82414274552135,Little_River_Winery
-patio,116.0009461560145,-31.82416289887374,Little_River_Winery
-building,116.0008411872399,-31.82414373469494,Little_River_Winery
-shed,116.0011891817338,-31.82414175485055,Little_River_Winery
-building,116.0015213385211,-31.82429678566091,Little_River_Winery
-building,116.0011641432193,-31.8238198185718,Little_River_Winery
-vineyard,116.0008309768264,-31.82470742057825,Little_River_Winery
-vineyard,116.0024406990624,-31.8242299537138,Little_River_Winery
-vineyard,116.0018976598281,-31.82369416405801,Little_River_Winery
-building,116.0008501775059,-31.82347585518145,Little_River_Winery
-parking_lot,116.0005857862165,-31.82372524293678,Little_River_Winery
-retaining_wall,116.0458851425753,-31.79711445941102,Faber_Vineyard
-retaining_wall,116.0457670563354,-31.79711822124566,Faber_Vineyard
-sign,116.0457670563353,-31.79711822124567,Faber_Vineyard
-sign,116.0458851425753,-31.79711445941102,Faber_Vineyard
-sign,116.0458175186144,-31.79692113693582,Faber_Vineyard
-tree,116.0457592802574,-31.79707299441964,Faber_Vineyard
-tree,116.0458562580698,-31.79707639334401,Faber_Vineyard
-tree,116.0458650464963,-31.79701796869119,Faber_Vineyard
-tree,116.0457701043378,-31.79702180433045,Faber_Vineyard
-tree,116.0458575517662,-31.79695848151606,Faber_Vineyard
-tree,116.0457695358829,-31.7969572497282,Faber_Vineyard
-parking_lot,116.0456561146581,-31.79698640377645,Faber_Vineyard
-vineyard,116.0459678755513,-31.79698932185287,Faber_Vineyard
-vineyard,116.0454319290855,-31.7946673883335,Faber_Vineyard
-building,116.0458568785181,-31.79676259008081,Faber_Vineyard
-shed,116.0450705556765,-31.79676332889907,Faber_Vineyard
-solar_panel,116.0451148633962,-31.79669029290958,Faber_Vineyard
-building,116.0465802282568,-31.79664133173589,Faber_Vineyard
-parking_lot,116.0452797276304,-31.79691654618838,Faber_Vineyard
-shed,116.045049160885,-31.79658001770868,Faber_Vineyard
-building,116.0451629606889,-31.79630852369076,Faber_Vineyard
-swimming_pool,116.0452886782776,-31.79620849056571,Faber_Vineyard
-courtyard,116.0458601290954,-31.79646472091715,Faber_Vineyard
-vineyard,115.998939146043,-31.83039735327537,Faber_Vineyard
-vineyard,115.9977318524493,-31.83060476817275,Ugly_Duckling_Wines
-generator,115.9974576751721,-31.83020873465989,Ugly_Duckling_Wines
-parking_lot,115.9977420660818,-31.83033573653752,Ugly_Duckling_Wines
-carport,115.997502299226,-31.83038472086931,Ugly_Duckling_Wines
-bicycle_rack,115.9974572459445,-31.83023391039609,Ugly_Duckling_Wines
-shed,115.9977050969983,-31.83047573335856,Ugly_Duckling_Wines
-sculpture,115.997777721079,-31.83050151773064,Ugly_Duckling_Wines
-patio,115.997669167832,-31.83051242847542,Ugly_Duckling_Wines
-patio,115.997431381974,-31.83042950292597,Ugly_Duckling_Wines
-shed,115.9973518616014,-31.83048831452484,Ugly_Duckling_Wines
-picnic_table,115.9973090452622,-31.83039290156244,Ugly_Duckling_Wines
-picnic_table,115.9972816677781,-31.83042013524614,Ugly_Duckling_Wines
-picnic_umbrella,115.9973045597328,-31.83039529464335,Ugly_Duckling_Wines
-picnic_umbrella,115.9972807007919,-31.83041309005974,Ugly_Duckling_Wines
-picnic_umbrella,115.9974222588125,-31.83059039674292,Ugly_Duckling_Wines
-picnic_umbrella,115.9973755276259,-31.83062496370694,Ugly_Duckling_Wines
-picnic_table,115.9972085542997,-31.83044919552612,Ugly_Duckling_Wines
-picnic_table,115.9971975624587,-31.83055048589921,Ugly_Duckling_Wines
-shed,115.9972416499528,-31.83057537982879,Ugly_Duckling_Wines
-shed,115.9971742512736,-31.8306575917034,Ugly_Duckling_Wines
-shed,115.997296680735,-31.83065965298827,Ugly_Duckling_Wines
-tree,115.9971388569162,-31.83079043292682,Ugly_Duckling_Wines
-tree,115.9971802611804,-31.83079112085596,Ugly_Duckling_Wines
-tree,115.9972163578717,-31.83079315668379,Ugly_Duckling_Wines
-tree,115.9972577899615,-31.83078775293374,Ugly_Duckling_Wines
-tree,115.9973048744194,-31.83079115492708,Ugly_Duckling_Wines
-tree,115.9973561509557,-31.83078777975723,Ugly_Duckling_Wines
-tree,115.9974216940731,-31.83079186264361,Ugly_Duckling_Wines
-building,116.0086270958327,-31.84668336675156,Oakover_Grounds
-pond,116.0076430354346,-31.84590359767057,Oakover_Grounds
-bridge,116.0075575103231,-31.84638920015648,Oakover_Grounds
-island,116.0077438974485,-31.84633325480655,Oakover_Grounds
-vineyard,116.0059960349935,-31.84630620908671,Oakover_Grounds
-swimming_pool,116.0046871040282,-31.84642682355494,Oakover_Grounds
-building,116.0047242747774,-31.84660379451255,Oakover_Grounds
-building,116.0049137333173,-31.84534087718281,Oakover_Grounds
-tennis_court,116.0049529458494,-31.84497134212882,Oakover_Grounds
-swimming_pool,116.0046804703044,-31.84520480790187,Oakover_Grounds
-shade_cloth,116.0046414836387,-31.84519057474693,Oakover_Grounds
-sign,116.0066284586833,-31.84696779013872,Oakover_Grounds
-warehouse,116.0060571495129,-31.84505951047444,Oakover_Grounds
-vat,116.0063688107167,-31.84518456887401,Oakover_Grounds
-vat,116.0063718225668,-31.84515103476856,Oakover_Grounds
-vat,116.0063741620266,-31.84510853881709,Oakover_Grounds
-vat,116.0063804564964,-31.84507695999562,Oakover_Grounds
-building,116.0066406806117,-31.84512567428841,Oakover_Grounds
-parking_lot,116.0070043014552,-31.84527487175123,Oakover_Grounds
-solar_panels,116.0073642354885,-31.84487684093081,Oakover_Grounds
-solar_panels,116.0073623012661,-31.84496527724279,Oakover_Grounds
-building,116.007341994294,-31.84505688510912,Oakover_Grounds
-fence,116.0072570321877,-31.84523158062051,Oakover_Grounds
-jetty,116.007597008791,-31.84538040931631,Oakover_Grounds
-picnic_table,116.0075393399854,-31.84537004084413,Oakover_Grounds
-picnic_table,116.0076604504979,-31.84537006574641,Oakover_Grounds
-tank,116.0068656915519,-31.84488600975254,Oakover_Grounds
-tank,116.0066919339338,-31.84485397635064,Oakover_Grounds
-shed,116.0072291966907,-31.84513430001038,Oakover_Grounds
-shipping_container,116.0072432872027,-31.84466167779774,Oakover_Grounds
-shipping_container,116.0072381097506,-31.84469149573804,Oakover_Grounds
-shipping_container,116.0072390830616,-31.84472428455821,Oakover_Grounds
-shipping_container,116.0074225863559,-31.84468823575176,Oakover_Grounds
-vineyard,116.0124205441503,-31.84538344253644,Oakover_Grounds
-vineyard,116.0066393647114,-31.84424690471754,Oakover_Grounds
-river,115.995810298809,-31.85109633797458,Lancaster_Wines
-vineyard,115.9902290551793,-31.85068649170797,Lancaster_Wines
-vineyard,115.9901750632805,-31.85278296339006,Lancaster_Wines
-parking_lot,115.9901520456193,-31.85188710724418,Lancaster_Wines
-shed,115.9903190941192,-31.85210550561943,Lancaster_Wines
-sign,115.9903556704859,-31.8518872114326,Lancaster_Wines
-table,115.9905306771903,-31.85182659388803,Lancaster_Wines
-table,115.9905475047897,-31.85182616279369,Lancaster_Wines
-table,115.9905655610603,-31.85182820538461,Lancaster_Wines
-table,115.9905862473149,-31.85182506326957,Lancaster_Wines
-wine_barrell,115.9904467156551,-31.85189307872191,Lancaster_Wines
-counter,115.9904835715709,-31.85188320881234,Lancaster_Wines
-shed,115.990598423206,-31.8518732548151,Lancaster_Wines
-fence,115.9903645411195,-31.85182222748639,Lancaster_Wines
-sign,115.9877336890102,-31.85198713829637,Lancaster_Wines
-driveway,115.9889759412021,-31.85192250139609,Lancaster_Wines
-picnic_table,115.9908535353204,-31.85189392826163,Lancaster_Wines
-picnic_table,115.990901684718,-31.85187442908764,Lancaster_Wines
-picnic_table,115.9909205172935,-31.8518030858586,Lancaster_Wines
-picnic_table,115.9908668295001,-31.8518024058948,Lancaster_Wines
-picnic_table,115.9908006953241,-31.85180059356636,Lancaster_Wines
-picnic_table,115.9907526922321,-31.85180195605045,Lancaster_Wines
+object,latitude,longitude,true_location,cluster,PredictedLocation
+palm_tree,116.0183374663027,-31.81445187554597,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0183259785979,-31.81451940926452,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0183161354075,-31.8145718117269,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182529749383,-31.81458084078105,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182086643162,-31.81462157655873,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182128388363,-31.81454971676524,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.018223361407,-31.81448193361258,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182823408421,-31.81444773977627,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.01821750659,-31.8143890181285,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182474062873,-31.81439660859307,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0181813817572,-31.81434027785148,Alis_Vineyard,0,Ali's Vineyard
+palm_tree,116.0182631395714,-31.81429434468795,Alis_Vineyard,0,Ali's Vineyard
+pizza_oven,116.0181961643027,-31.81429169178455,Alis_Vineyard,0,Ali's Vineyard
+air_conditioner,116.0182334670006,-31.81420767463152,Alis_Vineyard,0,Ali's Vineyard
+building,116.0179055434116,-31.81394919889622,Alis_Vineyard,0,Ali's Vineyard
+shed,116.0180953620699,-31.81439717390363,Alis_Vineyard,0,Ali's Vineyard
+shed,116.0178051456259,-31.81432230857389,Alis_Vineyard,0,Ali's Vineyard
+shed,116.0179865644773,-31.8135457777316,Alis_Vineyard,0,Ali's Vineyard
+picnic_bench,116.0009142164415,-31.82401586475119,Little_River_Winery,1,Little River Winery and Café
+picnic_bench,116.000930932033,-31.82402821801069,Little_River_Winery,1,Little River Winery and Café
+planter,116.0009778539811,-31.82400450902502,Little_River_Winery,1,Little River Winery and Café
+planter,116.00092060426,-31.82400258090139,Little_River_Winery,1,Little River Winery and Café
+building,116.0006048976215,-31.82417864772208,Little_River_Winery,1,Little River Winery and Café
+parking_lot,116.0005802543637,-31.82406166208574,Little_River_Winery,1,Little River Winery and Café
+patio,116.0005190872192,-31.82414265894136,Little_River_Winery,1,Little River Winery and Café
+water_tank,116.0007722909438,-31.82427841722326,Little_River_Winery,1,Little River Winery and Café
+air_conitioner,116.0010150860718,-31.82414274552135,Little_River_Winery,1,Little River Winery and Café
+patio,116.0009461560145,-31.82416289887374,Little_River_Winery,1,Little River Winery and Café
+building,116.0008411872399,-31.82414373469494,Little_River_Winery,1,Little River Winery and Café
+shed,116.0011891817338,-31.82414175485055,Little_River_Winery,1,Little River Winery and Café
+building,116.0015213385211,-31.82429678566091,Little_River_Winery,1,Little River Winery and Café
+building,116.0011641432193,-31.8238198185718,Little_River_Winery,1,Little River Winery and Café
+vineyard,116.0008309768264,-31.82470742057825,Little_River_Winery,1,Little River Winery and Café
+vineyard,116.0024406990624,-31.8242299537138,Little_River_Winery,1,Little River Winery and Café
+vineyard,116.0018976598281,-31.82369416405801,Little_River_Winery,1,Little River Winery and Café
+building,116.0008501775059,-31.82347585518145,Little_River_Winery,1,Little River Winery and Café
+parking_lot,116.0005857862165,-31.82372524293678,Little_River_Winery,1,Little River Winery and Café
+retaining_wall,116.0458851425753,-31.79711445941102,Faber_Vineyard,2,Faber Vineyard
+retaining_wall,116.0457670563354,-31.79711822124566,Faber_Vineyard,2,Faber Vineyard
+sign,116.0457670563353,-31.79711822124567,Faber_Vineyard,2,Faber Vineyard
+sign,116.0458851425753,-31.79711445941102,Faber_Vineyard,2,Faber Vineyard
+sign,116.0458175186144,-31.79692113693582,Faber_Vineyard,2,Faber Vineyard
+tree,116.0457592802574,-31.79707299441964,Faber_Vineyard,2,Faber Vineyard
+tree,116.0458562580698,-31.79707639334401,Faber_Vineyard,2,Faber Vineyard
+tree,116.0458650464963,-31.79701796869119,Faber_Vineyard,2,Faber Vineyard
+tree,116.0457701043378,-31.79702180433045,Faber_Vineyard,2,Faber Vineyard
+tree,116.0458575517662,-31.79695848151606,Faber_Vineyard,2,Faber Vineyard
+tree,116.0457695358829,-31.7969572497282,Faber_Vineyard,2,Faber Vineyard
+parking_lot,116.0456561146581,-31.79698640377645,Faber_Vineyard,2,Faber Vineyard
+vineyard,116.0459678755513,-31.79698932185287,Faber_Vineyard,2,Faber Vineyard
+vineyard,116.0454319290855,-31.7946673883335,Faber_Vineyard,2,Faber Vineyard
+building,116.0458568785181,-31.79676259008081,Faber_Vineyard,2,Faber Vineyard
+shed,116.0450705556765,-31.79676332889907,Faber_Vineyard,2,Faber Vineyard
+solar_panel,116.0451148633962,-31.79669029290958,Faber_Vineyard,2,Faber Vineyard
+building,116.0465802282568,-31.79664133173589,Faber_Vineyard,2,Faber Vineyard
+parking_lot,116.0452797276304,-31.79691654618838,Faber_Vineyard,2,Faber Vineyard
+shed,116.045049160885,-31.79658001770868,Faber_Vineyard,2,Faber Vineyard
+building,116.0451629606889,-31.79630852369076,Faber_Vineyard,2,Faber Vineyard
+swimming_pool,116.0452886782776,-31.79620849056571,Faber_Vineyard,2,Faber Vineyard
+courtyard,116.0458601290954,-31.79646472091715,Faber_Vineyard,2,Faber Vineyard
+vineyard,115.998939146043,-31.83039735327537,Faber_Vineyard,3,Ugly Duckling Wines
+vineyard,115.9977318524493,-31.83060476817275,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+generator,115.9974576751721,-31.83020873465989,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+parking_lot,115.9977420660818,-31.83033573653752,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+carport,115.997502299226,-31.83038472086931,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+bicycle_rack,115.9974572459445,-31.83023391039609,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+shed,115.9977050969983,-31.83047573335856,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+sculpture,115.997777721079,-31.83050151773064,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+patio,115.997669167832,-31.83051242847542,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+patio,115.997431381974,-31.83042950292597,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+shed,115.9973518616014,-31.83048831452484,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_table,115.9973090452622,-31.83039290156244,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_table,115.9972816677781,-31.83042013524614,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_umbrella,115.9973045597328,-31.83039529464335,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_umbrella,115.9972807007919,-31.83041309005974,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_umbrella,115.9974222588125,-31.83059039674292,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_umbrella,115.9973755276259,-31.83062496370694,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_table,115.9972085542997,-31.83044919552612,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+picnic_table,115.9971975624587,-31.83055048589921,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+shed,115.9972416499528,-31.83057537982879,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+shed,115.9971742512736,-31.8306575917034,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+shed,115.997296680735,-31.83065965298827,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9971388569162,-31.83079043292682,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9971802611804,-31.83079112085596,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9972163578717,-31.83079315668379,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9972577899615,-31.83078775293374,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9973048744194,-31.83079115492708,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9973561509557,-31.83078777975723,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+tree,115.9974216940731,-31.83079186264361,Ugly_Duckling_Wines,3,Ugly Duckling Wines
+building,116.0086270958327,-31.84668336675156,Oakover_Grounds,4,Oakover Grounds
+pond,116.0076430354346,-31.84590359767057,Oakover_Grounds,4,Oakover Grounds
+bridge,116.0075575103231,-31.84638920015648,Oakover_Grounds,4,Oakover Grounds
+island,116.0077438974485,-31.84633325480655,Oakover_Grounds,4,Oakover Grounds
+vineyard,116.0059960349935,-31.84630620908671,Oakover_Grounds,4,Oakover Grounds
+swimming_pool,116.0046871040282,-31.84642682355494,Oakover_Grounds,4,Oakover Grounds
+building,116.0047242747774,-31.84660379451255,Oakover_Grounds,4,Oakover Grounds
+building,116.0049137333173,-31.84534087718281,Oakover_Grounds,4,Oakover Grounds
+tennis_court,116.0049529458494,-31.84497134212882,Oakover_Grounds,4,Oakover Grounds
+swimming_pool,116.0046804703044,-31.84520480790187,Oakover_Grounds,4,Oakover Grounds
+shade_cloth,116.0046414836387,-31.84519057474693,Oakover_Grounds,4,Oakover Grounds
+sign,116.0066284586833,-31.84696779013872,Oakover_Grounds,4,Oakover Grounds
+warehouse,116.0060571495129,-31.84505951047444,Oakover_Grounds,4,Oakover Grounds
+vat,116.0063688107167,-31.84518456887401,Oakover_Grounds,4,Oakover Grounds
+vat,116.0063718225668,-31.84515103476856,Oakover_Grounds,4,Oakover Grounds
+vat,116.0063741620266,-31.84510853881709,Oakover_Grounds,4,Oakover Grounds
+vat,116.0063804564964,-31.84507695999562,Oakover_Grounds,4,Oakover Grounds
+building,116.0066406806117,-31.84512567428841,Oakover_Grounds,4,Oakover Grounds
+parking_lot,116.0070043014552,-31.84527487175123,Oakover_Grounds,4,Oakover Grounds
+solar_panels,116.0073642354885,-31.84487684093081,Oakover_Grounds,4,Oakover Grounds
+solar_panels,116.0073623012661,-31.84496527724279,Oakover_Grounds,4,Oakover Grounds
+building,116.007341994294,-31.84505688510912,Oakover_Grounds,4,Oakover Grounds
+fence,116.0072570321877,-31.84523158062051,Oakover_Grounds,4,Oakover Grounds
+jetty,116.007597008791,-31.84538040931631,Oakover_Grounds,4,Oakover Grounds
+picnic_table,116.0075393399854,-31.84537004084413,Oakover_Grounds,4,Oakover Grounds
+picnic_table,116.0076604504979,-31.84537006574641,Oakover_Grounds,4,Oakover Grounds
+tank,116.0068656915519,-31.84488600975254,Oakover_Grounds,4,Oakover Grounds
+tank,116.0066919339338,-31.84485397635064,Oakover_Grounds,4,Oakover Grounds
+shed,116.0072291966907,-31.84513430001038,Oakover_Grounds,4,Oakover Grounds
+shipping_container,116.0072432872027,-31.84466167779774,Oakover_Grounds,4,Oakover Grounds
+shipping_container,116.0072381097506,-31.84469149573804,Oakover_Grounds,4,Oakover Grounds
+shipping_container,116.0072390830616,-31.84472428455821,Oakover_Grounds,4,Oakover Grounds
+shipping_container,116.0074225863559,-31.84468823575176,Oakover_Grounds,4,Oakover Grounds
+vineyard,116.0124205441503,-31.84538344253644,Oakover_Grounds,4,Oakover Grounds
+vineyard,116.0066393647114,-31.84424690471754,Oakover_Grounds,4,Oakover Grounds
+river,115.995810298809,-31.85109633797458,Lancaster_Wines,-1,
+vineyard,115.9902290551793,-31.85068649170797,Lancaster_Wines,5,Lancaster Wines
+vineyard,115.9901750632805,-31.85278296339006,Lancaster_Wines,5,Lancaster Wines
+parking_lot,115.9901520456193,-31.85188710724418,Lancaster_Wines,5,Lancaster Wines
+shed,115.9903190941192,-31.85210550561943,Lancaster_Wines,5,Lancaster Wines
+sign,115.9903556704859,-31.8518872114326,Lancaster_Wines,5,Lancaster Wines
+table,115.9905306771903,-31.85182659388803,Lancaster_Wines,5,Lancaster Wines
+table,115.9905475047897,-31.85182616279369,Lancaster_Wines,5,Lancaster Wines
+table,115.9905655610603,-31.85182820538461,Lancaster_Wines,5,Lancaster Wines
+table,115.9905862473149,-31.85182506326957,Lancaster_Wines,5,Lancaster Wines
+wine_barrell,115.9904467156551,-31.85189307872191,Lancaster_Wines,5,Lancaster Wines
+counter,115.9904835715709,-31.85188320881234,Lancaster_Wines,5,Lancaster Wines
+shed,115.990598423206,-31.8518732548151,Lancaster_Wines,5,Lancaster Wines
+fence,115.9903645411195,-31.85182222748639,Lancaster_Wines,5,Lancaster Wines
+sign,115.9877336890102,-31.85198713829637,Lancaster_Wines,5,Lancaster Wines
+driveway,115.9889759412021,-31.85192250139609,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.9908535353204,-31.85189392826163,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.990901684718,-31.85187442908764,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.9909205172935,-31.8518030858586,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.9908668295001,-31.8518024058948,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.9908006953241,-31.85180059356636,Lancaster_Wines,5,Lancaster Wines
+picnic_table,115.9907526922321,-31.85180195605045,Lancaster_Wines,5,Lancaster Wines

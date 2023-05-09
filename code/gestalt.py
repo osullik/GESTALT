@@ -24,6 +24,9 @@ import pandas as pd
 import sklearn
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import AgglomerativeClustering
+
+from libpysal.weights import Queen, KNN
 
 from scipy.spatial import KDTree
 
@@ -296,6 +299,7 @@ class Gestalt():
 		    self._objectCoordinates.append(elem)
 		    #self._objectIndex[index] = row[0]
 
+		self._objects_kdTree = KDTree(self._objectCoordinates)
 
 		print("Converted objects and OSM details to DataFrames")
 
@@ -342,35 +346,42 @@ class Gestalt():
 		self.inferLocation(centroids)
 		print(self._df_obj)
 
+	#def regionalization(self, numberOfClusters=6):
+	#	print("Regionalizing")
+	#	w = Queen.from_dataframe(np.array(self._locationCoordinates))
+
+	#	model = AgglomerativeClustering(
+	#	linkage="ward", connectivity=w.sparse, n_clusters=6)
+	#	model.fit(np.radians(loc_arr))
+
+	#	print(model)
+
 	def calculateCentroids(self, clusters):
 		print("Calculating Centroids")
 		centroids = []
 
-
-
-		for cluster in range (0, (max(clusters)+1)): #+1 to account for indexing from 0
-			print("Checking cluster", cluster)
-			cluster_df = self._df_obj.loc[self._df_obj['cluster'] == cluster]
+		for cluster in range (0, (max(clusters)+1)): 								#+1 to account for indexing from 0
+			cluster_df = self._df_obj.loc[self._df_obj['cluster'] == cluster]		# Get only the coords belonging to this cluster
 			coords = []
-			for index, obj in cluster_df.iterrows():
+
+			for index, obj in cluster_df.iterrows(): 								# Make the coords into a list, then numpy array
 				coords.append([obj.latitude, obj.longitude])
 			np_coords = np.array(coords)
-			centroid = np.mean(np_coords,axis=0)
-			centroids.append(centroid)
+			
+			centroid = np.mean(np_coords,axis=0) 									# Get the midpoint of the array
+			centroids.append(centroid) 												# Build list of centroids
 
 		return(centroids)
 
 
 	def inferLocation(self,centroids):
-		mappings = {}
-		for centroid in range (0, (len(centroids))):
-		    d, i = self._location_kdTree.query(centroids[centroid],1)
+		print("Inferring object location")
+		mappings = {} 																#Dict so that arbitrary number of clusters can be used
+		for centroid in range (0, (len(centroids))): 								# For each centroid
+		    d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
 		    mappings[centroid] = self._locationIndex[i]
 
-		self._df_obj['PredictedLocation'] = self._df_obj.cluster.map(mappings)
-
-
-
+		self._df_obj['PredictedLocation'] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
 
 
 if __name__ == "__main__":
@@ -421,21 +432,35 @@ if __name__ == "__main__":
 	gestalt.convertToDataFrame(flatOSM, flatOBJ)
 	gestalt.normalizeCoords(bbox)
 	
+	
+	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbscan', 'region']: 
+		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', or 'region'")
+	elif flags.membershipInference == 'kmeans':
+		gestalt.kMeans_membership(6)
+	elif flags.membershipInference == 'dbscan':
+		gestalt.dbscan_membership()
+	elif flags.membershipInference == 'region':
+		sys.exit("Not Implemented")
+
+		#gestalt.regionalization()
+
 	if flags.jsonDump == True:
+		#Dump Dicts 
 		with open("data/osm.json",'w') as outfile:
 			json.dump(osmDict, outfile, indent=4)
 
 		with open("data/objects.json", 'w') as outfile:
 			json.dump(objectLocations, outfile, indent=4)
 
+		#Dump Dataframes
+
+		objectJSON = gestalt._df_obj.to_json(orient="records")
+		#parsed_obj = loads(objectJSON)
+
+		gestalt._df_osm.to_csv("data/osm_df.csv", index=False)
+		gestalt._df_obj.to_csv("data/obj_df.csv", index=False)
+
 		sys.exit("Exported osm data and json objects to file")
-	
-	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbscan', 'partitioning']: 
-		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', or 'partitioning'")
-	elif flags.membershipInference == 'kmeans':
-		gestalt.kMeans_membership(6)
-	elif flags.membershipInference == 'dbscan':
-		gestalt.dbscan_membership()
 
 
 
