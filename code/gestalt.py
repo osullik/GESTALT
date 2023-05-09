@@ -21,6 +21,13 @@ from OSMPythonTools.nominatim import Nominatim
 from matplotlib import pyplot as plt
 import pandas as pd
 
+import sklearn
+from sklearn.cluster import KMeans
+
+from scipy.spatial import KDTree
+
+import numpy as np
+
 #User Imports
 
 class TerrainExtractor():
@@ -55,7 +62,7 @@ class TerrainExtractor():
 		if len(kmlFiles) == 0:
 			sys.exit("No KML Files found, check directory and try again")
 
-
+		print("loaded files from", self._kml_directory)
 		return kmlFiles
 
 	def Ingest_kml_file(self, kmlFileName):
@@ -121,6 +128,7 @@ class TerrainExtractor():
 		#	for item in (localityDict["Swan_Valley"][location]):
 		#		print (location, item, localityDict["Swan_Valley"][location][item])
 
+		print("Generated dictionary from", kmlFileName)
 		return localityDict
 
 	def extractTerrainDescriptors(self, descriptorString):
@@ -198,6 +206,7 @@ class osmQueryEngine():
 			locationDict[locationName]['latitude'] = latitude
 			locationDict[locationName]['longitude'] = longitude
 
+		print("Got OSM records for all", typeQuery, "within", bbox)
 		return locationDict
 
 class Gestalt():
@@ -269,7 +278,18 @@ class Gestalt():
 
 		self._df_osm = pd.DataFrame(data=flatOSM)
 		self._df_obj = pd.DataFrame(data=flatOBJ)
+		self._locationCoordinates = []
+		self._locationIndex = {}
 
+		for index, row in self._df_osm.iterrows():
+		    elem = [row[1],row[2]]
+		    self._locationCoordinates.append(elem)
+		    self._locationIndex[index] = row[0]
+
+		self._location_kdTree = KDTree(self._locationCoordinates)
+
+
+		print("Converted objects and OSM details to DataFrames")
 
 
 	def normalizeCoords(self, boundingBox):
@@ -290,6 +310,26 @@ class Gestalt():
 
 		self._df_osm.to_csv("data/osm_df.csv", index=False)
 		self._df_obj.to_csv("data/obj_df.csv", index=False)
+
+	def kMeans_membership(self, numberOfClusters):
+		kmeans = KMeans(n_clusters=numberOfClusters, random_state=0, n_init="auto")
+		self._df_obj['cluster'] = kmeans.fit_predict(self._df_obj[['latitude','longitude']])
+		centroids = kmeans.cluster_centers_
+		
+		self.inferLocation(centroids)
+		print(self._df_obj)
+
+
+
+	def inferLocation(self,centroids):
+		mappings = {}
+		for centroid in range (0, len(centroids)):
+		    d, i = self._location_kdTree.query(centroids[centroid],1)
+		    mappings[centroid] = self._locationIndex[i]
+
+		self._df_obj['PredictedLocation'] = self._df_obj.cluster.map(mappings)
+
+
 
 
 
@@ -313,6 +353,12 @@ if __name__ == "__main__":
 							help="dump the datasets to JSON",
 							action="store_true",
 							default=False,
+							required=False)
+
+	argparser.add_argument(	"-m", "--membershipInference", 							
+							help="Define the location membership inference method: 'kmeans', 'dbsweep', 'partitioning'",
+							type=str,
+							default=None,
 							required=False)	
 	
 	flags = argparser.parse_args()											# populate variables from command line arguments
@@ -344,6 +390,10 @@ if __name__ == "__main__":
 
 		sys.exit("Exported osm data and json objects to file")
 	
+	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbsweep', 'partitioning']: 
+		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbsweep', or 'partitioning'")
+	elif flags.membershipInference == 'kmeans':
+		gestalt.kMeans_membership(6)
 
 
 
