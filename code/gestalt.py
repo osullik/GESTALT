@@ -23,6 +23,7 @@ import pandas as pd
 
 import sklearn
 from sklearn.cluster import KMeans
+from sklearn.cluster import DBSCAN
 
 from scipy.spatial import KDTree
 
@@ -288,6 +289,13 @@ class Gestalt():
 
 		self._location_kdTree = KDTree(self._locationCoordinates)
 
+		self._objectCoordinates = []
+
+		for index, row in self._df_obj.iterrows():
+		    elem = [row[1],row[2]]
+		    self._objectCoordinates.append(elem)
+		    #self._objectIndex[index] = row[0]
+
 
 		print("Converted objects and OSM details to DataFrames")
 
@@ -312,6 +320,7 @@ class Gestalt():
 		self._df_obj.to_csv("data/obj_df.csv", index=False)
 
 	def kMeans_membership(self, numberOfClusters):
+		print("Clustering with kMeans")
 		kmeans = KMeans(n_clusters=numberOfClusters, random_state=0, n_init="auto")
 		self._df_obj['cluster'] = kmeans.fit_predict(self._df_obj[['latitude','longitude']])
 		centroids = kmeans.cluster_centers_
@@ -319,11 +328,42 @@ class Gestalt():
 		self.inferLocation(centroids)
 		print(self._df_obj)
 
+	def dbscan_membership(self, epsilon=0.5/6371., minCluster=3):
+		#1/6371 is ~100m
+		print("Clustering with DBScan")
+		loc_arr = np.array(self._objectCoordinates)
+
+		db_cluster =  DBSCAN(eps=epsilon, min_samples=minCluster).fit(np.radians(loc_arr))
+		self._df_obj['cluster'] = db_cluster.labels_
+		print(self._df_obj)
+
+		
+		centroids = self.calculateCentroids(db_cluster.labels_)
+		self.inferLocation(centroids)
+		print(self._df_obj)
+
+	def calculateCentroids(self, clusters):
+		print("Calculating Centroids")
+		centroids = []
+
+
+
+		for cluster in range (0, (max(clusters)+1)): #+1 to account for indexing from 0
+			print("Checking cluster", cluster)
+			cluster_df = self._df_obj.loc[self._df_obj['cluster'] == cluster]
+			coords = []
+			for index, obj in cluster_df.iterrows():
+				coords.append([obj.latitude, obj.longitude])
+			np_coords = np.array(coords)
+			centroid = np.mean(np_coords,axis=0)
+			centroids.append(centroid)
+
+		return(centroids)
 
 
 	def inferLocation(self,centroids):
 		mappings = {}
-		for centroid in range (0, len(centroids)):
+		for centroid in range (0, (len(centroids))):
 		    d, i = self._location_kdTree.query(centroids[centroid],1)
 		    mappings[centroid] = self._locationIndex[i]
 
@@ -390,10 +430,12 @@ if __name__ == "__main__":
 
 		sys.exit("Exported osm data and json objects to file")
 	
-	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbsweep', 'partitioning']: 
-		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbsweep', or 'partitioning'")
+	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbscan', 'partitioning']: 
+		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', or 'partitioning'")
 	elif flags.membershipInference == 'kmeans':
 		gestalt.kMeans_membership(6)
+	elif flags.membershipInference == 'dbscan':
+		gestalt.dbscan_membership()
 
 
 
