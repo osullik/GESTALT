@@ -2485,7 +2485,7 @@ surface:vines</description>
 			<Placemark>
 				<name>fence</name>
 				<description>material:wine_barrell
-marerial:rope</description>
+material:rope</description>
 				<LookAt>
 					<longitude>115.9904351759042</longitude>
 					<latitude>-31.8519656395144</latitude>

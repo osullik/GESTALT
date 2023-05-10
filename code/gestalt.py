@@ -263,18 +263,62 @@ class Gestalt():
 		latitudes = []
 		longitudes = []
 
+		attributeNumbers = []
+		attributes = set() 														# Set used to generate list of unique descriptors
+
+		for region in self._objDict.keys():										# Loop to get all the attribute descriptors. 
+			for loc in self._objDict[region].keys():
+				for obj in self._objDict[region][loc].keys():
+					if self._objDict[region][loc][obj]["description"] != None:
+						attributeNumbers.append(len(self._objDict[region][loc][obj]["description"]))
+						for key in self._objDict[region][loc][obj]["description"].keys():
+							attributes.add(list(self._objDict[region][loc][obj]["description"][key].keys())[0])
+								
+					else:
+						attributeNumbers.append(0)
+
+
+		flatOBJ["object"] = [] 											# Construct the dictionary 
+		flatOBJ["latitude"] = []
+		flatOBJ["longitude"] = []
+		flatOBJ["true_location"] = []
+		for attribute in attributes: 									# Add in keys and empty lists for each descriptor
+			flatOBJ[attribute] = []
+
+
+
 		for loc in self._objDict[region].keys():								# Loop through each object
 			for obj in self._objDict[region][loc].keys():
 				#print(self._objDict[region][loc][obj])
-				objects.append(self._objDict[region][loc][obj]['name'])
-				latitudes.append(self._objDict[region][loc][obj]['latitude'])
-				longitudes.append(self._objDict[region][loc][obj]['longitude'])
-				locations.append(loc)
+				flatOBJ["object"].append(self._objDict[region][loc][obj]['name'])
+				flatOBJ["latitude"].append(self._objDict[region][loc][obj]['latitude'])
+				flatOBJ["longitude"].append(self._objDict[region][loc][obj]['longitude'])
+				flatOBJ["true_location"].append(loc)
 
-		flatOBJ["object"] = objects 											# Construct the dictionary 
-		flatOBJ["latitude"] = latitudes
-		flatOBJ["longitude"] = longitudes
-		flatOBJ["true_location"] = locations
+				usedDescriptors = [] 											#Loop through each descriptor for an object, append to respective list or append None
+				if self._objDict[region][loc][obj]['description'] is not None:
+					for descriptor in self._objDict[region][loc][obj]['description'].keys():
+						for key in self._objDict[region][loc][obj]['description'][descriptor].keys():
+							#try:
+							flatOBJ[key].append((self._objDict[region][loc][obj]['description'][descriptor][key]))
+							#except KeyError:
+							#	flatOBJ[key] = []
+							#	flatOBJ[key].append((self._objDict[region][loc][obj]['description'][descriptor][key]))
+							usedDescriptors.append(key)
+
+				for attribute in attributes:
+					if attribute not in usedDescriptors:
+						#try:
+						flatOBJ[attribute].append(None)
+						usedDescriptors.append(attribute)
+						#except KeyError:
+						#	flatOBJ[attribute] = []
+						#	flatOBJ[attribute].append(None)
+
+
+		for obj in flatOBJ.keys():
+			if len(flatOBJ[obj]) > len(flatOBJ["object"]): #Hacky workaround to get dataframes to be same length. TODO: Fix bug. 
+				del flatOBJ[obj][-1]
 
 		return flatOBJ
 
@@ -381,7 +425,7 @@ class Gestalt():
 		    d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
 		    mappings[centroid] = self._locationIndex[i]
 
-		self._df_obj['PredictedLocation'] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+		self._df_obj['predicted_location'] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
 
 
 if __name__ == "__main__":
