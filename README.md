@@ -9,14 +9,14 @@
     - [ ] TBA (Urban)
 - [X] 02 Apr. KML Extraction implemented. 
 - [X] 02 Apr. Location retrieval from OSM implemented.
-- [ ] 03 Apr. Fust KML and OSM data. 
-- [ ] 09 Apr. Ownership Clustering Implemented.
-- [ ] 11 Apr. Interim project report due
+- [X] 03 Apr. Fust KML and OSM data. 
+- [X] 09 Apr. Ownership Clustering Implemented.
+- [X] 11 Apr. Interim project report due
 - [ ] 16 Apr. Concept Mapping Implemented.
-- [ ] 23 Apr. Proof-of-concept querying implemented.
-- [ ] 30 Apr. Draft Paper Complete. 
+- [X] 23 Apr. Proof-of-concept querying implemented.
+- [X] 30 Apr. Draft Paper Complete. 
 - [ ] 04 May. Assumed Deadline for submission.
-- [ ] 11 May. Assumed Class Presentation.
+- [X] 11 May. Assumed Class Presentation.
 
 - [ ] Prepare Project Environment
     - [X] Create Python3 Environment
