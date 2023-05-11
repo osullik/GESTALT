@@ -5,3 +5,37 @@
 
 
 % Pictoral Query Langauge 
+
+There are several fields of related work, each at varying levels of maturity and utility for my project. 
+Relevant to the object detection component of my proposed system, 2018 efforts to improve the state of the art in object detection from remote sensing imagery focused on developing datasets for training and evaluating models. 
+The xView project supports the detection of 60 classes of objects [? ] using horizontal bounding boxes. The DOTA project supports a much more modest 20 classes [? ]. 
+Both focus towards shipping and industrial applications and so will not generalize well. The 2021 update to the DOTA project highlighted remote sensing object detection continues to suffer from issues of arbitrary rotation of objects and the vast disparities in the clustering of objects [? ]. 
+DOTA version 2 tries to address these issues by employing orientation bounding boxes, but is still very constrained in the classes of objects it supports. 
+A separate effort by Li et. al in 2020 can detect objects less constrained to heavy industry but only accounts for 20 or so objects [? ]. 
+Overall current work on remote-sensing object detection indicates that it is still an emerging field that is incapable of supporting the labelling of micro-terrain features required for the proposed system, as a result, the object detection step is deliberately scoped out of my project.
+An area growing parallel with remote sensing object detection is that of image captioning and visual question answering. 
+In addition to implementing previously discussed object detection techniques, they employ alternate data sources to augment their ability to pro- vide answers to natural language questions about remote sensing imagery. 
+In 2017 Shi and Zhou demonstrated that it is possible to automate caption generation for remote sensing imagery, however, their experimentation showed it to be ineffective at tasks like counting objects [? ], an important requirement of micro-terrain analysis.
+
+The paper that initiated the domain of Remote Sensing Visual Ques tion Answering (RSVQA) was published in 2020 by Lobry et. al. and showed a good ability to answer direct questions about a given
+remote sensing image, including area estimates, object counts and
+determining the relative locations of objects. 
+These capabilities are all useful in my concept mapping component. 
+Importantly they also incorporated geospatial information from OpenStreetMap into
+their system. 
+A key limitation they identified is that the lack of information in OSM about specific micro-terrain features and the inability of object detection models to provide it presents a major gap holding back the advancement of the RSVQA field [? ]. 
+My work may contribute towards closing that gap. Later work by Zheng et. al. and Yuan et. al highlight that RSVQA is very much in its infancy, and they focus on improving the underlying models used in RSVQA systems [? ? ].
+In addition to the gap identified by Lobry et. al, one of the limitations is the RSVQA approach is a focus on answering questions about the things that the user is already looking at. 
+In my partial information use case, the user doesn’t know exactly where to look, so using the RSVQA approach would render no improvement to performance over the visual inspection itself. 
+The real challenge is to identify where to look, not what they are looking at.
+
+Towards identifying where the user could be looking, the field of geospatial question answering, related to geospatial information retrieval offers promising directions. 
+In 2018 Punjani et. al. sought to determine whether geospatial information could be incorporated into a question-answering system [? ]. 
+They used the established Frankenstein variant of the Qanary approach to developing question-answering pipelines to develop GeoQA. 
+GeoQA can answer questions in several useful geospatial categories, including point queries, range queries and property-based queries. 
+They built their system on linked data collected from OpenStreetMaps and WikiData. 
+More recently, the efforts to develop WorldKG, a geospatial knowledge graph of the world extend the linked-data approach and allow users to generate SPARQL queries to answer complex geospatial questions across the fused knowledge of OpenStreetMaps, DBPedia and WikiData [? ]. 
+These linked data approaches to geospatial question answering are valuable advancements but do not include enough micro-terrain detail to satisfy the requirement of my project to allow a user to find a location based on partial information about the micro-terrain of the location.
+
+Geospatial clustering. I could not locate any work specific to assigning membership of objects to class based on geospatial proximity. 
+However, given the nature of the task where proximity is a strong indicator of ownership, it seems likely that a naive approach employing nearest neighbour or another clustering approach where the centroids of the clusters are the ’parent’ locations will be sufficient.
