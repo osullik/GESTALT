@@ -32,6 +32,8 @@ from scipy.spatial import KDTree
 
 import numpy as np
 
+import Levenshtein
+
 #User Imports
 
 class TerrainExtractor():
@@ -373,7 +375,7 @@ class Gestalt():
 		self._df_obj['cluster'] = kmeans.fit_predict(self._df_obj[['latitude','longitude']])
 		centroids = kmeans.cluster_centers_
 		
-		self.inferLocation(centroids)
+		self.inferLocation(centroids,"kmeans")
 		print(self._df_obj)
 
 	def dbscan_membership(self, epsilon=0.5/6371., minCluster=3):
@@ -387,7 +389,7 @@ class Gestalt():
 
 		
 		centroids = self.calculateCentroids(db_cluster.labels_)
-		self.inferLocation(centroids)
+		self.inferLocation(centroids,"dbscan")
 		print(self._df_obj)
 
 	#def regionalization(self, numberOfClusters=6):
@@ -418,14 +420,27 @@ class Gestalt():
 		return(centroids)
 
 
-	def inferLocation(self,centroids):
+	def inferLocation(self,centroids,method):
 		print("Inferring object location")
 		mappings = {} 																#Dict so that arbitrary number of clusters can be used
 		for centroid in range (0, (len(centroids))): 								# For each centroid
 		    d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
 		    mappings[centroid] = self._locationIndex[i]
 
-		self._df_obj['predicted_location'] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+		self._df_obj['predicted_location_'+method] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+
+		matches = []
+
+		#Move this to own function later. Use Levenshtein at 0.7 to handle labelling differences. 
+		for index,row in self._df_obj.iterrows():								
+			if Levenshtein.ratio(row['predicted_location_'+method], row["true_location"]) >= 0.7:
+				matches.append("True")
+			else:
+				matches.append("False")
+
+		self._df_obj[method+"_correct"] = matches
+
+		print(self._df_obj)
 
 
 if __name__ == "__main__":
@@ -477,16 +492,46 @@ if __name__ == "__main__":
 	gestalt.normalizeCoords(bbox)
 	
 	
-	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbscan', 'region']: 
-		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', or 'region'")
+	if flags.membershipInference == None or flags.membershipInference not in ['kmeans', 'dbscan', 'region', 'all']: 
+		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', 'region', or 'all' ")
 	elif flags.membershipInference == 'kmeans':
-		gestalt.kMeans_membership(6)
+		#numClusters = len(gestalt._locationCoordinates)
+		numClusters = 1
+		print("Number of Clusters:",numClusters )
+		gestalt.kMeans_membership(numClusters)
+		correct = gestalt._df_obj["kmeans_correct"]
+		print(correct.value_counts())
+		clusters = gestalt._df_obj["cluster"]
+		print(clusters.value_counts())
+
 	elif flags.membershipInference == 'dbscan':
-		gestalt.dbscan_membership()
+		epsilon=0.1/6371 
+		minCluster=3
+		gestalt.dbscan_membership(epsilon,minCluster)
+		correct = gestalt._df_obj["dbscan_correct"]
+		print(correct.value_counts())
+		clusters = gestalt._df_obj["cluster"]
+		print(clusters.value_counts())
+
 	elif flags.membershipInference == 'region':
 		sys.exit("Not Implemented")
+	elif flags.membershipInference == 'all':
+		print("WARNING: DBSCAN CLUSTERS WILL BE USED FOR VISUALIZATION IN ALL MODE")
+		numClusters = 6
+		print("Number of Clusters:",numClusters )
+		gestalt.kMeans_membership(numClusters)
+		correct = gestalt._df_obj["kmeans_correct"]
+		print(correct.value_counts())
+		clusters = gestalt._df_obj["cluster"]
+		print(clusters.value_counts())
 
-		#gestalt.regionalization()
+		epsilon=0.1/6371 
+		minCluster=3
+		gestalt.dbscan_membership(epsilon,minCluster)
+		correct = gestalt._df_obj["dbscan_correct"]
+		print(correct.value_counts())
+		clusters = gestalt._df_obj["cluster"]
+		print(clusters.value_counts())
 
 	if flags.jsonDump == True:
 		#Dump Dicts 
