@@ -2,13 +2,79 @@
 \label{section:architecture}
 \textbf{(1 page (6.5 Remain))}
 
+\begin{figure*}[t]
+	\label{fig:architecture}
+	\includesvg[width=\textwidth]{architecture.svg}
+	\centering
+	\caption[widht=\textwidth]{The architecture of \textit{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
+\end{figure*}
+
 The architecture of \textit{GESTALT} is in Figure \ref{fig:gestalt}. It decomposes into four key functions, each of which will be explored in depth. 
 
 \subsection{Data Acquisition}
-The data acquisition component of \textit{GESTALT} begins with a pictoral encoding of the world.
+The data acquisition component of \textit{GESTALT} begins with a pictoral encoding of the world. 
+This is primarily remote sensing imagery providing a top-down view of the surface of the earth, but also includes street-view imagery, and other photographs. 
+From this collection of imagery, two types of information are collected, \textit{locations} and \textit{objects}. 
+These two information types are discussed at length in section \ref{section:dataset}. 
+Briefly recapping, objects are any physical thing that can be seen in the world and locations are the specific uses of a place that ususally contains collections of objects. 
+These are stored seperate datastores. 
 
 \subsection{Ownership Assignment}
+Ownership assignment is the unsupervised process through which objects are associated with locations. 
+Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work they need to know which objects belong to each location.
+For example, assuming two adjacent wineries, a fountain located between them would be to the west of one, but the east of the other. Unless it is clear which winery it belongs to, the mapping will be incorrect. 
+Similarly, for search the underlying idea for \textit{GESTALT} is that people will remember certain objects at locations and use them as clues to find it again. Without accurate object to location assignment, the search functionality will not work. 
+The ownership assignment process needs to be unsupervised to enable scaling. Aspirationally, \textit{GESTALT} will index the world's objects to that any location can be searched for with \textit{GESTALT}. Processing a world's worth of data necessitates an unsupervised approach. 
+
+The Ownership Assignment process accepts two inputs, a collection of locations with their coordinates, and a collection of objects with their coordinates. 
+The process works to assign each object to its parent location. 
+The process ends when there is a mapping of objects to their parent locations. Of note, because the human eye is able to see over property boundaries and other invisible lines on maps, we can accept a small margain of error where objects from neighbouring locations might be mislabelled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location, but is clearly visible to the neighbouring location.
+There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example a lake or a large statue. 
+This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects. 
 
 \subsection{Concept Mapping}
+Concept mapping is the process of determining the geospatial relations between objects. There is a huge amount of information implicitly encoded in the relative positioning of objects within a location. For \textit{GESTALT} there are three types of relations. 
+The first are \textit{Static Cardinal Relations} which encode whether an object is North, South, East or West of a location. Static Cardinal Relations are used in simple queries where the user knows that a location has a lake on its western side. 
+The second are \textit{Dynamic Cardinal Relations} which determine whether an object is North, South, East or West of another object within a location. These are used in queries where a user might remember standing at a lake in the north-east of a location and that there was a swingset to the immediate west of them, but still in the northeast of the location overall. 
+The third are \textit{Positional Relations} which are applied to the two other types to enable reasoning about objects that are left, right, up, down, beside, behind etc. other objects. 
+These are expected to be used extensively because few humans think in cardinal directions, and most spatial reasoning is conducted from the perspective of the person. 
+Positional Relations enable users to query for locations where there was a letterbox on the left of the driveway as you enter the driveway while the house is in front of you. 
+
+Concept mapping needs to be unsupervised and support aggregation. Tracking every object's relative location to every other object quickly becomes intractable, so mechanisms to aggregate depending on the level of granularity need to be applied. 
+Accordintly, the underlying data structure must support aggregation, and realtive position querying. 
 
 \subsection{Search}
+The core function of \textit{GESTALT} is searching. The search function assumes that the searcher only has partial information about a location. 
+There are two elements of partial information. First, is a general idea of the region in which the location occurs. Here region means the area surrounding a location. 
+For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley regions of Western Australia. A region could be an administrative boundary like a city or suburb or just a general geographic area. 
+Either way, we assume that the searcher is able to prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
+The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, colour etc). 
+
+The search problem then can be framed in several ways. 
+The simplest, and most efficent is a \textit{set membership problem}. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set. Bloom Filters are the obvious choice of data structure to support this search method. 
+A limitation to using bloom filters is that if the user has very little information to discriminate locations almost any location will be returned as a result. 
+For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. While searching 'tree' might yield nothing, searching for '30 trees' would prune the result set considerably.
+
+The second approach to search incorporates the concept mapping, and becomes spatial search with the specific method dependent on the underlying data structure of the objects. 
+The general case is framed as follows: Given a set of locations with geospatial mappings of their child objects, and a subset of those geospatial mappings of child objects which location does that subset match? 
+If a graph structure is used, where each location's objects are represented as a graph where the objects are nodes and the geospatial relations are edges encoding the spatial relations (e.g. west of, north of...) it is a subgraph matching problem. 
+Alternately, representing each location's objects as a KD-Tree rooted on the centroid of the object cluster would allow for dynamic searching. For example, assuming an initial split on the longitude of objects, we could immediately tell that all objects in the left subtree will be west of that root. 
+For either of these geospatial approaches a translation layer from the positional relational to cardinal realtional will need to occur.
+
+Regardless of the forumulation of the search problem, there is a clear requirement for semantic search across objects. For simple spelling variations (e.g. 'colour' in the King's Australian English versus 'color' in American English) a string distance metric like \textit{Levenshtein} distance would suffice. 
+But for more pronounced linguistic variations like, for example, 'water fountain' versus 'drinking fountain' versus 'bubbler' a richer semantic search is required. 
+The first option to reduce the likelihood of inconsistently named objects is to enforce compliance with the Open Street Maps ontology, which is an extensive definition of locations, objects and their descriptions. 
+While adherence to the ontology enforces internal consistency, it does not overcome the issue of user searching with unknown terms. 
+One simple option could be to use the vector embedding of a word as a start point, and using the k-nearest words in vector space as alternate search terms. 
+It is unlikely that this will greatly impact the false positive rate once an appropriate similarity threshold has been set but may increase the overall recall of the system. 
+A more complicated approach could leverage an external semantic data source like DBPedia or WikiData or even WordNet to search for semantically similar terms to substitute in search. 
+
+Overall, the search problem needs to balance precision and recall, while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}
+
+\subsection{Sumamry of Architecture}
+The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 
+The search subsystem needs to balance precision in reducing the number of candidate locations with maximising the recall of possible candidate locations. Recall is prioritised. 
+The search space should be pruned with set membership checks, based on the intuition that there is no point running an expensive geospatial query over a location which doesnt contain the objects in question. 
+Bloom filter checks are cheap and the human eye doesn't see invisible lines on a map so the ownership assignment subsystem can be inexact, and objects should be 'shared' between locations where appropriate. 
+That location sharing in membership assignment improves the recall of the system, and as a corollary, the precision is maintained by spatial search using the concept mappings of objects to extract implicit infomation about the location. 
+Underlying the search problem is the requirement to collect and process the objects and locations autonomously, at scale. The collection and processing of objects and locations is the first stage explored in section \ref{section:implementation}, implementation. 
