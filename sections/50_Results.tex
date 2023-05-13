@@ -1,3 +1,46 @@
 \section{Results}
 \label{section:results}
 \textbf{(2 pages (3 Remain))}
+
+The results section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
+The expeirment design is simple, and designed to provide an upper-bound for performance on an optimal dataset with no noise (the Swan Valley wineries dataset.) 
+The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and \~150 objects hand-labelled across 6 of those 31 locations with ground-truth location labels. 
+The objective of the experiment was to see which clustering method most accurately predicts the locaiton that the objects 'belong' to. Here accuracy is measured in two dimensions. 
+First: the predicted location / true location label match. Second, the creation of the correct number of clusters (6).
+K-Means and DBSCAN were tested in turn, under optimal, realistic and worst-case parameter conditions. For both DBScan and K-Means the location inference is inferred to be the location corrdinate closest to the cluster centroid. 
+
+\subsection{K-Means}
+K-Means clustering accepts the input of a collection of object coordinates, and a parameter $K$ of the number of clusters to create. 
+Optimal conditions assume that the number of clusters is known ($K=6$). 
+Realistic conditions assume the number of clusters is equal to the number of locations ($K=31$) and worst case conditions assume that there is only a single cluster ($K=1$). 
+
+%Insert the three figures across the page here
+
+Unsurprisingly, the optimal situation performed best with all objects assigned to their correct clusters, and all clusters assigned to their correct label. There is one reported mis-classification which was determiend to be a labelling error in the training data. Surprisingly, under 'realistic' conditions, though the number of clusters is far more than there should be, it correctly assigns the ownership of almost all objects with only 5 incorrectly labeled. Under the worst case conditions it only creates a single cluster and assigns all objects to the (same) incorrect loction. 
+
+\subsection{DBSCAN}
+DBSCAN clustering accepts the input of a collection of object coordinates, and two parameters $\epsilon$, the distance permitted between coordinates before they are considered to be in a different cluster and $N$ the number of coordinates required to be within $\epsilon$ of each other to form a cluster. 
+Optimal conditions here set ($\epsilon = 10 metres$). Realistic sets ($\epsilon = 100 metres$) and worst case sets ($\epsilon = 1000 metres$). $N=3$ in all tests. 
+
+%Insert three figures here across page
+
+The $\epsilon$ and $N$ parameters are very sensitive to change. 
+- More cluster error.
+- Accuracy only a little worse.
+- Worst case still bad. 
+
+%Insert table with accuracy and cluster assignement here
+- Kmeans realistic probably best bet
+- new algo preferred tho
+
+\Subsection{Error Analysis}
+Kmeans Cluster Wrong assignment right 
+
+Kmeans Single Cluster
+
+DBSCAN Noise
+
+DBSCAN Proximity 
+
+overall - density variance will be a problem 
+

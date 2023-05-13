@@ -19,6 +19,20 @@ These two information types are discussed at length in section \ref{section:data
 Briefly recapping, objects are any physical thing that can be seen in the world and locations are the specific uses of a place that ususally contains collections of objects. 
 These are stored seperate datastores. 
 
+The vision for a mature data collection system enables the autonomous collection of location and object data. 
+Location data will be collected from open access systems like open street maps and relies on crowd-sourced information. 
+Businesses, attractions and other higher level 'locations' are things likely to be annotated by the open-source community, or by business owners themselves. 
+Objects, the core of \textit{GESTALT}, are much less likely to be annotated. Few people have the patience to manually tag the geolocation of apparently inconsequential things like trees, statues, fountains and telegraph poles. 
+An automated solution aims to leverage publicly available remote sensing imagery data (Bing Maps Satellite data, for example) and public streetview and photo contributions to automatically identify objects, geo-locate them and add those tags to a database. 
+
+The design for this sub-system breaks maps into small geographically-bounded chunks (approximately the size of a 'location'). 
+It will use the remote-sensing imagery to create a grid of object / not-object. Within, and adjacent to that bounding box, ground-level imagery will be retrieved. 
+The first challenge is to identify if the image is of outdoors, where the objects can expect to be seen from remote sensing imagery or indoors where it will be hidden by a roof. There are numerous available approaches to the problem of indoor/outdoor scene classification \cite{Tong2017}. 
+If the images are indoors, they will be tagged to the building closest to the geoloation of the photo. 
+If it is outdoors, the ground-level imagery will be used to identify objects CITE. For each object in the photo, its distance from the camera geolocation will be estimated using one of a myriad of depth estimation techniques \cite{Ming2021,Liu2020}. 
+Where multiple images cover the same area from different perspectives the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavley2011}. 
+Discussed in the following sub-section, some errors are permissible here and being 'close enough' is good enough as a start point for the following systems. 
+
 \subsection{Ownership Assignment}
 Ownership assignment is the unsupervised process through which objects are associated with locations. 
 Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work they need to know which objects belong to each location.
