@@ -8,13 +8,13 @@
 	\caption[widht=\textwidth]{The architecture of \textit{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
 \end{figure*}
 
-The architecture of \textit{GESTALT} is in Figure \ref{fig:gestalt}. It decomposes into four essential functions: data acquisition, ownership assignment, concept mapping and search. 
+The architecture of \textit{GESTALT} is in Figure \ref{fig:architecture}. It decomposes into four essential functions: data acquisition, ownership assignment, concept mapping and search. 
 
 \subsection{Data Acquisition}
 The data acquisition component of \textit{GESTALT} begins with a visual encoding of the world. 
 The visual encoding is primarily remote sensing imagery providing a top-down view of the earth's surface, but it also includes street-view imagery and other photographs. 
 The system collects two types of information from this imagery, \textit{locations} and \textit{objects}. 
-These two information types are discussed in section \ref{section:dataset}. 
+These two information types are discussed in section \ref{section:datasets}. 
 Briefly recapping, objects are any physical thing in the world, and locations are the specific uses of a place that usually contains collections of objects. 
 
 The vision for a mature data collection system enables the autonomous collection of location and object data. 
@@ -27,7 +27,7 @@ The design for this subsystem breaks maps into small geographically-bounded chun
 It will use remote-sensing imagery to create a grid of objects / not-object. It will retrieve ground-level imagery within and adjacent to that box.
 The first challenge is classifying an image as 'indoors' (where no objects will be visible from RSI and the closest building will 'own' it) or 'outdoors', where objects can map to the RSI. Numerous approaches exist to the indoor/outdoor scene classification \cite{Tong2017}. 
 Each object in an outdoor photo's distance from the camera geolocation will be estimated using a myriad of depth estimation techniques \cite{Ming2021,Liu2020}. 
-Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavley2011}. 
+Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
 As discussed in the following sub-section, some errors are permissible here and being 'close enough' is good enough as a starting point for the following systems. 
 
 \subsection{Ownership Assignment}
@@ -80,7 +80,7 @@ A straightforward option could be to use the vector embedding of a word as a sta
 It is unlikely that this will significantly impact the false positive rate once an appropriate similarity threshold is set but may increase the system's overall recall. 
 A more complicated approach could leverage an external semantic data source like DBPedia or WikiData, or even WordNet to search for semantically similar terms to substitute in the search. 
 
-The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}
+The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
 
 \subsection{Sumamry of Architecture}
 The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 
