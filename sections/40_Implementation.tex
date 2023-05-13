@@ -1,6 +1,5 @@
 \section{Implementation}
 \label{section:implementation}
-\textbf{(1.5 pages (5 Remain))}
 
 The implementation section of this report discusses the engineering work conducted so far to implement the \textit{GESTALT} architecture, and reviews high level results. Specific experimental results are discussed in section \ref{section:results}.
 
@@ -19,7 +18,9 @@ The results are arranged into a dictionary and exported as JSON for further anal
 Implemented so far is the translation from imputs of objects and locations, in different formats, to a common JSON format. Not yet implemented is the automatic detection and geolocation of objects. 
 
 \subsection{Ownership Assignment}
-Ownership assignment is implemented in Python as an unsupervised learning problem using clustering libraries from \textit{scikit-learn}\footnote{\href{https://pypi.org/project/scikit-learn/}{Scikit-Learn PyPI Repo}}. 
+Ownership assignment is implemented in Python in two ways. The first is the trivial imlementation, where the location returned from the OSM query is represented as a bounding polygon. 
+In this case if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 
+The second, more common (and more challenging approach) formulates an unsupervised learning problem using clustering libraries from \textit{scikit-learn}\footnote{\href{https://pypi.org/project/scikit-learn/}{Scikit-Learn PyPI Repo}}. 
 Given a collection of objects and collection of locations within a bounding box region, clustering is used to assign each object to their 'parent' location. 
 Under the assumption that the number of locations is equal to the number of clusters to be formed, K-Means clustering proved to be the most effective approach. 
 Where the number of object clusters does not match the number of object locations, the DBSCAN algorithm proved to be the most effective. 
@@ -28,7 +29,7 @@ A detailed comparison of their respective performance is in section \ref{section
 
 Overall, initial proof-of-concept clustering has been implemented using K-Means and DBSCAN clustering. An optimal solution to the ownership assignment problem is yet to be implemented. 
 It presents an interesting, and unusual clustering problem. 
-Assuming that the collection of locations is complete, and that the point coordinate of the location is central to the collection of objects that belong to that location, the clustering problem is the assignment of an arbitrary number of objects to any of a set of possible centroids. Not every centroid will have objects, and objects are not uniformly distributed. The current leading idea is re-implementing DBScan to only form clusters around pre-designated centroids, solving the problem with the current DBSCAN algorithm of merging clusters which are close together. 
+Assuming that the collection of locations is complete, and that the point coordinate of the location is central to the collection of objects that belong to that location, the clustering problem is the assignment of an arbitrary number of objects to any of a set of possible centroids. Not every centroid will have objects, and objects are not uniformly distributed. Initial investigation into the DVBSCAN algorithm Ram et. al. proposed in 2010 presents a promising direction to resolve this problem.\cite{Ram2010} 
 
 Overall, the Ownership Assignment process needs to produce a data structure that will permit set membership checking for search, and set the conditions for the concept mapping process. It is the most complete component of \textit{GESTALT}. The choice of clustering algorithm needs to be refined, and loation-based bloom filters need to be implemented to support efficent search, but it is otherwise functional. 
 

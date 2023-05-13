@@ -1,3 +1,18 @@
 \section{Conclusion}
 \label{section:conlusion}
-\textbf{(1/2 page (0 Remain))}
+
+\subsection{Future Work}
+Throughout this paper, we identify many avenues of future work. Sections \ref{section:datasets} and \ref{section:architecture} explain the requirement for large-scale pictoral to geospatial scene-mapping to enable the large scale identification of objects to fuel Gestalt's search. 
+Section \ref{section:datasets} highlights the need to develop datasets in dense suburban and urban locations to enable robust testing of ownership assigment process. 
+Sections \ref{section:architecture} and \ref{section:implementation} identify the requirement to trial the DVBSCAN algorithm to improve the ownership assignment process, and the need to robustly test the concept mapping proposed using KD-Trees.
+Sections \ref{section:implementation} and \ref{section:related} emphasise the need for a usable query interface, and work on pictoral querying offers an interesting direction that enables abstracted user querying and leverages the cognitive advantages of goespatially constructing their query. 
+The search component of \textit{GESTALT} needs to be tested at scale. While section \ref{section:implementation} notes that the assumption of only a \textit{last-mile} search allows us to assume small datasets, the performance of the bellingcat tool discussed in section \ref{section:related} shows how quickly performance degrades if not managed well.
+Finally, and most importantly, though the psychology literature indicates that the \textit{GESTALT} approach should be helpful to a searcher there is no work actually evaluating this theory, and measuring the extent to which it is helpful. A user study should be prioritised for a fully functional \textit{GESTALT} prototype before it is expanded to full-scale.
+
+\subsection{Conclusion}
+The \textit{GESTALT} project aims to reduce the length of time a searcher spends on the \textit{last-mile} of searching for a location. 
+It assumes that the \textit{last-mile} is in a constrained geogrpahic region and allows users to search for objects they are likely to remember from candidate locations. 
+\textit{GESTALT} is designed to collect geospatial information about locations and objects within geographic regions from open source geospatial and pictoral data. 
+It infers the associations between objects visible to searchers in the real world, and the location that they belong to and stores them using bloom filters and KD-Trees for efficient representation and search.
+\textit{GESTALT} implements concept mapping to allow a user to query the implicit geospatial relations between objects in candidate locations, leveraging the inherent ordering of the multidimensional KD-Tree data structure for efficient search. 
+\textit{GESTALT} demonstrates at a small level, on the Swan Valley wineries dataset that the approach is feasible, and identifies future work in getting it to scale.

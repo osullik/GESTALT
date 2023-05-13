@@ -11,15 +11,16 @@
 \acmDOI{XXXXXXX.XXXXXXX}
 
 
-
-\usepackage{dblfloatfix}
-\usepackage{tikz}
+\usepackage[]{svg}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \begin{document}
 
-% % % % % % % % % % % % % % % % % % %
-% User-defined packages, commands etc
-% % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % %
+% User-defined packages, commands etc %
+% % % % % % % % % % % % % % % % % % % %
 
 \renewcommand{\shortauthors}{O'Sullivan}
 
@@ -30,12 +31,12 @@
 
 
 
-% % % % % % % % % % % % % % % % % % %
-% Document preliminaries
-% % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % %
+% Document preliminaries              %
+% % % % % % % % % % % % % % % % % % % %
 
 
-\title{Augmenting geospatial search with micro-terrain detail\\ \Large Project Final Report}
+\title{Augmenting geospatial search with micro-terrain detail\\}
 
 \author{Kent O'Sullivan}
 \email{osullik@umd.edu}
@@ -55,36 +56,20 @@
 \maketitle
 
 
-% % % % % % % % % % % % % % % % % % %
-% Document Content
-% % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % %
+% Document Content                    %
+% % % % % % % % % % % % % % % % % % % %
 \latexfile{10_Introduction.tex}
-\clearpage
 \latexfile{20_Datasets.tex}
-\clearpage
 \latexfile{30_Architecture.tex}
-\clearpage
 \latexfile{40_Implementation.tex}
-\clearpage
 \latexfile{50_Results.tex}
-\clearpage
 \latexfile{60_Related.tex}
-\clearpage
-\latexfile{70_Limitations.tex}
-\clearpage
 \latexfile{80_Conclusion.tex}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{CSMC828T_project} \label{bibliography}
-%\begin{figure*}[!b]
-	%\vspace*{\baselineskip}
-    %\centering
-    %\includegraphics[width=\textwidth]{labeling_example.png}
-    %\caption{Oakover Estate Winery in Swan Valley, Western Australia labeled with objects to be used in the \textit{last-mile} search}
-   % \label{fig:labeling_example}
-%\end{figure*}
-%%
-%% If your work has an appendix, this is the place to put it.
+
 
 \end{document}
 \endinput
