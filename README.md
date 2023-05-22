@@ -1,25 +1,31 @@
-# CMSC828T Project:
+# GESTALT Project:
 
 # TODO: 
 
-- [X] 14 Mar. Submit Project Proposal.
-- [ ] 26 Mar. 3 x Object Labeled areas generated (manually).
-    - [X] Bulahelah (Suburban) - Complete 06 Apr
-    - [X] Swan Valley (Rural)
-    - [ ] TBA (Urban)
-- [X] 02 Apr. KML Extraction implemented. 
-- [X] 02 Apr. Location retrieval from OSM implemented.
-- [X] 03 Apr. Fust KML and OSM data. 
-- [X] 09 Apr. Ownership Clustering Implemented.
-- [X] 11 Apr. Interim project report due
-- [ ] 16 Apr. Concept Mapping Implemented.
-- [X] 23 Apr. Proof-of-concept querying implemented.
-- [X] 30 Apr. Draft Paper Complete. 
-- [ ] 04 May. Assumed Deadline for submission.
-- [X] 11 May. Assumed Class Presentation.
+- [ ] Dataset
+    - [ ] Label the remainder of the Swan Valley Wineries
+    - [ ] Label a medium-density dataset
+    - [ ] Label a high-density dataset
 
-- [ ] Prepare Project Environment
-    - [X] Create Python3 Environment
-    - [X] Setup LaTeX enviornment 
-        - [X] Create MakeFile
+- [ ] Data Collection
+    - [ ] Trial Object Detection on Street-view Imagery from OSM for object geo estimates
+    - [ ] Trial Object Detection on user-contributed Imagery from OSM for object geo estimates
+    - [ ] Trial depth estimation of objects in imagery
+    - [ ] Trial Grid alignment of RSI Imagery 
+    - [ ] Trial intersection RSI and ground level object detection to improve geo-estimates of objects
+
+- [ ] Ownership Assignment **PRIORITY 3**
+    - [ ] Implement DVBSCAN
+    - [ ] Implement Bounding Polygon membership inference
+
+- [ ] Concept Mapping **PRIORITY 1**
+    - [ ] Fully Implement Arithmetic-Based method
+    - [ ] Implement KD-Tree Method
+    - [ ] Implement Graph-Bases method
+
+- [ ] Search **PRIORITY 2**
+    - [ ] Implement Bloom Filters for each location
+    - [ ] Implement vector embedding lookup for search terms
+    - [ ] Implement geospatial search
+    - [ ] Implement pictoral search interface
 
