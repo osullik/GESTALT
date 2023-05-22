@@ -1,13 +1,4 @@
 
-
-##TODO:
-
-# 1. Extract data from KML
-
-# 2. Connect to OSM
-
-# 3. Get Specific Locations from OSM
-
 #System Imports
 import os, sys, argparse, json
 
@@ -170,7 +161,6 @@ class TerrainExtractor():
 		return descriptors
 
 class osmQueryEngine():
-
 
 	def __init__(self):
 		pass
@@ -496,7 +486,7 @@ if __name__ == "__main__":
 		sys.exit("Please specify the membership inference method out of: 'kmeans', 'dbscan', 'region', or 'all' ")
 	elif flags.membershipInference == 'kmeans':
 		#numClusters = len(gestalt._locationCoordinates)
-		numClusters = 1
+		numClusters = 6
 		print("Number of Clusters:",numClusters )
 		gestalt.kMeans_membership(numClusters)
 		correct = gestalt._df_obj["kmeans_correct"]
