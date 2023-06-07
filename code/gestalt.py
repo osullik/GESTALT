@@ -26,7 +26,7 @@ import argparse, json, sys
 #User Imports
 
 from dataCollection import TerrainExtractor, osmQueryEngine
-from conceptMapping import ConceptMapper
+from ownershipAssignment import OwnershipAssigner
 
 
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 	oqe = osmQueryEngine()
 	osmDict = oqe.queryOSM(bbox, "winery")
 
-	gestalt = ConceptMapper(osmDict, objectLocations)
+	gestalt = OwnershipAssigner(osmDict, objectLocations)
 	flatOSM = gestalt.flatten_osm()
 	flatOBJ = gestalt.flatten_obj('Swan_Valley')
 	gestalt.convertToDataFrame(flatOSM, flatOBJ)
