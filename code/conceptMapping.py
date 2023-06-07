@@ -190,16 +190,6 @@ class ConceptMapper():
 		self.inferLocation(centroids,"dbscan")
 		print(self._df_obj)
 
-	#def regionalization(self, numberOfClusters=6):
-	#	print("Regionalizing")
-	#	w = Queen.from_dataframe(np.array(self._locationCoordinates))
-
-	#	model = AgglomerativeClustering(
-	#	linkage="ward", connectivity=w.sparse, n_clusters=6)
-	#	model.fit(np.radians(loc_arr))
-
-	#	print(model)
-
 	def calculateCentroids(self, clusters):
 		print("Calculating Centroids")
 		centroids = []
