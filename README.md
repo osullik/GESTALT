@@ -2,6 +2,13 @@
 
 # TODO: 
 
+- [ ] Codebase 
+    - [X] Refactor Data Collection into its own file
+    - [X] Refactor Ownership Assignment into its own file
+    - [ ] Refactor Concept Mapping into its own file
+    - [ ] Refactor Search into its own file
+    - [ ] Refactor visualisation into its own file. 
+
 - [ ] Dataset
     - [ ] Label the remainder of the Swan Valley Wineries
     - [ ] Label a medium-density dataset
