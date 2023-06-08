@@ -34,8 +34,8 @@ if __name__ == "__main__":
 
 	argparser = argparse.ArgumentParser()									# initialize the argParser
 
-	argparser.add_argument(	"-q", "--queryosm", 							
-							help="issue a query to OpenStreetMaps",
+	argparser.add_argument(	"-q", "--queryOsmMode", 							
+							help="engage mode to issue a query to OpenStreetMaps",
 							action="store_true",
 							default=False,
 							required=False)	
@@ -58,11 +58,17 @@ if __name__ == "__main__":
 							default="data/", 
 							required=False)
 	
-	argparser.add_argument(	"-d", "--directory", 							
-							help="specifies the directory where KML files are stored",
-							type=str,
-							default="data/",
+	argparser.add_argument(	"-k", "--kmlIngestMode", 							
+							help="Mode to ingest KML files",
+							action="store_true",
+							default=False,
 							required=False)	
+	
+	argparser.add_argument( "-f", "--fileSource",
+							help="KML file(s) to ingest)", 
+							nargs="+", 
+							default=None,
+							required=False)
 
 	argparser.add_argument(	"-j", "--jsonDump", 							
 							help="dump the datasets to JSON",
@@ -79,30 +85,34 @@ if __name__ == "__main__":
 	flags = argparser.parse_args()											# populate variables from command line arguments
 
 
-	if flags.queryosm == True:
+	if flags.queryOsmMode== True:
 		bbox = flags.boundingbox
 		outputfile = flags.output
 		searchterms = flags.searchterms
 		oqe = osmQueryEngine()
-		osmDict = oqe.queryOSM(bbox, "winery")
+		osmDict = oqe.queryOSM(bbox, "winery")	#TODO  need to adjust this to handle list inputs from the searchTerms parameter. 
 		
 		with open(outputfile,'w') as outfile:
 			json.dump(osmDict, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfile))
 		exit()
 
+	if flags.kmlIngestMode == True:
+		sourceFiles = flags.fileSource
+		outputfile = flags.output
+		tex = TerrainExtractor()
+		for file in sourceFiles:
+			print(file)
+			fullfilename = file.split("/")[-1]
+			shortFileName = fullfilename.split(".")[0]
+			objectLocations = tex.Ingest_kml_file(file)
+			with open(outputfile+"_"+shortFileName+".json",'w') as outfile:
+				json.dump(objectLocations, outfile, indent=4)
+			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfile+"_"+shortFileName+".json"))
+		exit()
 
 
-	tex = TerrainExtractor(flags.directory)
-
-	kmlList = tex.Get_kml_file_list()
-
-	bbox = [-31.90009882641578, 115.96168231510637, -31.77307863942101, 116.05029961853784] # Swan Valley isn't defined as an entity in OSM. BBOX from: https://travellingcorkscrew.com.au/wp-content/uploads/2013/08/Swan-Valley-Wineries-Map.pdf 
-
-	
-	objectLocations = tex.Ingest_kml_file(kmlList[0])
-
-	
+	#kmlList = tex.Get_kml_file_list()
 
 	gestalt = OwnershipAssigner(osmDict, objectLocations)
 	flatOSM = gestalt.flatten_osm()

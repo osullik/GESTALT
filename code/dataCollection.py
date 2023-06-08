@@ -10,9 +10,9 @@ from OSMPythonTools.nominatim import Nominatim
 
 class TerrainExtractor():
 
-	def __init__(self, kml_directory):
-
-		self._kml_directory = kml_directory
+	def __init__(self):
+		pass
+		#self._kml_directory = kml_directory
 
 	def Get_kml_file_list(self):
 		'''
@@ -59,14 +59,14 @@ class TerrainExtractor():
 			- Returns LocalityDict - A dictionary of the locaiton data for each area being examined. 
 		'''
 
-		if self._kml_directory[-1] != "/":									#Prevent error from missing trailing slash
-			self._kml_directory += "/"
+		#if self._kml_directory[-1] != "/":									#Prevent error from missing trailing slash
+		#	self._kml_directory += "/"
 
-		filePath = self._kml_directory + kmlFileName
+		#filePath = self._kml_directory + kmlFileName
 
-		print("Opening", filePath)
+		#print("Opening", filePath)
 
-		with open(filePath, 'rt', encoding='utf-8') as f:					#Open the file (double UTF-8 required because of fastKML error)
+		with open(kmlFileName, 'rt', encoding='utf-8') as f:					#Open the file (double UTF-8 required because of fastKML error)
 			 doc = f.read().encode('utf-8')
 
 		localityDict = {}													#Initialize dict to return 
