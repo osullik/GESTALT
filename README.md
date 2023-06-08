@@ -45,8 +45,8 @@ The JSON output of the query will reside in *GESTALT/data/output/dataCollection/
 # TODO: 
 
 - [ ] Codebase 
-    - [X] Refactor Data Collection into its own file
-    - [X] Refactor Ownership Assignment into its own file
+    - [X] Refactor Data Collection into its own file (27 May)
+    - [X] Refactor Ownership Assignment into its own file (06 Jun)
     - [ ] Refactor Concept Mapping into its own file
     - [ ] Refactor Search into its own file
     - [ ] Refactor visualisation into its own file. 
@@ -57,6 +57,8 @@ The JSON output of the query will reside in *GESTALT/data/output/dataCollection/
     - [ ] Label a high-density dataset
 
 - [ ] Data Collection
+    - [X] Refactor DataCollector to accept multiple seach terms (08 Jun)
+    - [X] Refactor DataCollector to return all named objects within a boundingBox (08 Jun)
     - [ ] Trial Object Detection on Street-view Imagery from OSM for object geo estimates
     - [ ] Trial Object Detection on user-contributed Imagery from OSM for object geo estimates
     - [ ] Trial depth estimation of objects in imagery
