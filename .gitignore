@@ -40,3 +40,6 @@ __pycache__
 *.tgz
 papers/auto_commit_fig
 papers/auto_fig
+
+# Random stuff
+.DS_Store
