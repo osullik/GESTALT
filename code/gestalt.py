@@ -3,25 +3,6 @@
 import argparse, json, sys
 
 #Library Imports
-	#from fastkml import kml 
-	#from OSMPythonTools.api import Api
-	#from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
-	#from OSMPythonTools.nominatim import Nominatim
-
-	#from matplotlib import pyplot as plt
-	#import pandas as pd
-
-	#import sklearn
-	#from sklearn.cluster import KMeans
-	#from sklearn.cluster import DBSCAN
-
-	#from libpysal.weights import Queen, KNN
-
-	#from scipy.spatial import KDTree
-
-	#import numpy as np
-
-	#import Levenshtein
 
 #User Imports
 
@@ -39,7 +20,7 @@ if __name__ == "__main__":
 							action="store_true",
 							default=False,
 							required=False)	
-	
+		
 	argparser.add_argument( "-b", "--boundingbox", 
 							help="specifies the bounding box to be passed to OSM", 
 							nargs='+',
@@ -48,7 +29,7 @@ if __name__ == "__main__":
 	
 	argparser.add_argument( "-s", "--searchterms",
 							help="search terms to pass to the overpass turbo API",
-							type=list,
+							nargs="+",
 							default=None,
 							required=False)
 	
@@ -82,38 +63,46 @@ if __name__ == "__main__":
 							default=None,
 							required=False)	
 	
-	flags = argparser.parse_args()											# populate variables from command line arguments
+	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
-	if flags.queryOsmMode== True:
+	if flags.queryOsmMode== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
 		bbox = flags.boundingbox
 		outputfile = flags.output
 		searchterms = flags.searchterms
 		oqe = osmQueryEngine()
-		osmDict = oqe.queryOSM(bbox, "winery")	#TODO  need to adjust this to handle list inputs from the searchTerms parameter. 
 		
-		with open(outputfile,'w') as outfile:
+		if searchterms[0] == "allobjects":
+			osmDict = oqe.queryOSM(bbox, searchterms[0])
+			outputfileName = (outputfile+"_"+"".join(bbox)+"_allobjects.json")
+		else:
+			osmDict = oqe.queryOSM(bbox, searchterms[0]) 													# Create the dictionary off the first search term 
+			for i in range(1, len(searchterms), 1): 														# Loop through other search terms and merge each set of results into one big dict
+				newDict = oqe.queryOSM(bbox, searchterms[i])
+				osmDict.update(newDict)
+			outputfileName = (outputfile+"".join(searchterms)+".json") 												#Define the filename to output to
+		
+		with open(outputfileName,'w') as outfile: 															#dump output to json
 			json.dump(osmDict, outfile, indent=4)
-			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfile))
+			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 		#user feedback. 
 		exit()
 
-	if flags.kmlIngestMode == True:
+	if flags.kmlIngestMode == True: 																	# Check to see if gestalt should execute in KML Ingestion mode. 
 		sourceFiles = flags.fileSource
 		outputfile = flags.output
 		tex = TerrainExtractor()
 		for file in sourceFiles:
 			print(file)
-			fullfilename = file.split("/")[-1]
-			shortFileName = fullfilename.split(".")[0]
-			objectLocations = tex.Ingest_kml_file(file)
-			with open(outputfile+"_"+shortFileName+".json",'w') as outfile:
+			fullfilename = file.split("/")[-1] 															#get everything right of final "/" (i.e. filename)
+			shortFileName = fullfilename.split(".")[0] 													#get everything left of the "." (i.e not filetype)
+			objectLocations = tex.Ingest_kml_file(file) 												#get the dictionary from ingesting KML file
+			outputfileName = outputfile+"_"+shortFileName+".json" 										#set the output name to be distinct for the file
+			with open(outputfileName,'w') as outfile: 													#output to JSON
 				json.dump(objectLocations, outfile, indent=4)
-			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfile+"_"+shortFileName+".json"))
+			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
 		exit()
 
-
-	#kmlList = tex.Get_kml_file_list()
-
+'''
 	gestalt = OwnershipAssigner(osmDict, objectLocations)
 	flatOSM = gestalt.flatten_osm()
 	flatOBJ = gestalt.flatten_obj('Swan_Valley')
@@ -180,4 +169,4 @@ if __name__ == "__main__":
 		sys.exit("Exported osm data and json objects to file")
 
 
-
+'''

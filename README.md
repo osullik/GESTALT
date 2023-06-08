@@ -22,11 +22,19 @@ To extract the KML files run the following command (note: you can add or subtrac
 
 The JSON outputs of the KML files will reside in *GESTALT/data/output/dataCollection*
 
-To extract the objects from the Openstreetmaps overpass turbo API use the following (noting that you can edit the bounding box and search terms in the shell file):
+To extract the locations with specific search terms from the Openstreetmaps overpass API use the following (noting that you can edit the bounding box and search terms in the shell file):
 
-        sh queryOSM.sh
+        sh queryLocations.sh
 
-The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm.json*
+The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm<searchTermList>.json*
+
+To extract all objects within a bounding box from the overpass API use the following (noting that you can edit the bounding box and in the shell file):
+
+        sh queryAllObjects.sh
+
+The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm_<bbox>_allobjects.json*
+
+
 
 ## Ownership Assignment 
 

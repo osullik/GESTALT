@@ -165,23 +165,64 @@ class osmQueryEngine():
 		'''
 
 		locationDict = {}														# Initialize dict to return 
+		objectDict = {}
 
 		overpass = Overpass()													#Initialize OSMTools classes. 
 		nominatim = Nominatim()
 																				#Query the API
-		query = overpassQueryBuilder(	bbox=bbox, 
+		
+		if typeQuery == "allobjects":
+			query = overpassQueryBuilder(bbox=bbox, 
 										elementType="node",
-										selector="'craft'="+typeQuery)
+										conditions="count_tags() > 0")
+			
+			results = overpass.query(query)
+			
+			for element in results.elements():										# Build the dictionary 
+				try:
+					objectName = element.tags()['name']
+				except KeyError:
+					
+					if list(element.tags().values())[0].lower() in ["yes", "no"]:
+						try:
+							objectName = list(element.tags().values())[1]
+						except IndexError:
+							objectName = list(element.tags().keys())[0]
+					elif list(element.tags().keys())[0] == "created_by":
+						try:
+							objectName = list(element.tags().values())[1]
+						except IndexError:
+							pass
+					else:
+						objectName = list(element.tags().values())[0]
 
-		results = overpass.query(query)
+				latitude = element.geometry()['coordinates'][0]
+				longitude = element.geometry()['coordinates'][1]
+				objectID = str(element.id())
+				objectDict[objectID] = {}
+				#objectDict[objectID]['tags'] = list(element.tags())
+				objectDict[objectID]['latitude'] = latitude
+				objectDict[objectID]['longitude'] = longitude
+				objectDict[objectID]["name"] = objectName
+			
+			return objectDict
 
-		for element in results.elements():										# Build the dictionary 
-			locationName = element.tags()['name']
-			latitude = element.geometry()['coordinates'][0]
-			longitude = element.geometry()['coordinates'][1]
-			locationDict[locationName] = {}
-			locationDict[locationName]['latitude'] = latitude
-			locationDict[locationName]['longitude'] = longitude
 
-		print("Got OSM records for all", typeQuery, "within", bbox)
-		return locationDict
+
+		else:
+			query = overpassQueryBuilder(	bbox=bbox, 
+											elementType="node",
+											selector="'craft'="+typeQuery)
+
+			results = overpass.query(query)
+
+			for element in results.elements():										# Build the dictionary 
+				locationName = element.tags()['name']
+				latitude = element.geometry()['coordinates'][0]
+				longitude = element.geometry()['coordinates'][1]
+				locationDict[locationName] = {}
+				locationDict[locationName]['latitude'] = latitude
+				locationDict[locationName]['longitude'] = longitude
+
+			print("Got OSM records for all", typeQuery, "within", bbox)
+			return locationDict
