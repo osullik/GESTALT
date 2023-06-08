@@ -1,0 +1,42 @@
+### gitignore for the GESTALT project 
+
+#Overpass cache files
+cache/
+scripts/cache/
+
+#Output Files
+data/output
+
+#environment files
+gestalt_env/
+
+#Python Stuff to ignore
+__pycache__
+
+#LaTeX stuff to ignore: 
+*.aux 
+*.dvi 
+*.log 
+*.bbl 
+/*.pdf 
+*~ 
+*.out 
+*.blg 
+*.nav 
+*.toc 
+*.snm 
+*.fdb_latexmk 
+*.fls 
+*.synctex.gz 
+*.xmpi
+*/*.aux 
+*/*.dvi 
+*/*.log 
+*/*.bbl 
+*/*~ 
+*/*.out 
+*/*.blg 
+*/*/*~
+*.tgz
+papers/auto_commit_fig
+papers/auto_fig
