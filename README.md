@@ -26,13 +26,13 @@ To extract the locations with specific search terms from the Openstreetmaps over
 
         sh queryLocations.sh
 
-The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm<searchTermList>.json*
+The JSON output of the query will reside in *GESTALT/data/output/dataCollection/:osmsearchTermList:.json* (where :osmsearchTermList is the concatenated list of all search terms)
 
 To extract all objects within a bounding box from the overpass API use the following (noting that you can edit the bounding box and in the shell file):
 
         sh queryAllObjects.sh
 
-The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm_<bbox>_allobjects.json*
+The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm_:bbox:_allobjects.json* (whrre :bbox: is the bounding box the objects are found in.)
 
 
 
