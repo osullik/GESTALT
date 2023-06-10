@@ -3,17 +3,31 @@
 
 signpost here
 
-\subsection{OSM Search Tools?}
+\subsection{OSM Search Tools}
 % Bellingcat
-On 08 May 2023 the Open Source Intelligence platform \textit{Bellingcat}\footnote{\href{https://www.bellingcat.com/about/who-we-are/}{Bellingcat Website}} released \textit{Bellingcat OSM Search}\footnote{\href{https://osm-search.bellingcat.com/}{Bellingcat OSM Search Tool}}\cite{Williams2023}, a tool also aimed at pruning search space using tagged objects.
+On 08 May 2023 the Open Source Intelligence platform \textit{Bellingcat}\footnote{\href{https://www.bellingcat.com/about/who-we-are/}{Bellingcat Website}} released \textit{Bellingcat OSM Search}\footnote{\href{https://osm-search.bellingcat.com/}{Bellingcat OSM Search Tool}}\cite{Williams2023}, a tool also aimed at pruning search space using tagged objects. Using drop-downs and sliding bars, a user can specify a query for OSM tagged objects that appear within an adjustable distance from each other inside a region of interest. Although aiemd at addressing the same \emph{last-mile} search problem as \emph{GESTALT}, there are several? ............. key limitations to the Bellingcat OSM Search Tool that \emph{GESTALT} overcomes.
+\begin{enumerate}
+\item They can do progressive search by executing multiple queries sequentially -- ok
+\item They can't do concept mapping type queries -- depends if we implement it or not
+\item They return generic points meeting criteria rather than tagged locations -- ok
+\item They don't use objects not tagged in OSM, which are global objects people are certain enough about to tag (optimizing for precision and majorly missing recall) -- this is key
+\item They don't rank results -- tied to the point above, also key
+-- Instead we pull many many tags via object detection on images geo-ed for locations, and associate them with the location(s) near to the geotag, which is noisy but captures much more of the possible things people might remember (optimizing for recall). Note we would not want to add these noisy tags to OSM (which would allow Belingcat to search on them), since they are inherently noisy. We return ranked results to handle the uncertainty w.r.t assigning objects to multiple locations and just having rogue object tags that aren't really there -- the best locations matching the query will cover most of the search terms. This allows flexibility beyond what OSM object tags can cover (anything a detection model or human annotator wants to put as the tag).
 
-%\textit{Bellingcat} includes an interface with drop-downs and sliders...
+\item They return 0 results if a search term fails to hit in the window of interest. -- we should mention this
+-- People can search anything they remember, and even if some don't hit (weren't tagged in OSM or by the object detection step) the results won't be 0 like Belingcat does, instead will be based on the other search terms. This is much more natural to how humans do search... 
+\item By relying on OSM API queries, their tool can do any region as long as its sufficiently small, at the expense of being slow (API calls are slow). -- can we compare the same queries on swan valley in our tool and theirs?
+-- We need to address our scalability issues
+\end{enumerate}
 
-In their use-case, they start with a photo and attempt to geolocate it by performing the \textit{Last-Mile} search based on the presence of OSM Map Features. Their system implements a more user-friendly interface over the OSM Overpass-Turbo API, allowing searchers to use drop-down lists and sliders rather than generating complicated queries. 
-Their tool demonstrates the importance and utility of the problem that \textit{GESTALT} seeks to solve. It also shows how much data is already contained on OSM that can be leveraged by \textit{GESTALT}. The obvious limitation is in performance. As it directly queries the OSM API, the query executes very slowly. For example, running the query to return all wineries in the swan valley region took 21 seconds to complete. In \textit{GESTALT}, it takes less than 1 second. 
-Their system does not address data collection, ownership assignment or concept mapping. It also doesn't allow for spatial queries expected by \textit{GESTALT} searchers. 
-The Bellingcat tool demonstrates the utility of a system like \textit{GESTALT} and highlights how careful consideration of data structure design is essential for developing a performant system. 
-%NSCH condense this down and find other OSM-based terrain search tools and summarize them here
+%NSCH find other OSM-based terrain search tools and summarize them here
+
+
+%In their use-case, they start with a photo and attempt to geolocate it by performing the \textit{Last-Mile} search based on the presence of OSM Map Features. Their system implements a more user-friendly interface over the OSM Overpass-Turbo API, allowing searchers to use drop-down lists and sliders rather than generating complicated queries. 
+%Their tool demonstrates the importance and utility of the problem that \textit{GESTALT} seeks to solve. It also shows how much data is already contained on OSM that can be leveraged by \textit{GESTALT}. 
+%The obvious limitation is in performance. As it directly queries the OSM API, the query executes very slowly. For example, running the query to return all wineries in the swan valley region took 21 seconds to complete. In \textit{GESTALT}, it takes less than 1 second. 
+%Their system does not address data collection, ownership assignment or concept mapping. It also doesn't allow for spatial queries expected by \textit{GESTALT} searchers. 
+%The Bellingcat tool demonstrates the utility of a system like \textit{GESTALT} and highlights how careful consideration of data structure design is essential for developing a performant system. 
 
 
 \subsection{Psychology of Geospatial Reasoning}
