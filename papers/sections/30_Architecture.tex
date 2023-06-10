@@ -89,3 +89,8 @@ The search space should be pruned with set membership checks based on the intuit
 Bloom filter checks are cheap; the human eye doesn't see invisible lines on a map. Accordingly, the ownership assignment subsystem can be inexact, and objects should be 'shared' between locations where appropriate. 
 That location sharing in membership assignments improves the recall of the system. As a corollary, the subsequent spatial search process maintains the system's precision using the concept mappings of objects to extract implicit information about the location. 
 Underlying the search problem requires collecting and processing objects and locations autonomously, at scale. Collecting and processing objects and locations is the first stage explored in section \ref{section:implementation}, implementation. 
+
+%SCALABILITY
+%Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
+%Options for automation are explored in detail in sections \ref{section:architecture} and \ref{section:related}, but essentially rely on combining remote sensing imagery, ground-based imagery and image metadata to generate mappings of objects to coordinates and parent locations.
+%The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.

@@ -43,3 +43,5 @@ papers/auto_fig
 
 # Random stuff
 .DS_Store
+*.jpg
+*.jpeg
