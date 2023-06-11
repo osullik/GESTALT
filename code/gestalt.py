@@ -8,7 +8,6 @@ import argparse, json, sys
 
 from dataCollection import TerrainExtractor, osmQueryEngine
 from ownershipAssignment import OwnershipAssigner
-from queryFlickr import photoDownloader
 
 
 
@@ -26,6 +25,12 @@ if __name__ == "__main__":
 							help="specifies the bounding box to be passed to OSM", 
 							nargs='+',
 							default=None,
+							required=False)
+	
+	argparser.add_argument( "-p", "--photosFromFlickr",
+							help="engage mode to ingest the processed metadata_objects.json from the PhotoDownloader. Needs to be used in conjunction with -f and -o",
+							action="store_true",
+							default=False,
 							required=False)
 	
 	argparser.add_argument( "-s", "--searchterms",
@@ -47,7 +52,7 @@ if __name__ == "__main__":
 							required=False)	
 	
 	argparser.add_argument( "-f", "--fileSource",
-							help="KML file(s) to ingest)", 
+							help="kmlfile(s) to ingest)", 
 							nargs="+", 
 							default=None,
 							required=False)
@@ -104,14 +109,29 @@ if __name__ == "__main__":
 			print(file)
 			fullfilename = file.split("/")[-1] 															#get everything right of final "/" (i.e. filename)
 			shortFileName = fullfilename.split(".")[0] 													#get everything left of the "." (i.e not filetype)
-			objectLocations = tex.Ingest_kml_file(file) 												#get the dictionary from ingesting KML file
+			objectLocations, vocab = tex.Ingest_kml_file(file) 												#get the dictionary from ingesting KML file
 			outputfileName = outputfile+"_"+shortFileName+".json" 										#set the output name to be distinct for the file
 			with open(outputfileName,'w') as outfile: 													#output to JSON
 				json.dump(objectLocations, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
 		exit()
 
-	''if flags.ownershipAssignment.lower() == "kmeans":
+	if flags.photosFromFlickr==True:
+		print("INGESTING FROM FLICKR")
+		object_file = flags.objectsFile
+		outputfile = flags.output
+		tex = TerrainExtractor()
+		fullfilename = object_file.split("/")[-1] 													#get everything right of final "/" (i.e. filename)
+		shortFileName = fullfilename.split(".")[0] 													#get everything left of the "." (i.e not filetype)
+		vocab, objectLocations = tex.ingest_flickr_objects(object_file) 									#get the dictionary from ingesting KML file
+		outputfileName = outputfile+"_"+shortFileName+".json" 										#set the output name to be distinct for the file
+		with open(outputfileName,'w') as outfile: 													#output to JSON
+			json.dump(objectLocations, outfile, indent=4)
+		print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
+
+
+
+	'''if flags.ownershipAssignment.lower() == "kmeans":
 		with open(flags.locationsFile, "r") as inLocs:
 				locations = json.load(inLocs)
 		with open(flags.objectsFile, "r") as inObjs:
@@ -128,7 +148,7 @@ if __name__ == "__main__":
 		correct = ownerAssigner._df_obj["kmeans_correct"]
 		print(correct.value_counts())
 		clusters = ownerAssigner._df_obj["cluster"]
-		print(clusters.value_counts())''
+		print(clusters.value_counts())'''
 
 		
 

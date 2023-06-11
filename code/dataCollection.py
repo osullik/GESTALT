@@ -2,6 +2,7 @@
 
 #System Imports
 import os, json
+from datetime import datetime
 #Library Imports
 from fastkml import kml 
 from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
@@ -59,17 +60,18 @@ class TerrainExtractor():
 			- Returns LocalityDict - A dictionary of the locaiton data for each area being examined. 
 		'''
 
-		#if self._kml_directory[-1] != "/":									#Prevent error from missing trailing slash
-		#	self._kml_directory += "/"
-
-		#filePath = self._kml_directory + kmlFileName
-
-		#print("Opening", filePath)
+		CLASS_CONFIDENCE = 1.0 												# Set the confidence of the object class classification for the KML files
 
 		with open(kmlFileName, 'rt', encoding='utf-8') as f:					#Open the file (double UTF-8 required because of fastKML error)
 			 doc = f.read().encode('utf-8')
 
-		localityDict = {}													#Initialize dict to return 
+		objects_dict = {}														#Initialize dict to return 
+		object_dict = {}
+
+		vocab = set()
+		locationCount = 0
+		objectCount = 0
+		maxObjects = 0
 
 		k = kml.KML()														# Create KML Object
 
@@ -80,34 +82,52 @@ class TerrainExtractor():
 
 		for region in (list(document[0].features())):						# Extract the regions (i.e. swan valley)
 			regName = region.name
-			localityDict[regName] = {}
+			#localityDict[regName] = {}
 			
 			for location in (list(region.features())):						# Extract the locations (i.e. Wineries)
+				if len(list(region.features())) > maxObjects:
+					maxObjects = len(list(region.features()))
+				locationCount +=1
 				locName = location.name
-				localityDict[regName][locName] = {}
+				#localityDict[regName][locName] = {}
 				
-				featureIndex = 0
+				#featureIndex = 0
 				for terrainFeature in (list(location.features())):			# Extract the Features (i.e. the objects)
+					vocab.add(terrainFeature.name)
+					objectCount += 1
 					name = terrainFeature.name 
 					description = terrainFeature.description
 					latitude = terrainFeature.geometry.x
 					longitude = terrainFeature.geometry.y
 																			# Build the dictionary 
 
-					localityDict[regName][locName][str(featureIndex)] = {}
-					localityDict[regName][locName][str(featureIndex)]["name"] = name 
-					localityDict[regName][locName][str(featureIndex)]["latitude"] = latitude
-					localityDict[regName][locName][str(featureIndex)]["longitude"] = longitude
-					localityDict[regName][locName][str(featureIndex)]["description"] = self.extractTerrainDescriptors(description)
+					#localityDict[regName][locName][str(featureIndex)] = {}
+					#localityDict[regName][locName][str(featureIndex)]["name"] = name 
+					#localityDict[regName][locName][str(featureIndex)]["latitude"] = latitude
+					#localityDict[regName][locName][str(featureIndex)]["longitude"] = longitude
+					#localityDict[regName][locName][str(featureIndex)]["description"] = self.extractTerrainDescriptors(description)
 
-					featureIndex += 1
-					
-		#for location in localityDict["Swan_Valley"]:
-		#	for item in (localityDict["Swan_Valley"][location]):
-		#		print (location, item, localityDict["Swan_Valley"][location][item])
+					object_dict["name"] = name								# Create dict entry for this object 
+					object_dict["longitude"] = longitude
+					object_dict["latitude"] = latitude
+					object_dict["date"] = str((datetime.fromtimestamp(os.path.getmtime(kmlFileName)).strftime("%d-%m-%y %H:%M:%S")))
+					object_dict["origin"] = "kml"
+					object_dict["source"] = kmlFileName
+					object_dict["class_confidence"] = CLASS_CONFIDENCE
+				
+					objects_dict["kml_"+str(objectCount)] = object_dict.copy()
+
+
+					#featureIndex += 1
 
 		print("Generated dictionary from", kmlFileName)
-		return localityDict
+		print("Analyzed {num} regions".format(num=len(list(document[0].features()))))
+		print("Analyzed {num} locations across those regions".format(num=locationCount))
+		print("Detected {num} objects across those locations. The most objects in a photo was {max}, and there were an average of {avg} objects per location".format(num=objectCount, max=maxObjects, avg=(objectCount/locationCount)))
+		print("The vocabulary has {num} unique terms for objects".format(num=len(vocab)))
+		print("The vocabulary is:", vocab)		
+
+		return objects_dict, vocab
 
 	def extractTerrainDescriptors(self, descriptorString):
 		'''
@@ -187,13 +207,14 @@ class TerrainExtractor():
 				vocab.add(photos_dict[photo]['objects'][i])
 
 				object_dict["name"] = photos_dict[photo]['objects'][i] 							# Create dict entry for this object 
-				object_dict["longitude"] = photos_dict[photo]['longitude']
-				object_dict["latitude"] = photos_dict[photo]['latitude']
+				object_dict["longitude"] = float(photos_dict[photo]['longitude'])
+				object_dict["latitude"] = float(photos_dict[photo]['latitude'])
 				object_dict["date"] = photos_dict[photo]['photo_date']
 				object_dict["origin"] = "flickr"
 				object_dict["source"] = photos_dict[photo]['URL']
 				object_dict["class_confidence"] = photos_dict[photo]['probabilities'][i]
-			objects_dict["flickr_"+photo] = object_dict.copy()
+			
+			objects_dict["flickr_"+photo] = object_dict.copy() 									# Add a COPY (hooray for mutability...) of the dictionary to the parent dictionary
 
 																								# Report Telemetry
 		print("Analyzed {num} photos".format(num=len(photos_dict.keys())))
