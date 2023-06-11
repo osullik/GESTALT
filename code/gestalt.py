@@ -1,6 +1,6 @@
 
 #System Imports
-import argparse, json, sys
+import argparse, json, sys, os
 
 #Library Imports
 
@@ -15,8 +15,14 @@ if __name__ == "__main__":
 
 	argparser = argparse.ArgumentParser()									# initialize the argParser
 
-	argparser.add_argument(	"-q", "--queryOsmMode", 							
-							help="engage mode to issue a query to OpenStreetMaps",
+	argparser.add_argument(	"-ql", "--queryOsmLocations", 							
+							help="engage mode to issue a query to OpenStreetMaps for locations",
+							action="store_true",
+							default=False,
+							required=False)	
+
+	argparser.add_argument(	"-qo", "--queryOsmObjects", 							
+							help="engage mode to issue a query to OpenStreetMaps for objects",
 							action="store_true",
 							default=False,
 							required=False)	
@@ -80,21 +86,42 @@ if __name__ == "__main__":
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
-	if flags.queryOsmMode== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
+	if flags.queryOsmObjects== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
 		bbox = flags.boundingbox
 		outputfile = flags.output
 		searchterms = flags.searchterms
 		oqe = osmQueryEngine()
 		
 		if searchterms[0] == "allobjects":
-			osmDict = oqe.queryOSM(bbox, searchterms[0])
+			osmDict, vocab = oqe.queryOSMforObjects(bbox)
 			outputfileName = (outputfile+"_"+"".join(bbox)+"_allobjects.json")
 		else:
-			osmDict = oqe.queryOSM(bbox, searchterms[0]) 													# Create the dictionary off the first search term 
+			osmDict = oqe.queryOSMforObjects(bbox, searchterms[0]) 													# Create the dictionary off the first search term 
 			for i in range(1, len(searchterms), 1): 														# Loop through other search terms and merge each set of results into one big dict
-				newDict = oqe.queryOSM(bbox, searchterms[i])
+				newDict = oqe.queryOSMforObjects(bbox, searchterms[i])
 				osmDict.update(newDict)
 			outputfileName = (outputfile+"".join(searchterms)+".json") 												#Define the filename to output to
+		
+		with open(outputfileName,'w') as outfile: 															#dump output to json
+			json.dump(osmDict, outfile, indent=4)
+			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 		#user feedback. 
+		exit()
+
+	if flags.queryOsmLocations== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
+		bbox = flags.boundingbox
+		outputfile = flags.output
+		searchterms = flags.searchterms
+		oqe = osmQueryEngine()
+		
+		if searchterms[0] == "alllocations":
+			osmDict = oqe.queryOSMforLocations(bbox, searchterms[0])
+			outputfileName = (outputfile+"_"+"".join(bbox)+"_alllocations.json")
+		else:
+			osmDict = oqe.queryOSMforLocations(bbox, searchterms[0]) 													# Create the dictionary off the first search term 
+			for i in range(1, len(searchterms), 1): 														# Loop through other search terms and merge each set of results into one big dict
+				newDict = oqe.queryOSMforLocations(bbox, searchterms[i])
+				osmDict.update(newDict)
+			outputfileName = (outputfile+"".join(bbox)+"_alllocations.json") 												#Define the filename to output to
 		
 		with open(outputfileName,'w') as outfile: 															#dump output to json
 			json.dump(osmDict, outfile, indent=4)
@@ -128,27 +155,46 @@ if __name__ == "__main__":
 		with open(outputfileName,'w') as outfile: 													#output to JSON
 			json.dump(objectLocations, outfile, indent=4)
 		print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
+		exit()
 
 
+	if flags.ownershipAssignment.lower() == "kmeans":
+		objectsDict = {}
+		locationsDict = {}
+		prefix = "../data/output/dataCollection"
+		for file in os.listdir(prefix):
+			print(file)
+			if file.startswith("objects"):
+				with open(prefix+"/"+file, "r") as inObjs:
+					objects = json.load(inObjs)
+				objectsDict.update(objects)
+			if file.startswith("locations"):
+				with open(prefix+"/"+file, "r") as inLocs:
+					locations = json.load(inLocs)
+				locationsDict.update(locations)
 
-	'''if flags.ownershipAssignment.lower() == "kmeans":
-		with open(flags.locationsFile, "r") as inLocs:
-				locations = json.load(inLocs)
-		with open(flags.objectsFile, "r") as inObjs:
-			objects = json.load(inObjs)
+		#print(objectsDict)
+		#print(locationsDict)
+		
 		outputFile = flags.output
 		numClusters = flags.numClusters
 		
 		ownerAssigner = OwnershipAssigner(locations, objects)
-		flatLocations = ownerAssigner.flatten_locations(locations)
+		#flatLocations = ownerAssigner.flatten_locations(locations)
 		#flatObjects= ownerAssigner.flatten_objects(objects)
-		flatOSMObjects = ownerAssigner.flatten_objects_from_osm_dump(objects)
-		df_locations, df_objects = ownerAssigner.convertToDataFrame(flatLocations, flatOSMObjects)
-		ownerAssigner.kMeans_membership(flatOSMObjects, numClusters)
-		correct = ownerAssigner._df_obj["kmeans_correct"]
-		print(correct.value_counts())
-		clusters = ownerAssigner._df_obj["cluster"]
-		print(clusters.value_counts())'''
+		#flatOSMObjects = ownerAssigner.flatten_objects_from_osm_dump(objects)
+		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)
+
+		ownerAssigner._df_locations.to_csv("../data/output/ownershipAssignment/locations.csv", index=False)
+		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/objects.csv", index=False)
+
+		ownerAssigner.kMeans_membership(df_objects, len(locationsDict.keys()))
+		#correct = ownerAssigner._df_obj["kmeans_correct"]
+		#print(correct.value_counts())
+		clusters = ownerAssigner._df_objects["cluster"]
+		print(clusters.value_counts())
+
+		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/PredictedLocations.csv", index=False)
 
 		
 

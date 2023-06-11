@@ -1,6 +1,7 @@
 #Code for ownership assignment in GESTALT
 
 #System Imports
+import json
 
 #Library Imports
 import pandas as pd
@@ -11,46 +12,66 @@ import Levenshtein
 import numpy as np
 from sklearn.cluster import DBSCAN
 
+import matplotlib.pyplot as plt
+
 #User imports
 
 class OwnershipAssigner():
-	def __init__(self,osmData, objData):
-		self._osmDict = osmData
-		self._objDict = objData 
+	def __init__(self,locationData, objData):
+		self._locationDict = locationData
+		self._objectDict = objData 
 
-	def flatten_osm(self):
+	def flatten_locations(self, locationsFile):
 		'''
 		Function to take the fully expressive Locations from openStreetMaps and squash into a flatter dict to be made into data frames
 		Input Args: 
-			(implicit) self._osmDict - dict of dicts - contains all the locations within the bounding box from OSM. 
+			locationsFile - dict of dicts - contains all the locations within the bounding box from OSM. 
 		Operations: 
 			- Iterate through the dictionary, generate lists
 		Output
-			- flatOSM - dict of lists
+			- flatLocations - dict of lists
 		'''
 
-		flatOSM = {}															#Initialize vars
+		flatLocations = {}															#Initialize vars
 		locations = []
 		latitudes = []
 		longitudes = []
 
-		for loc in self._osmDict.keys():										#Loop through dict & append vals to list
+		for loc in locationsFile.keys():										#Loop through dict & append vals to list
 			locations.append(loc)
-			latitudes.append(self._osmDict[loc]['latitude'])
-			longitudes.append(self._osmDict[loc]['longitude'])
+			latitudes.append(locationsFile[loc]['latitude'])
+			longitudes.append(locationsFile[loc]['longitude'])
 
-		flatOSM["location"] = locations 										#Create the flattened dict of lists. 
-		flatOSM["latitude"] = latitudes
-		flatOSM["longitude"] = longitudes
+		flatLocations["location"] = locations 										#Create the flattened dict of lists. 
+		flatLocations["latitude"] = latitudes
+		flatLocations["longitude"] = longitudes
 
-		return flatOSM
+		return flatLocations
 
-	def flatten_obj(self, region):
+	def flatten_objects_from_osm_dump(self, objectsDict):
+		print("Starting to flatten_objects_from_osm_dump")
+
+		flatObjects = {}
+		flatObjects["object"] = []
+		flatObjects["latitude"] = []
+		flatObjects["longitude"] = []
+
+		for object in objectsDict.keys():
+			flatObjects["object"].append(objectsDict[object]['name'])
+			flatObjects["latitude"].append(objectsDict[object]['latitude'])
+			flatObjects["longitude"].append(objectsDict[object]['longitude'])
+
+		return flatObjects
+			
+
+
+
+	def flatten_objects_from_kml(self, region):
 		'''
 		Function to take the fully expressive objects from the KML and squash into a flatter dict to be made into data frames
 		Input Args: 
 			region - string - the name of the region within the dict of objects to be flattened. 
-			(implicit) self._objDict - dict of dicts - contains all the objects within the bounding box from OSM. 
+			(implicit) self._objectDict - dict of dicts - contains all the objects within the bounding box from OSM. 
 		Operations: 
 			- Iterate through the dictionary, generate lists
 		Output
@@ -122,33 +143,40 @@ class OwnershipAssigner():
 
 		return flatOBJ
 
-	def convertToDataFrame(self, flatOSM, flatOBJ):								# Convert two flattened dictionaries into data frames
+	def convertToDataFrame(self, flatLocations, flatObjects):								# Convert two flattened dictionaries into data frames
 
-		self._df_osm = pd.DataFrame(data=flatOSM)
-		self._df_obj = pd.DataFrame(data=flatOBJ)
+		self._df_locations = pd.DataFrame.from_dict(flatLocations, orient="index")
+
+		self._df_objects = pd.DataFrame.from_dict(flatObjects, orient="index")
 		self._locationCoordinates = []
 		self._locationIndex = {}
 
-		for index, row in self._df_osm.iterrows():
-		    elem = [row[1],row[2]]
-		    self._locationCoordinates.append(elem)
-		    self._locationIndex[index] = row[0]
+		i = 0
+		for index, row in self._df_locations.iterrows():
+			elem = [row[2],row[1]]								#Long, Lat
+			self._locationCoordinates.append(elem)
+			#print("LOCATION INDEX", row[0])
+			#print("LOCATION COORDINATES", elem)
+
+			self._locationIndex[i] = row[0]
+			i+=1
 
 		self._location_kdTree = KDTree(self._locationCoordinates)
 
 		self._objectCoordinates = []
 
-		for index, row in self._df_obj.iterrows():
-		    elem = [row[1],row[2]]
-		    self._objectCoordinates.append(elem)
-		    #self._objectIndex[index] = row[0]
+		for index, row in self._df_objects.iterrows():
+			elem = [row[2],row[1]]							#Long, lat
+			self._objectCoordinates.append(elem)
+			#self._objectIndex[index] = row[0]
 
 		self._objects_kdTree = KDTree(self._objectCoordinates)
 
 		print("Converted objects and OSM details to DataFrames")
 
+		return ((self._df_locations, self._df_objects))
 
-	def normalizeCoords(self, boundingBox):
+	def printToFile(self):
 		'''
 		Function to flatten coordiantes into a 0-100 grid for vizualization. 
 		Input Args: 
@@ -164,17 +192,23 @@ class OwnershipAssigner():
 
  		#Print the dataframes to file. 
 
-		self._df_osm.to_csv("data/osm_df.csv", index=False)
-		self._df_obj.to_csv("data/obj_df.csv", index=False)
+		self._df_locations.to_csv("data/osm_df.csv", index=False)
+		self._df_objects.to_csv("data/obj_df.csv", index=False)
 
-	def kMeans_membership(self, numberOfClusters):
+	def kMeans_membership(self, objs_to_cluster_df, numberOfClusters):
 		print("Clustering with kMeans")
 		kmeans = KMeans(n_clusters=numberOfClusters, random_state=0, n_init="auto")
-		self._df_obj['cluster'] = kmeans.fit_predict(self._df_obj[['latitude','longitude']])
+		objs_to_cluster_df['cluster'] = kmeans.fit_predict(objs_to_cluster_df[['latitude','longitude']])
 		centroids = kmeans.cluster_centers_
 		
-		self.inferLocation(centroids,"kmeans")
-		print(self._df_obj)
+		self.inferLocation(objs_to_cluster_df, centroids,"kmeans")
+		print(self._df_objects)
+
+		plt.xlabel('Longitude')
+		plt.ylabel('Latitude')
+		plt.scatter(y=self._df_objects.latitude ,x=self._df_objects.longitude, c=self._df_objects.cluster, alpha =0.6, s=10)
+		plt.scatter(y=self._df_locations['latitude'],x=self._df_locations['longitude'], label="Locations",alpha =0.6, s=10 )
+		plt.savefig('../data/output/clusters.png')
 
 	def dbscan_membership(self, epsilon=0.5/6371., minCluster=3):
 		#1/6371 is ~100m
@@ -182,20 +216,20 @@ class OwnershipAssigner():
 		loc_arr = np.array(self._objectCoordinates)
 
 		db_cluster =  DBSCAN(eps=epsilon, min_samples=minCluster).fit(np.radians(loc_arr))
-		self._df_obj['cluster'] = db_cluster.labels_
-		print(self._df_obj)
+		self._df_objects['cluster'] = db_cluster.labels_
+		print(self._df_objects)
 
 		
 		centroids = self.calculateCentroids(db_cluster.labels_)
 		self.inferLocation(centroids,"dbscan")
-		print(self._df_obj)
+		print(self._df_objects)
 
 	def calculateCentroids(self, clusters):
 		print("Calculating Centroids")
 		centroids = []
 
 		for cluster in range (0, (max(clusters)+1)): 								#+1 to account for indexing from 0
-			cluster_df = self._df_obj.loc[self._df_obj['cluster'] == cluster]		# Get only the coords belonging to this cluster
+			cluster_df = self._df_objects.loc[self._df_objects['cluster'] == cluster]		# Get only the coords belonging to this cluster
 			coords = []
 
 			for index, obj in cluster_df.iterrows(): 								# Make the coords into a list, then numpy array
@@ -208,24 +242,30 @@ class OwnershipAssigner():
 		return(centroids)
 
 
-	def inferLocation(self,centroids,method):
+	def inferLocation(self, objs_to_assign_df, centroids, method):
 		print("Inferring object location")
 		mappings = {} 																#Dict so that arbitrary number of clusters can be used
 		for centroid in range (0, (len(centroids))): 								# For each centroid
-		    d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
-		    mappings[centroid] = self._locationIndex[i]
+			d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
+			#idx = (list(self._locationIndex.keys()))[i]
+			#print(self._locationIndex[idx])
+			print(self._locationIndex[i])
+			print(centroids[centroid])
+			mappings[centroid] = self._locationIndex[i]
 
-		self._df_obj['predicted_location_'+method] = self._df_obj.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+		objs_to_assign_df['predicted_location_'+method] = objs_to_assign_df.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+	
 
+	def evaluateClusters(self, df_to_eval, method):
+		#Move this to own function later. Use Levenshtein at 0.7 to handle labelling differences. 
 		matches = []
 
-		#Move this to own function later. Use Levenshtein at 0.7 to handle labelling differences. 
-		for index,row in self._df_obj.iterrows():								
+		for index,row in self._df_objects.iterrows():								
 			if Levenshtein.ratio(row['predicted_location_'+method], row["true_location"]) >= 0.7:
 				matches.append("True")
 			else:
 				matches.append("False")
 
-		self._df_obj[method+"_correct"] = matches
+		df_to_eval[method+"_correct"] = matches
 
-		print(self._df_obj)
+		print(df_to_eval)

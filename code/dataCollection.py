@@ -432,7 +432,7 @@ class osmQueryEngine():
 					locationDict[locationID]['date'] = datetime.now().strftime("%d-%m-%y %H:%M:%S")
 				locationDict[locationID]['origin'] = "osm"
 				locationDict[locationID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
-				locationDict[locationID]['confidence'] = CLASS_CONFIDENCE
+				locationDict[locationID]['class_confidence'] = CLASS_CONFIDENCE
 
 			
 			locationCount +=1
