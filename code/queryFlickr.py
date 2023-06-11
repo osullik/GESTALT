@@ -228,11 +228,14 @@ class PhotoDownloader():
 
 
         
-    def detect_tags_from_jpgs_in_directory(self, directory_name, json_filename):
+    def detect_tags_from_jpgs_in_directory(directory_name, json_filename):
+    # Find all jpegs in the directory
+    full_list_of_img_files = glob.glob(os.path.join(directory_name,"*.jpg"))
 
-        print("RUNNING YOLO TO DETECT OBJECTS IN COLLECTED PHOTOS\n")
-        # Find all jpegs in the directory
-        list_of_img_files = glob.glob(os.path.join(directory_name,"*.jpg"))
+    # Chunk images into lists of size MAX_FILES_OPEN
+    MAX_FILES_OPEN = 200
+    for i in range(0, len(full_list_of_img_files), MAX_FILES_OPEN):
+        list_of_img_files = full_list_of_img_files[i : i + MAX_FILES_OPEN]
 
         # Read in json file
         json_dict = json.load(open(json_filename+".json"))
@@ -263,13 +266,13 @@ class PhotoDownloader():
                 tags.append(class_id)  # object type like person or bench
                 coords.append(cords)  # coordinates in the image like [121, 632, 207, 732]
                 probs.append(conf)  # confidence score like 0.81
-            
+
             try:
                 json_dict[file_id].update({"objects":tags, "coordinates":coords, "probabilities":probs})
             except KeyError:
                 print("NOT FOUND:",file_id,"\n Tags:",tags,"\n coords:", coords, "\n probs", probs)
 
-        return json.dumps(json_dict,indent=4)
+    return json.dumps(json_dict,indent=4)
 
 
 if __name__ == '__main__':
