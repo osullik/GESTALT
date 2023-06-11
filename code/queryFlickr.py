@@ -4,12 +4,14 @@
 import os, sys
 import requests
 import json
+import glob
 
 #Library Imports
 import flickrapi
 from PIL import Image
 from PIL.ExifTags import TAGS
-
+from ultralytics import YOLO
+from pathlib import Path
 
 # User File Imports
 
@@ -225,6 +227,51 @@ class PhotoDownloader():
             json.dump(imageMetadata, out, indent=4)
 
 
+        
+    def detect_tags_from_jpgs_in_directory(self, directory_name, json_filename):
+
+        print("RUNNING YOLO TO DETECT OBJECTS IN COLLECTED PHOTOS\n")
+        # Find all jpegs in the directory
+        list_of_img_files = glob.glob(os.path.join(directory_name,"*.jpg"))
+
+        # Read in json file
+        json_dict = json.load(open(json_filename+".json"))
+
+        # Instantiate model
+        model = YOLO("yolov8m.pt")
+
+        # Run images through model and get results
+        results = model.predict(list_of_img_files, verbose=False)
+
+        # Check that we got results for every image
+        assert len(results) == len(list_of_img_files)
+
+        # Loop over each image
+        for idx in range(len(list_of_img_files)):
+            file_id = Path(list_of_img_files[idx]).stem  # extract filename without path or extension
+            result = results[idx]
+            tags = []
+            coords = []
+            probs = []
+            # Loop over each object detected in the image
+            for box in result.boxes:
+                class_id = result.names[box.cls[0].item()]
+                cords = box.xyxy[0].tolist()
+                cords = [round(x) for x in cords]
+                conf = round(box.conf[0].item(), 2)
+
+                tags.append(class_id)  # object type like person or bench
+                coords.append(cords)  # coordinates in the image like [121, 632, 207, 732]
+                probs.append(conf)  # confidence score like 0.81
+            
+            try:
+                json_dict[file_id].update({"objects":tags, "coordinates":coords, "probabilities":probs})
+            except KeyError:
+                print("NOT FOUND:",file_id,"\n Tags:",tags,"\n coords:", coords, "\n probs", probs)
+
+        return json.dumps(json_dict,indent=4)
+
+
 if __name__ == '__main__':
 
     #NOTE - THIS CODE ASSUMES IT IS BEING RUN FROM THE GESTALT DIRECTORY. SOMETHING LIKE:
@@ -240,7 +287,16 @@ if __name__ == '__main__':
     outputDirectory = "data/photos/"+LL_LON+"_"+LL_LAT+"_"+TR_LON+"_"+TR_LAT
     
     downer = PhotoDownloader()
-    photos, b_box_dict = downer.searchBoundingBox(LL_LON, LL_LAT, TR_LON, TR_LAT)
-    downer.processQueryResults(photos,outputDirectory)
+    #photos, b_box_dict = downer.searchBoundingBox(LL_LON, LL_LAT, TR_LON, TR_LAT)
+    #downer.processQueryResults(photos,outputDirectory)
 
+
+    #directory_name = "../data/photos/115.96168231510637_-31.90009882641578_116.05029961853784_-31.77307863942101"
+    #json_filename = "../data/photos/115.96168231510637_-31.90009882641578_116.05029961853784_-31.77307863942101/metadata"   
+    
+    
+    json_file = outputDirectory+"/metadata"
+    output = downer.detect_tags_from_jpgs_in_directory(outputDirectory, json_file)
+    with open(json_file+"_objects.json", "w") as out:
+        out.write(output)
 
