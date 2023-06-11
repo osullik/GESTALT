@@ -1,7 +1,7 @@
 # Code for data extraction in GESTALT
 
 #System Imports
-import os
+import os, json
 #Library Imports
 from fastkml import kml 
 from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
@@ -140,6 +140,71 @@ class TerrainExtractor():
 
 
 		return descriptors
+	
+	def ingest_flickr_objects(self, photos_file):
+		'''
+		a function to take the metadata_objects.json file outputted by the photoDownloader and transform it into an object-centric dicionary
+		INPUT ARGS: 
+			photos_file: the path to the file containing the results of the object detection run by the photoDownloader component of data collection. 
+		PROCESS:
+			Iterate through each photo
+			For each object in the photo create a dictonary with all relevant metadata and add the obejct names to a set
+			Combine the dictionaries into an objects dictionary. 
+			Report the results of the telemetry
+		OUTPUTS:
+			vocab - set of strings - the set of unique object terms observed in the objects extracted from the photos
+			objects_dict - dict of dicts of the form: 
+			
+				objectID:
+					name:
+					longitude:
+					latitude:
+					date:
+					origin:
+					source:
+					class_confidence:
+		'''
+
+		objects_dict = {}																		# Initialize structures for data collection and 
+		object_dict = {}
+		
+		vocab = set()																			# Initialize data structures for telemetry 
+		objectCount = 0
+		maxObjects = 0
+
+		print("INGESTING FLICKR METADATA")
+
+		with open(photos_file, "r") as infile: 													# Get the file outputted by the photoDownloader
+			photos_dict = json.load(infile)
+
+		for photo in photos_dict.keys(): 														# Step through each photo
+			if len(photos_dict[photo]["objects"]) > maxObjects:
+				maxObjects = len(photos_dict[photo]["objects"])
+
+			for i in range(0, len(photos_dict[photo]["objects"])): 								# Step through each object (using numeric indexing because objects and probabilites are lists with shared indexing)
+				
+				objectCount +=1 																# Update telemetry  
+				vocab.add(photos_dict[photo]['objects'][i])
+
+				object_dict["name"] = photos_dict[photo]['objects'][i] 							# Create dict entry for this object 
+				object_dict["longitude"] = photos_dict[photo]['longitude']
+				object_dict["latitude"] = photos_dict[photo]['latitude']
+				object_dict["date"] = photos_dict[photo]['photo_date']
+				object_dict["origin"] = "flickr"
+				object_dict["source"] = photos_dict[photo]['URL']
+				object_dict["class_confidence"] = photos_dict[photo]['probabilities'][i]
+			objects_dict["flickr_"+photo] = object_dict.copy()
+
+																								# Report Telemetry
+		print("Analyzed {num} photos".format(num=len(photos_dict.keys())))
+		print("Detected {num} objects across those photos. The most objects in a photo was {max}, and there were an average of {avg} objects per photo".format(num=objectCount, max=maxObjects, avg=(objectCount/len(photos_dict.keys()))))
+		print("The vocabulary has {num} unique terms for objects".format(num=len(vocab)))
+		print("The vocabulary is:", vocab)
+
+		return vocab, objects_dict 																# Return values
+
+
+
 
 class osmQueryEngine():
 
