@@ -142,13 +142,30 @@ class PhotoDownloader():
         
         print("\n\n==========QUERYING FLICKR==========\n")
         print("b_box:", b_box)
-        photos = self._flickr.photos.search(bbox=b_box)
 
-        returnTuple = (photos, b_box_dict)
+        results = {}
+
+        results[1] = self._flickr.photos.search(bbox=b_box,
+                                            safe_search=1,
+                                            content_type=1,
+                                            has_geo=1,
+                                            min_taken_date="2020-01-01 00:00:00")
+
+        print("NUM PAGES", int(results[1]['photos']['pages']))
+        for i in range(1,int(results[1]['photos']['pages'])+1):
+            results[i] = self._flickr.photos.search(bbox=b_box,
+                                            safe_search=1,
+                                            content_type=1,
+                                            has_geo=1,
+                                            min_taken_date="2020-01-01 00:00:00",
+                                            page=i)                                        
+             
+            
+        returnTuple = (results, b_box_dict)
         return returnTuple
 
 
-    def processQueryResults(self, queryResults,outputDirectory):
+    def processQueryResults(self, queryResults, outputDirectory):
         '''
         processes the results of a bounding box query to the Flickr API
         INPUT ARGS:
@@ -172,21 +189,34 @@ class PhotoDownloader():
 
         imageMetadata = {}                                              #Init the metadata dict
             
-        print("PROCESSING {num_results} images returned from the query".format(num_results=len(queryResults['photos']['photo'])))
+        #print("PROCESSING {num_results} images returned from the query".format(num_results=len(queryResults['photos']['photo'])))
         
-        for photo in photos['photos']['photo']:                         #Loop through each photo in the query results
-            
-            photo_id, photoSecret, photoURL = self.constructURL(photo)       #construct the URL to get the photos from the search results
-            print("EXTRACTING PHOTO", photo_id)
-    
-            photoFile = requests.get(photoURL)                          #Download and save the photo
-            photoFileName = outputDirectory+"/"+photo_id+".jpg"
-            
-            imageMetadata[photo_id] = self.getMetadata(photo_id, photoSecret)    #Extract the image metadata
-            imageMetadata[photo_id]['URL'] = photoURL                       #Add URL to the metadata
+        #print(photos)
+        #print("Photos:", photos.keys())
+        #print("Photos Keys:", photos['photos'].keys())
 
-            with open(photoFileName, "wb") as out:                          #Save the file to the output directory
-                out.write(photoFile.content)
+        print("QUERY RESULTS:",queryResults.keys())
+
+        with open("helpme.json", 'w') as out:
+            #print("Dumping metadata to", metadataFile )
+            json.dump(queryResults, out, indent=4)
+            
+        for page in queryResults.keys():
+            print("page:", page)
+            #print("page keys:", page.keys())    
+            for photo in photos[page]['photos']['photo']:                         #Loop through each photo in the query results
+                
+                photo_id, photoSecret, photoURL = self.constructURL(photo)       #construct the URL to get the photos from the search results
+                print("EXTRACTING PHOTO", photo_id)
+        
+                photoFile = requests.get(photoURL)                          #Download and save the photo
+                photoFileName = outputDirectory+"/"+photo_id+".jpg"
+                
+                imageMetadata[photo_id] = self.getMetadata(photo_id, photoSecret)    #Extract the image metadata
+                imageMetadata[photo_id]['URL'] = photoURL                       #Add URL to the metadata
+
+                with open(photoFileName, "wb") as out:                          #Save the file to the output directory
+                    out.write(photoFile.content)
 
 
         metadataFile = outputDirectory+"/metadata.json"                     #Save the metadata to the output directory 
