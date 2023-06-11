@@ -5,7 +5,7 @@
 	\label{fig:architecture}
 	\includesvg[width=\textwidth]{architecture.svg}
 	\centering
-	\caption[widht=\textwidth]{The architecture of \textit{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
+	\caption[width=\textwidth]{The architecture of \textit{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
 \end{figure*}
 
 The architecture of \textit{GESTALT} is in Figure \ref{fig:architecture}. It decomposes into four essential functions: data acquisition, ownership assignment, concept mapping and search. 
@@ -30,6 +30,20 @@ Each object in an outdoor photo's distance from the camera geolocation will be e
 Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
 As discussed in the following sub-section, some errors are permissible here and being 'close enough' is good enough as a starting point for the following systems. 
 
+
+
+
+
+The data extraction, cleaning and loading are implemented in Python in two parts, the \textit{KML parser} for object extraction and the \textit{Open Street Maps} query interface for location retrieval. 
+The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
+Within each region (for this test dataset), each location is separated, with its objects stored as its children. 
+Attributes of the objects (e.g. colour, size, material) are recorded in the comments field as key:value pairs.
+The KML Parser extracts the objects into dictionaries organised by location before exporting the files as JSON for future analysis. 
+
+The OSM query interface leverages the \textit{OSMPythonTools}\footnote{\href{https://pypi.org/project/OSMPythonTools/}{OSMPythonTools PyPI Repo}}. It passes a bounding box to the OSM Overpass-Turbo API\footnote{\href{https://overpass-turbo.eu/}{Overpass-Turbo API}} and requests the relevant location nodes in the area. 
+The results are arranged into a dictionary and exported as JSON for further analysis.
+
+
 \subsection{Ownership Assignment}
 Ownership assignment is the unsupervised process through which objects are associated with locations. 
 Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work, they need to know which objects belong to each location.
@@ -39,7 +53,7 @@ The ownership assignment process needs to be unsupervised to enable scaling. Asp
 
 The Ownership Assignment process accepts two inputs, a collection of locations with their coordinates and a collection of objects with their coordinates. 
 The process works to assign each object to its parent location. 
-The process ends when objects are mapped to their parent locations. Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighbouring locations might be mislabelled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighbouring location.
+The process ends when objects are mapped to their parent locations. Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
 There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects. 
 
@@ -59,7 +73,7 @@ The core function of \textit{GESTALT} is searching. The search function assumes 
 There are two elements of partial information. First is a general idea of the region in which the location occurs. Here region means the area surrounding a location. 
 For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley region of Western Australia. A region could be an administrative boundary like a city, suburb, or general geographic area. 
 Either way, we assume that the searcher can prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
-The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, colour etc). 
+The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, color etc). 
 
 The search problem can then be framed in several ways. 
 A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set. Bloom Filters are the obvious choice of data structure to support this search method. 
@@ -84,13 +98,8 @@ The search problem must balance precision and recall while not being computation
 
 \subsection{Sumamry of Architecture}
 The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 
-The search subsystem needs to balance precision in reducing the number of candidate locations with maximising the recall of possible candidate locations. The recall is prioritised. 
+The search subsystem needs to balance precision in reducing the number of candidate locations with maximizing the recall of possible candidate locations. The recall is prioritized. 
 The search space should be pruned with set membership checks based on the intuition that there is no point in running an expensive geospatial query over a location that doesn't contain the objects in question. 
 Bloom filter checks are cheap; the human eye doesn't see invisible lines on a map. Accordingly, the ownership assignment subsystem can be inexact, and objects should be 'shared' between locations where appropriate. 
 That location sharing in membership assignments improves the recall of the system. As a corollary, the subsequent spatial search process maintains the system's precision using the concept mappings of objects to extract implicit information about the location. 
 Underlying the search problem requires collecting and processing objects and locations autonomously, at scale. Collecting and processing objects and locations is the first stage explored in section \ref{section:implementation}, implementation. 
-
-%SCALABILITY
-%Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
-%Options for automation are explored in detail in sections \ref{section:architecture} and \ref{section:related}, but essentially rely on combining remote sensing imagery, ground-based imagery and image metadata to generate mappings of objects to coordinates and parent locations.
-%The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.
