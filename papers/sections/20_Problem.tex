@@ -15,16 +15,6 @@ Describe the problem here......
 \subsection{Datasets}
 \emph{GESTALT} requires a list of all \textit{objects} with their coordinates and a list of all \textit{locations} with their coordinates. These objects and locations can be obtained in a variety of ways, which we briefly outline below. 
 
-
-
-%\subsection{Data Sources}
-%Before delving into what data is needed, quickly reviewing the available data sources will highlight opportunities. 
-%\subsubsection{Google Maps}
-%Google Maps\footnote{\href{https://www.google.com/maps/about/}{Google Maps}} is a suite of applications maintained by Google for users to \textit{"explore and navigate} [their] \textit{world"}. 
-%While it is open for community contributions of locations, it is a commercial platform that charges for API access\footnote{\href{https://mapsplatform.google.com/pricing/}{Pricing for Google Maps API}}. 
-%In addition to coordinating information, Google Maps contains Street View imagery, user reviews, and user-submitted pictures. 
-%Google Maps does not record \textit{objects} unless they are monuments or landmarks of significance.
-
 \subsubsection{Objects}
 \paragraph{Open Street Maps (OSM)}
 \textit{Open Street Maps (OSM)} is a knowledge collective that contains open-source Geodata~\cite{Haklay2008}, which can be easily extended via their online editing interface.
@@ -48,6 +38,16 @@ Google Maps does not support bounding polygons at the location level; it appears
 OSM Supports locations, but is less complete than Google Maps (at least for Australian Wine Regions.)
 In general, for \textit{GESTALT} to function optimally, the input locations should be the union of Google Maps and OSM. However, given the limitations of Google Maps API usage, a dataset was manually curated in OSM using publicly available information and the Author's world knowledge. 
 Creating the Swan Valley Winery dataset for this project has the benefit of yielding 31 additional nodes and associated metadata for the OSM project. 
+
+
+
+%\subsection{Data Sources}
+%Before delving into what data is needed, quickly reviewing the available data sources will highlight opportunities. 
+%\subsubsection{Google Maps}
+%Google Maps\footnote{\href{https://www.google.com/maps/about/}{Google Maps}} is a suite of applications maintained by Google for users to \textit{"explore and navigate} [their] \textit{world"}. 
+%While it is open for community contributions of locations, it is a commercial platform that charges for API access\footnote{\href{https://mapsplatform.google.com/pricing/}{Pricing for Google Maps API}}. 
+%In addition to coordinating information, Google Maps contains Street View imagery, user reviews, and user-submitted pictures. 
+%Google Maps does not record \textit{objects} unless they are monuments or landmarks of significance.
 
 %\subsection{Automation}
 %Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
