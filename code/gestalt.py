@@ -8,6 +8,7 @@ import argparse, json, sys
 
 from dataCollection import TerrainExtractor, osmQueryEngine
 from ownershipAssignment import OwnershipAssigner
+from queryFlickr import photoDownloader
 
 
 
@@ -51,17 +52,25 @@ if __name__ == "__main__":
 							default=None,
 							required=False)
 
-	argparser.add_argument(	"-j", "--jsonDump", 							
-							help="dump the datasets to JSON",
-							action="store_true",
-							default=False,
-							required=False)
-
-	argparser.add_argument(	"-m", "--membershipInference", 							
+	argparser.add_argument(	"-oa", "--ownershipAssignment", 							
 							help="Define the location membership inference method: 'kmeans', 'dbsweep', 'partitioning'",
 							type=str,
 							default=None,
+							required=False)
+
+	argparser.add_argument("-lf", "--locationsFile",
+							help="The path to a file containing the locations to cluster around, a JSON file", 
+							type=str, 
+							required=False)
+
+	argparser.add_argument("-of", "--objectsFile", 
+							help="The path to a file containing the objects", 
 							required=False)	
+	
+	argparser.add_argument("-n", "--numClusters", 
+							help="number of clusters to use for KMeans",
+							type=int, 
+							required=False)
 	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
@@ -101,6 +110,27 @@ if __name__ == "__main__":
 				json.dump(objectLocations, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
 		exit()
+
+	''if flags.ownershipAssignment.lower() == "kmeans":
+		with open(flags.locationsFile, "r") as inLocs:
+				locations = json.load(inLocs)
+		with open(flags.objectsFile, "r") as inObjs:
+			objects = json.load(inObjs)
+		outputFile = flags.output
+		numClusters = flags.numClusters
+		
+		ownerAssigner = OwnershipAssigner(locations, objects)
+		flatLocations = ownerAssigner.flatten_locations(locations)
+		#flatObjects= ownerAssigner.flatten_objects(objects)
+		flatOSMObjects = ownerAssigner.flatten_objects_from_osm_dump(objects)
+		df_locations, df_objects = ownerAssigner.convertToDataFrame(flatLocations, flatOSMObjects)
+		ownerAssigner.kMeans_membership(flatOSMObjects, numClusters)
+		correct = ownerAssigner._df_obj["kmeans_correct"]
+		print(correct.value_counts())
+		clusters = ownerAssigner._df_obj["cluster"]
+		print(clusters.value_counts())''
+
+		
 
 '''
 	gestalt = OwnershipAssigner(osmDict, objectLocations)
