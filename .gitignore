@@ -12,6 +12,7 @@ gestalt_env/
 
 #Python Stuff to ignore
 __pycache__
+.ipynb_checkpoints
 
 #LaTeX stuff to ignore: 
 *.aux 
@@ -43,5 +44,10 @@ papers/auto_fig
 
 # Random stuff
 .DS_Store
+
+#Image Files
 *.jpg
 *.jpeg
+
+# ML Model stuff
+*.pt
