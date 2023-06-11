@@ -102,8 +102,8 @@ class TerrainExtractor():
 					objectCount += 1
 					name = terrainFeature.name 
 					#description = terrainFeature.description				# Description field is a string with multiple pairs of format key:value that describe attributes of an object. Not used in current implementation. 
-					latitude = terrainFeature.geometry.x
-					longitude = terrainFeature.geometry.y
+					latitude = terrainFeature.geometry.y
+					longitude = terrainFeature.geometry.x
 																			# Build the dictionary
 
 					object_dict["name"] = name								# Create dict entry for this object 
@@ -327,8 +327,8 @@ class osmQueryEngine():
 			if found == False: 														# If element not in those attributes, drop it
 				droppedCount +=1 													# Telemetry for number of objects dropped
 			else:
-				latitude = element.geometry()['coordinates'][0] 						# Extract lat, long etc. 
-				longitude = element.geometry()['coordinates'][1]
+				latitude = element.geometry()['coordinates'][1] 						# Extract lat, long etc. 
+				longitude = element.geometry()['coordinates'][0]
 				objectID = "osm_"+str(element.id())
 				objectDict[objectID] = {}
 				
@@ -341,7 +341,7 @@ class osmQueryEngine():
 					objectDict[objectID]['date'] = datetime.now().strftime("%d-%m-%y %H:%M:%S")				
 				objectDict[objectID]['origin'] = "osm"
 				objectDict[objectID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
-				objectDict[objectID]['confidence'] = CLASS_CONFIDENCE
+				objectDict[objectID]['class_confidence'] = CLASS_CONFIDENCE
 
 				vocab.add(objectName) 													# Add the term to the vocab
 			objectCount += 1
@@ -419,8 +419,8 @@ class osmQueryEngine():
 
 				locationID = "osm_"+str(element.id())
 				name = placeName
-				latitude = element.geometry()['coordinates'][0]
-				longitude = element.geometry()['coordinates'][1]
+				latitude = element.geometry()['coordinates'][1]
+				longitude = element.geometry()['coordinates'][0]
 
 				locationDict[locationID] = {}
 				locationDict[locationID]['name'] = name
