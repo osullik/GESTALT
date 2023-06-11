@@ -10,7 +10,7 @@ KMLFILE1="../data/input/Swan_Valley.kml"
 #...
 #kmlFileN=
 
-OUTPUTFILENAME="../data/output/dataCollection/extractedKML" #the python code will append a ".json", don't include it here. 
+OUTPUTFILENAME="../data/output/dataCollection/objects_KML" #the python code will append a ".json", don't include it here. 
 
 
 #Activate the venv
