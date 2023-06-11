@@ -46,80 +46,77 @@ class TerrainExtractor():
 
 	def Ingest_kml_file(self, kmlFileName):
 		'''
-		Ingests a KML file and transforms it into a dictionary 
-		INPUT ARGS:
-			- kmlFileName - String - the filename of the KML to import. 
-			- (implicit) self._kml_directory - string - Class Property with the directory of the KML file. 
-		ACTIONS: 
-			- Open the KML File
-			- Import KML string
-			- Transform to KML Object
-			- Unpack to the appropriate level (TODO: generalize to handle arbitrary depth)
-			- Build dictionary out of contents, with levels (region -> Location -> Item ->(A) Description, (B) Latitude (C) Longitude)
-		OUTPUT 
-			- Returns LocalityDict - A dictionary of the locaiton data for each area being examined. 
+		a function to take a KML file and transform it into an object-centric dicionary
+		INPUT ARGS: 
+			kmlFileName: the path to the kmlFile to be ingested
+		PROCESS:
+			Iterate through each "region (top level directory in the KML)
+			Iterate through each "location (second level directory in the KML)
+			For each object in the location create a dictonary with all relevant metadata and add the obejct names to a set
+			Combine the dictionaries into an objects dictionary. 
+			Report the results of the telemetry
+		OUTPUTS:
+			vocab - set of strings - the set of unique object terms observed in the objects extracted from the photos
+			objects_dict - dict of dicts of the form: 
+			
+				objectID:
+					name:
+					longitude:
+					latitude:
+					date:
+					origin:
+					source:
+					class_confidence:
 		'''
 
 		CLASS_CONFIDENCE = 1.0 												# Set the confidence of the object class classification for the KML files
 
-		with open(kmlFileName, 'rt', encoding='utf-8') as f:					#Open the file (double UTF-8 required because of fastKML error)
+		with open(kmlFileName, 'rt', encoding='utf-8') as f:				#Open the file (double UTF-8 required because of fastKML error)
 			 doc = f.read().encode('utf-8')
 
-		objects_dict = {}														#Initialize dict to return 
+		objects_dict = {}													#Initialize dict to return 
 		object_dict = {}
 
-		vocab = set()
+		vocab = set() 														# Telemetry variables		
 		locationCount = 0
 		objectCount = 0
 		maxObjects = 0
 
 		k = kml.KML()														# Create KML Object
-
 		k.from_string(doc)													# Convert raw KML into Object
-
 		document = list(k.features())										# Extract the document from the object
 
 
-		for region in (list(document[0].features())):						# Extract the regions (i.e. swan valley)
-			regName = region.name
-			#localityDict[regName] = {}
+		for region in (list(document[0].features())):						# Extract the regions
+			#regName = region.name											# regName not required in new implementation, leaving in case of future restructuring
 			
-			for location in (list(region.features())):						# Extract the locations (i.e. Wineries)
-				if len(list(region.features())) > maxObjects:
-					maxObjects = len(list(region.features()))
+			for location in (list(region.features())):						# Extract the locations
+				if len(list(location.features())) > maxObjects:
+					maxObjects = len(list(location.features()))
 				locationCount +=1
-				locName = location.name
-				#localityDict[regName][locName] = {}
 				
-				#featureIndex = 0
-				for terrainFeature in (list(location.features())):			# Extract the Features (i.e. the objects)
+				#locName = location.name									# locName not required in new implementation, leaving in case of future restructuring
+				
+				for terrainFeature in (list(location.features())):			# Extract the Fobjects
 					vocab.add(terrainFeature.name)
 					objectCount += 1
 					name = terrainFeature.name 
-					description = terrainFeature.description
+					#description = terrainFeature.description				# Description field is a string with multiple pairs of format key:value that describe attributes of an object. Not used in current implementation. 
 					latitude = terrainFeature.geometry.x
 					longitude = terrainFeature.geometry.y
-																			# Build the dictionary 
-
-					#localityDict[regName][locName][str(featureIndex)] = {}
-					#localityDict[regName][locName][str(featureIndex)]["name"] = name 
-					#localityDict[regName][locName][str(featureIndex)]["latitude"] = latitude
-					#localityDict[regName][locName][str(featureIndex)]["longitude"] = longitude
-					#localityDict[regName][locName][str(featureIndex)]["description"] = self.extractTerrainDescriptors(description)
+																			# Build the dictionary
 
 					object_dict["name"] = name								# Create dict entry for this object 
 					object_dict["longitude"] = longitude
 					object_dict["latitude"] = latitude
-					object_dict["date"] = str((datetime.fromtimestamp(os.path.getmtime(kmlFileName)).strftime("%d-%m-%y %H:%M:%S")))
+					object_dict["date"] = str((datetime.fromtimestamp(os.path.getmtime(kmlFileName)).strftime("%d-%m-%y %H:%M:%S"))) # Get the datetime the file was created, convert from unix to DateTime and format it. 
 					object_dict["origin"] = "kml"
-					object_dict["source"] = kmlFileName
+					object_dict["source"] = kmlFileName 					# Source of the object points to the KML file it came from
 					object_dict["class_confidence"] = CLASS_CONFIDENCE
 				
 					objects_dict["kml_"+str(objectCount)] = object_dict.copy()
 
-
-					#featureIndex += 1
-
+		#Report Telemetry 
 		print("Generated dictionary from", kmlFileName)
 		print("Analyzed {num} regions".format(num=len(list(document[0].features()))))
 		print("Analyzed {num} locations across those regions".format(num=locationCount))
