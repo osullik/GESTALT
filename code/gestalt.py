@@ -69,18 +69,24 @@ if __name__ == "__main__":
 							default=None,
 							required=False)
 
-	argparser.add_argument("-lf", "--locationsFile",
-							help="The path to a file containing the locations to cluster around, a JSON file", 
+	argparser.add_argument("-id", "--inputDirectory",
+							help="The directory to get files from for the Ownership Assignment", 
 							type=str, 
 							required=False)
-
-	argparser.add_argument("-of", "--objectsFile", 
-							help="The path to a file containing the objects", 
-							required=False)	
+	
+	argparser.add_argument("-od", "--outputDirectory",
+							help="The directory to write files created by the Ownership Assignment", 
+							type=str, 
+							required=False)
 	
 	argparser.add_argument("-n", "--numClusters", 
 							help="number of clusters to use for KMeans",
 							type=int, 
+							required=False)
+	
+	argparser.add_argument("-e", "--epsilon", 
+							help="Epsilon value for DBSCAN - Float",
+							type=float, 
 							required=False)
 	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
@@ -159,75 +165,78 @@ if __name__ == "__main__":
 
 
 	if flags.ownershipAssignment.lower() == "kmeans":
-		objectsDict = {}
+
+		prefix = flags.inputDirectory																#Read parameters for the file
+		outputFile = flags.outputDirectory
+		numClusters = flags.numClusters
+
+		objectsDict = {}																			#Initilaize the Dicts
 		locationsDict = {}
-		prefix = "../data/output/dataCollection"
-		for file in os.listdir(prefix):
-			print(file)
-			if file.startswith("objects"):
+																									
+		for file in os.listdir(prefix):																# Load in the files
+			print("Adding",file,"to K-Means")
+			
+			if file.startswith("objects"): 															# Get the objects files
 				with open(prefix+"/"+file, "r") as inObjs:
 					objects = json.load(inObjs)
 				objectsDict.update(objects)
-			if file.startswith("locations"):
+			
+			if file.startswith("locations"):														# Get the locations files
 				with open(prefix+"/"+file, "r") as inLocs:
 					locations = json.load(inLocs)
 				locationsDict.update(locations)
-
-		#print(objectsDict)
-		#print(locationsDict)
 		
-		outputFile = flags.output
-		numClusters = flags.numClusters
+		ownerAssigner = OwnershipAssigner(locations, objects) 										# Initalize the ownership assigner
 		
-		ownerAssigner = OwnershipAssigner(locations, objects)
-		#flatLocations = ownerAssigner.flatten_locations(locations)
-		#flatObjects= ownerAssigner.flatten_objects(objects)
-		#flatOSMObjects = ownerAssigner.flatten_objects_from_osm_dump(objects)
-		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)
+		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)		# Convert the dictionaries created from the JSON inputs to Pandas Dataframes
 
-		ownerAssigner._df_locations.to_csv("../data/output/ownershipAssignment/locations.csv", index=False)
-		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/objects.csv", index=False)
+		ownerAssigner._df_locations.to_csv(outputFile+"/locations.csv", index=False) 				# Write the dataframes to file before clustering
+		ownerAssigner._df_objects.to_csv(outputFile+"/objects.csv", index=False)
 
-		ownerAssigner.kMeans_membership(df_objects, len(locationsDict.keys()))
-		#correct = ownerAssigner._df_obj["kmeans_correct"]
-		#print(correct.value_counts())
-		clusters = ownerAssigner._df_objects["cluster"]
+		ownerAssigner.kMeans_membership(df_objects, len(locationsDict.keys())) 						# Conduct clustering
+		clusters = ownerAssigner._df_objects["cluster"] 											# Infer Ownership
 		print(clusters.value_counts())
 
-		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/KMEANS_PredictedLocations.csv", index=False)
+		ownerAssigner._df_objects.to_csv(outputFile+"/KMEANS_PredictedLocations.csv", index=False)	# Print the Clustered file
 		exit()
 
 if flags.ownershipAssignment.lower() == "dbscan":
-		objectsDict = {}
+		
+		prefix = flags.inputDirectory																#Read parameters for the file
+		outputFile = flags.outputDirectory
+		numClusters = flags.numClusters
+		epsilon= flags.epsilon
+		minCluster = flags.numClusters
+
+		objectsDict = {}																			#Initilaize the Dicts
 		locationsDict = {}
-		prefix = "../data/output/dataCollection"
-		for file in os.listdir(prefix):
-			print(file)
-			if file.startswith("objects"):
+
+		for file in os.listdir(prefix):																# Load in the files
+			print("Adding",file,"to K-Means")
+			
+			if file.startswith("objects"): 															# Get the objects files
 				with open(prefix+"/"+file, "r") as inObjs:
 					objects = json.load(inObjs)
 				objectsDict.update(objects)
-			if file.startswith("locations"):
+			
+			if file.startswith("locations"):														# Get the locations files
 				with open(prefix+"/"+file, "r") as inLocs:
 					locations = json.load(inLocs)
 				locationsDict.update(locations)
 		
-		outputFile = flags.output
-		numClusters = flags.numClusters
+		ownerAssigner = OwnershipAssigner(locations, objects) 										# Initalize the ownership assigner
 		
-		ownerAssigner = OwnershipAssigner(locations, objects)
-		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)
+		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)		# Convert the dictionaries created from the JSON inputs to Pandas Dataframes
 
-		ownerAssigner._df_locations.to_csv("../data/output/ownershipAssignment/locations.csv", index=False)
-		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/objects.csv", index=False)
+		ownerAssigner._df_locations.to_csv(outputFile+"/locations.csv", index=False) 				# Write the dataframes to file before clustering
+		ownerAssigner._df_objects.to_csv(outputFile+"/objects.csv", index=False)
 
-		epsilon=0.075/6371 
-		minCluster=3
-		ownerAssigner.dbscan_membership(epsilon,minCluster)
-		clusters = ownerAssigner._df_objects["cluster"]
+
+		ownerAssigner.dbscan_membership(epsilon,minCluster) 										# Cluster the objects
+		clusters = ownerAssigner._df_objects["cluster"] 											# Infer the location
 		print(clusters.value_counts())
 
-		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv", index=False)
+		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations.csv", index=False)	# Save to file
 		exit()
 
 '''
