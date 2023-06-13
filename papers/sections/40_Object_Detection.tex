@@ -1,12 +1,31 @@
 \section{Object Detection}
 \label{section:object}
 
-\subsection{OSM Object Tags}
-
-\subsection{Noisy Image-based Tags}
-Using YOLO v8 with 80 classes trained on COCO dataset to identify objects in ..... images from Flickr API to generate noisy tags. 
-
-Each object identified is assigned a probability.
+Objects can be fed into \emph{GESTALT} in three ways, which we describe here. 
 
 \subsection{Ground Truth Hand Labeled Tags}
-KML hand labeled objects for wineries dataset, along with ground truth location assignments for reporting results in Ownership Assignment task.
+The first method we use to obtain object tags is by hand labeling them. 
+For benchmarking purposes we curated the Swan Valley Wineries dataset containing ground truth object tags and their associated locations stored in KML....... (define KML?)........ 
+Attributes of the objects (e.g. color, size, material) are recorded in the comments field as key:value pairs.
+Each object from the hand-labeled dataset is assigned a confidence score of 1.0, since it is manually identified and tagged.
+
+%NSCH: is the below sentence about the labeling or the module that aggregates all the sources? Or no longer relevant?
+%The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
+%The KML Parser extracts the objects into dictionaries organized by location before exporting the files as JSON for future analysis. 
+
+\subsection{OSM Object Tags}
+The second method involves leveraging existing OSM object tags.
+While businesses, attractions and other 'locations' are commonly annotated by the OSM community, objects are more sparsely tagged, since few people have the patience to manually label apparently inconsequential things like trees, statues, fountains and telephone poles. 
+\emph{GESTALT} ingests what object tags do exist in OSM through 
+............describe the process here (API?)................
+Each object ingested from OSM is assigned a confidence score of 1.0, since these tags are maintained by the open-source community and are subject to some degree of review and .......explain why we have some confidence in them.............
+
+
+\subsection{Noisy Image-based Tags}
+The third, and most important method by which \emph{GESTALT} ingests objects, is through automatic object detection.
+Given a set of images and their associated geo data, ...........what is it actually called?........... the Object Detection module uses YOLO~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image. Those objects are then tagged with the geolocation of the image, and stored...........how?........... For our experiments, we pull ..............how many?............ images over ............timeframe.......... and use pre-trained YOLO v.8 to detect objects from 80 classes (based on the COCO dataset.........footnote........). Each object identified is assigned a probability score ...........how does YOLO get that????..........
+
+
+
+
+
