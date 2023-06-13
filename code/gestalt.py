@@ -194,9 +194,41 @@ if __name__ == "__main__":
 		clusters = ownerAssigner._df_objects["cluster"]
 		print(clusters.value_counts())
 
-		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/PredictedLocations.csv", index=False)
+		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/KMEANS_PredictedLocations.csv", index=False)
+		exit()
 
+if flags.ownershipAssignment.lower() == "dbscan":
+		objectsDict = {}
+		locationsDict = {}
+		prefix = "../data/output/dataCollection"
+		for file in os.listdir(prefix):
+			print(file)
+			if file.startswith("objects"):
+				with open(prefix+"/"+file, "r") as inObjs:
+					objects = json.load(inObjs)
+				objectsDict.update(objects)
+			if file.startswith("locations"):
+				with open(prefix+"/"+file, "r") as inLocs:
+					locations = json.load(inLocs)
+				locationsDict.update(locations)
 		
+		outputFile = flags.output
+		numClusters = flags.numClusters
+		
+		ownerAssigner = OwnershipAssigner(locations, objects)
+		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)
+
+		ownerAssigner._df_locations.to_csv("../data/output/ownershipAssignment/locations.csv", index=False)
+		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/objects.csv", index=False)
+
+		epsilon=0.075/6371 
+		minCluster=3
+		ownerAssigner.dbscan_membership(epsilon,minCluster)
+		clusters = ownerAssigner._df_objects["cluster"]
+		print(clusters.value_counts())
+
+		ownerAssigner._df_objects.to_csv("../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv", index=False)
+		exit()
 
 '''
 	gestalt = OwnershipAssigner(osmDict, objectLocations)

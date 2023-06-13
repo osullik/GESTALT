@@ -221,7 +221,7 @@ class OwnershipAssigner():
 
 		
 		centroids = self.calculateCentroids(db_cluster.labels_)
-		self.inferLocation(centroids,"dbscan")
+		self.inferLocation(self._df_objects, centroids,"dbscan")
 		print(self._df_objects)
 
 	def calculateCentroids(self, clusters):
@@ -253,7 +253,7 @@ class OwnershipAssigner():
 			print(centroids[centroid])
 			mappings[centroid] = self._locationIndex[i]
 
-		objs_to_assign_df['predicted_location_'+method] = objs_to_assign_df.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
+		objs_to_assign_df['predicted_location'] = objs_to_assign_df.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
 	
 
 	def evaluateClusters(self, df_to_eval, method):
@@ -261,7 +261,7 @@ class OwnershipAssigner():
 		matches = []
 
 		for index,row in self._df_objects.iterrows():								
-			if Levenshtein.ratio(row['predicted_location_'+method], row["true_location"]) >= 0.7:
+			if Levenshtein.ratio(row['predicted_location'], row["true_location"]) >= 0.7:
 				matches.append("True")
 			else:
 				matches.append("False")
