@@ -8,6 +8,7 @@ import argparse, json, sys, os
 
 from dataCollection import TerrainExtractor, osmQueryEngine
 from ownershipAssignment import OwnershipAssigner
+from search import InvertedIndex
 
 
 
@@ -66,7 +67,7 @@ if __name__ == "__main__":
 	argparser.add_argument(	"-oa", "--ownershipAssignment", 							
 							help="Define the location membership inference method: 'kmeans', 'dbsweep', 'partitioning'",
 							type=str,
-							default=None,
+							default="None",
 							required=False)
 
 	argparser.add_argument("-id", "--inputDirectory",
@@ -87,6 +88,16 @@ if __name__ == "__main__":
 	argparser.add_argument("-e", "--epsilon", 
 							help="Epsilon value for DBSCAN - Float",
 							type=float, 
+							required=False)
+	
+	argparser.add_argument("-gs", "--gestaltSearch", 
+							help="Invoke Gestalt's Search Mode",
+							action="store_true",
+							required=False)
+	
+	argparser.add_argument("-if", "--inputFile", 
+							help="Input file to create the inverted index from",
+							type=str,
 							required=False)
 	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
@@ -239,3 +250,11 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations.csv", index=False)	# Save to file
 		exit()
 
+
+if flags.gestaltSearch == True: 
+	searchterms = flags.searchterms
+	invertedIndexSourceCSV = flags.inputFile
+
+	ii = InvertedIndex(invertedIndexSourceCSV)
+	results = ii.search(searchterms)
+	print(results)

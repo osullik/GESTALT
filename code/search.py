@@ -19,26 +19,27 @@ class InvertedIndex:
         self.ii = dict()
         for idx, row in self.objects_df_grouped_list.iterrows():
             self.ii[idx] = set(row['predicted_location'])
-    def search(self, *arg):
+    
+    def search(self, arg):                      #if want to use a string list of input terms change line to: def search(self, *arg):
         set_list = [self.ii[x] for x in arg]
         return set.intersection(*set_list)
 
-class SearchCompleter(Completer):
-    def __init__(self, inverted_index: InvertedIndex):
-        self.inverted_index = inverted_index
-    def get_completions(self, document, complete_event):
-        if complete_event.completion_requested:
-            for match in self.inverted_index.search(document.text):
-                yield Completion(match.ljust(document.cursor_position), start_position=-document.cursor_position)
+#class SearchCompleter(Completer):
+#    def __init__(self, inverted_index: InvertedIndex):
+#        self.inverted_index = inverted_index
+#    def get_completions(self, document, complete_event):
+#        if complete_event.completion_requested:
+#            for match in self.inverted_index.search(document.text):
+#                yield Completion(match.ljust(document.cursor_position), start_position=-document.cursor_position)
                 
                 
-def main():
-    directory_name = os.getcwd()
-    objects_file = "data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv"
-    filename = glob.glob(os.path.join(directory_name, objects_file))[0]
-    inverted_index = InvertedIndex(filename)
+#def main():
+#    directory_name = os.getcwd()
+#    objects_file = "data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv"
+#    filename = glob.glob(os.path.join(directory_name, objects_file))[0]
+#    inverted_index = InvertedIndex(filename)
     #print(inverted_index.search('apple','wine_barrell'))
     #user_input = prompt("> ", completer=SearchCompleter(inverted_index), complete_while_typing=True)
-    print(inverted_index.search("person", "picnic_table"))
-if __name__ == "__main__":
-    main()
+#    print(inverted_index.search("person", "picnic_table"))
+#if __name__ == "__main__":
+#    main()
