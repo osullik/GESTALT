@@ -1,11 +1,21 @@
 \section{Object Detection}
 \label{section:object}
 
-Objects can be fed into \emph{GESTALT} in three ways, which we describe here. 
+To maximize dataset coverage, and demonstrate the flexibility of \emph{GESTALT} we support three methods of adding objects. 
+In decresing order of reliability, users can add objects by ingesting KML Files that they have manually annotated, crowd-source tags by querying the Open Street Maps API and automatically through the processing of geolocated photos. 
+Each object is assigned a confidence score on ingest, reflecting the certainty that the object tagged at that location is actually the object at that location. 
+Hand-labelled objects are defaulted to a confidence score of $1$, OSM objects to $0.75$ and objects labelled by the object detector are based on the confidenc score reported by the object detection model. 
 
 \subsection{Ground Truth Hand Labeled Tags}
 The first method we use to obtain object tags is by hand labeling them. 
-For benchmarking purposes we curated the Swan Valley Wineries dataset containing ground truth object tags and their associated locations stored in KML....... (define KML?)........ 
+Hand labeled objects are those that have been manually annotated by a trustworthy source, they are assumed to be correctly labeled and correctly positioned. 
+The reason we accept hand-labelled objects is to allow for prior manual annotation work to be folded into GESTALT's database. 
+
+For benchmarking purposes we curated the Swan Valley Wineries dataset containing ground truth object tags and their associated locations stored in Keyhole Markup Language\footnote{\href{https://developers.google.com/kml/documentation/kml_tut}{https://developers.google.com/kml/documentation/kml_tut}} (KML).
+The object tagging was conducted manually by a single annotator, combining on-the-ground knowledge with manual inspection of satellite imagery, street-view imagery and publicly available photos of the area. 
+The objects tagged are representative, not exhaustive. 
+The object tags are aligned with ... 
+The tagging was conducted using \textit{Google Earth Professional version 7.3\footnote{\href{https://www.google.com/earth/about/versions/}{https://www.google.com/earth/about/versions/}}}
 Attributes of the objects (e.g. color, size, material) are recorded in the comments field as key:value pairs.
 Each object from the hand-labeled dataset is assigned a confidence score of 1.0, since it is manually identified and tagged.
 
