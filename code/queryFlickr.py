@@ -298,6 +298,7 @@ if __name__ == '__main__':
     
     downer = PhotoDownloader()
     photos, b_box_dict = downer.searchBoundingBox(LL_LON, LL_LAT, TR_LON, TR_LAT)
+    photos=outputDirectory
     downer.processQueryResults(photos,outputDirectory)
 
 
