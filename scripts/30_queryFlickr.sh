@@ -4,17 +4,17 @@
 
 #Variables (update these to change the python script that runs)
 
-#TODO:
+LL_LAT="-31.90009882641578"
+LL_LON="115.96168231510637"
+TR_LAT="-31.77307863942101" 
+TR_LON="116.05029961853784"
 
-    # Move parameters to here from queryFlickrAPI 
-    # Add an argParser to queryFlickrAPI
+OUTPUTDIRECTORY="../data/photos/"  #note .json extension will be applied by python script
+
 
 #Activate the venv
 source ../gestalt_env/bin/activate
 
-#Increase the max file limit so that the object detection can run:
-
-ulimit -n 2500
-
 #Run the script
-python3 ../code/queryFlickr.py -p -if $INPUTFILE -o $OUTPUTFILE
+python3 ../code/gestalt.py -pd -b $LL_LON $LL_LAT $TR_LON $TR_LAT -od $OUTPUTDIRECTORY
+

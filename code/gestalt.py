@@ -6,7 +6,7 @@ import argparse, json, sys, os
 
 #User Imports
 
-from dataCollection import TerrainExtractor, osmQueryEngine
+from dataCollection import TerrainExtractor, osmQueryEngine, PhotoDownloader
 from ownershipAssignment import OwnershipAssigner
 from search import InvertedIndex
 
@@ -100,6 +100,12 @@ if __name__ == "__main__":
 							type=str,
 							required=False)
 	
+	argparser.add_argument(	"-pd", "--photoDownloader", 							
+							help="Mode to download files from flickr",
+							action="store_true",
+							default=False,
+							required=False)	
+	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
@@ -162,7 +168,7 @@ if __name__ == "__main__":
 
 	if flags.photosFromFlickr==True:
 		print("INGESTING FROM FLICKR")
-		object_file = flags.objectsFile
+		object_file = flags.inputFile
 		outputfile = flags.output
 		tex = TerrainExtractor()
 		fullfilename = object_file.split("/")[-1] 													#get everything right of final "/" (i.e. filename)
@@ -249,6 +255,23 @@ if flags.ownershipAssignment.lower() == "dbscan":
 
 		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations.csv", index=False)	# Save to file
 		exit()
+
+if flags.photoDownloader == True:
+	b_box = flags.boundingbox
+	print("BOUNDING BOX:",b_box)
+	outputDirectory = flags.outputDirectory.join(b_box)
+
+	downer = PhotoDownloader()
+	photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])
+	photos=outputDirectory
+	downer.processQueryResults(photos,outputDirectory)
+
+	json_file = outputDirectory+"/metadata"
+	output = downer.detect_tags_from_jpgs_in_directory(outputDirectory, json_file)
+	with open(json_file+"_objects.json", "w") as out:
+		out.write(output)
+
+	exit()
 
 
 if flags.gestaltSearch == True: 
