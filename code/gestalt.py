@@ -259,7 +259,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 if flags.photoDownloader == True:
 	b_box = flags.boundingbox
 	print("BOUNDING BOX:",b_box)
-	outputDirectory = flags.outputDirectory.join(b_box)
+	outputDirectory = flags.outputDirectory+(str(b_box))
 
 	downer = PhotoDownloader()
 	photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])

@@ -15,6 +15,11 @@ OUTPUTDIRECTORY="../data/photos/"  #note .json extension will be applied by pyth
 #Activate the venv
 source ../gestalt_env/bin/activate
 
+#Check env variables: 
+
+echo "your FLICKR API Key is:" $flickr_key
+echo "your FLICKR Secret key is:" $flickr_secret
+
 #Run the script
 python3 ../code/gestalt.py -pd -b $LL_LON $LL_LAT $TR_LON $TR_LAT -od $OUTPUTDIRECTORY
 
