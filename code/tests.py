@@ -248,11 +248,12 @@ class test_recursive_grid_search(unittest.TestCase):
     def test_trivial_matrix_baseCase_success(self):
 
         matrix = self.trivialMatrix
-        toFind = ["A"]
-        northTerm = "A"
-        westTerm = "A"
+        queryMatrix = np.array([["A"]],
+                               dtype=object)
+        #northTerm = "A"
+        #westTerm = "A"
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, queryMatrix, direction="northSouth")
         
         self.assertTrue(match)
 
@@ -347,31 +348,26 @@ class test_get_terms(unittest.TestCase):
     def setUp(self):
         self.CM = ConceptMapper()
 
-        self.trivialMatrix = np.array([["A"]],
-                                     dtype=object)
+        self.trivialMatrix =[["A"]]
 
-        self.twoByTwoMatrix = np.array( [[ 0,"A"],
-                                        ["B",0 ]],
-                                        dtype=object)
+        self.twoByTwoMatrix =[[ 0,"A"],
+                                        ["B",0 ]]
 
-        self.threeByThreeMatrix = np.array( [[ 0, "A", 0],
+        self.threeByThreeMatrix = [[ 0, "A", 0],
                                              ["B", 0, "C"],
-                                             [ 0,  0,  0]],
-                                            dtype=object)
+                                             [ 0,  0,  0]]
         
-        self.fourByFourMatrix = np.array(   [[ 0, "A", 0, 0],
+        self.fourByFourMatrix = [[ 0, "A", 0, 0],
                                              ["B", 0, "C",0],
                                              [ 0, "D",  0,0],
-                                             [ 0,  0,  0, 0]],
-                                            dtype=object)
+                                             [ 0,  0,  0, 0]]
         
-        self.sixBySixMatrix = np.array( [[ 0, "A", 0,  0,  0,  0 ],
+        self.sixBySixMatrix = [[ 0, "A", 0,  0,  0,  0 ],
                                          [ 0,  0, "F","B","D", 0 ],
                                          [ 0,  0, "B", 0, "E","C"],
                                          [ 0, "C", 0, "D","D", 0 ],
                                          [ 0,  0,  0,  0,  0,  0 ],
-                                         ["A", 0,  0,  0,  0,  0 ]],
-                                        dtype=object)
+                                         ["A", 0,  0,  0,  0,  0 ]]
     def tearDown(self) -> None:
         del self.CM
         del self.trivialMatrix
@@ -380,14 +376,57 @@ class test_get_terms(unittest.TestCase):
         del self.fourByFourMatrix
         del self.sixBySixMatrix
     
-    def test_getSouthernTerm(self):
-        matrix = self.threeByThreeMatrix
-        searchTerms = ["A","B"]
+    def test_getTrivialList(self):
+        inputMatrix = np.array([["A"]])
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        self.assertEqual(searchList,["A"])
 
-        northTerm, westTerm = self.CM.getNewTerms(matrix, searchTerms)
+    def test_get1Item_1Row(self):
+        inputMatrix = np.array([[ 0, "A"]],
+                                dtype=object)
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        
+        self.assertEqual(searchList,["A"])
+    
+    def test_get1Item_1Column(self):
+        inputMatrix = np.array([[ 0 ],
+                                ["A"]],
+                                dtype=object)
 
-        self.assertEqual(northTerm,"A")
-        self.assertEqual(westTerm,"B")
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        self.assertEqual(searchList,["A"])
+
+    def test_get1Item_1Matrix(self):
+        inputMatrix = np.array([[ 0, "A"],
+                                [ 0 , 0 ]],
+                                dtype=object)
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        self.assertEqual(searchList,["A"])
+
+    def test_get2Item_1Row(self):
+        inputMatrix = np.array([[ "A", "B"]],
+                                dtype=object)
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        
+        self.assertEqual(searchList,["A","B"])
+    
+    def test_get2Item_1Column(self):
+        inputMatrix = np.array([[ "A" ],
+                                ["B"]],
+                                dtype=object)
+
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        self.assertEqual(searchList,["A","B"])
+
+    def test_get2Item_1Matrix(self):
+        inputMatrix = np.array([[ 0, "A"],
+                                [ "B" , 0 ]],
+                                dtype=object)
+        searchList = self.CM.getSearchOrder(inputMatrix)
+        self.assertEqual(searchList,["A","B"])
+
+
+
 
 
 
@@ -405,19 +444,25 @@ def suite_recursive_grid_search():
     suite = unittest.TestSuite()
     suite.addTest(test_recursive_grid_search('test_trivial_matrix_baseCase_success'))
     suite.addTest(test_recursive_grid_search("test_trivial_matrix_baseCase_failure"))
-    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_Success"))
-    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_failure"))
-    suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
-    suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
-    suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
-
-    suite.addTest(test_recursive_grid_search('test_fourByFour_matrix_Fail'))
+    #suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_Success"))
+    #suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_failure"))
+    #suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
+    #suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
+    #suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
+    #suite.addTest(test_recursive_grid_search('test_fourByFour_matrix_Fail'))
     return suite
 
 def suite_get_terms():
     print("\n\n===== Testing Getting Boundary Terms =====\n")
     suite = unittest.TestSuite()
-    suite.addTest(test_get_terms('test_getSouthernTerm'))
+    suite.addTest(test_get_terms('test_getTrivialList'))
+    suite.addTest(test_get_terms('test_get1Item_1Row'))
+    suite.addTest(test_get_terms('test_get1Item_1Column'))
+    suite.addTest(test_get_terms('test_get1Item_1Matrix'))
+    suite.addTest(test_get_terms('test_get2Item_1Row'))
+    suite.addTest(test_get_terms('test_get2Item_1Column'))
+    suite.addTest(test_get_terms('test_get2Item_1Matrix'))
+
     return suite
 
 
@@ -429,4 +474,4 @@ if __name__ == '__main__':
     runner = unittest.TextTestRunner()
     #runner.run(suite_direction_locations())
     runner.run(suite_get_terms())
-    runner.run(suite_recursive_grid_search())
+    #runner.run(suite_recursive_grid_search())

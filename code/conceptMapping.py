@@ -66,41 +66,63 @@ class ConceptMapper():
             return False
 
 
-    def getNewTerms(self, matrix, searchList: list, direction: str):
+    def getSearchOrder(self, queryMatrix):
         '''
-        BUG: THIS CODE DOESN'T SEARCH IN THE ORDER REQUIRED BY THE SEARCH TERMS:
+        NB: This function partially written by ChatGPT in response to the following prompt:
+            "write me some python code that will traverse a matrix from the top left corner  
+            to the bottom right cornerThat is, round 1 will visit [0,0], round 2 will visit 
+            [0,1],[1,0] and [1,1], round 3 will visit [0,2],[1,2],[2,0],[2,1] and [2,2] etc"
 
-        figures out what the northern-most or western-most search terms in the grid are. Called by SearchMatrix each recursive step to figure out what the new North or West most term is. 
-        INPUT_ARGS: 
-            matrix  - a numpy matrix / array of arrays of form [[EW List],[EW List]]. i.e. Outer array is the grid from N to S, inner lists are the objects W to E in each row. Defines the Object locations. 
-            searchList - list - the list of terms still being searched for
-            direction - str - defines the axis of the pruning this iteration. 
-        PROCESS:
-            For either the NS or WE axis, step a row / column at a time and see if one of the search terms is in there
-        OUTPUT: 
-            westToEast/northToSouth - string - the value of the object being searched for that is either the most northern or most western,
+        getSearchOrder gets the order to search for the query terms in the location grid
+        INPUT ARGS: 
+            queryMatrix - list of lists  of form [[0,"A"]["B",0]] for a 2x2 matrix with A in the
+                top right and B in the bottom left. Blank spaces are held by zeroes.
+        Process:
+            If the matrix only has a single value in it, return that value
+            Otherwise step incrementally from the top left corner to the bottom right corner
+            When a non-zero value is found, append it to the list to be returned
+        OURTPUT:
+            traversed - list of strings - list of the names of objects to traverse. 
 
         '''
-        northFound = False
-        westFound = False
+       
+        print("\n\n===========================\n")
+        searchList = []
+        print("Query Matrix is:\n", queryMatrix)
 
-        if direction == "northSouth":
-            for northToSouth in matrix:                                             #Walk matrix north to south
-                for westToEast in northToSouth:
-                    if westToEast in searchList:
-                        return westToEast
-        else:
-            
-            for i in range(0, len(matrix[0]),1):                                       #Walk matrix west to east (length of first element)
-                for northToSouth in matrix: 
-                    if northToSouth[i] in searchList:
-                        return northToSouth[i]
+        if len(queryMatrix) == 1:
+            try:
+                if len(queryMatrix[0]) ==1:
+                    return queryMatrix
+            except IndexError:
+                pass
+
+        rows = len(queryMatrix)
+        cols = len(queryMatrix[0])
+
+        # Calculate the total number of rounds required to traverse the matrix
+        rounds = rows + cols - 1
+        traversed = []
+
+        for r in range(rounds):
+            # Determine the row and column indices for the current round
+
+            for i in range(r + 1):
+                j = r - i
+
+                # Check if the indices are within the matrix boundaries
+                if i < rows and j < cols:
+                    if queryMatrix[i][j] != 0:
+                         # Append non-zero elements to the list of order we will search them
+                        traversed.append(queryMatrix[i][j])
+
+        return traversed
+
         
-        return None
-
 
         
-    def searchMatrix(self, matrix, toFind: list, northTerm: str, westTerm: str, direction: str):
+    #def searchMatrix(self, matrix, toFind: list, northTerm: str, westTerm: str, direction: str):
+    def searchMatrix(self, matrix: np.array, searchMatrix:np.array, direction: str):
         '''
         searches a location for the relative relationships between its objects; an approximation to return ANY matching cofiguration of objects matching the search query
         INPUT ARGS:
