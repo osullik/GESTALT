@@ -3,7 +3,7 @@ import unittest
 
 # Library Imports
 from scipy.spatial import KDTree
-
+import numpy as np
 # User Imports
 from conceptMapping import ConceptMapper
 
@@ -207,6 +207,188 @@ class test_single_direction_relations(unittest.TestCase):
 
         self.assertTrue(term1Result == term2Result == True)
 
+class test_recursive_grid_search(unittest.TestCase):
+
+    def setUp(self):
+        self.CM = ConceptMapper()
+
+        self.trivialMatrix = np.array([["A"]],
+                                     dtype=object)
+
+        self.twoByTwoMatrix = np.array( [[ 0,"A"],
+                                        ["B",0 ]],
+                                        dtype=object)
+
+        self.threeByThreeMatrix = np.array( [[ 0, "A", 0],
+                                             ["B", 0, "C"],
+                                             [ 0,  0,  0]],
+                                            dtype=object)
+        
+        self.fourByFourMatrix = np.array(   [[ 0, "A", 0, 0],
+                                             ["B", 0, "C",0],
+                                             [ 0, "D", 0, 0],
+                                             [ 0,  0,  0, 0]],
+                                            dtype=object)
+        
+        self.sixBySixMatrix = np.array( [[ 0, "A", 0,  0,  0,  0 ],
+                                         [ 0,  0, "F","B","D", 0 ],
+                                         [ 0,  0, "B", 0, "E","C"],
+                                         [ 0, "C", 0, "D","D", 0 ],
+                                         [ 0,  0,  0,  0,  0,  0 ],
+                                         ["A", 0,  0,  0,  0,  0 ]],
+                                        dtype=object)
+    def tearDown(self) -> None:
+        del self.CM
+        del self.trivialMatrix
+        del self.twoByTwoMatrix
+        del self.threeByThreeMatrix
+        del self.fourByFourMatrix
+        del self.sixBySixMatrix
+
+    def test_trivial_matrix_baseCase_success(self):
+
+        matrix = self.trivialMatrix
+        toFind = ["A"]
+        northTerm = "A"
+        westTerm = "A"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertTrue(match)
+
+    def test_trivial_matrix_baseCase_failure(self):
+
+        matrix = self.trivialMatrix
+        toFind = ["B"]
+        northTerm = "A"
+        eastTerm = "A"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, eastTerm, direction="northSouth")
+        
+        self.assertFalse(match)
+
+    def test_twoByTwo_matrix_Success(self):
+        print("\n=== 2 x 2 SUCCESS ===\n")
+
+        matrix = self.twoByTwoMatrix
+        toFind = ["A","B"]
+        northTerm = "A"
+        westTerm = "B"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertTrue(match)
+        print ("\n = = = = = = = = = \n")
+
+    def test_twoByTwo_matrix_failure(self):
+        print ("\n = = = = = = = = = \n")
+
+
+        matrix = self.twoByTwoMatrix
+        toFind = ["A","B"]
+        northTerm = "B"
+        westTerm = "A"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertFalse(match)
+
+
+    def test_threeByThree_matrix_Success(self):
+        matrix = self.threeByThreeMatrix
+        toFind = ["A","C"]
+        northTerm = "A"
+        westTerm = "A"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertTrue(match)
+
+    def test_fourByFour_matrix_Success(self):
+        print("\n=== 4 x 4 SUCCESS ===\n")
+        matrix = self.fourByFourMatrix
+        toFind = ["D","C"]
+        northTerm = "C"
+        westTerm = "D"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertTrue(match)
+
+
+    def test_fourByFour_matrix_Fail(self):
+        print ("\n = = = = = = = = = \n")
+
+        matrix = self.fourByFourMatrix
+        toFind = ["D","C"]
+        northTerm = "D"
+        westTerm = "C"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertFalse(match)
+
+    def test_sixBySix_matrix_Success(self):
+        print("\n=== 6 x 6 SUCCESS ===\n")
+        matrix = self.sixBySixMatrix
+        toFind = ["A","C","F","B","D"]
+        northTerm = "A"
+        westTerm = "C"
+
+        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        
+        self.assertTrue(match)
+
+
+    ### Test the ability to get the new edge term
+
+class test_get_terms(unittest.TestCase):
+
+    def setUp(self):
+        self.CM = ConceptMapper()
+
+        self.trivialMatrix = np.array([["A"]],
+                                     dtype=object)
+
+        self.twoByTwoMatrix = np.array( [[ 0,"A"],
+                                        ["B",0 ]],
+                                        dtype=object)
+
+        self.threeByThreeMatrix = np.array( [[ 0, "A", 0],
+                                             ["B", 0, "C"],
+                                             [ 0,  0,  0]],
+                                            dtype=object)
+        
+        self.fourByFourMatrix = np.array(   [[ 0, "A", 0, 0],
+                                             ["B", 0, "C",0],
+                                             [ 0, "D",  0,0],
+                                             [ 0,  0,  0, 0]],
+                                            dtype=object)
+        
+        self.sixBySixMatrix = np.array( [[ 0, "A", 0,  0,  0,  0 ],
+                                         [ 0,  0, "F","B","D", 0 ],
+                                         [ 0,  0, "B", 0, "E","C"],
+                                         [ 0, "C", 0, "D","D", 0 ],
+                                         [ 0,  0,  0,  0,  0,  0 ],
+                                         ["A", 0,  0,  0,  0,  0 ]],
+                                        dtype=object)
+    def tearDown(self) -> None:
+        del self.CM
+        del self.trivialMatrix
+        del self.twoByTwoMatrix
+        del self.threeByThreeMatrix
+        del self.fourByFourMatrix
+        del self.sixBySixMatrix
+    
+    def test_getSouthernTerm(self):
+        matrix = self.threeByThreeMatrix
+        searchTerms = ["A","B"]
+
+        northTerm, westTerm = self.CM.getNewTerms(matrix, searchTerms)
+
+        self.assertEqual(northTerm,"A")
+        self.assertEqual(westTerm,"B")
+
 
 
 def suite_direction_locations():
@@ -216,11 +398,28 @@ def suite_direction_locations():
     suite.addTest(test_single_direction_relations('test_multiDirection_southEastOf'))
     suite.addTest(test_single_direction_relations('test_noDirection'))
     suite.addTest(test_single_direction_relations('test_twoSearchTerms_succeess'))
+    return suite
 
-    #suite.addTest(test_single_direction_relations('test_singleDirection_southOf_originFirst'))
-    #suite.addTest(test_single_direction_relations('test_singleDirection_southOf_destinationFirst'))
-    #suite.addTest(test_single_direction_relations('test_singleDirection_northOf_originFirst'))
-    #suite.addTest(test_single_direction_relations('test_singleDirection_northOf_destinationFirst'))
+def suite_recursive_grid_search():
+    print("\n\n===== Testing Recursive Grid Search =====\n")
+    suite = unittest.TestSuite()
+    suite.addTest(test_recursive_grid_search('test_trivial_matrix_baseCase_success'))
+    suite.addTest(test_recursive_grid_search("test_trivial_matrix_baseCase_failure"))
+    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_failure"))
+    suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
+
+    suite.addTest(test_recursive_grid_search('test_fourByFour_matrix_Fail'))
+    return suite
+
+def suite_get_terms():
+    print("\n\n===== Testing Getting Boundary Terms =====\n")
+    suite = unittest.TestSuite()
+    suite.addTest(test_get_terms('test_getSouthernTerm'))
+    return suite
+
 
     #Multi Direction Locations
 
@@ -228,4 +427,6 @@ def suite_direction_locations():
 
 if __name__ == '__main__':
     runner = unittest.TextTestRunner()
-    runner.run(suite_direction_locations())
+    #runner.run(suite_direction_locations())
+    runner.run(suite_get_terms())
+    runner.run(suite_recursive_grid_search())
