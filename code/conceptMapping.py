@@ -121,16 +121,14 @@ class ConceptMapper():
         
 
         
-    #def searchMatrix(self, matrix, toFind: list, northTerm: str, westTerm: str, direction: str):
-    def searchMatrix(self, matrix: np.array, searchMatrix:np.array, direction: str):
+    def searchMatrix(self, matrix, toFind: list, direction:str="northToSouth"):
+    #def searchMatrix(self, matrix: np.array, searchMatrix:np.array, direction: str):
         '''
         searches a location for the relative relationships between its objects; an approximation to return ANY matching cofiguration of objects matching the search query
         INPUT ARGS:
             matrix  - a numpy matrix / array of arrays of form [[EW List],[EW List]]. i.e. Outer array is the grid from N to S, inner lists are the objects W to E in each row. Defines the Object locations. 
-            toFind - list of strings - a list of the objects not yet found by or search. 
-            northTerm - string - the known northern most object in the searchTerms
-            westTerm - string -the known western most object in the searchTerms
-            direction - string with premissible values "northSouth" and "westEast" - defines the orientation of the pruning (northSouth means it prunes Rows, eastWest means it prunes Columns)
+            toFind - list of strings - a list of the objects ordered by "Most north, most west, most north, most west etc...
+            direction - string with premissible values "northToSouth" and "westToEast" - defines the orientation of the pruning (northSouth means it prunes Rows, eastWest means it prunes Columns)
         PROCESS:
             Recursively prunes the searchSpace of the matrix to determine if a matching collection of objects exists:
             BASE CASE: 
@@ -147,14 +145,23 @@ class ConceptMapper():
         
         print("\nITERATING in the ", direction, "direction")
         print("Search terms", toFind)
-        print("NORTH:", northTerm, "WEST:", westTerm)
         print("Matrix:\n\n",matrix)
+
+        if direction not in ["northToSouth", "westToEast"]:
+            exit(direction,"is not a valid search direction")
 
         #baseCase:
             #The last remaining object is in the matrix; or not 
 
-        if len(matrix) == 0:
-           return True
+        if len(matrix) == 1:
+            try:
+                if len(matrix[0]) ==1:
+                    if matrix[0][0] == toFind[0]:
+                        return True
+                    else:
+                        return False
+            except IndexError:
+                pass
 
         if len(toFind) == 1:                                                        #Base Case; exhaustive search of pruned matrix. 
             print("Base Case")
@@ -167,11 +174,13 @@ class ConceptMapper():
             print("Not base case")
             found = False
             
-            if direction == "northSouth":                                           #Prune everything north of the north most query term. 
+            if direction == "northToSouth":                                           #Prune everything north of the north most query term. 
+                print("going N to S looking for", toFind[0])
                 for i in range(0, len(matrix)):                                         #Walk north to south through the matrix to figure out where to prune from. 
+                    print("got to row", i)
                     for j in range(0,len(matrix[i]),1):
-                        print("INDEX NS:", matrix[i][j])
-                        if matrix[i][j] == northTerm:
+                        print('got to column', j)
+                        if matrix[i][j] == toFind[0]:
                             found = True
                             northMostIndex = i
                             break
@@ -183,40 +192,36 @@ class ConceptMapper():
                 if found ==False:
                     return False
                 #print(northMostIndex)
-                newMatrix = matrix[northMostIndex+1:,:].copy()                        #make a copy of the matrix to recurse on
+                newMatrix = matrix[northMostIndex:,:].copy()                        #make a copy of the matrix to recurse on
                 
-                toFind.remove(northTerm)                                            #update the list of search terms
-                newNorth = self.getNewTerms(newMatrix,toFind,"northSouth")
-                newWest = westTerm
-               
-                #if newNorth is not None:                                            #Reurse unless there is an error that won't let us. 
-                return self.searchMatrix(newMatrix, toFind, newNorth, newWest, "westEast")
+                toFind.pop(0)                                            #update the list of search terms               
+                return self.searchMatrix(newMatrix, toFind, "westToEast")
                 #else:
                 #    return False
 
 
             else:
+                print("going W to E", "looking for ", toFind[0])
                 found = False
-                for i in range(0,len(matrix), 1):                                   #Walk west to East through matrix to prune everything west of the west most query term
-                    for northToSouth in matrix:
-                        if northToSouth[i] == westTerm:
-                            print("INDEX EW:", northToSouth[i])
+                for i in range(0,len(matrix)):                                   #Walk west to East through matrix to prune everything west of the west most query term
+                    print("got to row", i)
+                    for j in range(0, len(matrix)):
+                        print("got to column",j)
+                        if matrix[j][i] == toFind[0]:
+                            print("INDEX EW:", matrix[j][i])
                             westMostIndex = i
+                            found=True
                             break
-                        else:
-                            pass
                     if found==True:
                         break
+                    
                 if found == False:
+                    print("returning false")
                     return False
-                newMatrix = matrix[:,westMostIndex+1:].copy()                         #Make a pruned copy to recurse on
+                newMatrix = matrix[:,westMostIndex:].copy()                         #Make a pruned copy to recurse on
                
-                toFind.remove(westTerm)                                             #Update the search list
-                newWest = self.getNewTerms(newMatrix,toFind,"westEast")
-                newNorth = northTerm
-                
-                #if newWest is not None:                                             #Recurse unless we've run out of search terms in the matrix (i.e. we pruned out all viable options)
-                return self.searchMatrix(newMatrix, toFind, newNorth, newWest, "northSouth")
+                toFind.pop(0)                                             #Update the search list                
+                return self.searchMatrix(newMatrix, toFind, "northToSouth")
                 #else:
                 #    return False
 

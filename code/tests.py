@@ -248,23 +248,18 @@ class test_recursive_grid_search(unittest.TestCase):
     def test_trivial_matrix_baseCase_success(self):
 
         matrix = self.trivialMatrix
-        queryMatrix = np.array([["A"]],
-                               dtype=object)
-        #northTerm = "A"
-        #westTerm = "A"
+        searchList = ["A"]
 
-        match = self.CM.searchMatrix(matrix, queryMatrix, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, searchList)
         
         self.assertTrue(match)
 
     def test_trivial_matrix_baseCase_failure(self):
 
         matrix = self.trivialMatrix
-        toFind = ["B"]
-        northTerm = "A"
-        eastTerm = "A"
+        searchList = ["B"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, eastTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, searchList)
         
         self.assertFalse(match)
 
@@ -272,11 +267,9 @@ class test_recursive_grid_search(unittest.TestCase):
         print("\n=== 2 x 2 SUCCESS ===\n")
 
         matrix = self.twoByTwoMatrix
-        toFind = ["A","B"]
-        northTerm = "A"
-        westTerm = "B"
+        searchList = ["A","B"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, searchList)
         
         self.assertTrue(match)
         print ("\n = = = = = = = = = \n")
@@ -286,33 +279,27 @@ class test_recursive_grid_search(unittest.TestCase):
 
 
         matrix = self.twoByTwoMatrix
-        toFind = ["A","B"]
-        northTerm = "B"
-        westTerm = "A"
+        searchList = ["B","A"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, searchList)
         
         self.assertFalse(match)
 
 
     def test_threeByThree_matrix_Success(self):
         matrix = self.threeByThreeMatrix
-        toFind = ["A","C"]
-        northTerm = "A"
-        westTerm = "A"
+        searchList = ["A","C"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, searchList)
         
         self.assertTrue(match)
 
     def test_fourByFour_matrix_Success(self):
         print("\n=== 4 x 4 SUCCESS ===\n")
         matrix = self.fourByFourMatrix
-        toFind = ["D","C"]
-        northTerm = "C"
-        westTerm = "D"
+        toFind = ["C","D"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, toFind)
         
         self.assertTrue(match)
 
@@ -321,11 +308,9 @@ class test_recursive_grid_search(unittest.TestCase):
         print ("\n = = = = = = = = = \n")
 
         matrix = self.fourByFourMatrix
-        toFind = ["D","C"]
-        northTerm = "D"
-        westTerm = "C"
+        toFind = ["C","D"]
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, toFind)
         
         self.assertFalse(match)
 
@@ -333,10 +318,8 @@ class test_recursive_grid_search(unittest.TestCase):
         print("\n=== 6 x 6 SUCCESS ===\n")
         matrix = self.sixBySixMatrix
         toFind = ["A","C","F","B","D"]
-        northTerm = "A"
-        westTerm = "C"
 
-        match = self.CM.searchMatrix(matrix, toFind, northTerm, westTerm, direction="northSouth")
+        match = self.CM.searchMatrix(matrix, toFind)
         
         self.assertTrue(match)
 
@@ -363,11 +346,11 @@ class test_get_terms(unittest.TestCase):
                                              [ 0,  0,  0, 0]]
         
         self.sixBySixMatrix = [[ 0, "A", 0,  0,  0,  0 ],
-                                         [ 0,  0, "F","B","D", 0 ],
-                                         [ 0,  0, "B", 0, "E","C"],
-                                         [ 0, "C", 0, "D","D", 0 ],
-                                         [ 0,  0,  0,  0,  0,  0 ],
-                                         ["A", 0,  0,  0,  0,  0 ]]
+                                [ 0,  0, "F","B","D", 0 ],
+                                [ 0,  0, "B", 0, "E","C"],
+                                [ 0, "C", 0, "D","D", 0 ],
+                                [ 0,  0,  0,  0,  0,  0 ],
+                                ["A", 0,  0,  0,  0,  0 ]]
     def tearDown(self) -> None:
         del self.CM
         del self.trivialMatrix
@@ -444,11 +427,11 @@ def suite_recursive_grid_search():
     suite = unittest.TestSuite()
     suite.addTest(test_recursive_grid_search('test_trivial_matrix_baseCase_success'))
     suite.addTest(test_recursive_grid_search("test_trivial_matrix_baseCase_failure"))
-    #suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_Success"))
-    #suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_failure"))
-    #suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
-    #suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
-    #suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_twoByTwo_matrix_failure"))
+    suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
+    suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
     #suite.addTest(test_recursive_grid_search('test_fourByFour_matrix_Fail'))
     return suite
 
@@ -474,4 +457,4 @@ if __name__ == '__main__':
     runner = unittest.TextTestRunner()
     #runner.run(suite_direction_locations())
     runner.run(suite_get_terms())
-    #runner.run(suite_recursive_grid_search())
+    runner.run(suite_recursive_grid_search())
