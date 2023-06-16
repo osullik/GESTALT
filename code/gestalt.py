@@ -257,4 +257,4 @@ if flags.gestaltSearch == True:
 
 	ii = InvertedIndex(invertedIndexSourceCSV)
 	results = ii.search(searchterms)
-	print(results)
+	print(results)	
