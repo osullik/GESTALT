@@ -11,9 +11,5 @@ OUTPUTFILE="../data/output/dataCollection/objects_flickr"  #note .json extension
 #Activate the venv
 source ../gestalt_env/bin/activate
 
-#Increase the max file limit so that the object detection can run:
-
-ulimit -n 2500
-
 #Run the script
 python3 ../code/gestalt.py -p -if $INPUTFILE -o $OUTPUTFILE
