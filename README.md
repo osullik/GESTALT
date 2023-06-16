@@ -50,7 +50,7 @@ The JSON output of the query will reside in *GESTALT/data/output/dataCollection/
     - [X] Refactor Concept Mapping into its own file
     - [X] Refactor Search into its own file
     - [ ] Refactor visualisation into its own file (i.e. auto-generate graphs). 
-    - [ ] Refactor queryFlickr into the DataCollection file
+    - [X] Refactor queryFlickr into the DataCollection file
 
 - [ ] Dataset
     - [ ] Label the remainder of the Swan Valley Wineries
