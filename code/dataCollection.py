@@ -112,7 +112,8 @@ class TerrainExtractor():
 					object_dict["date"] = str((datetime.fromtimestamp(os.path.getmtime(kmlFileName)).strftime("%d-%m-%y %H:%M:%S"))) # Get the datetime the file was created, convert from unix to DateTime and format it. 
 					object_dict["origin"] = "kml"
 					object_dict["source"] = kmlFileName 					# Source of the object points to the KML file it came from
-					object_dict["class_confidence"] = CLASS_CONFIDENCE
+					object_dict["object_prob"] = CLASS_CONFIDENCE
+					object_dict["assignment_prob"] = 1
 				
 					objects_dict["kml_"+str(objectCount)] = object_dict.copy()
 
@@ -209,7 +210,8 @@ class TerrainExtractor():
 				object_dict["date"] = photos_dict[photo]['photo_date']
 				object_dict["origin"] = "flickr"
 				object_dict["source"] = photos_dict[photo]['URL']
-				object_dict["class_confidence"] = photos_dict[photo]['probabilities'][i]
+				object_dict["object_prob"] = photos_dict[photo]['probabilities'][i]
+				object_dict["assignment_prob"] = 1
 			
 			objects_dict["flickr_"+photo] = object_dict.copy() 									# Add a COPY (hooray for mutability...) of the dictionary to the parent dictionary
 
@@ -341,7 +343,8 @@ class osmQueryEngine():
 					objectDict[objectID]['date'] = datetime.now().strftime("%d-%m-%y %H:%M:%S")				
 				objectDict[objectID]['origin'] = "osm"
 				objectDict[objectID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
-				objectDict[objectID]['class_confidence'] = CLASS_CONFIDENCE
+				objectDict[objectID]['object_prob'] = CLASS_CONFIDENCE
+				objectDict[objectID]['assignment_prob'] = 1
 
 				vocab.add(objectName) 													# Add the term to the vocab
 			objectCount += 1
