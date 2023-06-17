@@ -2,41 +2,54 @@
 \label{section:architecture}
 
 \begin{figure*}[t]
-	\label{fig:architecture}
-	\includesvg[width=\textwidth]{architecture.svg}
-	\centering
-	\caption[width=\textwidth]{The architecture of \textit{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
+    \includesvg[width=\textwidth]{architecture.svg}
+    \centering
+    \caption[width=\textwidth]{The architecture of \emph{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process and the search subsystem.}
+    \label{fig:architecture}
 \end{figure*}
 
-The architecture of \textit{GESTALT} is in Figure \ref{fig:architecture}. It decomposes into four essential functions: data acquisition, ownership assignment, concept mapping and search. 
+The architecture of \textit{GESTALT} is outlined in Figure \ref{fig:architecture}. The components cover four essential functions: data acquisition, ownership assignment, concept mapping and search. 
 
 \subsection{Data Acquisition}
 - summary of the component purpose
+
 - describe inputs and outputs
+
 - describe the transformation
 
 
 \subsection{Ownership Assignment}
 - summary of the component purpose
+
 - describe inputs and outputs
+
 - describe the transformation
+
+The human eye doesn't see invisible lines on a map. Accordingly, the ownership assignment subsystem can be inexact, and objects are 'shared' between locations where appropriate. 
 
 
 \subsection{Concept Mapping}
 - summary of the component purpose
+
 - describe inputs and outputs
+
 - describe the transformation
+
+The search space is then pruned based on user-provided object-object or object-location directional constraints.
+This avoids running the more expensive geospatial query over locations that do not contain the query objects.
 
 
 \subsection{Search}
 - summary of the component purpose
+
 - describe inputs and outputs
+
 - describe the transformation
 
+The search subsystem balances precision in reducing the number of candidate locations with maximizing the recall of possible candidate locations. The recall is prioritized.
+
 \subsection{Summary of Architecture}
-The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 
-The search subsystem needs to balance precision in reducing the number of candidate locations with maximizing the recall of possible candidate locations. The recall is prioritized. 
-The search space should be pruned with set membership checks based on the intuition that there is no point in running an expensive geospatial query over a location that doesn't contain the objects in question. 
-Bloom filter checks are cheap; the human eye doesn't see invisible lines on a map. Accordingly, the ownership assignment subsystem can be inexact, and objects should be 'shared' between locations where appropriate. 
-That location sharing in membership assignments improves the recall of the system. As a corollary, the subsequent spatial search process maintains the system's precision using the concept mappings of objects to extract implicit information about the location. 
-Underlying the search problem requires collecting and processing objects and locations autonomously, at scale. Collecting and processing objects and locations is the first stage explored in section \ref{section:implementation}, implementation. 
+The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to automate the last-mile search problem and allow users to search for locations of interest based on partial information. 
+Achieving this outcome necessitates collecting and processing objects and locations autonomously, at scale.
+Given a large quantity of noisy object tags, \emph{GESTALT} performs fuzzy Object assignment, allowing for objects to be assigned to multiple nearby locations, and thereby improving the recall of the system.
+The subsequent concept mapping and spatial search processes maintain the system's precision using the relative directional relationships between query objects to extract implicit information about the location the user seeks. 
