@@ -323,6 +323,131 @@ class test_recursive_grid_search(unittest.TestCase):
         
         self.assertTrue(match)
 
+    def test_non_monotonic_matrix(self):
+        self.nonMonotonic = np.array([["A", 0,  0,  0,  0 ],
+                                      [ 0, "B", 0, "F", 0], 
+                                      [ 0, "C","D","E", 0], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0,  0,  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([["B", 0, "F"],
+                                ["C","D","E"]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertTrue(result)
+
+    def test_non_monotonic_harder(self):
+        self.nonMonotonic = np.array([["A", 0,  0,  0,  0 ],
+                                      [ 0, "B", 0, "F", 0], 
+                                      [ 0, "C","D","E", 0], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0,  0,  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([["B", 0, "F"],
+                                ["C", 0 ,"E"],
+                                [ 0, "D", 0]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertFalse(result)
+
+    def test_non_monotonic_gaps(self):
+        self.nonMonotonic = np.array([["A", 0,  0,  0,  0 ],
+                                      [ 0, "B", 0, "F", 0], 
+                                      [ 0, "C","D","E", 0], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0,  0,  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([["B", 0, 0, 0,"F"],
+                                [ 0 , 0, 0, 0, 0 ],
+                                ["C", 0,"D",0,"E"],
+                                [ 0 , 0, 0, 0, 0 ],
+                                [ 0 , 0, 0, 0, 0 ]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertTrue(result)
+
+    def test_non_monotonic_Overlap(self):
+        self.nonMonotonic = np.array([["A", 0, "B", 0, "F"],
+                                      [ 0,  0, "C","D","E"],
+                                      [ 0, "B", 0, "F", 0 ], 
+                                      [ 0, "C","D","E", 0 ], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0,  0,  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([["B", 0, 0, 0,"F"],
+                                [ 0 , 0, 0, 0, 0 ],
+                                ["C", 0,"D",0,"E"],
+                                [ 0 , 0, 0, 0, 0 ],
+                                [ 0 , 0, 0, 0, 0 ]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertTrue(result)
+
+    def test_non_monotonic_noTiesInQuery(self):
+        self.nonMonotonic = np.array([["A", 0, "B", 0, "F"],
+                                      [ 0,  0, "C","D","E"],
+                                      [ 0, "B", 0, "F", 0 ], 
+                                      [ 0, "C","D","E", 0 ], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0,  0,  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([[ 0 , 0, 0, 0,"F"],
+                                [ 0 , 0, 0,"D",0 ],
+                                [ 0 , 0,"D",0, 0 ],
+                                [ 0 , 0, 0, 0, 0 ],
+                                [ 0 , 0, 0, 0, 0 ]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertTrue(result)
+
+    def test_non_monotonic_NoTiesInSearchSpace(self):
+        self.nonMonotonic = np.array([["A", 0,  0,  0,  0 ],
+                                      [ 0,  0,  0,  0, "E"],
+                                      [ 0, "B", 0,  0,  0 ], 
+                                      [ 0,  0 ,"D", 0,  0 ], 
+                                      [ 0,  0,  0,  0,  0,],
+                                      [ 0,  0,  0, "A",  0]],
+                                      dtype=object)
+        
+        queryMatrix = np.array([["B","E"],
+                                ["D", 0 ]],
+                                dtype=object)
+        
+        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        result = self.CM.searchMatrix(self.nonMonotonic,queryList)
+
+        self.assertFalse(result)
+
+
+
+
+
 
     ### Test the ability to get the new edge term
 
@@ -432,7 +557,12 @@ def suite_recursive_grid_search():
     suite.addTest(test_recursive_grid_search("test_threeByThree_matrix_Success"))
     suite.addTest(test_recursive_grid_search("test_fourByFour_matrix_Success"))
     suite.addTest(test_recursive_grid_search("test_sixBySix_matrix_Success"))
-    #suite.addTest(test_recursive_grid_search('test_fourByFour_matrix_Fail'))
+    suite.addTest(test_recursive_grid_search('test_non_monotonic_matrix'))
+    suite.addTest(test_recursive_grid_search("test_non_monotonic_harder"))
+    suite.addTest(test_recursive_grid_search("test_non_monotonic_gaps"))
+    suite.addTest(test_recursive_grid_search("test_non_monotonic_Overlap"))
+    suite.addTest(test_recursive_grid_search("test_non_monotonic_noTiesInQuery"))
+    suite.addTest(test_recursive_grid_search("test_non_monotonic_NoTiesInSearchSpace"))
     return suite
 
 def suite_get_terms():

@@ -88,7 +88,8 @@ class ConceptMapper():
        
         print("\n\n===========================\n")
         searchList = []
-        print("Query Matrix is:\n", queryMatrix)
+        print("Query Matrix is:")
+        print(queryMatrix)
 
         if len(queryMatrix) == 1:
             try:
@@ -175,11 +176,11 @@ class ConceptMapper():
             found = False
             
             if direction == "northToSouth":                                           #Prune everything north of the north most query term. 
-                print("going N to S looking for", toFind[0])
+                #print("going N to S looking for", toFind[0])
                 for i in range(0, len(matrix)):                                         #Walk north to south through the matrix to figure out where to prune from. 
-                    print("got to row", i)
+                    #print("got to row", i)
                     for j in range(0,len(matrix[i]),1):
-                        print('got to column', j)
+                        #print('got to column', j)
                         if matrix[i][j] == toFind[0]:
                             found = True
                             northMostIndex = i
@@ -204,11 +205,11 @@ class ConceptMapper():
                 print("going W to E", "looking for ", toFind[0])
                 found = False
                 for i in range(0,len(matrix)):                                   #Walk west to East through matrix to prune everything west of the west most query term
-                    print("got to row", i)
+                    #print("got to row", i)
                     for j in range(0, len(matrix)):
-                        print("got to column",j)
+                       #print("got to column",j)
                         if matrix[j][i] == toFind[0]:
-                            print("INDEX EW:", matrix[j][i])
+                            #print("INDEX EW:", matrix[j][i])
                             westMostIndex = i
                             found=True
                             break
@@ -216,7 +217,7 @@ class ConceptMapper():
                         break
                     
                 if found == False:
-                    print("returning false")
+                    #print("returning false")
                     return False
                 newMatrix = matrix[:,westMostIndex:].copy()                         #Make a pruned copy to recurse on
                
@@ -224,5 +225,15 @@ class ConceptMapper():
                 return self.searchMatrix(newMatrix, toFind, "northToSouth")
                 #else:
                 #    return False
+
+    def createConceptMap():
+
+        # Get a data structure (DF?) for a location that contains its objects, their names, their lats and their longs
+        # sort into two lists, one by long (west to east), one by lat, North to South
+        # use the indexes of objects construct a grid, inserting their name as Grid[longIndex][latIndex]
+        # Returns the grid 
+
+        pass
+
 
         
