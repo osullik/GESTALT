@@ -228,11 +228,19 @@ class ConceptMapper():
                 #    return False
 
     def createConceptMap(self, inputFile:str):
-
-        # Get a data structure (DF?) for a location that contains its objects, their names, their lats and their longs
-        # sort into two lists, one by long (west to east), one by lat, North to South
-        # use the indexes of objects construct a grid, inserting their name as Grid[longIndex][latIndex]
-        # Returns the grid 
+        '''
+        Function to create the 'concept map' of relative object positions in a grid, for querying by the concept mapper
+        INPUT ARGS:
+            inputFile - string - the path to a file containing the object assignments to be used to create the grids. 
+        PROCESS: 
+            # Get a data DF? for a location that contains its objects, their names, their lats and their longs
+            # sort into two lists, one by long (west to east), one by lat, North to South
+            # use the indexes of objects construct a grid, inserting their name as Grid[longIndex][latIndex]
+            # Returns the grid 
+        OUTPUT:
+            toReturn - grid of Matricies (numpy array of numpy object arrays, 
+                        with 0s representing empty space and object Names reprsenting their object type)
+        '''
 
         #Read in File
         sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
@@ -244,61 +252,46 @@ class ConceptMapper():
         #Create dict of dataframes, indexed on their location
         for loc in loc_names:
             location_dict[loc] = sourceData_df[sourceData_df['predicted_location'] == loc]
-        #for loation in location_dict:
-        #    print(type(location_dict[loation]))
 
         locations = list(location_dict.keys())
-        #print(location_dict[locations[0]])
 
-        toReturn = {}
-        #print(location_dict.keys())
+        toReturn = {}                                   # Dict to hold the concept maps for each location
+
         for location in locations:
             location_df = location_dict[location]
 
-            location_df.sort_values(by=['longitude'], inplace=True) #Values higher than 0 are further east
-
-            #print(location_df)
-
-
-            #TODO: Handle Case where longitude are neg, and there is a mix of neg and pos 
-                #Case all neg
-                #Case one neg one pos
+            location_df.sort_values(by=['longitude'], 
+                                    inplace=True)        #Values higher than 0 are further east
             
-            #Case all pos
+
+            # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
+            
+            #Case longitude all pos (East Hemisphere)
             longitudeOrder = []
             for idx, row in location_df.iterrows():
                 longitudeOrder.append(idx)
 
-            #Latitude Order
-                #TODO: Handle Case where latitude are pos, and there is a mix of neg and pos 
-                #Case all pos
-            
-                #Case one neg one pos
-
-            #Case all neg
-            location_df.sort_values(by=['latitude'], ascending=False, inplace=True) # The closer to 0, the further North negative latitude is
+            #Case latitide all neg (Southern Hemisphere)
+            location_df.sort_values(by=['latitude'], 
+                                    ascending=False, 
+                                    inplace=True)           # The closer to 0, the further North negative latitude is
             latitudeOrder = []
             for idx, row in location_df.iterrows():   
                 latitudeOrder.append(idx)
 
-            #print(location_df)
-
-            #print("LongList:", longitudeOrder)
-            #print("LatList:", latitudeOrder)
-
-
+            #Create a grid full of zeros of the dimension numObjects x numObjects
             gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
 
+            #Using the lat and long lists, work out what index of the matrix the object belong at & add it
             for i in range(0,len(longitudeOrder)):
                 j = latitudeOrder.index(longitudeOrder[i])
-                #print("I and J are:",i,j)
-                #print(longitudeOrder[i])
-                #print(location_df)
                 gridToReturn[i][j] = sourceData_df.loc[int(longitudeOrder[i])]['name']
 
+            #Show your work
             print(location)
             print(gridToReturn)
 
+            #Add to the dict that will store it all 
             toReturn[location] = gridToReturn
 
         return toReturn
