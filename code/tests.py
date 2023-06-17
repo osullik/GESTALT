@@ -533,6 +533,18 @@ class test_get_terms(unittest.TestCase):
         searchList = self.CM.getSearchOrder(inputMatrix)
         self.assertEqual(searchList,["A","B"])
 
+class test_get_grid(unittest.TestCase):
+
+    def setUp(self):
+        self.CM = ConceptMapper()
+        
+    def tearDown(self) -> None:
+        del self.CM
+
+    def test_run_debug(self):
+        inputFile = "../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv"
+        self.CM.createConceptMap(inputFile)
+
 
 
 
@@ -578,6 +590,13 @@ def suite_get_terms():
 
     return suite
 
+def suite_get_grid():
+    print("\n\n===== Testing Assigning locations to grids =====\n")
+    suite = unittest.TestSuite()
+    suite.addTest(test_get_grid('test_run_debug'))
+
+
+    return suite
 
     #Multi Direction Locations
 
@@ -586,5 +605,7 @@ def suite_get_terms():
 if __name__ == '__main__':
     runner = unittest.TextTestRunner()
     #runner.run(suite_direction_locations())
-    runner.run(suite_get_terms())
-    runner.run(suite_recursive_grid_search())
+    #runner.run(suite_get_terms())
+    #runner.run(suite_recursive_grid_search())
+    runner.run(suite_get_grid())
+

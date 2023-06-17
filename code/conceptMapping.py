@@ -4,6 +4,7 @@
 
 #Library Imports
 import numpy as np
+import pandas as pd
 
 #User Imports
 
@@ -226,14 +227,78 @@ class ConceptMapper():
                 #else:
                 #    return False
 
-    def createConceptMap():
+    def createConceptMap(self, inputFile:str):
 
         # Get a data structure (DF?) for a location that contains its objects, their names, their lats and their longs
         # sort into two lists, one by long (west to east), one by lat, North to South
         # use the indexes of objects construct a grid, inserting their name as Grid[longIndex][latIndex]
         # Returns the grid 
 
-        pass
+        #Read in File
+        sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
 
-
+        #Prepare vars
+        loc_names = sourceData_df['predicted_location'].unique()
+        location_dict = dict()
         
+        #Create dict of dataframes, indexed on their location
+        for loc in loc_names:
+            location_dict[loc] = sourceData_df[sourceData_df['predicted_location'] == loc]
+        #for loation in location_dict:
+        #    print(type(location_dict[loation]))
+
+        locations = list(location_dict.keys())
+        #print(location_dict[locations[0]])
+
+        toReturn = {}
+        #print(location_dict.keys())
+        for location in locations:
+            location_df = location_dict[location]
+
+            location_df.sort_values(by=['longitude'], inplace=True) #Values higher than 0 are further east
+
+            #print(location_df)
+
+
+            #TODO: Handle Case where longitude are neg, and there is a mix of neg and pos 
+                #Case all neg
+                #Case one neg one pos
+            
+            #Case all pos
+            longitudeOrder = []
+            for idx, row in location_df.iterrows():
+                longitudeOrder.append(idx)
+
+            #Latitude Order
+                #TODO: Handle Case where latitude are pos, and there is a mix of neg and pos 
+                #Case all pos
+            
+                #Case one neg one pos
+
+            #Case all neg
+            location_df.sort_values(by=['latitude'], ascending=False, inplace=True) # The closer to 0, the further North negative latitude is
+            latitudeOrder = []
+            for idx, row in location_df.iterrows():   
+                latitudeOrder.append(idx)
+
+            #print(location_df)
+
+            #print("LongList:", longitudeOrder)
+            #print("LatList:", latitudeOrder)
+
+
+            gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
+
+            for i in range(0,len(longitudeOrder)):
+                j = latitudeOrder.index(longitudeOrder[i])
+                #print("I and J are:",i,j)
+                #print(longitudeOrder[i])
+                #print(location_df)
+                gridToReturn[i][j] = sourceData_df.loc[int(longitudeOrder[i])]['name']
+
+            print(location)
+            print(gridToReturn)
+
+            toReturn[location] = gridToReturn
+
+        return toReturn
