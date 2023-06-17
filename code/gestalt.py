@@ -8,6 +8,7 @@ import argparse, json, sys, os
 
 from dataCollection import TerrainExtractor, osmQueryEngine, PhotoDownloader
 from ownershipAssignment import OwnershipAssigner
+from conceptMapping import ConceptMapper
 from search import InvertedIndex
 
 
@@ -102,6 +103,12 @@ if __name__ == "__main__":
 	
 	argparser.add_argument(	"-pd", "--photoDownloader", 							
 							help="Mode to download files from flickr",
+							action="store_true",
+							default=False,
+							required=False)	
+	
+	argparser.add_argument(	"-ccm", "--createConceptMaps", 							
+							help="Create concept maps based on the predicted locations",
 							action="store_true",
 							default=False,
 							required=False)	
@@ -272,6 +279,26 @@ if flags.photoDownloader == True:
 		out.write(output)
 
 	exit()
+
+if flags.createConceptMaps==True: 
+	predictedLocationsCSV = flags.inputFile
+	outputDirectory = flags.outputDirectory
+	CM = ConceptMapper()
+	conceptMaps = CM.createConceptMap(predictedLocationsCSV)
+	predictedLocationsCSV = predictedLocationsCSV.split("/")[-1]
+	predictedLocationsCSV = predictedLocationsCSV.split(".")[0]
+
+	outputFile = outputDirectory+"/ConceptMaps_"+predictedLocationsCSV+".json"
+	
+	try:
+		os.makedirs(outputDirectory)
+	except FileExistsError:
+		pass
+	with open(outputFile,"w") as out:
+		toSave = json.dumps(conceptMaps,indent=4)
+		out.write(toSave)
+
+
 
 
 if flags.gestaltSearch == True: 
