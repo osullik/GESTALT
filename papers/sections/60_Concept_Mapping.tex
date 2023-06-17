@@ -60,3 +60,16 @@ Overall, concept mapping aims to enable geographic search over objects by explic
 %KD-Trees for the objects in each location have been implemented, as have the KD-Trees for the locations themselves. 
 %This conceptual KD-Tree of KD-Trees approach performs a natural aggregation function which, provided that regions are created consistently, will allow for relative spatial queries at different levels of granularity. 
 %Empirical evaluation of the performance of the arithmetic, KD-Tree and Graph-based approaches is yet to be completed. 
+
+
+
+%%%%%%%%%%%%%%%NSCH clean up, incorporate, and delete the text below this point
+Concept mapping is the process of determining the geospatial relations between objects. Much information is implicit in the relative positioning of objects within a location. For \textit{GESTALT}, there are three types of relations. 
+The first is \textit{Static Cardinal Relations} which encodes whether an object is North, South, East or West of a location. Static Cardinal Relations support simple queries where the user knows that a location has a lake on its western side. 
+The second is \textit{Dynamic Cardinal Relations} which determines whether an object is North, South, East or West of another object within a location. These queries support cases where a searcher might remember standing at a lake northeast of a location and that there was a swingset to the immediate west of them but still in the northeast of the location overall. 
+The third are \textit{Positional Relations} which are applied to the two other types to enable reasoning about objects that are left, right, up, down, beside, behind etc., other objects. 
+Positional relation use will be extensive because few humans think in cardinal directions, and most spatial reasoning is conducted from the person's perspective. 
+Positional Relations enable users to query for locations where there is a letterbox on the left of the driveway as you enter the driveway while the house is in front of you. 
+
+Concept mapping needs to be unsupervised and support aggregation. Tracking every object's relative location to every other object quickly becomes intractable, so mechanisms to aggregate depending on the level of granularity need to be applied. 
+Accordingly, the underlying data structure must support aggregation and relative position querying. 

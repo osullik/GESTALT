@@ -11,90 +11,27 @@
 The architecture of \textit{GESTALT} is in Figure \ref{fig:architecture}. It decomposes into four essential functions: data acquisition, ownership assignment, concept mapping and search. 
 
 \subsection{Data Acquisition}
-The data acquisition component of \textit{GESTALT} begins with a visual encoding of the world. 
-The visual encoding is primarily remote sensing imagery providing a top-down view of the earth's surface, but it also includes street-view imagery and other photographs. 
-The system collects two types of information from this imagery, \textit{locations} and \textit{objects}. 
-These two information types are discussed in section \ref{section:datasets}. 
-Briefly recapping, objects are any physical thing in the world, and locations are the specific uses of a place that usually contains collections of objects. 
-
-The vision for a mature data collection system enables the autonomous collection of location and object data. 
-The collection system will source location data from open-access systems like OSM and relies on crowd-sourced information. 
-Businesses, attractions and other higher-level 'locations' are likely to be annotated by the open-source community or business owners themselves. 
-Objects, the core of \textit{GESTALT}, are much less likely to be annotated. Few people have the patience to manually tag the geolocation of apparently inconsequential things like trees, statues, fountains and telegraph poles. 
-An automated solution aims to leverage publicly available remote sensing imagery data (Bing Maps Satellite data, for example) and public streetview and photo contributions to automatically identify objects, geo-locate them and add those tags to a database. 
-
-The design for this subsystem breaks maps into small geographically-bounded chunks (approximately the size of a 'location'). 
-It will use remote-sensing imagery to create a grid of objects / not-object. It will retrieve ground-level imagery within and adjacent to that box.
-The first challenge is classifying an image as 'indoors' (where no objects will be visible from RSI and the closest building will 'own' it) or 'outdoors', where objects can map to the RSI. Numerous approaches exist to the indoor/outdoor scene classification \cite{Tong2017}. 
-Each object in an outdoor photo's distance from the camera geolocation will be estimated using a myriad of depth estimation techniques \cite{Ming2021,Liu2020}. 
-Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
-As discussed in the following sub-section, some errors are permissible here and being 'close enough' is good enough as a starting point for the following systems. 
-
-
-
-
-
-The data extraction, cleaning and loading are implemented in Python in two parts, the \textit{KML parser} for object extraction and the \textit{Open Street Maps} query interface for location retrieval. 
-The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
-Within each region (for this test dataset), each location is separated, with its objects stored as its children. 
-Attributes of the objects (e.g. colour, size, material) are recorded in the comments field as key:value pairs.
-The KML Parser extracts the objects into dictionaries organised by location before exporting the files as JSON for future analysis. 
-
-The OSM query interface leverages the \textit{OSMPythonTools}\footnote{\href{https://pypi.org/project/OSMPythonTools/}{OSMPythonTools PyPI Repo}}. It passes a bounding box to the OSM Overpass-Turbo API\footnote{\href{https://overpass-turbo.eu/}{Overpass-Turbo API}} and requests the relevant location nodes in the area. 
-The results are arranged into a dictionary and exported as JSON for further analysis.
+- summary of the component purpose
+- describe inputs and outputs
+- describe the transformation
 
 
 \subsection{Ownership Assignment}
-Ownership assignment is the unsupervised process through which objects are associated with locations. 
-Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work, they need to know which objects belong to each location.
-For example, assuming two adjacent wineries, a fountain between them would be west of one but east of the other. The mapping will be incorrect unless it is clear which winery it belongs to. 
-Similarly, for search, the underlying idea for \textit{GESTALT} is that people will remember particular objects at locations and use them as clues to find them again. Without an accurate object-to-location assignment, the search functionality will not work. 
-The ownership assignment process needs to be unsupervised to enable scaling. Aspirationally, \textit{GESTALT} will index the world's objects to allow searchers to find any location with \textit{GESTALT}. Processing a world's worth of data necessitates an unsupervised approach. 
+- summary of the component purpose
+- describe inputs and outputs
+- describe the transformation
 
-The Ownership Assignment process accepts two inputs, a collection of locations with their coordinates and a collection of objects with their coordinates. 
-The process works to assign each object to its parent location. 
-The process ends when objects are mapped to their parent locations. Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
-There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
-This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects. 
 
 \subsection{Concept Mapping}
-Concept mapping is the process of determining the geospatial relations between objects. Much information is implicit in the relative positioning of objects within a location. For \textit{GESTALT}, there are three types of relations. 
-The first is \textit{Static Cardinal Relations} which encodes whether an object is North, South, East or West of a location. Static Cardinal Relations support simple queries where the user knows that a location has a lake on its western side. 
-The second is \textit{Dynamic Cardinal Relations} which determines whether an object is North, South, East or West of another object within a location. These queries support cases where a searcher might remember standing at a lake northeast of a location and that there was a swingset to the immediate west of them but still in the northeast of the location overall. 
-The third are \textit{Positional Relations} which are applied to the two other types to enable reasoning about objects that are left, right, up, down, beside, behind etc., other objects. 
-Positional relation use will be extensive because few humans think in cardinal directions, and most spatial reasoning is conducted from the person's perspective. 
-Positional Relations enable users to query for locations where there is a letterbox on the left of the driveway as you enter the driveway while the house is in front of you. 
+- summary of the component purpose
+- describe inputs and outputs
+- describe the transformation
 
-Concept mapping needs to be unsupervised and support aggregation. Tracking every object's relative location to every other object quickly becomes intractable, so mechanisms to aggregate depending on the level of granularity need to be applied. 
-Accordingly, the underlying data structure must support aggregation and relative position querying. 
 
 \subsection{Search}
-The core function of \textit{GESTALT} is searching. The search function assumes that the searcher only has partial information about a location. 
-There are two elements of partial information. First is a general idea of the region in which the location occurs. Here region means the area surrounding a location. 
-For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley region of Western Australia. A region could be an administrative boundary like a city, suburb, or general geographic area. 
-Either way, we assume that the searcher can prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
-The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, color etc). 
-
-The search problem can then be framed in several ways. 
-A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set. Bloom Filters are the obvious choice of data structure to support this search method. 
-A limitation of using bloom filters is that if the user has little information to discriminate locations, almost any location will satisfy a query. 
-For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. Searching for 'tree' might yield nothing, but searching for '30 trees' would considerably prune the result.
-
-The second approach to search incorporates the concept of mapping and becomes a spatial search with a specific method depending on the objects' underlying data structure. 
-The general case is as follows: Given a set of locations with geospatial mappings of their child objects and a subset of those geospatial mappings of child objects which location does that subset match? 
-If using a graph structure, each location's objects become a graph where the objects are nodes and the geospatial relations are edges encoding the spatial relations (e.g. west of, north of). It is a subgraph matching problem, which is, of course, NP-Complete. 
-Alternately, representing each location's objects as a KD-Tree rooted on the centroid of the object cluster would allow for dynamic searching. For example, assuming an initial split on the longitude of objects, we could immediately tell that all objects in the left subtree would be west of that root. 
-For either of these geospatial approaches, a translation layer from the positional relational to cardinal relational will need to occur.
-
-Regardless of the formulation of the search problem, there is a clear requirement for semantic search across objects. For simple spelling variations (e.g. 'colour' in the King's Australian English versus 'color' in American English), a string distance metric like \textit{Levenshtein} distance would suffice. 
-But a richer semantic search is required for more pronounced linguistic variations like 'water fountain' versus 'drinking fountain' versus 'bubbler'. 
-The first option to reduce the likelihood of inconsistently named objects is to enforce compliance with the Open Street Maps ontology, which is an extensive definition of locations, objects and their descriptions. 
-While adherence to the ontology enforces internal consistency, it does not overcome the issue of a user searching with unknown terms. 
-A straightforward option could be to use the vector embedding of a word as a starting point and use the k-nearest words in vector space as alternate search terms. 
-It is unlikely that this will significantly impact the false positive rate once an appropriate similarity threshold is set but may increase the system's overall recall. 
-A more complicated approach could leverage an external semantic data source like DBPedia or WikiData, or even WordNet to search for semantically similar terms to substitute in the search. 
-
-The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
+- summary of the component purpose
+- describe inputs and outputs
+- describe the transformation
 
 \subsection{Summary of Architecture}
 The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 

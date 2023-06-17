@@ -34,3 +34,33 @@
 %The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.
 
 The worst case complexity is for a search of N object terms where every object category is mapped to every location L. In that case we have to do N lookups to pull N sets of size L and intersect them. Realistically this would not happen and some object classes would be very discriminative and we could intersect those first to be more efficient.
+
+
+
+%%%%%%%%%%%%%%%NSCH clean up, incorporate, and delete the text below this point
+The core function of \textit{GESTALT} is searching. The search function assumes that the searcher only has partial information about a location. 
+There are two elements of partial information. First is a general idea of the region in which the location occurs. Here region means the area surrounding a location. 
+For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley region of Western Australia. A region could be an administrative boundary like a city, suburb, or general geographic area. 
+Either way, we assume that the searcher can prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
+The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, color etc). 
+
+The search problem can then be framed in several ways. 
+A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set. Bloom Filters are the obvious choice of data structure to support this search method. 
+A limitation of using bloom filters is that if the user has little information to discriminate locations, almost any location will satisfy a query. 
+For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. Searching for 'tree' might yield nothing, but searching for '30 trees' would considerably prune the result.
+
+The second approach to search incorporates the concept of mapping and becomes a spatial search with a specific method depending on the objects' underlying data structure. 
+The general case is as follows: Given a set of locations with geospatial mappings of their child objects and a subset of those geospatial mappings of child objects which location does that subset match? 
+If using a graph structure, each location's objects become a graph where the objects are nodes and the geospatial relations are edges encoding the spatial relations (e.g. west of, north of). It is a subgraph matching problem, which is, of course, NP-Complete. 
+Alternately, representing each location's objects as a KD-Tree rooted on the centroid of the object cluster would allow for dynamic searching. For example, assuming an initial split on the longitude of objects, we could immediately tell that all objects in the left subtree would be west of that root. 
+For either of these geospatial approaches, a translation layer from the positional relational to cardinal relational will need to occur.
+
+Regardless of the formulation of the search problem, there is a clear requirement for semantic search across objects. For simple spelling variations (e.g. 'colour' in the King's Australian English versus 'color' in American English), a string distance metric like \textit{Levenshtein} distance would suffice. 
+But a richer semantic search is required for more pronounced linguistic variations like 'water fountain' versus 'drinking fountain' versus 'bubbler'. 
+The first option to reduce the likelihood of inconsistently named objects is to enforce compliance with the Open Street Maps ontology, which is an extensive definition of locations, objects and their descriptions. 
+While adherence to the ontology enforces internal consistency, it does not overcome the issue of a user searching with unknown terms. 
+A straightforward option could be to use the vector embedding of a word as a starting point and use the k-nearest words in vector space as alternate search terms. 
+It is unlikely that this will significantly impact the false positive rate once an appropriate similarity threshold is set but may increase the system's overall recall. 
+A more complicated approach could leverage an external semantic data source like DBPedia or WikiData, or even WordNet to search for semantically similar terms to substitute in the search. 
+
+The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
