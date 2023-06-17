@@ -1,23 +1,62 @@
 \section{Concept Mapping}
 \label{section:concept}
 
-Concept mapping has been partially implemented in Python leveraging the \textit{Scipy} library\footnote{\href{https://pypi.org/project/scipy/}{SciPy PyPI Repo}}. Two different approaches have been trialled. 
-The first is simple dynamic arithmetic on the coordinates stored in a Pandas data frame. If one set of coordinates is above, below, left or right of another, it is north, south, east or west, respectively. 
-While these calculations are in constant time for straightforward comparisons of known objects (e.g. "is the pond west of the bridge"), the time complexity rapidly increases as soon as aggregations are employed. 
-Queries of "Give me everything west of the duck pond" would execute in $O(N)$ time as each element has to be examined. Worst-case queries would run in $O(N\sup{2})$ time, where every object is checked for its position relative to every other object. 
-
-The second (better) approach (only partially implemented) instantiates the objects within a location into a KD-Tree. 
-Assuming that the object centroid is the root, we can quickly complete queries like "Give me everything west of the duck pond" by leveraging the structure of the subtrees to return the requested set. 
-Similarly, getting the relative positions of two objects searches for a common ancestor. It uses the path between the children and their ancestor node to infer their spatial relation to each other.
-
-A third approach, designed to leverage the \textit{Neo4J Python Library}\footnote{\href{https://pypi.org/project/neo4j/}{Neo4J PyPI Repo}} to connect to a \textit{Neo4J Graph Database}\footnote{\href{https://neo4j.com/}{Neo4J Website}} but not implemented frames concept mapping as a graph traversal problem. 
-In this formulation, each object is a node on a graph. Weighted, labelled edges exist between each node within a given proximity threshold to the node. 
-The edge labels describe the neighbouring node's cardinal direction and the distance weights. 
-After constructing the object graph, queries for 'give me everything west of the duck pond' would freely explore nodes connected by west, north and south edges. 
-It can only traverse along an east edge so long as the total cost of travelling east would be less than the cumulative value of the 'west' travel up to this point. 
-
+\subsection{Problem Definition}
 Overall, concept mapping aims to enable geographic search over objects by explicitly representing their geospatial relationships to each other. 
-The author implemented a very basic approach using coordinate arithmetic was quickly determined to be infeasible for the extensive data sets that \textit{GESTALT} anticipates processing. 
-KD-Trees for the objects in each location have been implemented, as have the KD-Trees for the locations themselves. 
-This conceptual KD-Tree of KD-Trees approach performs a natural aggregation function which, provided that regions are created consistently, will allow for relative spatial queries at different levels of granularity. 
-Empirical evaluation of the performance of the arithmetic, KD-Tree and Graph-based approaches is yet to be completed. 
+
+- motivation for pruning...........
+
+
+
+\subsubsection{Object-object relations}
+- description..............
+- diagram showing input and expected output............
+
+\paragraph{Query Input}
+- algorithm for parsing from grid, etc.
+
+\paragraph{Solution}
+- recursive algorithm for finding any match
+- complexity analysis
+
+\paragraph{Experimental Results?}
+- on ground truth queries? report number of locations pruned? timings?
+
+
+
+
+\subsubsection{Object-Location relations}
+- description...........
+- diagram showing input and expected output.........
+
+\paragraph{Query Input}
+- algorithm for parsing from grid, etc.
+
+\paragraph{Solution}
+- recursive algorithm for finding any match
+- complexity analysis
+
+\paragraph{Experimental Results?}
+- on ground truth queries? report number of locations pruned? timings?
+
+
+%Concept mapping has been partially implemented in Python leveraging the \textit{Scipy} library\footnote{\href{https://pypi.org/project/scipy/}{SciPy PyPI Repo}}. Two different approaches have been trialed. 
+%The first is simple dynamic arithmetic on the coordinates stored in a Pandas data frame. If one set of coordinates is above, below, left or right of another, it is north, south, east or west, respectively. 
+%While these calculations are in constant time for straightforward comparisons of known objects (e.g. "is the pond west of the bridge"), the time complexity rapidly increases as soon as aggregations are employed. 
+%Queries of "Give me everything west of the duck pond" would execute in $O(N)$ time as each element has to be examined. Worst-case queries would run in $O(N\sup{2})$ time, where every object is checked for its position relative to every other object. 
+
+%The second (better) approach (only partially implemented) instantiates the objects within a location into a KD-Tree. 
+%Assuming that the object centroid is the root, we can quickly complete queries like "Give me everything west of the duck pond" by leveraging the structure of the subtrees to return the requested set. 
+%Similarly, getting the relative positions of two objects searches for a common ancestor. It uses the path between the children and their ancestor node to infer their spatial relation to each other.
+
+%A third approach, designed to leverage the \textit{Neo4J Python Library}\footnote{\href{https://pypi.org/project/neo4j/}{Neo4J PyPI Repo}} to connect to a \textit{Neo4J Graph Database}\footnote{\href{https://neo4j.com/}{Neo4J Website}} but not implemented frames concept mapping as a graph traversal problem. 
+%In this formulation, each object is a node on a graph. Weighted, labeled edges exist between each node within a given proximity threshold to the node. 
+%The edge labels describe the neighboring node's cardinal direction and the distance weights. 
+%After constructing the object graph, queries for 'give me everything west of the duck pond' would freely explore nodes connected by west, north and south edges. 
+%It can only traverse along an east edge so long as the total cost of traveling east would be less than the cumulative value of the 'west' travel up to this point. 
+
+%%Overall, concept mapping aims to enable geographic search over objects by explicitly representing their geospatial relationships to each other. 
+%The author implemented a very basic approach using coordinate arithmetic was quickly determined to be infeasible for the extensive data sets that \textit{GESTALT} anticipates processing. 
+%KD-Trees for the objects in each location have been implemented, as have the KD-Trees for the locations themselves. 
+%This conceptual KD-Tree of KD-Trees approach performs a natural aggregation function which, provided that regions are created consistently, will allow for relative spatial queries at different levels of granularity. 
+%Empirical evaluation of the performance of the arithmetic, KD-Tree and Graph-based approaches is yet to be completed. 

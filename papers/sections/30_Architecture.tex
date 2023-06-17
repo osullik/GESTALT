@@ -96,7 +96,7 @@ A more complicated approach could leverage an external semantic data source like
 
 The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
 
-\subsection{Sumamry of Architecture}
+\subsection{Summary of Architecture}
 The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to improve the ability to find locations of interest based on partial information. 
 The search subsystem needs to balance precision in reducing the number of candidate locations with maximizing the recall of possible candidate locations. The recall is prioritized. 
 The search space should be pruned with set membership checks based on the intuition that there is no point in running an expensive geospatial query over a location that doesn't contain the objects in question. 
