@@ -77,6 +77,8 @@ class GestaltGUI():
         self.drop = tk.OptionMenu( self.right_frame , self.clicked , *self.VOCAB )
         self.drop.pack(side = "top")
         
+    #FRONTEND FUNCTIONS:
+
     def show(self):
         if self.clicked.get() == self.DEFAULT_MSG:
             print("Please select an item from the list")
@@ -86,6 +88,25 @@ class GestaltGUI():
 
     def drag(self, event):
         event.widget.place(x=event.x_root, y=event.y_root,anchor="center")
+
+
+    def resetGUI(self):
+        self.left_frame.destroy()
+        self.left_frame = tk.Frame(self.root, 
+                                    bg='#ddcc99', 
+                                    width = self.WIDTH*0.8, 
+                                    height = self.HEIGHT*0.9)
+        self.left_frame.place(x = 0, y = self.HEIGHT*0.1)
+
+        for key in self.placedObjects.keys():
+            print(key)
+            label.destroy(placedObjects[key]['tk_object'])
+
+        del(self.placedObjects)
+
+        self.placedObjects={}        
+
+    # BACKEND FUNCTIONS
 
     def createCard(self, objectName):
         #Generate a key for the objects
@@ -135,35 +156,23 @@ class GestaltGUI():
         with open(conceptMapFile, "rb") as inFile:
             conceptMaps = pickle.load(inFile)
         
-        anyResult = False
+        results = []
+        self.result_message = "No Results Found"
+
 
         for locationCM in conceptMaps.keys():
             result = CM.searchMatrix(conceptMaps[locationCM],searchOrder)
-            if result == True:
-                print("Found Matching pattern at",locationCM)
-                #print(conceptMaps[locationCM])
-                anyResult = True
+            if result == True: 
+                results.append(locationCM)
         
-        if anyResult == False:
-            print("No Results Found")
+        if len(results) ==0:
+            print('No Results Found')
+        else:
+            print("Found Following Matches to Query:")
+            for res in results: 
+                print(res)
 
-        
-
-    def resetGUI(self):
-        self.left_frame.destroy()
-        self.left_frame = tk.Frame(self.root, 
-                                    bg='#ddcc99', 
-                                    width = self.WIDTH*0.8, 
-                                    height = self.HEIGHT*0.9)
-        self.left_frame.place(x = 0, y = self.HEIGHT*0.1)
-
-        for key in self.placedObjects.keys():
-            print(key)
-            label.destroy(placedObjects[key]['tk_object'])
-
-        del(self.placedObjects)
-
-        self.placedObjects={}        
+    
 
 
 
@@ -197,7 +206,7 @@ if __name__=="__main__":
                             #bg='green',
                             fg="green",
                             command = GG.runQuery ).pack(side="bottom")
-        
+
 
     GG.root.mainloop()
 
