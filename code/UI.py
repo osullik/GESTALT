@@ -134,16 +134,36 @@ class GestaltGUI():
         
         with open(conceptMapFile, "rb") as inFile:
             conceptMaps = pickle.load(inFile)
+        
+        anyResult = False
 
         for locationCM in conceptMaps.keys():
             result = CM.searchMatrix(conceptMaps[locationCM],searchOrder)
             if result == True:
-                    print("Found Matching pattern at",locationCM)
-
+                print("Found Matching pattern at",locationCM)
+                #print(conceptMaps[locationCM])
+                anyResult = True
+        
+        if anyResult == False:
+            print("No Results Found")
 
         
 
-        
+    def resetGUI(self):
+        self.left_frame.destroy()
+        self.left_frame = tk.Frame(self.root, 
+                                    bg='#ddcc99', 
+                                    width = self.WIDTH*0.8, 
+                                    height = self.HEIGHT*0.9)
+        self.left_frame.place(x = 0, y = self.HEIGHT*0.1)
+
+        for key in self.placedObjects.keys():
+            print(key)
+            label.destroy(placedObjects[key]['tk_object'])
+
+        del(self.placedObjects)
+
+        self.placedObjects={}        
 
 
 
@@ -165,8 +185,17 @@ if __name__=="__main__":
                             text = "Add Selected \nObject to Search" , 
                             command = GG.show ).pack(side="top")
 
+    GG.btn_resetQuery = tk.Button( GG.right_frame , 
+                            #bg= 'red',
+                            fg = 'red',
+                            text = "RESET" , 
+                            command = GG.resetGUI ).pack(side="bottom")
+
+
     GG.btn_runQuery = tk.Button( GG.right_frame , 
                             text = "Run Query" , 
+                            #bg='green',
+                            fg="green",
                             command = GG.runQuery ).pack(side="bottom")
         
 
