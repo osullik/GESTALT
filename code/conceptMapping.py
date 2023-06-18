@@ -145,9 +145,9 @@ class ConceptMapper():
             False - if there is no match,. 
         '''
         
-        print("\nITERATING in the ", direction, "direction")
-        print("Search terms", toFind)
-        print("Matrix:\n\n",matrix)
+        #print("\nITERATING in the ", direction, "direction")
+        #print("Search terms", toFind)
+        #print("Matrix:\n\n",matrix)
 
         if direction not in ["northToSouth", "westToEast"]:
             exit(direction,"is not a valid search direction")
@@ -166,14 +166,14 @@ class ConceptMapper():
                 pass
 
         if len(toFind) == 1:                                                        #Base Case; exhaustive search of pruned matrix. 
-            print("Base Case")
+            #print("Base Case")
             for northToSouth in matrix:
                  for westToEast in northToSouth:
                      if westToEast == toFind[0]:
                          return True
             return False
         else:
-            print("Not base case")
+            #print("Not base case")
             found = False
             
             if direction == "northToSouth":                                           #Prune everything north of the north most query term. 
@@ -203,7 +203,7 @@ class ConceptMapper():
 
 
             else:
-                print("going W to E", "looking for ", toFind[0])
+                #print("going W to E", "looking for ", toFind[0])
                 found = False
                 for i in range(0,len(matrix)):                                   #Walk west to East through matrix to prune everything west of the west most query term
                     #print("got to row", i)
@@ -279,7 +279,7 @@ class ConceptMapper():
             longitudeOrder = []
             for idx, row in location_df.iterrows():
                 longitudeOrder.append(idx)
-                print(location,row['name'],row["longitude"])
+                #print(location,row['name'],row["longitude"])
 
             #Case latitide all neg (Southern Hemisphere)
             location_df.sort_values(by=['latitude'], 
@@ -288,7 +288,7 @@ class ConceptMapper():
             latitudeOrder = []
             for idx, row in location_df.iterrows():   
                 latitudeOrder.append(idx)
-                print(location,row['name'],row["latitude"])
+                #print(location,row['name'],row["latitude"])
 
             #Create a grid full of zeros of the dimension numObjects x numObjects
             gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
@@ -297,12 +297,12 @@ class ConceptMapper():
             for i in range(0,len(longitudeOrder)):
                 j = latitudeOrder.index(longitudeOrder[i])
                 gridToReturn[j][i] = location_df.loc[int(longitudeOrder[i])]['name']    #J is long, i is lat
-                print("long:",i,"lat",j)
+                #print("long:",i,"lat",j)
 
             #Show your work
-            print(location)
+            #print(location)
             #print(location_dict[location])
-            print(gridToReturn)
+            #print(gridToReturn)
 
             #Add to the dict that will store it all 
             toReturn[location] = gridToReturn

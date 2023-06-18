@@ -305,4 +305,8 @@ if flags.gestaltSearch == True:
 
 	ii = InvertedIndex(invertedIndexSourceCSV)
 	results = ii.search(searchterms)
-	print(results)	
+	fuzzy_results = ii.fuzzy_search(searchterms)
+	rankedResults = ii.ranked_search(searchterms)
+	print("STANDARD SEARCH:\n",results)	
+	print("FUZZY SEARCH:\n",results)	
+	print("RANKED SEARCH:\n",results)	
