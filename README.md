@@ -141,20 +141,20 @@ To activate the search functions run:
 
 - [ ] Concept Mapping **PRIORITY 1**
     - [ ] Fully Implement Arithmetic-Based method
-    - [ ] Implement Grid-Based Method
-        - [ ] Convert a Location into a Grid of Objects @osullik
-        - [ ] Convert a query term into an ordered list @osullik
-        - [ ] Integrate Grid-Based Method @osullik
-        - [ ] Refactor conceptMapper to accept ordered list of inputs @osullik
+    - [X] Implement Grid-Based Method
+        - [X]  Convert a Location into a Grid of Objects @osullik (16 Jun)
+        - [X] Convert a query term into an ordered list @osullik (16 Jun)
+        - [X] Integrate Grid-Based Method @osullik (16 Jun)
+        - [X] Refactor conceptMapper to accept ordered list of inputs @osullik (16 Jun)
     - [ ] Impement Isomorphic Subgraph Method
 
 - [ ] Search **PRIORITY 2**
     - [ ] Implement Search of Object membership
         - [X] Implement Inverted Index search; shortlist objects
-        - [ ] Implement probabilities @nicoleschneider
-        - [ ] Implement ranking of Results @nicoleschneider
+        - [X] Implement probabilities @nicoleschneider
+        - [X] Implement ranking of Results @nicoleschneider
     - [ ] Implement Search of Concept Map
-        - [ ] Implement geospatial search (i.e. look up concept map) @osullik
+        - [X] Implement geospatial search (i.e. look up concept map) @osullik
         - [ ] Implement pictoral search interface @nicoleschneider / @osullik
     - [ ] Implement Fuzzy Search @nicoleschneider / @osullik
         - [ ] Implement string similarity lookups
