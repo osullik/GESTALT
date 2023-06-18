@@ -3,6 +3,7 @@
 import argparse, json, sys, os
 
 #Library Imports
+import pickle
 
 #User Imports
 
@@ -288,17 +289,14 @@ if flags.createConceptMaps==True:
 	predictedLocationsCSV = predictedLocationsCSV.split("/")[-1]
 	predictedLocationsCSV = predictedLocationsCSV.split(".")[0]
 
-	outputFile = outputDirectory+"/ConceptMaps_"+predictedLocationsCSV+".json"
+	outputFile = outputDirectory+"/ConceptMaps_"+predictedLocationsCSV+".pkl"
 	
 	try:
 		os.makedirs(outputDirectory)
 	except FileExistsError:
 		pass
-	with open(outputFile,"w") as out:
-		toSave = json.dumps(conceptMaps,indent=4)
-		out.write(toSave)
-
-
+	with open(outputFile,"wb") as out:							#NB: Will need to use pickle to read back in.
+		pickle.dump(conceptMaps ,out)
 
 
 if flags.gestaltSearch == True: 
