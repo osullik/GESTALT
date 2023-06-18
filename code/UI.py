@@ -8,6 +8,7 @@ import pandas as pd
 #User Imports
 
 from conceptMapping import ConceptMapper
+from search import InvertedIndex
 
 # Global Vars:
 
@@ -105,7 +106,7 @@ class GestaltGUI():
     def runQuery(self):
         for key in self.placedObjects.keys(): 
             self.placedObjects[key]["longitude"] = str(self.placedObjects[key]["tk_object"].winfo_rootx())
-            self.placedObjects[key]["latitude"] = str(self.placedObjects[key]["tk_object"].winfo_rooty())
+            self.placedObjects[key]["latitude"] = str(self.HEIGHT-self.placedObjects[key]["tk_object"].winfo_rooty()) #tkinter indexes from Top Left... 
         
         print(self.placedObjects)
 
@@ -137,7 +138,9 @@ class GestaltGUI():
 
 if __name__=="__main__":
 
-    VOCAB = ["tree","chair","cookie","wine","table","bench","bush"]
+    #VOCAB = ["tree","chair","cookie","wine","table","bench","bush"]
+
+    II = 
 
     GG = GestaltGUI(VOCAB,["tree", "bench", "table"])
 
