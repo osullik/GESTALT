@@ -138,9 +138,9 @@ class GestaltGUI():
 
 if __name__=="__main__":
 
-    #VOCAB = ["tree","chair","cookie","wine","table","bench","bush"]
+    VOCAB = ["tree","chair","cookie","wine","table","bench","bush"]
 
-    II = 
+    #II = 
 
     GG = GestaltGUI(VOCAB,["tree", "bench", "table"])
 
