@@ -218,11 +218,31 @@ class OwnershipAssigner():
 		db_cluster =  DBSCAN(eps=epsilon, min_samples=minCluster).fit(np.radians(loc_arr))
 		self._df_objects['cluster'] = db_cluster.labels_
 		print(self._df_objects)
-
 		
 		centroids = self.calculateCentroids(db_cluster.labels_)
+		
+		dists = []
+		for idx, row in self._df_objects.iterrows():
+			obj_coord = (row['latitude'], row['longitude'])
+			centroid_coord = centroids[row['cluster']]  # look up in centroid list
+			dists.append(self.__distance__(obj_coord, centroid_coord))
+		self._df_objects['assignment_prob'] = 1 - self.__normalize_probs__(dists, mask=list(self._df_objects['cluster'] != -1))
+	
+	
 		self.inferLocation(self._df_objects, centroids,"dbscan")
 		print(self._df_objects)
+		
+		
+	def __distance__(self, point1, point2):
+		return np.linalg.norm(point1 - point2)
+  
+	def __normalize_probs__(self, column, mask):
+		# expects a list mask of booleans, where True means we account for the datapoint as valid max or min
+		valid_data =  np.array(column)[np.array(mask)]
+		print(~np.array(mask))
+		return_col = np.array((column - np.min(valid_data)) / (np.max(valid_data) - np.min(valid_data)))
+		return_col[~np.array(mask)] = 0.5  # forcing the ones we don't count to have prob = 0.5
+		return return_col
 
 	def calculateCentroids(self, clusters):
 		print("Calculating Centroids")
