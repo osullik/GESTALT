@@ -227,7 +227,7 @@ class ConceptMapper():
                 #else:
                 #    return False
 
-    def createConceptMap(self, inputFile:str):
+    def createConceptMap(self,inputFile:str=None,input_df=None):
         '''
         Function to create the 'concept map' of relative object positions in a grid, for querying by the concept mapper
         INPUT ARGS:
@@ -243,8 +243,12 @@ class ConceptMapper():
         '''
 
         #Read in File
-        sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
-
+        if inputFile is not None: 
+            sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
+        elif input_df is not None:
+            sourceData_df = input_df
+        else:
+            exit("Unable to find dataframe. Please check your CSV / Dataframe and Try again")
         #Prepare vars
         loc_names = sourceData_df['predicted_location'].unique()
         location_dict = dict()
@@ -260,16 +264,22 @@ class ConceptMapper():
         for location in locations:
             location_df = location_dict[location]
 
+            location_df['longitude'] = (location_df['longitude'].astype(float))+180
+            location_df['latitude'] = (location_df['latitude'].astype(float))+180
+
             location_df.sort_values(by=['longitude'], 
+                                    #ascending=False,
                                     inplace=True)        #Values higher than 0 are further east
             
 
             # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
-            
+        
+
             #Case longitude all pos (East Hemisphere)
             longitudeOrder = []
             for idx, row in location_df.iterrows():
                 longitudeOrder.append(idx)
+                print(location,row['name'],row["longitude"])
 
             #Case latitide all neg (Southern Hemisphere)
             location_df.sort_values(by=['latitude'], 
@@ -278,6 +288,7 @@ class ConceptMapper():
             latitudeOrder = []
             for idx, row in location_df.iterrows():   
                 latitudeOrder.append(idx)
+                print(location,row['name'],row["latitude"])
 
             #Create a grid full of zeros of the dimension numObjects x numObjects
             gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
@@ -285,10 +296,12 @@ class ConceptMapper():
             #Using the lat and long lists, work out what index of the matrix the object belong at & add it
             for i in range(0,len(longitudeOrder)):
                 j = latitudeOrder.index(longitudeOrder[i])
-                gridToReturn[i][j] = sourceData_df.loc[int(longitudeOrder[i])]['name']
+                gridToReturn[j][i] = location_df.loc[int(longitudeOrder[i])]['name']    #J is long, i is lat
+                print("long:",i,"lat",j)
 
             #Show your work
             print(location)
+            #print(location_dict[location])
             print(gridToReturn)
 
             #Add to the dict that will store it all 
