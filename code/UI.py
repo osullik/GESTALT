@@ -4,6 +4,7 @@ import random
 #Library Imports
 import tkinter as tk
 import pandas as pd
+import pickle
 
 #User Imports
 
@@ -108,7 +109,7 @@ class GestaltGUI():
             self.placedObjects[key]["longitude"] = str(self.placedObjects[key]["tk_object"].winfo_rootx())
             self.placedObjects[key]["latitude"] = str(self.HEIGHT-self.placedObjects[key]["tk_object"].winfo_rooty()) #tkinter indexes from Top Left... 
         
-        print(self.placedObjects)
+        #print(self.placedObjects)
 
         flatDict = {}
         flatDict["name"] = []
@@ -122,25 +123,37 @@ class GestaltGUI():
             flatDict["predicted_location"].append(self.placedObjects[key]['predicted_location'])
         query_df = pd.DataFrame.from_dict(flatDict,orient='columns')
 
-        print(query_df)
+        #print(query_df)
 
         CM = ConceptMapper()
-        conceptMap = CM.createConceptMap(input_df=query_df, inputFile=None)
+        queryMap = CM.createConceptMap(input_df=query_df, inputFile=None)
+        searchOrder = CM.getSearchOrder(queryMap['PICTORAL_QUERY'])
+        print("Search Order:",searchOrder)
 
-        print(conceptMap)
+        conceptMapFile = "../data/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations.pkl"
+        
+        with open(conceptMapFile, "rb") as inFile:
+            conceptMaps = pickle.load(inFile)
+
+        for locationCM in conceptMaps.keys():
+            result = CM.searchMatrix(conceptMaps[locationCM],searchOrder)
+            if result == True:
+                    print("Found Matching pattern at",locationCM)
 
 
         
 
-            
+        
 
 
 
 if __name__=="__main__":
 
-    VOCAB = ["tree","chair","cookie","wine","table","bench","bush"]
+    II = InvertedIndex("../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv")
+    VOCAB = II.ii.keys()
+    print(VOCAB)
 
-    #II = 
+    
 
     GG = GestaltGUI(VOCAB,["tree", "bench", "table"])
 
