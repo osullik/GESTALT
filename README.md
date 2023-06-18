@@ -127,35 +127,34 @@ To activate the search functions run:
 - [ ] Data Collection
     - [X] Refactor DataCollector to accept multiple seach terms (08 Jun)
     - [X] Refactor DataCollector to return all named objects within a boundingBox (08 Jun)
-    - [ ] Trial Object Detection on Street-view Imagery from OSM for object geo estimates
+    - [ ] [OPTIONAL]Trial Object Detection on Street-view Imagery from OSM for object geo estimates
     - [X] Trial Object Detection on user-contributed Imagery from Flickr for object geo estimates
     - [ ] Implement naive object geolocation with image orientation and object coordinate information. @nicoleschnieder / @osullik
-    - [ ] Trial depth estimation of objects in imagery
-    - [ ] Trial Grid alignment of RSI Imagery 
-    - [ ] Trial intersection RSI and ground level object detection to improve geo-estimates of objects
+    - [ ] [OPTIONAL]Trial depth estimation of objects in imagery
+    - [ ] [OPTIONAL]Trial Grid alignment of RSI Imagery 
+    - [ ] [OPTIONAL]Trial intersection RSI and ground level object detection to improve geo-estimates of objects
 
-- [ ] Ownership Assignment **PRIORITY 3**
-    - [ ] Implement DVBSCAN
-    - [ ] Implement Bounding Polygon membership inference
-    - [ ] Add probabilites to clustering @nicoleSchneider
+- [X] Ownership Assignment **PRIORITY 3**
+    - [ ] [OPTIONAL]Implement DVBSCAN
+    - [ ] [OPTIONAL]Implement Bounding Polygon membership inference
+    - [X] Add probabilites to clustering @nicoleSchneider
 
-- [ ] Concept Mapping **PRIORITY 1**
-    - [ ] Fully Implement Arithmetic-Based method
+- [X] Concept Mapping **PRIORITY 1**
     - [X] Implement Grid-Based Method
         - [X]  Convert a Location into a Grid of Objects @osullik (16 Jun)
         - [X] Convert a query term into an ordered list @osullik (16 Jun)
         - [X] Integrate Grid-Based Method @osullik (16 Jun)
         - [X] Refactor conceptMapper to accept ordered list of inputs @osullik (16 Jun)
-    - [ ] Impement Isomorphic Subgraph Method
+    - [ ] [OPTIONAL] Impement Isomorphic Subgraph Method
 
 - [ ] Search **PRIORITY 2**
-    - [ ] Implement Search of Object membership
+    - [X] Implement Search of Object membership
         - [X] Implement Inverted Index search; shortlist objects
         - [X] Implement probabilities @nicoleschneider
         - [X] Implement ranking of Results @nicoleschneider
-    - [ ] Implement Search of Concept Map
-        - [X] Implement geospatial search (i.e. look up concept map) @osullik
-        - [ ] Implement pictoral search interface @nicoleschneider / @osullik
+    - [X] Implement Search of Concept Map
+        - [X] Implement geospatial search (i.e. look up concept map) @osullik 17 Jun
+        - [X] Implement pictoral search interface @nicoleschneider / @osullik 18 Jun
     - [ ] Implement Fuzzy Search @nicoleschneider / @osullik
         - [ ] Implement string similarity lookups
         - [ ] Implement resolution of query terms to OSM object tags
