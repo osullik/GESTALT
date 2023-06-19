@@ -1,7 +1,7 @@
 # Code for Concept Mapping in Python
 
 #System Imports
-
+import json 
 #Library Imports
 import numpy as np
 import pandas as pd
@@ -12,6 +12,38 @@ class ConceptMapper():
     
     def __init__(self):
         pass 
+
+    def getRelativeLocation(self, locationDict: dict, midpoint:tuple):
+
+        #print("midpoint", midpoint)
+        
+        quadrantDict = {}
+        quadrantDict["northwest"] = []
+        quadrantDict["northeast"] = []
+        quadrantDict["southwest"] = []
+        quadrantDict["southeast"] = []
+
+        print(locationDict)
+
+        for obj in locationDict.keys():
+            print("MP_LAT:", midpoint[0], "MP_LON", midpoint[1])
+            print(locationDict[obj]['name'],"OBJ_LAT:", locationDict[obj]['latitude'], "OBJ_LON", locationDict[obj]['longitude'])
+            
+            if float(locationDict[obj]['latitude']) < midpoint[1]:              #NW is top left cnr
+                if float(locationDict[obj]['longitude']) <= midpoint[0]:
+                    quadrantDict["southwest"].append(locationDict[obj]['name'])
+                else:
+                    quadrantDict["southeast"].append(locationDict[obj]['name'])
+            else:
+                if float(locationDict[obj]['longitude']) <= midpoint[0]:
+                    quadrantDict["northwest"].append(locationDict[obj]['name'])
+                else:
+                    quadrantDict["northeast"].append(locationDict[obj]['name'])
+
+        return quadrantDict
+
+
+
 
     def checkRelativeLocation(self, locationDict: dict, ew_relation: str, ns_relation: str, searchTerm: str) -> bool:
         '''
@@ -308,3 +340,72 @@ class ConceptMapper():
             toReturn[location] = gridToReturn
 
         return toReturn
+    
+    def createLocationCentricDict(self,inputFile:str, input_df=None):
+
+        if inputFile is not None: 
+            sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
+        elif input_df is not None:
+            sourceData_df = input_df
+        else:
+            exit("Unable to find dataframe. Please check your CSV / Dataframe and Try again")
+
+        conceptDict = {}
+        for idx, row in sourceData_df.iterrows():
+            #print(row)
+            try:
+                conceptDict[row['predicted_location']][idx] = {}
+            except KeyError:
+                conceptDict[row['predicted_location']] = {}
+                conceptDict[row['predicted_location']][idx] = {}
+            try:
+                conceptDict[row['predicted_location']][idx]['name'] = row['name']
+            except KeyError:
+                conceptDict[row['predicted_location']][idx] = row['name']
+                conceptDict[row['predicted_location']][idx]['name'] = row['name']
+
+
+            conceptDict[row['predicted_location']][idx]['name'] = row['name']
+            conceptDict[row['predicted_location']][idx]['longitude'] = row['longitude']
+            conceptDict[row['predicted_location']][idx]['latitude'] = row['latitude']
+
+        relativeLocationsDict = {}
+
+        #TODO: Get Rid of Hard Coding
+        with open("../data/output/dataCollection/locations_-31.90009882641578115.96168231510637-31.77307863942101116.05029961853784_alllocations.json", 'r') as inFile:
+            locationsDict = json.load(inFile)
+        
+        flatLocations = self.flattenLocationDict(locationsDict)
+        #print(flatLocations)
+        for concept in conceptDict.keys():
+            print("CONCEPT", concept)
+            #print(conc[concept])
+            print(conceptDict[concept])
+            #print(flatLocations[concept]['longitude'])
+            #print(flatLocations[concept]['latitude'])
+            try:
+                relativeLocationsDict[(concept)] = self.getRelativeLocation(conceptDict[concept],
+                                                                      ((flatLocations[concept]["longitude"]),
+                                                                        (flatLocations[concept]["latitude"])))
+            except KeyError:
+                pass
+            #print(relativeLocationsDict)
+        return relativeLocationsDict
+    
+    def flattenLocationDict(self, locationDict:dict) -> dict:
+        flattenedDict = {}
+        for locID in locationDict:
+            #print("LOC ID", locID)
+            #print('name', locationDict[locID]["name"])
+            try:
+                flattenedDict[locationDict[locID]['name']]["name"] = locationDict[locID]['name']
+            except KeyError:
+                flattenedDict[locationDict[locID]['name']] = {}
+                flattenedDict[locationDict[locID]['name']]["name"] = locationDict[locID]['name']
+            flattenedDict[locationDict[locID]['name']]["latitude"] = locationDict[locID]['latitude']
+            flattenedDict[locationDict[locID]['name']]["longitude"] = locationDict[locID]['longitude']
+        #print(flattenedDict)
+        return(flattenedDict)
+
+
+

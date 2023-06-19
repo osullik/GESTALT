@@ -307,6 +307,7 @@ if flags.createConceptMaps==True:
 	with open (outputFile,"w") as outFile:
 		json.dump(relativeLocationsDict, outFile, indent=4)
 		print('DUMPED RELATIVE LOCATIONS DICT TO JSON')
+
 	
 
 if flags.gestaltSearch == True: 
