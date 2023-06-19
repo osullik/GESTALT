@@ -210,27 +210,48 @@ class OwnershipAssigner():
 		plt.scatter(y=self._df_locations['latitude'],x=self._df_locations['longitude'], label="Locations",alpha =0.6, s=10 )
 		plt.savefig('../data/output/clusters.png')
 
-	def dbscan_membership(self, epsilon=0.5/6371., minCluster=3):
+	def dbscan_membership(self, epsilon=0.5/6371., minCluster=3, fuzzy_threshold=0):  # default is exact assignment
 		#1/6371 is ~100m
 		print("Clustering with DBScan")
 		loc_arr = np.array(self._objectCoordinates)
 
 		db_cluster =  DBSCAN(eps=epsilon, min_samples=minCluster).fit(np.radians(loc_arr))
 		self._df_objects['cluster'] = db_cluster.labels_
-		print(self._df_objects)
-		
-		centroids = self.calculateCentroids(db_cluster.labels_)
-		
+
+		centroids = self.calculateCentroids(db_cluster.labels_) 
+
 		dists = []
 		for idx, row in self._df_objects.iterrows():
 			obj_coord = (row['latitude'], row['longitude'])
 			centroid_coord = centroids[row['cluster']]  # look up in centroid list
 			dists.append(self.__distance__(obj_coord, centroid_coord))
+   
 		self._df_objects['assignment_prob'] = 1 - self.__normalize_probs__(dists, mask=list(self._df_objects['cluster'] != -1))
-	
-	
+		display(self._df_objects)
+  
+		# Fuzzy multiple asn
+		if fuzzy_threshold > 0:
+				df_multi_asn_objects = self._df_objects.copy()
+				for idx, row in self._df_objects.iterrows():
+						for centroid in centroids:
+								obj_centroid_dist = self.__distance__((row['latitude'], row['longitude']), centroid)
+								# if obj-centroid distance is within THRESHOLD% of range of obj-centroid distances we saw during exact assignment  
+								threshold = fuzzy_threshold * (self.cluster_max_dist - self.cluster_min_dist)
+								print("THRESHOLD : ", threshold)
+								print("range : ", self.cluster_max_dist - self.cluster_min_dist)              
+								print("ACTIAL: ", obj_centroid_dist - self.cluster_min_dist)                       
+								if (obj_centroid_dist - self.cluster_min_dist) < threshold:
+										#print("doubling up on: ", idx)          
+										df_multi_asn_objects = df_multi_asn_objects.append(row)
+										#display(pd.concat([df_multi_asn_objects, pd.DataFrame(row, index=[idx], columns=df_multi_asn_objects.columns)], axis=1, ignore_index=True).tail())
+								
+		
+		self._df_objects = df_multi_asn_objects  
+
 		self.inferLocation(self._df_objects, centroids,"dbscan")
-		print(self._df_objects)
+  
+		self._df_objects = df_multi_asn_objects 
+		display(self._df_objects)
 		
 		
 	def __distance__(self, point1, point2):
@@ -239,7 +260,11 @@ class OwnershipAssigner():
 	def __normalize_probs__(self, column, mask):
 		# expects a list mask of booleans, where True means we account for the datapoint as valid max or min
 		valid_data =  np.array(column)[np.array(mask)]
-		print(~np.array(mask))
+
+		# Set class vars for fuzzy multiple assignment if applicable    
+		self.cluster_min_dist = np.min(valid_data)  
+		self.cluster_max_dist = np.max(valid_data)
+  
 		return_col = np.array((column - np.min(valid_data)) / (np.max(valid_data) - np.min(valid_data)))
 		return_col[~np.array(mask)] = 0.5  # forcing the ones we don't count to have prob = 0.5
 		return return_col
