@@ -257,7 +257,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		ownerAssigner._df_objects.to_csv(outputFile+"/objects.csv", index=False)
 
 
-		ownerAssigner.dbscan_membership(epsilon,minCluster) 										# Cluster the objects
+		ownerAssigner.dbscan_membership(epsilon,minCluster,fuzzy_threshold=0) 										# Cluster the objects
 		clusters = ownerAssigner._df_objects["cluster"] 											# Infer the location
 		print(clusters.value_counts())
 
