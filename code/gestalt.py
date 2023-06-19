@@ -286,6 +286,7 @@ if flags.createConceptMaps==True:
 	outputDirectory = flags.outputDirectory
 	CM = ConceptMapper()
 	conceptMaps = CM.createConceptMap(predictedLocationsCSV)
+	originalInputFile = predictedLocationsCSV
 	predictedLocationsCSV = predictedLocationsCSV.split("/")[-1]
 	predictedLocationsCSV = predictedLocationsCSV.split(".")[0]
 
@@ -298,6 +299,15 @@ if flags.createConceptMaps==True:
 	with open(outputFile,"wb") as out:							#NB: Will need to use pickle to read back in.
 		pickle.dump(conceptMaps ,out)
 
+	## The Relative Location Dict:
+	relativeLocationsDict = CM.createLocationCentricDict(originalInputFile)
+
+	outputFile = outputDirectory+"/RelativeLocations_"+predictedLocationsCSV+".JSON"
+
+	with open (outputFile,"w") as outFile:
+		json.dump(relativeLocationsDict, outFile, indent=4)
+		print('DUMPED RELATIVE LOCATIONS DICT TO JSON')
+	
 
 if flags.gestaltSearch == True: 
 	searchterms = flags.searchterms
