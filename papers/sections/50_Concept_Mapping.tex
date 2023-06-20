@@ -2,17 +2,58 @@
 \label{section:concept}
 
 \subsection{Problem Definition}
-Overall, concept mapping aims to enable geographic search over objects by explicitly representing their geospatial relationships to each other. 
+\emph{Concept mapping} in the context of \emph{GESTALT} is the process of extracting and explicitly encoding the implicit geographic relationships between objects. 
+Concept maps are the core of \emph{GESTALT}s geospatial search functionality, supporting two kinds of querying. 
+The details of \emph{Location-Centric} and \emph{Object-Centric} pictoral queries are discussed in greater detail in section \ref{section:search}.
+Object-Centric queries require a concept map that describes all n-ary object-object relations, where Location-Centric queries only need describe the set of binary object-location relations.
+These problems of searching by geographic sets of objects have previously been characterised as graph-matching problems. 
+As a graph-matching problem, the difference between a fully connected graph, and a hub-and-spoke graph is significant, particularly as the number of verticies increases. It quickly becomes intractable. \osullikomment{[CITE HERE]}
 
-- motivation for pruning...........
+\osullikomment{Tried to motivate complexity here, but maybe this belongs in search?}
 
-
+To reduce the complexity, we focus on pruning. 
+The first round of pruning occurs when the user selects the \emph{region} that they wish to search. 
+\emph{GESTALT} is a last-mile search tool that assumes the user has a general idea of the location (region) that they wish to search. 
+The second layer prunes out all locations that do not pass a set-membership test. The arrangement of objects in a location is irrelevant if they don't exist there. 
+The third layer occurs during the search of the concept maps, with impossible results being pruned at each step to reduce the total search space to a tractable size. 
 
 \subsubsection{Object-object relations}
-- description..............
-- diagram showing input and expected output............
+The representation of object-object relations as a concept map is grounded in the assumption that the provided query input is a pictoral query. 
+When humans descrivbe locations to each other, they frequently draw a map. 
+We discuss pictoral querying further in section \ref{section:search}, but intuitively we want to be able to compare a user's sketch map to the real world locations \emph{GESTALT} records. 
+Rather than use a fully-connected graph, we encode both the locations, and later, the pictoral query inputs as matricies with zeros representing unallocated space and the names of objects. 
+The matricies are $NxN$, where $N$ is the number of objects at a location. 
+Using algorithm \ref{alg:geoToGrid}, we assign each object in a given location to a position $(i,j)$ in the Matrix where $i$ is its order of appearance from north to south and $j$ is the same object's order of appearance from west to east. 
+The result is a matrix in which each row and column has only a single object. Where ties are experienced in the real world (due to a lack of GPS precision, or very close position) they are broken lexiographically in the object-object concept map instantiation.
+
+
+\nrscomment{ diagram showing input and expected output............}
 
 \paragraph{Query Input}
+
+\begin{figure*}[h]
+    \centering
+    
+    \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-ExampleLocation.png}
+        \caption{\small A location centred on X in Lat/Long has named objects (A-D).} % The increasing focus on questions targeting secret information drives down false positives (paranoia) across models but dramatically increases false negatives (leakage).
+        \label{fig:CM-Example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-OO-Setup.png}
+        \caption{\small The objects are ordered N-S and W-E, and mapped into a matrix with those indices} % Increasing the number of secrets kept drives a small but consistent increase in false positives (paranoia).
+        \label{fig:CM-OO-Setup}
+    \end{subfigure}
+    \hfill
+        \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-OO-Query1.png}
+        \caption{\small Searching recursively prunes for ANY match. Each recursion is a darker shade, with unpruned area in white. Objects are highlighted in yellow as they are 'found'.}% Increasing the amount of secret context available to models improves performance, but we still see some generalization with only a quarter of the secret context provided to the system.
+        \label{fig:CM-OO-Query}
+    \hfill
+    \end{subfigure}
+    \caption{\textbf{Generate and Query an Object-Object Concept Map.}} 
+\end{figure*}
 - algorithm for parsing from grid, etc.
 
 
@@ -54,7 +95,7 @@ Overall, concept mapping aims to enable geographic search over objects by explic
 \end{algorithm}
 
 \begin{algorithm}
-    \caption{Ordering the Search Terms}
+    \caption{Ordering the Search Terms}\label{alg:orderSearchTerms}
     \begin{algorithmic}
         \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s}}
         \State{- - - - -}
@@ -108,7 +149,7 @@ Overall, concept mapping aims to enable geographic search over objects by explic
                 \EndIf
 
                 \State{$M$ = Prune all objects north of $NorthernObject$}
-                \State{\textbf{return} recursiveGridSearch($M$,$L$,$westToEast$)}
+                \State{\textbf{return recursiveGridSearch}($M$,$L$,$westToEast$)}
            
             \EndIf
 
@@ -120,7 +161,7 @@ Overall, concept mapping aims to enable geographic search over objects by explic
                 \EndIf
 
                 \State{$M$ = Prune all objects west of $WesternObject$}
-                \State{\textbf{return} recursiveGridSearch($M$,$L$,$northToSouth$)}
+                \State{\textbf{return recursiveGridSearch}($M$,$L$,$northToSouth$)}
             \EndIf
 
         \EndProcedure
@@ -145,7 +186,7 @@ Overall, concept mapping aims to enable geographic search over objects by explic
 - diagram showing input and expected output.........
 
 \begin{algorithm}
-    \caption{Generating Location Centric Structure}
+    \caption{Generating Location Centric Structure}\label{alg:locationCentricGeneration}
     \begin{algorithmic}
         \State{\textit{\textbf{T} a Location Table with ID, Name, Lat \& Long of its objects}}
         \State{\textit{\textbf{X} a (x,y) tuple of the centroid for the location}}
