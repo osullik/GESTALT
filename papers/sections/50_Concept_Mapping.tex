@@ -24,10 +24,9 @@ We discuss pictoral querying further in section \ref{section:search}, but intuit
 Rather than use a fully-connected graph, we encode both the locations, and later, the pictoral query inputs as matricies with zeros representing unallocated space and the names of objects. 
 The matricies are $NxN$, where $N$ is the number of objects at a location. 
 Using algorithm \ref{alg:geoToGrid}, we assign each object in a given location to a position $(i,j)$ in the Matrix where $i$ is its order of appearance from north to south and $j$ is the same object's order of appearance from west to east. 
-The result is a matrix in which each row and column has only a single object. Where ties are experienced in the real world (due to a lack of GPS precision, or very close position) they are broken lexiographically in the object-object concept map instantiation.
-
-
-\nrscomment{ diagram showing input and expected output............}
+The result is a matrix in which each row and column has only a single object. 
+Where ties are experienced in the real world (due to a lack of GPS precision, or very close position) they are broken lexiographically in the object-object concept map instantiation.
+The process of creating and querying a concept map is shown in Figure \ref{figure:ConceptMap}.
 
 \paragraph{Query Input}
 
@@ -52,7 +51,7 @@ The result is a matrix in which each row and column has only a single object. Wh
         \label{fig:CM-OO-Query}
     \hfill
     \end{subfigure}
-    \caption{\textbf{Generate and Query an Object-Object Concept Map.}} 
+    \caption{\textbf{Generate and Query an Object-Object Concept Map.}}\label{figure:ConceptMap} 
 \end{figure*}
 - algorithm for parsing from grid, etc.
 
