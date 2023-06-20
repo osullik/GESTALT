@@ -32,6 +32,22 @@ Each object from the hand-labeled dataset is assigned a confidence score of 1.0,
 %The KML parser leverages the \textit{fastKML}\footnote{\href{https://pypi.org/project/fastkml/}{Fast KML PyPI Repo}} and ingests a KML file divided by region (where each region is a bounding box covering an arbitrary number of locations). 
 %The KML Parser extracts the objects into dictionaries organized by location before exporting the files as JSON for future analysis. 
 
+\begin{figure*}[ht]
+\label{fig:loc}        
+\includegraphics[width=0.5\textwidth]{papers/figures/loc_labels_plot.png}
+\centering
+\caption[width=\textwidth]{............}
+\end{figure*}
+
+
+\begin{figure*}[ht]
+\label{fig:loc-obj}        
+\includegraphics[width=\textwidth]{papers/figures/loc_obj_labels_plot.png}
+\centering
+\caption[width=\textwidth]{............}
+\end{figure*}
+
+
 \subsection{OSM Object Tags}
 The second method involves leveraging existing OSM object tags.
 While businesses, attractions and other 'locations' are commonly annotated by the OSM community, objects are more sparsely tagged, since few people have the patience to manually label apparently inconsequential things like trees, statues, fountains and telephone poles. 

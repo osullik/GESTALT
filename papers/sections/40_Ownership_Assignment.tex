@@ -12,8 +12,13 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 
 
 \subsection{Method}
-Using 1/distance to nearest location as probability of assigning an object to that location.
-Achieves a fuzzy clustering of objects to locations, since objects can be assigned to multiple locations with some probability p.
+1. Use DBSCAN to get the clusters and group objects together, or to the null cluster.
+2. Calculate centroids of objects that did cluster (not the null cluster)
+3. Calculate probability of object-cluster assignment as 1 - normalized(distance from object to centroid of it's cluster) for non null cluster objects. This adjusts to the density of data rather than using a static parameter (like within x distance). Normalization is done with respect to the real clusters not the null one, since the null cluster has no meaningful centroid and will skew the normalization of the rest of the object-centroid distances.
+3a. Set prob = 0.5 for null cluster (as these objects are not relevant or useful in finding locations, since they aren't tied to one, so the search will ignore them anyway)
+4. Map the centroids to the nearest location
+
+TODO: A fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
 
 
 \subsection{Results}
@@ -60,15 +65,14 @@ RESULTS TABLE HERE.........
 Ownership assignment is implemented in Python in two ways. The first is the trivial implementation, where the location returned from the OSM query is a bounding polygon. 
 In this case, if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 
 The second, more common (and more challenging approach) formulates an unsupervised learning problem using clustering libraries from \textit{scikit-learn}\footnote{\href{https://pypi.org/project/scikit-learn/}{Scikit-Learn PyPI Repo}}. 
+
 Given a collection of objects and a collection of locations within a bounding box region, clustering assigns each object to its 'parent' location. 
 Under the assumption that the number of locations equals the number of clusters, K-Means clustering proved to be the most effective approach. 
-After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree with a query parameter of the object centroid yields the nearest location and is assigned ownership of that cluster
-A detailed performance comparison is in section \ref{section:results}. 
+After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
 
-Overall, initial proof-of-concept clustering uses K-Means and DBSCAN clustering. An optimal solution to the ownership assignment problem is an exciting and unusual clustering problem. 
 Assuming that the collection of locations is complete and that the point coordinate of the location is central to the collection of objects that belong to that location, the clustering problem is the assignment of an arbitrary number of objects to any of a set of possible centroids. Not every centroid will have objects, and objects are not uniformly distributed. Initial investigation into the DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem.\cite{Ram2010} 
 
-Overall, the Ownership Assignment process needs to produce a data structure that will permit set membership checking for search and set the conditions for the concept mapping process. It is the most complete component of \textit{GESTALT}. The choice of clustering algorithm needs refinement, and location-based bloom filters need to be implemented to support efficient search, but it is otherwise functional. 
+Overall, the Ownership Assignment process needs to produce a data structure that will permit set membership checking for search and set the conditions for the concept mapping process. 
 
 
 
