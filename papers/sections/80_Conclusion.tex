@@ -24,7 +24,10 @@ Time decay on confidence score to account for changes in environment
 Fuzzy string matching
 Account for camera bearings to adjust coordinates of objects detected in images to be more precise
 Incorporate user feedback to update tags that might be wrong in the data
-Using object attributes to allow mroe detailed queries andstronger pruning
+Using object attributes to allow mroe detailed queries and stronger pruning
+Grid-ifying the earth and making a gestalt for each grid cell to enable last-mmile search anywhere on earth
+
+Enable searching for object quantities: For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. Searching for 'tree' might yield nothing, but searching for '30 trees' would considerably prune the result. Issue: multiple sources may tag same object, need to deduplicate them
 
 
 
