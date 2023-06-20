@@ -15,7 +15,122 @@ Overall, concept mapping aims to enable geographic search over objects by explic
 \paragraph{Query Input}
 - algorithm for parsing from grid, etc.
 
+
+\begin{algorithm}
+    \caption{Creating a Concept Map}\label{alg:geoToGrid}
+    \begin{algorithmic}
+        \State{\textit{\textbf{T} a Location Table with ID, Name, Lat \& Long of its objects}}
+        \State{- - - - -}
+        \Procedure{createConceptMap}{$T$}
+
+            \State{LonList = []} \Comment{A list}
+            \State{LatList = []} \Comment{A list}
+            \State{$M$ = [[][]]} \Comment{A matrix of 0s}
+        
+            \State{Sort rows from North to South}
+            
+            \For{$R$ in $T$} \Comment{Where $R$ is a Row}     
+                \State{Add R.$ID$ to $LatList$} \Comment{$R.ID$ is the obj unique ID}
+            \EndFor
+            
+            \State{Sort rows from West to East}
+            
+            \For{$R$ in $T$} 
+                \State{Add R.$ID$ to $LonList$}
+            \EndFor
+            
+            \For{$ID$ in $Lonlist$}          
+                \State{get index of $ID$ in $LonList$ as $i$}
+                \State{get index of $ID$ in $LatList$ as $j$}               
+                \State{$M$[$i$][$j$] = $ID.Name$} \Comment{Name of object with $ID$}
+            \EndFor
+            
+            \State{\textbf{return} $M$} \Comment{Having $[0,0]$ as NW corner}
+
+        \EndProcedure
+
+
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Ordering the Search Terms}
+    \begin{algorithmic}
+        \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s}}
+        \State{- - - - -}
+        \Procedure{Order Search Terms}{$M$}
+            \If{$M$ has single Item}
+                \State{Return $M$}
+            \EndIf
+            \State{$Traversed$ = []}
+            \State{$R$, $C$ = Number of rows and columns}
+            \State{$Rd$ = ($R$+$C$)-1}
+
+            \For{$r$ in range $Rd$}
+                \For{$i$ in range $r$+1}
+                    \State{$j$ = $r$-$i$}
+                    \If{$i$ < $R$ and $j$ < $C$}
+                        \If{$M$[$i$][$j$] != 0}
+                            \State{Add $M$[$i$][$j$] to $Traversed$}
+                        \EndIf
+                    \EndIf 
+                \EndFor
+            \EndFor
+            \State{\textbf{return} $Traversed$}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 \paragraph{Solution}
+
+\begin{algorithm}
+    \caption{Recursive Grid Search}\label{alg:gridSearch}
+    \begin{algorithmic}
+        \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s; [0,0] is NW most point}}
+        \State{\textit{\textbf{L} A NW to SE ordered list of objects to search for}}
+        \State{\textit{\textbf{D} The direction of Pruning, 'northToSouth' or 'westToEast'}}
+        \State{- - - - -}
+        \Procedure{recursiveGridSearch}{$M$,$L$,$D$} %\Comment{$M$ a matrix of a Loc's objects, $L$ an ordered list of objects to search for, $D$ is the pruning direction}
+
+            \If{$L$ has only 1 item}\Comment{Base Case}
+                \If{pop($L$) in $M$}
+                    \State{\textbf{return} $True$}              
+                \Else
+                    \State{\textbf{return} $False$}
+                \EndIf            
+            \EndIf
+
+
+            \If{$D$ is $northToSouth$}
+                \State{$NorthernObject$ = pop($L$)}                
+                \If{$NorthernObject$ not in $M$}
+                    \State{\textbf{return} $False$}               
+                \EndIf
+
+                \State{$M$ = Prune all objects north of $NorthernObject$}
+                \State{\textbf{return} recursiveGridSearch($M$,$L$,$westToEast$)}
+           
+            \EndIf
+
+            \If{$D$ is $eastToWest$}
+                \State{$WesternObject$ = pop($L$)}
+                
+                \If{$WesternObject$ not in $M$}
+                    \State{\textbf{return} $False$}
+                \EndIf
+
+                \State{$M$ = Prune all objects west of $WesternObject$}
+                \State{\textbf{return} recursiveGridSearch($M$,$L$,$northToSouth$)}
+            \EndIf
+
+        \EndProcedure
+
+    \end{algorithmic}
+
+\end{algorithm}
+
+
+
 - recursive algorithm for finding any match
 - complexity analysis
 
@@ -28,6 +143,94 @@ Overall, concept mapping aims to enable geographic search over objects by explic
 \subsubsection{Object-Location relations}
 - description...........
 - diagram showing input and expected output.........
+
+\begin{algorithm}
+    \caption{Generating Location Centric Structure}
+    \begin{algorithmic}
+        \State{\textit{\textbf{T} a Location Table with ID, Name, Lat \& Long of its objects}}
+        \State{\textit{\textbf{X} a (x,y) tuple of the centroid for the location}}
+        \State{- - - - -}
+        \Procedure{MakeLocationCentricStructure}{$T$,$X$}
+            \State{$Q$\{$NW$:[], $NE$:[], $SW$:[], $SE$:[]\}}\Comment{Dictionary}
+            \For{$R$ in $T$}\Comment{R is a row describing a single object}
+                \If{$R.y$ < $X.y$}
+                    \If{$R.x$ <= $X.x$}
+                        \State{Add $R.Name$ to $Q.SW$}
+                    \Else
+                        \State{Add $R.Name$ to $Q.SE$}
+                    \EndIf
+                \Else
+                    \If{$R.x$ <= $X.x$} 
+                        \State{Add $R.Name$ to $Q.NW$}
+                    \Else
+                        \State{Add $R.Name$ to $Q.NE$}
+                    \EndIf
+                \EndIf 
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{Querying Location Centric Structure}
+    \begin{algorithmic}
+        \State{\textit{\textbf{Q} a Dictionary of lists of objects of form: \{$NW$:[], $NE$:[], $SW$:[], $SE$:[]\}}}
+        \State{\textit{\textbf{NS} a query Direction of "North\_of" or "South\_of"}}
+        \State{\textit{\textbf{EW} a query Direction of "West\_of" or "East\_of"}}
+        \State{\textit{\textbf{S} the name of an object to searc for}}
+        \State{- - - - -}
+        \Procedure{QueryLocationCentricStructure}{$T$,$X$}
+            \If{$NS$ = $North_of$ and $EW$ = $None$}
+                \If{$S$ in $Q.NW$ \textbf{OR} $Q.NE$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $North\_of$ and $EW$ = $West\_of$}
+                \If{$S$ in $Q.NW$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $North\_of$ and $EW$ = $East\_of$}
+                \If{$S$ in $Q.NE$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $South\_of$ and $EW$ = $None$}
+                \If{$S$ in $Q.SW$ \textbf{OR} $Q.SE$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $South\_of$ and $EW$ = $West\_of$}
+                \If{$S$ in $Q.SW$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $South\_of$ and $EW$ = $East\_of$}
+                \If{$S$ in $Q.SE$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+            \If{$NS$ = $None$ and $EW$ = $West\_Of$}
+                \If{$S$ in $Q.NW$ \textbf{OR} $Q.SW$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+            \If{$NS$ = $None$ and $EW$ = $East\_of$}
+                \If{$S$ in $Q.NE$ \textbf{OR} $Q.SE$}
+                    \State{\textbf{return}$True$}
+                \EndIf 
+            \EndIf
+
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \paragraph{Query Input}
 - algorithm for parsing from grid, etc.
