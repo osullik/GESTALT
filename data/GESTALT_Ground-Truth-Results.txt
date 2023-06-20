@@ -1,0 +1,289 @@
+GROUND TRUTH QUERY RESULTS:
+
+ALL QUERIES EXECUTED ON THE DBSCAN CLUSTERS WITH EPSILON == ? AND MIN GROUP == 3 and NO fuzzy search
+
+========= LOCATION CENTRIC QUERIES ==========
+
+1. {(river, Location, NorthEast), (sign, Location, NorthWest), (vineyard, Location, SouthEast)} 
+        = {Lancaster Wines}
+
+        River was pruned as 'noise' by DBSCAN.  
+
+        Query Input:
+                name longitude latitude predicted_location
+        0  vineyard       415       63     PICTORAL_QUERY
+        1      sign        92      295     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Lancaster Wines 2
+        Little River Winery and Café 1
+        Faber Vineyard 1
+        Ugly Duckling Wines 1
+
+
+2. {(water_tank, Location, SouthEast), (patio, Location, SouthWest), (air_conditioner, Location, SouthWest)} 
+        = {Little River Winery and Café}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0       water_tank       406       71     PICTORAL_QUERY
+        1  air_conditioner        58       33     PICTORAL_QUERY
+        2            patio        86       63     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Little River Winery and Café 1
+
+3. {(pizza_oven, Location, SouthWest), (palm_tree, Location, SouthWest)} 
+        = {Ali's vineyard}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0  pizza_oven        92       38     PICTORAL_QUERY
+        1   palm_tree       104       70     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Ali's Vineyard 2
+
+4. {(building, Location, SouthWest)} 
+        = {Oakover Grounds, Little River Winery and Café}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0  building        92       51     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Little River Winery and Café 1
+        Oakover Grounds 1
+
+5. {(pond, Location, SouthEast), (bridge, Location, SouthEast), (swimming_pool, Location, SouthWest)} 
+        = {Oakover Grounds}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0           pond       431       78     PICTORAL_QUERY
+        1         bridge       366       82     PICTORAL_QUERY
+        2  swimming_pool        72       70     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Oakover Grounds 3
+
+6. {(generator, Location, NorthEast), (bicycle_rack, Location, NorthEast), (carport, Location, NorthEast)} 
+        = {Ugly Ducking Wines}
+
+        Query Input:
+            name longitude latitude predicted_location
+        0     generator       418      300     PICTORAL_QUERY
+        1  bicycle_rack       362      246     PICTORAL_QUERY
+        2       carport       343      301     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Ugly Duckling Wines 3
+
+7. {(generator, Location, SouthWest), (parking_lot, Location, SouthWest)} 
+        = { }
+
+        Query Input:
+                name longitude latitude predicted_location
+        0    generator        39       84     PICTORAL_QUERY
+        1  parking_lot       130       28     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Faber Vineyard 1
+        Oakover Grounds 1
+
+
+8. {(palm_tree, Location, SouthWest), (palm_tree, Location, SouthEast)} 
+        = {Ali's Vineyard}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0  palm_tree       391       58     PICTORAL_QUERY
+        1  palm_tree        98      119     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Ali's Vineyard 2
+
+9. {(patio, Location, SouthEast)} 
+        = {Little River Winery and Café, Ugly Duckling Wines}
+
+        Query Input:
+                name longitude latitude predicted_location
+        0  patio       423       73     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Little River Winery and Café 1
+        Ugly Duckling Wines 1
+
+10. {(air_conditioner, Location, SouthEast)} 
+        = {Little River Winery and Café, Ali's Vineyard}
+
+        Query Input:
+               name longitude latitude predicted_location
+        0  air_conditioner       382       94     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Ali's Vineyard 1
+
+11. {(parking_lot, Location, SouthWest)} 
+        = {Faber Vineyard, Oakover Grounds}
+
+        Query Input:
+           name longitude latitude predicted_location
+        0  parking_lot        93       66     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Faber Vineyard 1
+        Oakover Grounds 1
+
+12. {(picnic_bench, Location, NorthEast), (parking_lot, Location, NorthWest)} 
+        = {Little River Winery and Café}
+
+        Query Input:
+            name longitude latitude predicted_location
+        0  picnic_bench       399      304     PICTORAL_QUERY
+        1   parking_lot        67      308     PICTORAL_QUERY
+        Location Centroid: (280.0,225.0)
+
+        Query Output:
+        Little River Winery and Café 2
+
+
+========= OBJECT CENTRIC QUERIES ==========
+
+
+{(river, Location, NorthEast), (sign, Location, NorthWest), (vineyard, Location, SouthEast)} 
+        = {Lancaster Wines}
+
+        Query Matrix is:
+                [['sign' 0]
+                [0 'vineyard']]
+        Found Following Matches to Query:
+                Faber Vineyard
+                Ugly Duckling Wines
+                Oakover Grounds
+                Lancaster Wines
+
+{(water_tank, Location, SouthEast), (patio, Location, SouthWest), (air_conditioner, Location, SouthWest)}
+        = {Little River Winery and Café}
+
+        Query Matrix is:
+                [['air_conditioner' 0 0]
+                [0 'patio' 0]
+                [0 0 'water_tank']]
+        Found Following Matches to Query:
+                Little River Winery and Café
+
+{(pizza_oven, Location, SouthWest), (palm_tree, Location, SouthWest)} 
+        = {Ali's vineyard}
+
+        Query Matrix is:
+             [['pizza_oven' 0]
+             [0 'palm_tree']]
+        Found Following Matches to Query:
+           Ali's Vineyard
+
+
+{(building, Location, SouthWest)} 
+        = {Oakover Grounds, Little River Winery and Café}
+
+        Query Matrix is:
+                [['building']]
+        Found Following Matches to Query:
+                Ali's Vineyard
+                Little River Winery and Café
+                Faber Vineyard
+                Oakover Grounds
+
+{(pond, Location, SouthEast), (bridge, Location, SouthEast), (swimming_pool, Location, SouthWest)} 
+        = {Oakover Grounds}
+
+        Query Matrix is:
+                [['swimming_pool' 0 0]
+                [0 0 'pond']
+                [0 'bridge' 0]]
+        Found Following Matches to Query:
+                Oakover Grounds
+
+{(generator, Location, NorthEast), (bicycle_rack, Location, NorthEast), (carport, Location, NorthEast)} 
+        = {Ugly Ducking Wines}
+
+        Query Matrix is:
+                [['generator' 0 0]
+                [0 'bicycle_rack' 0]
+                [0 0 'carport']]
+        Found Following Matches to Query:
+                Ugly Duckling Wines
+
+{(generator, Location, SouthWest), (parking_lot, Location, SouthWest)} 
+        = { }
+
+        Query Matrix is:
+                [['generator' 0]
+                [0 'parking_lot']]
+        Found Following Matches to Query:
+                Ugly Duckling Wines
+                Oakover Grounds
+                Lancaster Wines
+
+{(palm_tree, Location, SouthWest), (palm_tree, Location, SouthEast)} 
+        = {Ali's Vineyard}
+
+        Query Matrix is:
+                [[0 'palm_tree']
+                ['palm_tree' 0]]
+        Found Following Matches to Query:
+                Ali's Vineyard
+
+
+{(patio, Location, SouthEast)} 
+        = {Little River Winery and Café, Ugly Duckling Wines}
+
+        Query Matrix is:
+                [['patio']]
+        Found Following Matches to Query:
+                Little River Winery and Café
+                Ugly Duckling Wines
+
+{(air_conditioner, Location, SouthEast)} 
+        = {Little River Winery and Café, Ali's Vineyard}
+
+        Query Matrix is:
+                [['air_conditioner']]
+        Found Following Matches to Query:
+                Ali's Vineyard
+
+{(parking_lot, Location, SouthWest)} 
+        = {Faber Vineyard, Oakover Grounds}
+
+        Query Matrix is:
+                [['parking_lot']]
+        Found Following Matches to Query:
+                Little River Winery and Café
+                Faber Vineyard
+                Ugly Duckling Wines
+                Oakover Grounds
+                Lancaster Wines
+
+
+
+{(picnic_bench, Location, NorthEast), (parking_lot, Location, NorthWest)} 
+        = {Little River Winery and Café}
+
+        Query Matrix is:
+                [['parking_lot' 0]
+                [0 'picnic_bench']]
+        Found Following Matches to Query:
+                Little River Winery and Café
+
+
