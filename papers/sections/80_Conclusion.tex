@@ -34,3 +34,5 @@ Enable searching for object quantities: For example, searching "tree" would retu
 The first challenge is classifying an image as 'indoors' (where no objects will be visible from RSI and the closest building will 'own' it) or 'outdoors', where objects can map to the RSI. Numerous approaches exist to the indoor/outdoor scene classification \cite{Tong2017}. 
 Each object in an outdoor photo's distance from the camera geolocation will be estimated using a myriad of depth estimation techniques \cite{Ming2021,Liu2020}. 
 Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
+
+%Ownership assignment is implemented in Python in two ways. The first is the trivial implementation, where the location returned from the OSM query is a bounding polygon. In this case, if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 
