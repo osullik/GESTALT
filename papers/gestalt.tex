@@ -31,7 +31,9 @@
 % Macro to include a latex file in the ./Sections/ directory
 \newcommand{\latexfile}[1]{\input{sections/#1}}
 
-
+\newcommand{\pinaforecomment}[4]{\colorbox{#1}{\textcolor{#4}{\parbox{.8\linewidth}{#2: #3}}}}
+\newcommand{\osullikomment}[1]{\pinaforecomment{green}{Kent}{#1}{black}}
+\newcommand{\nrscomment}[1]{\pinaforecomment{violet}{Nicole}{#1}{white}}
 
 % % % % % % % % % % % % % % % % % % % %
 % Document preliminaries              %
