@@ -23,11 +23,11 @@ class ConceptMapper():
         quadrantDict["southwest"] = []
         quadrantDict["southeast"] = []
 
-        print(locationDict)
-
+        #print(locationDict)
+        print("Location Centroid:", "("+str(midpoint[0])+","+str(midpoint[1])+")")
         for obj in locationDict.keys():
-            print("MP_LAT:", midpoint[0], "MP_LON", midpoint[1])
-            print(locationDict[obj]['name'],"OBJ_LAT:", locationDict[obj]['latitude'], "OBJ_LON", locationDict[obj]['longitude'])
+            
+            #print("Found",locationDict[obj]['name'],"("+locationDict[obj]['latitude']+","+locationDict[obj]['longitude']+")")
             
             if float(locationDict[obj]['latitude']) < midpoint[1]:              #NW is top left cnr
                 if float(locationDict[obj]['longitude']) <= midpoint[0]:
@@ -179,6 +179,7 @@ class ConceptMapper():
         
         #print("\nITERATING in the ", direction, "direction")
         #print("Search terms", toFind)
+       
         #print("Matrix:\n\n",matrix)
 
         if direction not in ["northToSouth", "westToEast"]:
