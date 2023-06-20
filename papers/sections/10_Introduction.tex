@@ -3,11 +3,21 @@
 %\subsection{Background}
 Geographic information systems (GIS) provide users with a means to efficiently search over spatial data given certain key pieces of information, like the coordinates or exact name of a location of interest. However, current GIS capabilities do not enable users to easily search for locations about which they have imperfect or incomplete information. From psychology and neuroscience research about how humans develop cognitive maps of terrain for navigation and route planning~\cite{Weisberg2016, Miller2013, Keatley2021, ??}, we know that people tend to anchor memories of a location around its visible objects and landmarks, likely doing so hierarchically, or separately relating global and local features~\cite{Weisberg2016}. For example, a user may remember a location by a series of visual features encountered near it, like a large building, a bus stop, and a brightly colored sign, but fail to recall its exact address or physical coordinates. In these cases, GIS tools may help with narrowing down to the general region of interest, but a manual \emph{last-mile} search must then be performed by the user to find the exact location of interest within that region. This last-mile search typically involves the visual inspection of remote sensing imagery data or street-view images to identify distinct landmarks or terrain features that match the partial information known about the location. This step of the search process is a bottleneck, as it encumbers the user with the burden of sifting through many possible candidate locations until the correct one is visually identified. 
 
+.......................... vignette about intel analysts sifting through RSI for hours.....................
+
 Taking inspiration from the way humans recall and search for information~\cite{Helbing2020, Oliveira2016, Weisberg2016, ?}, we present \emph{GESTALT}, an end-to-end pipeline for extracting geospatial data, transforming it into coherent object-location relations, storing those relations, and searching over them. 
 
-...........................................Describe the 4 main subproblems here......
+Specifically, \emph{GESTALT} provides the following functionality:
+\begin{enumerate}
+    \item Multiple methods for ingesting location and object tags, including doing so automatically using computer vision based object detection methods on geotagged images
+    \item Density based clustering of object tags to fuzzily assign objects to nearby locations, enabling users to ask membership questions, like "Which locations contain a swimming pool, a statue, and a palm tree?"
+    \item Mapping objects associated with each location to a matrix (termed a \emph{ConceptMap}) to facilitate spatial querying of object-object cardinal relations like "A bus stop Northwest of a pond" and object-location relations like "A driveway Southeast of a winery".
+    \item Performing probabilistic search over locations based on object membership queries and optionally pruning the search results with spatial constraints using the ConceptMaps generated in (3)
+\end{enumerate}
 
-We address the geospatial object ownership assignment inference task using through probabilistic assignment of objects to locations and contribute a new gold standard \textit{Swan Valley Wineries} dataset and a proof of concept implementation of the proposed architecture.  %NSCH: need to clarify the exact contribution w.r.t. the current SOTA, adding progressive search if applicable
+We contribute a new gold standard hand-labeled \textit{Swan Valley Wineries} benchmark dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture, reporting ......................RESULTS........... on the wineries dataset.
+............. SCALABILITY results on noisy DC data?................................
+%address the geospatial object ownership assignment inference task using through probabilistic assignment of objects to locations and   %NSCH: need to clarify the exact contribution w.r.t. the current SOTA, adding progressive search if applicable
 
 The rest of this paper is organized as follows. In section \ref{section:architecture}, we define the \emph{GESTALT} architecture and discuss how each subsystem contributes to our human-centric approach to automating the last-mile search. 
 Next, in section \ref{section:data} we describe the process used to generate the gold standard wineries dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, the concept mapping step in section \ref{section:concept}, and the search problem in \ref{section:search}. 
