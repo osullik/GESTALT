@@ -3,8 +3,9 @@
 
 \textbf{define the problem.... motivate the use of locations as searchable entities}
 
+Given a collection of objects and a collection of locations within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. This amounts to a clustering problem where points (objects) are assigned to centroids that are known apriori (locations). The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, but for simplicity we use DBSCAN and perform a post-processing step to calculate centroids and map them to the nearest location in the dataset. 
 
-The results section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
+
 
 \subsection{Dataset}
 The experiment design is simple and designed to provide an upper bound for performance on an optimal dataset with no noise (the Swan Valley wineries dataset.) 
@@ -18,16 +19,21 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 3a. Set prob = 0.5 for null cluster (as these objects are not relevant or useful in finding locations, since they aren't tied to one, so the search will ignore them anyway)
 4. Map the centroids to the nearest location
 
-TODO NSCH: Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
+
+In step 2: After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
+
+
+
+\subsection{Fuzzy Assignment}
+..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
+
+Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
+There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
+This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
 
 \subsection{Results}
-Examining the errors reveals the following insights about each clustering technique. 
-
-\textbf{When K-Means clusters incorrectly, labels are still correct.} When $K$ exceeds the number of clusters, it fragments the actual clusters. 
-However, in ideal conditions like the Wineries Dataset, where locations are separated, the centroids of these cluster fragments are still closest to the correct location. 
-As a consequence, they are correctly labeled despite being incorrectly clustered. We expect the accuracy will drop when locations are more densely packed. However, when we aim to process all objects and locations in a region concurrently, the number of clusters will likely approach the number of locations, and the issue will be less pronounced. 
-
+This section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
 
 RESULTS TABLE HERE.........
 \begin{table}[h!]
@@ -36,7 +42,7 @@ RESULTS TABLE HERE.........
 			\hline
 			Location & Precision & Recall \\
 			\hline
-			\multirow{7}{4em}{K-Means} 
+			\multirow{7}{4em}{DBSCAN} 
                 & $K=1$ & 1 \\ 
 			& $K=6$ & 6  \\ 
 			& $K=31$ & 31 \\ 
@@ -60,31 +66,30 @@ RESULTS TABLE HERE.........
 \end{figure*}
 
 
+\subsection{Scalability}
+The ownership assignment process needs to be unsupervised to enable scaling to millions of object tags. 
 
-\subsection{OLD, INTEGRATE OR DELETE........}
-Ownership assignment is implemented in Python in two ways. The first is the trivial implementation, where the location returned from the OSM query is a bounding polygon. 
-In this case, if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 
-The second, more common (and more challenging approach) formulates an unsupervised learning problem using clustering libraries from \textit{scikit-learn}\footnote{\href{https://pypi.org/project/scikit-learn/}{Scikit-Learn PyPI Repo}}. 
+- complexity analysis
 
-Given a collection of objects and a collection of locations within a bounding box region, clustering assigns each object to its 'parent' location. 
-Under the assumption that the number of locations equals the number of clusters, K-Means clustering proved to be the most effective approach. 
-After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
-
-Assuming that the collection of locations is complete and that the point coordinate of the location is central to the collection of objects that belong to that location, the clustering problem is the assignment of an arbitrary number of objects to any of a set of possible centroids. Not every centroid will have objects, and objects are not uniformly distributed. Initial investigation into the DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem.\cite{Ram2010} 
-
-Overall, the Ownership Assignment process needs to produce a data structure that will permit set membership checking for search and set the conditions for the concept mapping process. 
+- present timings/ etc.
 
 
 
-%%%%%%%%%%%%%%%NSCH clean up, incorporate, and delete the text below this point
-Ownership assignment is the unsupervised process through which objects are associated with locations. 
-Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work, they need to know which objects belong to each location.
-For example, assuming two adjacent wineries, a fountain between them would be west of one but east of the other. The mapping will be incorrect unless it is clear which winery it belongs to. 
-Similarly, for search, the underlying idea for \textit{GESTALT} is that people will remember particular objects at locations and use them as clues to find them again. Without an accurate object-to-location assignment, the search functionality will not work. 
-The ownership assignment process needs to be unsupervised to enable scaling. Aspirationally, \textit{GESTALT} will index the world's objects to allow searchers to find any location with \textit{GESTALT}. Processing a world's worth of data necessitates an unsupervised approach. 
 
-The Ownership Assignment process accepts two inputs, a collection of locations with their coordinates and a collection of objects with their coordinates. 
-The process works to assign each object to its parent location. 
-The process ends when objects are mapped to their parent locations. Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
-There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
-This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects. 
+
+%Examining the errors reveals the following insights about each clustering technique. 
+%\textbf{When K-Means clusters incorrectly, labels are still correct.} When $K$ exceeds the number of clusters, it fragments the actual clusters. 
+%However, in ideal conditions like the Wineries Dataset, where locations are separated, the centroids of these cluster fragments are still closest to the correct location. 
+%As a consequence, they are correctly labeled despite being incorrectly clustered. We expect the accuracy will drop when locations are more densely packed. However, when we aim to process all objects and locations in a region concurrently, the number of clusters will likely approach the number of locations, and the issue will be less pronounced. 
+
+
+%The second, more common (and more challenging approach) formulates an unsupervised learning problem using clustering libraries from \textit{scikit-learn}\footnote{\href{https://pypi.org/project/scikit-learn/}{Scikit-Learn PyPI Repo}}. 
+
+%Ownership assignment is the unsupervised process through which objects are associated with locations. 
+%Objects need to be associated with locations in \textit{GESTALT} because for the \textit{concept mapping} process and \textit{search} subsystem to work, they need to know which objects belong to each location.
+%For example, assuming two adjacent wineries, a fountain between them would be west of one but east of the other. The mapping will be incorrect unless it is clear which winery it belongs to. 
+%Similarly, for search, the underlying idea for \textit{GESTALT} is that people will remember particular objects at locations and use them as clues to find them again. Without an accurate object-to-location assignment, the search functionality will not work. 
+ 
+%The Ownership Assignment process accepts two inputs, a collection of locations with their coordinates and a collection of objects with their coordinates. 
+%The process works to assign each object to its parent location. 
+%The process ends when objects are mapped to their parent locations. 
