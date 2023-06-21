@@ -11,9 +11,13 @@ We call this problem \textit{Object Ownership Assignment}, and define it as foll
 In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. Further, the human eye does not see the world in regular grid lines such as on a map, and so the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate. For example, a winery may have a shed out back that is visible both from that winery, and from a neighboring one. In this case, the object can be useful when searching for either location. We address this aspect of the problem with fuzzy assignment (subsection \ref{subsection:fuzzy_asn}).
 
 
-\subsection{Dataset}
-The experiment design is simple and designed to provide an upper bound for performance on an optimal dataset with no noise (the Swan Valley wineries dataset.) 
-The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and \~150 objects hand-labeled across 6 of those 31 locations with ground-truth location labels.
+\subsection{Datasets and Metrics}
+
+We perform the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset in addition to the noisy object tags from the Flickr dataset and the crowd-sourced object tags from the OSM dataset.
+Since we have ground truth labels for the winery locations and their objects in the Swan Valley dataset, we report both precision and recall on this dataset.
+The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Swan Valley Wineries dataset alone, given its larger set of locations and very large set of object tags to assign to those locations. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure only the recall on the same set of Winery locations and their known objects that were hand-labeled as part of the Swan Valley dataset. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
+
+The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and ................\~150 objects hand-labeled across 6 of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
 \subsection{Method}
@@ -42,17 +46,20 @@ This section discusses the empirical analysis of the clustering methods tested d
 RESULTS TABLE HERE.........
 \begin{table}[h!]
 	\begin{center}
-		\begin{tabular}{ |c|c|c|c| } 
+		\begin{tabular}{ |c|c|c|c|c|c| } 
 			\hline
-			Method & Precision & Recall \\
+			Dataset & Total Locs & Total Objs & Method & Precision & Recall \\
 			\hline
-			%\multirow{7}{4em}{DBSCAN} 
-                Exact & $K=1$ & 1 \\ 
-			Fuzzy & $K=6$ & 6  \\ 
+			\multirow{2}{9em}{Swan Valley Wineries } 
+                & 31 & ?? & Exact & $??$ & $??$  \\ 
+			& 31 & ?? & Fuzzy & $??$ & $??$  \\ 
+			\multirow{2}{9em}{Combined} 
+                & ??? & ??? & Exact & - & $??$  \\ 
+			& ??? & ??? & Fuzzy & - & $??$  \\ 
 			\hline
 		\end{tabular}
 		\label{table:clustering}
-		\caption{..............}
+		\caption{............................Combined means hand-labeled Swan Valley Wineries dataset tags and Flickr noisy object-detected tags which we have no ground truth for. We only report recall for the combined dataset since the hand-labeling was not exhaustive, and some results forom the noisy data may be correct but not in the ground truth.}
 	\end{center}
 \end{table}
 
