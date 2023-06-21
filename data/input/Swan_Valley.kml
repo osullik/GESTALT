@@ -38,7 +38,7 @@
 		<name>Swan_Valley</name>
 		<open>1</open>
 		<Folder>
-			<name>Alis_Vineyard</name>
+			<name>Ali's Vineyard</name>
 			<Placemark>
 				<name>palm_tree</name>
 				<LookAt>
@@ -353,7 +353,7 @@ color:red</description>
 			</Placemark>
 		</Folder>
 		<Folder>
-			<name>Little_River_Winery</name>
+			<name>Little River Winery and Café</name>
 			<Placemark>
 				<name>picnic_bench</name>
 				<description>color:blue</description>
@@ -688,7 +688,7 @@ color:red</description>
 			</Placemark>
 		</Folder>
 		<Folder>
-			<name>Faber_Vineyard</name>
+			<name>Faber Vineyard</name>
 			<Placemark>
 				<name>retaining_wall</name>
 				<description>material:stone</description>
@@ -1121,7 +1121,7 @@ roof:red</description>
 			</Placemark>
 		</Folder>
 		<Folder>
-			<name>Ugly_Duckling_Wines</name>
+			<name>Ugly Duckling Wines</name>
 			<Placemark>
 				<name>vineyard</name>
 				<description>size:small</description>
@@ -1621,7 +1621,7 @@ roof:red</description>
 			</Placemark>
 		</Folder>
 		<Folder>
-			<name>Oakover_Grounds</name>
+			<name>Oakover Grounds</name>
 			<Placemark>
 				<name>building</name>
 				<LookAt>
@@ -2249,7 +2249,7 @@ style:picket</description>
 			</Placemark>
 		</Folder>
 		<Folder>
-			<name>Lancaster_Wines</name>
+			<name>Lancaster Wines</name>
 			<Placemark>
 				<name>river</name>
 				<LookAt>
