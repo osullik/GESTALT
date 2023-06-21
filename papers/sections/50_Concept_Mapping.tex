@@ -35,19 +35,19 @@ The process of creating and querying a concept map is shown in Figure \ref{figur
     
     \begin{subfigure}[t]{.3\textwidth}
         \includegraphics[width=\textwidth]{CM-ExampleLocation.png}
-        \caption{\small A location centred on X in Lat/Long has named objects (A-D).} % The increasing focus on questions targeting secret information drives down false positives (paranoia) across models but dramatically increases false negatives (leakage).
+        \caption{\small A candidate location X has named objects A-D with the spatial layout depicted above.} % The increasing focus on questions targeting secret information drives down false positives (paranoia) across models but dramatically increases false negatives (leakage).
         \label{fig:CM-Example}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{.3\textwidth}
         \includegraphics[width=\textwidth]{CM-OO-Setup.png}
-        \caption{\small The objects are ordered N-S and W-E, and mapped into a matrix with those indices} % Increasing the number of secrets kept drives a small but consistent increase in false positives (paranoia).
+        \caption{\small During pre-processing, the objects associated with location X are ordered North to South (NS) and West to East (WE) and mapped into a matrix with corresponding indices.} % Increasing the number of secrets kept drives a small but consistent increase in false positives (paranoia).
         \label{fig:CM-OO-Setup}
     \end{subfigure}
     \hfill
         \begin{subfigure}[t]{.3\textwidth}
         \includegraphics[width=\textwidth]{CM-OO-Query1.png}
-        \caption{\small Searching recursively prunes for ANY match. Each recursion is a darker shade, with unpruned area in white. Objects are highlighted in yellow as they are 'found'.}% Increasing the amount of secret context available to models improves performance, but we still see some generalization with only a quarter of the secret context provided to the system.
+        \caption{\small Searching recursively prunes for ANY match. Each recursion is a darker shade, with unpruned area in white. Objects highlighted in yellow are found to match the query configuration; candidate location X is a match for the query.}% Increasing the amount of secret context available to models improves performance, but we still see some generalization with only a quarter of the secret context provided to the system.
         \label{fig:CM-OO-Query}
     \hfill
     \end{subfigure}
@@ -183,6 +183,30 @@ The process of creating and querying a concept map is shown in Figure \ref{figur
 \subsubsection{Object-Location relations}
 - description...........
 - diagram showing input and expected output.........
+
+\begin{figure*}[h]
+    \centering
+    
+    \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-ExampleLocation.png}
+        \caption{\small A candidate location X has named objects A-D with the spatial layout depicted above.} 
+        \label{fig:CM-LO-Example}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-LO-Setup.png}
+        \caption{\small The objects are binned into spatial quadrants based on their relative position to the location centroid, X.} 
+        \label{fig:CM-LO-Setup}
+    \end{subfigure}
+    \hfill
+        \begin{subfigure}[t]{.3\textwidth}
+        \includegraphics[width=\textwidth]{CM-LO-Query1.png}
+        \caption{\small Searching counts the number of query terms that correspond to a location's quadrants and returns the count, allowing multiple candiate solutions to be ranked by closeness of match.}
+        \label{fig:CM-LO-Query}
+    \hfill
+    \end{subfigure}
+    \caption{\textbf{Generate and Query an Location-Object Concept Map.}}\label{figure:ConceptMap-LO} 
+\end{figure*}
 
 \begin{algorithm}
     \caption{Generating Location Centric Structure}\label{alg:locationCentricGeneration}
