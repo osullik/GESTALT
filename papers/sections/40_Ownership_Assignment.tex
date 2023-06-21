@@ -20,19 +20,31 @@ The Combined dataset presents a more realistic and challenging scenario for Owne
 The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and ................\~150 objects hand-labeled across 6 of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
-\subsection{Method}
-1. Use DBSCAN to get the clusters and group objects together, or to the null cluster.
-2. Calculate centroids of objects that did cluster (not the null cluster)
-3. Calculate probability of object-cluster assignment as 1 - normalized(distance from object to centroid of it's cluster) for non null cluster objects. This adjusts to the density of data rather than using a static parameter (like within x distance). Normalization is done with respect to the real clusters not the null one, since the null cluster has no meaningful centroid and will skew the normalization of the rest of the object-centroid distances.
-3a. Set prob = 0.5 for null cluster (as these objects are not relevant or useful in finding locations, since they aren't tied to one, so the search will ignore them anyway)
-4. Map the centroids to the nearest location
+\subsection{Method- Object Ownership Assignment}
+ALGORITHM ObjectOwnershipAssignment
+1. Use DBSCAN to group objects into clusters, or assign them to the null cluster
+2. For objects that did cluster (i.e. objects not assigned to the null cluster):
+    3. Calculate the centroids of the clusters
+    4. Calculate the confidence scores for each object's assignment to the cluster as 1 - normalized distance from object to centroid of its cluster
+5. Set confidence score to 0.5 for objects assigned to the null cluster 
+6. Map the centroids to the nearest location
 
 
-In step 2: After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
+After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
+When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
+This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
+We take this approach rather than using a static threshold parameter (like within x distance) to account for variety in object density of the region under search. 
+We adopt the convention of assigning null cluster objects a confidence score of 0.5 since these objects are deemed to be noise and are not relevant or useful in finding locations.
 
-The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, but for simplicity we use DBSCAN and perform a post-processing step to calculate centroids and map them to the nearest location in the dataset. 
+The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
+The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
+Ideally, a better solution would start with the centroids and cluster around them. 
+The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
+We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
+ 
+%In step 6: Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
 
-\subsection{Fuzzy Assignment} \label{subsection:fuzzy_asn}
+\subsection{Method- Fuzzy Object Ownership Assignment} \label{subsection:fuzzy_asn}
 ..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
 
 Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
@@ -43,7 +55,6 @@ This multiple-ownership situation is one of the driving requirements for impleme
 \subsection{Results}
 This section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
 
-RESULTS TABLE HERE.........
 \begin{table}[h!]
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c|c|c| } 
