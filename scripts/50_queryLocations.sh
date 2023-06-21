@@ -10,11 +10,11 @@ BB_TL="-31.77307863942101"
 BB_TR="116.05029961853784"
 SEARCHTERM1="winery"
 SEARCHTERM2="brewery"
-OUTPUTFILE="../data/output/dataCollection/osm"  #note .json extension will be applied by python script
+OUTPUTFILE="../data/output/dataCollection/locations_"  #note .json extension will be applied by python script
 
 
 #Activate the venv
 source ../gestalt_env/bin/activate
 
 #Run the script
-python3 ../code/gestalt.py -q -b $BB_LL $BB_LR $BB_TL $BB_TR -s $SEARCHTERM1 $SEARCHTERM2 -o $OUTPUTFILE
+python3 ../code/gestalt.py -ql -b $BB_LL $BB_LR $BB_TL $BB_TR -s $SEARCHTERM1 $SEARCHTERM2 -o $OUTPUTFILE
