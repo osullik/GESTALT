@@ -23,23 +23,27 @@ To maximize dataset coverage, and demonstrate the flexibility of \emph{GESTALT} 
 Upon ingest, each object is assigned a confidence score, reflecting the certainty that the object tagged at those coordinates actually exists and is of the type annotated. 
 For results reported in this paper, we adopt the rule that hand-labeled objects receive a confidence score of $1.0$, OSM objects receive a score of $0.75$ and objects labeled by the object detector receive the confidence score reported by the object detection model. Table~\ref{table:objects} contains a summary of the objects currently in \emph{GESTALT}.
 
-
+\small{
 \begin{table}[h!]
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c| } 
 			\hline
-			 Source & Ingest Method & Quantity & Num distinct classes  \\
+			 Source & Ingest Method & \# objects & \# classes  \\
 			\hline
-                Swan Valley Wineries & Hand-labeled & $?????$ & $?????$ \\ 
-			.................... & Hand-labeled & $?????$ & $?????$  \\ 
-                .................... & OSM Query & $?????$ & $?????$ \\ 
-			Flickr ........ & Object detection & $?????$ & $?????$  \\ 
+                Swan Valley Wineries & Hand-labeled & $146$ & $41$ \\ 
+                OSM Bounding Box\footnote{Bounding Box:(-31.90009882641578115.96168231510637-31.77307863942101116.05029961853784)} & Crowd-Sourced & $2433$\footnote{$3056$ objects originally returned, $623$ dropped for not being objects} & $35$ \\ 
+			    Flickr Bounding Box & Object detection & $1893$\footnote{from 462 photos} & $55$  \\ 
+            \hline
+                OSM Query (Winery/Brewery) & Locations & 36 & 36\\
+                OSM Bounding Box& Locations & 308 & 308\\
+
 			\hline
 		\end{tabular}	
-		\caption{..............}
+		\caption{Summary of the Objects and Locations in the Swan Valley Wineries Dataset. Data available\osullikomment{insert data link here}}
             \label{table:objects}
 	\end{center}
-\end{table} 
+\end{table}} 
+
 
 \subsection{Location Tags}
 We support two methods of ingesting locations:
