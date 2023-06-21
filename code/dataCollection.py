@@ -127,12 +127,12 @@ class TerrainExtractor():
 					objects_dict["kml_"+str(objectCount)] = object_dict.copy()
 
 		#Report Telemetry 
-		print("Generated dictionary from", kmlFileName)
+		print("\n\nGenerated dictionary from", kmlFileName)
 		print("Analyzed {num} regions".format(num=len(list(document[0].features()))))
 		print("Analyzed {num} locations across those regions".format(num=locationCount))
-		print("Detected {num} objects across those locations. The most objects in a photo was {max}, and there were an average of {avg} objects per location".format(num=objectCount, max=maxObjects, avg=(objectCount/locationCount)))
+		print("Detected {num} objects across those locations. The most objects in a location was {max}, and there were an average of {avg} objects per location".format(num=objectCount, max=maxObjects, avg=(objectCount/locationCount)))
 		print("The vocabulary has {num} unique terms for objects".format(num=len(vocab)))
-		print("The vocabulary is:", vocab)		
+		print("The vocabulary is:", vocab,"\n")		
 
 		return objects_dict, vocab
 
@@ -226,10 +226,10 @@ class TerrainExtractor():
 			objects_dict["flickr_"+photo] = object_dict.copy() 									# Add a COPY (hooray for mutability...) of the dictionary to the parent dictionary
 
 																								# Report Telemetry
-		print("Analyzed {num} photos".format(num=len(photos_dict.keys())))
+		print("\n\nAnalyzed {num} photos".format(num=len(photos_dict.keys())))
 		print("Detected {num} objects across those photos. The most objects in a photo was {max}, and there were an average of {avg} objects per photo".format(num=objectCount, max=maxObjects, avg=(objectCount/len(photos_dict.keys()))))
 		print("The vocabulary has {num} unique terms for objects".format(num=len(vocab)))
-		print("The vocabulary is:", vocab)
+		print("The vocabulary is:", vocab, "\n")
 
 		return vocab, objects_dict 																# Return values
 
@@ -447,15 +447,15 @@ class osmQueryEngine():
 				locationDict[locationID]['origin'] = "osm"
 				locationDict[locationID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
 				locationDict[locationID]['class_confidence'] = CLASS_CONFIDENCE
-				locationDict["ground_truth_location"] = "None"
+				locationDict[locationID]["ground_truth_location"] = "None"
 
 			
 			locationCount +=1
 
 				
 		# Print telemetry to the user	
-		print("Query got {num} possible locations from OSM".format(num=len(results.elements())))
-		print("Added {num} objects of that original query result. {count} were dropped for not being locations, or poor data quality".format(num=locationCount-droppedCount, count=droppedCount))
+		print("\n\nQuery got {num} possible locations from OSM".format(num=len(results.elements())))
+		print("Added {num} locations of that original query result. {count} were dropped for not being locations, or poor data quality\n".format(num=locationCount-droppedCount, count=droppedCount))
 		#print("The names of all the locations are", placenames)
 
 		return locationDict

@@ -243,8 +243,9 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		objectsDict = {}																			#Initilaize the Dicts
 		locationsDict = {}
 
+		#print("\n\n- - - - - Ingesting Data to DBSCAN - - - - - \n")
 		for file in os.listdir(prefix):																# Load in the files
-			print("Adding",file,"to DBSCAN")
+			#print("Adding",file,"to DBSCAN")
 			
 			if file.startswith("objects"): 															# Get the objects files
 				with open(prefix+"/"+file, "r") as inObjs:
@@ -256,7 +257,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 					locations = json.load(inLocs)
 				locationsDict.update(locations)
 		
-		ownerAssigner = OwnershipAssigner(locations, objects) 										# Initalize the ownership assigner
+		ownerAssigner = OwnershipAssigner(locationsDict, objects) 										# Initalize the ownership assigner
 		
 		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)		# Convert the dictionaries created from the JSON inputs to Pandas Dataframes
 
@@ -266,7 +267,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		print("RUNNING DBSCAN WITH EPSILON:", epsilon, "MINCLUSTER:", minCluster, "FUZZY_THRESHOLD", fuzzy_threshold)
 		ownerAssigner.dbscan_membership(epsilon,minCluster,fuzzy_threshold) 										# Cluster the objects
 		clusters = ownerAssigner._df_objects["cluster"] 											# Infer the location
-		print(clusters.value_counts())
+		#print(clusters.value_counts())
 
 		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations.csv", index=False)	# Save to file
 		exit()

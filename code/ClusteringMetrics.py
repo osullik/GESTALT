@@ -1,18 +1,24 @@
+import Levenshtein
+import pandas as pd
+import numpy as np
+import argparse
+
+
 class ClusteringMetrics:
     def __init__(self, object_assignment_filename):
-        self.metrics_df = pd.read_csv(object_assignment_filename)[['true_location','predicted_location_dbscan']].copy()
-        self.metrics_df.loc[:,'TP'] = self.metrics_df.apply(lambda row : Levenshtein.ratio(row['true_location'], row['predicted_location_dbscan']) >= 0.7 , axis=1)
-        self.metrics_df.loc[:,'F_'] = self.metrics_df.apply(lambda row : Levenshtein.ratio(row['true_location'], row['predicted_location_dbscan']) < 0.7 , axis=1)
+        self.metrics_df = pd.read_csv(object_assignment_filename)[['ground_truth_location','predicted_location']].copy()
+        self.metrics_df.loc[:,'TP'] = self.metrics_df.apply(lambda row : Levenshtein.ratio(row['ground_truth_location'], row['predicted_location']) >= 0.7 , axis=1)
+        self.metrics_df.loc[:,'F_'] = self.metrics_df.apply(lambda row : Levenshtein.ratio(row['ground_truth_location'], row['predicted_location']) < 0.7 , axis=1)
 
     def clustering_recall(self):
         TP_dict = dict()
         FN_dict = dict()
         recall_dict = dict()
 
-        true_locs_list = ['Alis_Vineyard', 'Little_River_Winery', 'Faber_Vineyard', 'Ugly_Duckling_Wines', 'Oakover_Grounds', 'Lancaster_Wines']
+        true_locs_list = ['Ali\'s Vineyard', 'Little River Winery and Café', 'Faber Vineyard', 'Ugly Duckling Wines', 'Oakover Grounds', 'Lancaster Wines']
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['true_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard]
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -31,10 +37,10 @@ class ClusteringMetrics:
         weighted_recall_dict = dict()
         total_dict = dict()
 
-        true_locs_list = ['Alis_Vineyard', 'Little_River_Winery', 'Faber_Vineyard', 'Ugly_Duckling_Wines', 'Oakover_Grounds', 'Lancaster_Wines']
+        true_locs_list = ['Ali\'s Vineyard', 'Little River Winery and Café', 'Faber Vineyard', 'Ugly Duckling Wines', 'Oakover Grounds', 'Lancaster Wines']
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['true_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard]
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -53,10 +59,10 @@ class ClusteringMetrics:
         FP_dict = dict()
         precision_dict = dict()
 
-        true_locs_list = self.metrics_df['predicted_location_dbscan'].unique()
+        true_locs_list = self.metrics_df['predicted_location'].unique()
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['predicted_location_dbscan'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard]
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -77,10 +83,10 @@ class ClusteringMetrics:
         weighted_precision_dict = dict()
         total_dict = dict()
 
-        true_locs_list = self.metrics_df['predicted_location_dbscan'].unique()
+        true_locs_list = self.metrics_df['predicted_location'].unique()
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['predicted_location_dbscan'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard]
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -97,8 +103,29 @@ class ClusteringMetrics:
         return weighted_avg_precision, weighted_precision_dict, total_dict
 
 if __name__ == "__main__":
-    metrics = ClusteringMetrics(directory_name+'/data/nic_output/ownershipAssignment/obj_df.csv')
-    print("RECALL: ", metrics.clustering_recall())
-    print("WEIGHTED RECALL: ", metrics.clustering_weighted_recall())
-    print("PRECISION: ", metrics.clustering_precision())
-    print("WEIGHTED PRECISION: ", metrics.clustering_weighted_precision())
+
+    argparser = argparse.ArgumentParser()									# initialize the argParser
+    
+    argparser.add_argument(	"-c", "--clusterFile", 							
+							help="CSV of clusters with predicted locations",
+                            type=str,
+							default=None,
+							required=True)	
+
+
+    flags = argparser.parse_args()
+
+    metrics = ClusteringMetrics(flags.clusterFile
+                                )
+    print("\n\nRECALL: ")
+    for recall in metrics.clustering_recall():
+        print(recall)
+    print("WEIGHTED RECALL: ")
+    for w_recall in metrics.clustering_weighted_recall():
+        print(w_recall)
+    print("PRECISION: ")
+    for precision in metrics.clustering_precision():
+        print(precision)
+    print("WEIGHTED PRECISION: ")
+    for w_precision in metrics.clustering_weighted_precision():
+        print(w_precision)

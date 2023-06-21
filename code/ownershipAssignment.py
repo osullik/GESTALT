@@ -2,6 +2,7 @@
 
 #System Imports
 import json
+import warnings
 
 #Library Imports
 import pandas as pd
@@ -20,6 +21,8 @@ class OwnershipAssigner():
 	def __init__(self,locationData, objData):
 		self._locationDict = locationData
 		self._objectDict = objData 
+		warnings.simplefilter("ignore") 									# Suppress warnings in pandas output
+
 
 	def flatten_locations(self, locationsFile):
 		'''
@@ -145,13 +148,19 @@ class OwnershipAssigner():
 
 	def convertToDataFrame(self, flatLocations, flatObjects):								# Convert two flattened dictionaries into data frames
 
-		self._df_locations = pd.DataFrame.from_dict(flatLocations, orient="index")
+		#print("\n\n FLAT LOCATIONS:", flatLocations.items(),"\n\n")
+		#print("\n\n FLAT OBJECTS:", flatObjects.items(),"\n\n")
 
+
+		self._df_locations = pd.DataFrame.from_dict(flatLocations, orient="index")
+		
 		self._df_objects = pd.DataFrame.from_dict(flatObjects, orient="index")
 		self._locationCoordinates = []
 		self._locationIndex = {}
 
 		i = 0
+
+		#print("\n\n=====",self._df_locations,"=====\n\n",)
 		for index, row in self._df_locations.iterrows():
 			elem = [row[2],row[1]]								#Long, Lat
 			self._locationCoordinates.append(elem)
@@ -161,6 +170,7 @@ class OwnershipAssigner():
 			self._locationIndex[i] = row[0]
 			i+=1
 
+		#print("\n\n=====",self._locationCoordinates,"=====\n\n",)
 		self._location_kdTree = KDTree(self._locationCoordinates)
 
 		self._objectCoordinates = []
@@ -278,7 +288,7 @@ class OwnershipAssigner():
 
 
 	def inferLocation(self, objs_to_assign_df, centroids, method):
-		print("Inferring object location")
+		#print("Inferring object location")
 		mappings = {} 																#Dict so that arbitrary number of clusters can be used
 		for centroid in range (0, (len(centroids))): 								# For each centroid
 			d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree

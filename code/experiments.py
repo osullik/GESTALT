@@ -14,6 +14,10 @@ import argparse, json, sys, os
 from fastkml import kml 
 import pandas as pd
 
+#User File Imports
+from ClusteringMetrics import ClusteringMetrics
+
+
 
 class Experiments():
     def __init__(self):
@@ -68,6 +72,6 @@ if __name__=="__main__":
 
     madScientist = Experiments()
     clusterDF = madScientist.loadClustersFromFile(flags.clusterFile)
-
     results = madScientist.calculatePrecisionAndRecall(clusterDF)
+    #lessMadScientist = ClusteringMetrics(flags.clusterFile)
 
