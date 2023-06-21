@@ -3,13 +3,19 @@
 
 The core of \emph{GESTALT}'s geospatial search capability resides in what we call the \emph{Concept Mapping} component.
 Concept mapping is the process of extracting and explicitly encoding the implicit geographic relationships between objects. 
-By encoding these spatial relationships in a manner that can be compared with visual queries issued by the user, we enable a form of spatial last-mile search that (to our knowledge) does not exist in any GIS tools.
-Concept mapping and querying consists of two phases: the encoding phase (offline) and the search phase (online). We discuss the details of the encoding phase in this section and leave the search details to section \ref{section:search}.
+By encoding these spatial relationships in a manner that can be compared with visual queries issued by the user, we enable a form of spatial last-mile search that (to our knowledge) does not presently exist in any GIS tools.
+Concept mapping and querying consists of two phases: the encoding phase (offline) and the search phase (online). 
+We discuss the details of the encoding phase in this section and leave the search details to section \ref{section:search}.
 We implement two forms of concept mapping: object-location concept mapping and object-object concept mapping.
 
 \subsection{Object-Location relations}
-Object-location relations encode whether an object is North, South, East or West of a location. This type of information supports simple queries (i.e. when a user knows that a location has a lake on its western side).
+Object-location relations encode whether an object is North, South, East or West of a location. 
+This type of information supports simple queries, such as when a user knows that a location has a lake on its western side. 
+Each individual object-location relationship is defined independently of other objects associated with that location, and multiple constraints can be combined to form a more specific query, such as a lake west of the location and a pond south of the location.
+
 \nrscomment{.walk through the diagram explaining how the process relates to how humans might think about search.}
+
+\nrscomment{describe how object-location relationships are encoded to allow for searching}
 
 \begin{figure*}[h]
     \centering
@@ -50,18 +56,19 @@ Object-location relations encode whether an object is North, South, East or West
 
 
 \subsection{Object-object relations}
-- description....................walk through the diagram explaining how the process relates to how humans might think about search. use an example....................
 
-\nrscomment{tighten up the chunk below and move some to query specification subsection below}
-The representation of object-object relations as a concept map is grounded in the assumption that the provided query input is a pictorial query. 
-When humans describe locations to each other, they frequently draw a map. 
+The other type of spatial relationships \emph{GESTALT} supports searching are object-object relations, which are more complex than object-location relations.
+Object-object relations refer to a configuration of objects that each relate to one another spatially.
+For example, a tree, a pond, and a sign might form a triangle, with each object having a directional constraint with respect to every other object in the query (i.e. tree northwest of pond, pond southeast of sign, and sign southwest of tree).
+As the number of objects in the object-object configuration increases, the number of pairwise directional relationships needed to specify the query grows \nrscomment{exponentially??}.
+As such, object-object relations lend themselves particularly well to pictorial query specification \nrscomment{CITE}.
+This method of specifying the spatial positioning of objects aligns nicely with how humans tend to think about and describe landmarks in the world- by drawing a map. 
 We discuss pictorial querying further in section \ref{section:search}, but intuitively we want to be able to compare a user's sketch map to the real world locations \emph{GESTALT} records. 
-Rather than use a fully-connected graph, we encode both the locations, and later, the pictorial query inputs as matrices with zeros representing unallocated space and the names of objects. 
-The matrices are $NxN$, where $N$ is the number of objects at a location. 
-Using algorithm \ref{alg:geoToGrid}, we assign each object in a given location to a position $(i,j)$ in the Matrix where $i$ is its order of appearance from north to south and $j$ is the same object's order of appearance from west to east. 
-The result is a matrix in which each row and column has only a single object. 
-Where ties are experienced in the real world (due to a lack of GPS precision, or very close position) they are broken lexicographically in the object-object concept map instantiation.
-The process of creating and querying a concept map is shown in Figure \ref{figure:ConceptMap}.
+
+
+
+
+
 
 
 
@@ -89,15 +96,21 @@ The process of creating and querying a concept map is shown in Figure \ref{figur
 \end{figure*}
 
 
-\subsection{Encoding the Spatial Query}
+\subsection{Encoding the Spatial Relationships of objects and locations}
 \nrscomment{ - screenshot of UI goes here and description of how a user would put objects in and move them around.
 ....discuss how pictorial input is the natural way to specify a query of this type.........}
 
+\subsubsection{Object-object encoding}
+Rather than use a fully-connected graph, we encode both the locations, and later, the pictorial query inputs as matrices with zeros representing unallocated space and the names of objects. 
+The matrices are $NxN$, where $N$ is the number of objects at a location. 
+Using algorithm \ref{alg:geoToGrid}, we assign each object in a given location to a position $(i,j)$ in the Matrix where $i$ is its order of appearance from north to south and $j$ is the same object's order of appearance from west to east. 
+The result is a matrix in which each row and column has only a single object. 
+Where ties are experienced in the real world (due to a lack of GPS precision, or very close position) they are broken lexicographically in the object-object concept map instantiation.
+The process of creating and querying a concept map is shown in Figure \ref{figure:ConceptMap}.
 
 
 
 
-This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
 %Concept mapping has been partially implemented in Python leveraging the \textit{Scipy} library\footnote{\href{https://pypi.org/project/scipy/}{SciPy PyPI Repo}}. Two different approaches have been trialed. 
 %The first is simple dynamic arithmetic on the coordinates stored in a Pandas data frame. If one set of coordinates is above, below, left or right of another, it is north, south, east or west, respectively. 
