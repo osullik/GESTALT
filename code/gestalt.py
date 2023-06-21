@@ -114,6 +114,12 @@ if __name__ == "__main__":
 							default=False,
 							required=False)	
 	
+	argparser.add_argument(	"-ft", "--fuzzy_threshold", 							
+							help="Threshold Value for Fuzzy Search",
+							type=float,
+							default=0.0,
+							required=False)	
+	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
@@ -232,12 +238,13 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		numClusters = flags.numClusters
 		epsilon= flags.epsilon
 		minCluster = flags.numClusters
+		fuzzy_threshold = flags.fuzzy_threshold
 
 		objectsDict = {}																			#Initilaize the Dicts
 		locationsDict = {}
 
 		for file in os.listdir(prefix):																# Load in the files
-			print("Adding",file,"to K-Means")
+			print("Adding",file,"to DBSCAN")
 			
 			if file.startswith("objects"): 															# Get the objects files
 				with open(prefix+"/"+file, "r") as inObjs:
@@ -256,8 +263,8 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		ownerAssigner._df_locations.to_csv(outputFile+"/locations.csv", index=False) 				# Write the dataframes to file before clustering
 		ownerAssigner._df_objects.to_csv(outputFile+"/objects.csv", index=False)
 
-
-		ownerAssigner.dbscan_membership(epsilon,minCluster,fuzzy_threshold=0) 										# Cluster the objects
+		print("RUNNING DBSCAN WITH EPSILON:", epsilon, "MINCLUSTER:", minCluster, "FUZZY_THRESHOLD", fuzzy_threshold)
+		ownerAssigner.dbscan_membership(epsilon,minCluster,fuzzy_threshold) 										# Cluster the objects
 		clusters = ownerAssigner._df_objects["cluster"] 											# Infer the location
 		print(clusters.value_counts())
 

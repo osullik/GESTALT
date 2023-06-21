@@ -119,6 +119,10 @@ class TerrainExtractor():
 					object_dict["source"] = kmlFileName 					# Source of the object points to the KML file it came from
 					object_dict["object_prob"] = CLASS_CONFIDENCE
 					object_dict["assignment_prob"] = 1
+					try:
+						object_dict["ground_truth_location"] = location.name
+					except:
+						object_dict["ground_truth_location"] = "None"
 				
 					objects_dict["kml_"+str(objectCount)] = object_dict.copy()
 
@@ -217,6 +221,7 @@ class TerrainExtractor():
 				object_dict["source"] = photos_dict[photo]['URL']
 				object_dict["object_prob"] = photos_dict[photo]['probabilities'][i]
 				object_dict["assignment_prob"] = 1
+				object_dict["ground_truth_location"] = "None"
 			
 			objects_dict["flickr_"+photo] = object_dict.copy() 									# Add a COPY (hooray for mutability...) of the dictionary to the parent dictionary
 
@@ -350,6 +355,7 @@ class osmQueryEngine():
 				objectDict[objectID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
 				objectDict[objectID]['object_prob'] = CLASS_CONFIDENCE
 				objectDict[objectID]['assignment_prob'] = 1
+				objectDict[objectID]["ground_truth_location"] = "None"
 
 				vocab.add(objectName) 													# Add the term to the vocab
 			objectCount += 1
@@ -441,6 +447,7 @@ class osmQueryEngine():
 				locationDict[locationID]['origin'] = "osm"
 				locationDict[locationID]['source'] = "https://www.openstreetmap.org/node/{node}".format(node=str(element.id()))
 				locationDict[locationID]['class_confidence'] = CLASS_CONFIDENCE
+				locationDict["ground_truth_location"] = "None"
 
 			
 			locationCount +=1

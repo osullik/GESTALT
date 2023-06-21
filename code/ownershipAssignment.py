@@ -284,8 +284,8 @@ class OwnershipAssigner():
 			d, i = self._location_kdTree.query(centroids[centroid],1) 				# Look up its nearest neighbour in the KD tree
 			#idx = (list(self._locationIndex.keys()))[i]
 			#print(self._locationIndex[idx])
-			print(self._locationIndex[i])
-			print(centroids[centroid])
+			#print(self._locationIndex[i])
+			#print(centroids[centroid])
 			mappings[centroid] = self._locationIndex[i]
 
 		objs_to_assign_df['predicted_location'] = objs_to_assign_df.cluster.map(mappings) 		# Infer that the nearest neighbour is the cluster location
