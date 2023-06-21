@@ -2,10 +2,11 @@
 \label{section:ownership}
 
 
-We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. Motivated by the way humans tend to recall memories of locations....................add some details for context?..........................., we designed \emph{GESTALT} to enable users to search for locations using their objects (and optionally their spatial relationships) as the search conditions (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). To enable these types of queries, \emph{GESTALT} must associate objects with their parent locations.
+We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. Motivated by the way humans tend to recall memories of locations \nrscomment{add some details for context?}, we designed \emph{GESTALT} to enable users to search for locations using their objects (and optionally their spatial relationships) as the search conditions (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). To enable these types of queries, \emph{GESTALT} must associate objects with their parent locations.
 We call this problem \textit{Object Ownership Assignment}, and define it as follows:
 
-...........definition latex formatting.................... Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. This amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. 
+\nrscomment{definition latex formatting} 
+Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. This amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. 
 
 
 In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. Further, the human eye does not see the world in regular grid lines such as on a map, and so the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate. For example, a winery may have a shed out back that is visible both from that winery, and from a neighboring one. In this case, the object can be useful when searching for either location. We address this aspect of the problem by modifying our method to allow for fuzzy object-location assignment, effectively increasing the recall of the method. 
@@ -17,12 +18,14 @@ We perform the Ownership Assignment task on two datasets: the hand-labeled Swan 
 Since we have ground truth labels for the winery locations and their objects in the Swan Valley dataset, we report both precision and recall on this dataset.
 The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Swan Valley Wineries dataset alone, given its larger set of locations and very large set of object tags to assign to those locations. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure only the recall on the same set of Winery locations and their known objects that were hand-labeled as part of the Swan Valley dataset. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
 
-The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and ................\~150 objects hand-labeled across 6 of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
+The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and \nrscomment{150} objects hand-labeled across 6 of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
 \subsection{Method}
 
 \osullikomment{Question: Re ownership Assignment algo, I think it looks cleaner to define all vars up front rather than in-line? If you like this will do for others too}
+\nrscomment{agreed}
+
 \begin{algorithm}
 	\caption{Object to Location Ownership Assignment Algorithm}
 	\label{alg:OwnershipAssignment}
@@ -56,7 +59,7 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 \end{algorithm}
 
 
-Our method for Object Ownership Assignment is outlined in Algorithm ....ref....... . 
+Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment} . 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
 When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
 This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
@@ -97,11 +100,10 @@ This section discusses the empirical analysis of the clustering methods tested d
 			& Fuzzy & $c = 0.2$ & - & $??$  \\ 
 			& Fuzzy & $c = 0.3$ & - & $??$  \\ 
 			& Fuzzy & $c = 0.4$ & - & $??$  \\ 
-
 			\hline
 		\end{tabular}
-		\label{table:clustering}
 		\caption{............................Combined means hand-labeled Swan Valley Wineries dataset tags and Flickr noisy object-detected tags which we have no ground truth for. We only report recall for the combined dataset since the hand-labeling was not exhaustive, and some results from the noisy data may be correct but not in the ground truth. C represents the fuzziness parameter. higher c means more fuzzy and greater chance objects are assigned to multiple clusters.}
+        \label{table:clustering}
 	\end{center}
 \end{table}
 
@@ -113,7 +115,7 @@ This section discusses the empirical analysis of the clustering methods tested d
 %\caption[width=\textwidth]{............}
 %\end{figure*}
 
-............ interpret results........recall increases with fuzziness etc. ..............
+\nrscomment{interpret results....recall increases with fuzziness etc.}
 
 The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
 The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
@@ -125,10 +127,9 @@ We leave a detailed comparison of Object Ownership Assignment techniques as an i
 \subsection{Scalability}
 The ownership assignment process needs to be unsupervised to enable scaling to millions of object tags. 
 
+\nrscomment{
 - complexity analysis
-
-- present timings/ etc.
-
+- present timings/ etc. }
 
 
 
