@@ -28,9 +28,10 @@ ALGORITHM ObjectOwnershipAssignment
     4. Calculate the confidence scores for each object's assignment to the cluster as 1 - normalized distance from object to centroid of its cluster
 5. Set confidence score to 0.5 for objects assigned to the null cluster 
 6. Map the centroids to the nearest location
+%%%NSCH remove algo above and replace with picture version 
+\osullikomment{needs to replace the above ALGO with a nice version}
 
-
-Our method for Object Ownership Assignment is outlined in Algorithm ........... . 
+Our method for Object Ownership Assignment is outlined in Algorithm ....ref....... . 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
 When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
 This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
@@ -55,16 +56,23 @@ This section discusses the empirical analysis of the clustering methods tested d
 
 \begin{table}[h!]
 	\begin{center}
-		\begin{tabular}{ |c|c|c|c|c|c| } 
+		\begin{tabular}{ |c|c|c|c|c| } 
 			\hline
-			Dataset & Total Locs & Total Objs & Method & Precision & Recall \\
+			Dataset & Method & Fuzzy Param & Precision & Recall \\
 			\hline
-			\multirow{2}{9em}{Swan Valley Wineries } 
-                & 31 & ?? & Exact & $??$ & $??$  \\ 
-			& 31 & ?? & Fuzzy & $??$ & $??$  \\ 
-			\multirow{2}{9em}{Combined} 
-                & ??? & ??? & Exact & - & $??$  \\ 
-			& ??? & ??? & Fuzzy & - & $??$  \\ 
+			\multirow{5}{9em}{Swan Valley Wineries } 
+                & Exact & $c = 0.0$ & $??$ & $??$  \\ 
+			& Fuzzy & $c = 0.1$ & $??$ & $??$  \\ 
+			& Fuzzy & $c = 0.2$ & $??$ & $??$  \\
+			& Fuzzy & $c = 0.3$ & $??$ & $??$  \\ 
+			& Fuzzy & $c = 0.4$ & $??$ & $??$  \\ 
+			\multirow{5}{9em}{Combined} 
+                & Exact & $c = 0.0$ & - & $??$  \\ 
+			& Fuzzy & $c = 0.0$ & - & $??$  \\ 
+			& Fuzzy & $c = 0.2$ & - & $??$  \\ 
+			& Fuzzy & $c = 0.3$ & - & $??$  \\ 
+			& Fuzzy & $c = 0.4$ & - & $??$  \\ 
+
 			\hline
 		\end{tabular}
 		\label{table:clustering}
@@ -73,14 +81,14 @@ This section discusses the empirical analysis of the clustering methods tested d
 \end{table}
 
 
-\begin{figure*}[ht]
-\label{fig:cmeans}        
-\includegraphics[width=\textwidth]{gestalt_cmeans.png}
-\centering
-\caption[width=\textwidth]{............}
-\end{figure*}
+%\begin{figure*}[ht]
+%\label{fig:cmeans}        
+%\includegraphics[width=\textwidth]{gestalt_cmeans.png}
+%\centering
+%\caption[width=\textwidth]{............}
+%\end{figure*}
 
-............ interpret results......................
+............ interpret results........recall increases with fuzziness etc. ..............
 
 The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
 The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
