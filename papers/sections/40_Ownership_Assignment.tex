@@ -2,27 +2,13 @@
 \label{section:ownership}
 
 
-We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. Motivated by the way humans tend to recall memories of locations, we designed \emph{GESTALT} to enable users to search for locations using their objects (and optionally their spatial relationships) as the search conditions (i.e. a location that contains <object1, object2, etc.>.)
-
-The objects associated with a given location provide 
-
-..........motivate the use of locations as searchable entities with objects associated to them as the search conditions...........................
-
-After obtaining location and object tags, the next step to enable last-mile search for locations is to determine the ownership relationships between locations and their objects.
-
-
-
+We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. Motivated by the way humans tend to recall memories of locations....................add some details for context?..........................., we designed \emph{GESTALT} to enable users to search for locations using their objects (and optionally their spatial relationships) as the search conditions (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). To enable these types of queries, \emph{GESTALT} must associate objects with their parent locations.
 We call this problem \textit{Object Ownership Assignment}, and define it as follows:
 
 ...........definition latex formatting.................... Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. This amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. 
 
 
-The human eye doesn't see invisible lines on a map. Accordingly, the ownership assignment process is inexact, and objects are 'shared' between locations where appropriate.
-
-
-
-The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, but for simplicity we use DBSCAN and perform a post-processing step to calculate centroids and map them to the nearest location in the dataset. 
-
+In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. Further, the human eye does not see the world in regular grid lines such as on a map, and so the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate. For example, a winery may have a shed out back that is visible both from that winery, and from a neighboring one. In this case, the object can be useful when searching for either location. We address this aspect of the problem with fuzzy assignment (subsection \ref{subsection:fuzzy_asn}).
 
 
 \subsection{Dataset}
@@ -40,9 +26,9 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 
 In step 2: After clustering the objects, we determine the centroid of the object cluster. Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
 
+The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, but for simplicity we use DBSCAN and perform a post-processing step to calculate centroids and map them to the nearest location in the dataset. 
 
-
-\subsection{Fuzzy Assignment}
+\subsection{Fuzzy Assignment} \label{subsection:fuzzy_asn}
 ..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
 
 Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
