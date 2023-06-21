@@ -30,9 +30,23 @@ Grid-ifying the earth and making a gestalt for each grid cell to enable last-mmi
 Enable searching for object quantities: For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. Searching for 'tree' might yield nothing, but searching for '30 trees' would considerably prune the result. Issue: multiple sources may tag same object, need to deduplicate them
 
 
+\subsection{Normalizing Search Terms}  %NSCH not implemented, rewrite depending on if implemented or not
+Regardless of the formulation of the search problem, there is a clear requirement for semantic search across objects. For simple spelling variations (e.g. 'colour' in the King's Australian English versus 'color' in American English), a string distance metric like \textit{Levenshtein} distance would suffice. 
+But a richer semantic search is required for more pronounced linguistic variations like 'water fountain' versus 'drinking fountain' versus 'bubbler'. 
+The first option to reduce the likelihood of inconsistently named objects is to enforce compliance with the Open Street Maps ontology, which is an extensive definition of locations, objects and their descriptions. 
+While adherence to the ontology enforces internal consistency, it does not overcome the issue of a user searching with unknown terms. 
+A straightforward option could be to use the vector embedding of a word as a starting point and use the k-nearest words in vector space as alternate search terms. 
+It is unlikely that this will significantly impact the false positive rate once an appropriate similarity threshold is set but may increase the system's overall recall. 
+A more complicated approach could leverage an external semantic data source like DBPedia or WikiData, or even WordNet to search for semantically similar terms to substitute in the search. 
+
 
 The first challenge is classifying an image as 'indoors' (where no objects will be visible from RSI and the closest building will 'own' it) or 'outdoors', where objects can map to the RSI. Numerous approaches exist to the indoor/outdoor scene classification \cite{Tong2017}. 
 Each object in an outdoor photo's distance from the camera geolocation will be estimated using a myriad of depth estimation techniques \cite{Ming2021,Liu2020}. 
 Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
+
+
+The third are \textit{Positional Relations} which are applied to the two other types to enable reasoning about objects that are left, right, up, down, beside, behind etc., other objects. 
+Positional relation use will be extensive because few humans think in cardinal directions, and most spatial reasoning is conducted from the person's perspective. 
+Positional Relations enable users to query for locations where there is a letterbox on the left of the driveway as you enter the driveway while the house is in front of you. 
 
 %Ownership assignment is implemented in Python in two ways. The first is the trivial implementation, where the location returned from the OSM query is a bounding polygon. In this case, if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 

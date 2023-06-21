@@ -27,29 +27,29 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 	\caption{Object to Location Ownership Assignment Algorithm}
 	\label{alg:OwnershipAssignment}
 	\begin{algorithmic}
-		\State{\textit{\textbf{Locations}} a list of locations and their centroid coordinates}
-		\State{\textit{\textbf{Objects}} a list of objects and their coordinates}
+		\State{\textit{\textbf{Locs}} a list of locations and their tagged coordinates}
+		\State{\textit{\textbf{Objs}} a list of objects and their coordinates}
 		\State{\textit{\textbf{Clusters}} a list of object clusters}
 		\State{\textit{\textbf{C}} an individual cluster in $Clusters$}
 		\State{\textit{\textbf{C.x}} a cluster centroid}
 		\State{\textit{\textbf{C.l}} the predicted $location$ for a $cluster$}
 		\State{\textit{\textbf{O}} an individual object in $Objects$}
-		\State{\textit{\textbf{O.c}} confidence score that object correctly assigned}
-		\State{\textit{\textbf{O.x}} an object's coordinates}
+		\State{\textit{\textbf{O.c}} confidence score that object was correctly assigned}
+		%\State{\textit{\textbf{O.x}} an object's coordinates}
 		\State{- - - - - - - - - -}
-		\Procedure{ObjectOwnershipAssignment}{$L$,$O$}
-			\State{$Clusters\leftarrow$ \textbf{DBSCAN}(Objects)}%\Comment{\textbf{C}luster}
+		\Procedure{ObjectOwnershipAssignment}{$Locs$,$Objs$}
+			\State{$Clusters\leftarrow$ \textbf{DBSCAN}($Objs$)}%\Comment{\textbf{C}luster}
 			\For{All $C$ in $Clusters$ except NULL cluster}
 				\State{$C.x\leftarrow$ Calculate Cluster Centroid}%\Comment{$C.x$ cluster centroid}
 				\For{$O$ in $C$}
-					\State{$O.c\leftarrow$ $1-\frac{1}{dist(O.x, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
+					\State{$O.c\leftarrow$ $1-\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
 				\EndFor
 			\EndFor
 			\For{All $O$ in NULL Cluster}
 				\State{$O.c$ = 0.5}
 			\EndFor
 			\For{All $C$ in $Clusters$ Except NULL Cluster}
-				\State{$C.l\leftarrow$ Closest $L.x$ to $C.x$}%\Comment{\textbf{C}luster \textbf{L}oc, $L.x$ Loc coords}
+				\State{$C.l\leftarrow$ Closest $L$ in $Locs$ to $C.x$}%\Comment{\textbf{C}luster \textbf{L}oc, $L.x$ Loc coords}
 			\EndFor 
 		\EndProcedure
 	\end{algorithmic}
