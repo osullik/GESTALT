@@ -21,15 +21,40 @@ The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and 
 
 
 \subsection{Method}
-ALGORITHM ObjectOwnershipAssignment
-1. Use DBSCAN to group objects into clusters, or assign them to the null cluster
-2. For objects that did cluster (i.e. objects not assigned to the null cluster):
-    3. Calculate the centroids of the clusters
-    4. Calculate the confidence scores for each object's assignment to the cluster as 1 - normalized distance from object to centroid of its cluster
-5. Set confidence score to 0.5 for objects assigned to the null cluster 
-6. Map the centroids to the nearest location
-%%%NSCH remove algo above and replace with picture version 
-\osullikomment{needs to replace the above ALGO with a nice version}
+
+\osullikomment{Question: Re ownership Assignment algo, I think it looks cleaner to define all vars up front rather than in-line? If you like this will do for others too}
+\begin{algorithm}
+	\caption{Object to Location Ownership Assignment Algorithm}
+	\label{alg:OwnershipAssignment}
+	\begin{algorithmic}
+		\State{\textit{\textbf{Locations}} a list of locations and their centroid coordinates}
+		\State{\textit{\textbf{Objects}} a list of objects and their coordinates}
+		\State{\textit{\textbf{Clusters}} a list of object clusters}
+		\State{\textit{\textbf{C}} an individual cluster in $Clusters$}
+		\State{\textit{\textbf{C.x}} a cluster centroid}
+		\State{\textit{\textbf{C.l}} the predicted $location$ for a $cluster$}
+		\State{\textit{\textbf{O}} an individual object in $Objects$}
+		\State{\textit{\textbf{O.c}} confidence score that object correctly assigned}
+		\State{\textit{\textbf{O.x}} an object's coordinates}
+		\State{- - - - - - - - - -}
+		\Procedure{ObjectOwnershipAssignment}{$L$,$O$}
+			\State{$Clusters\leftarrow$ \textbf{DBSCAN}(Objects)}%\Comment{\textbf{C}luster}
+			\For{All $C$ in $Clusters$ except NULL cluster}
+				\State{$C.x\leftarrow$ Calculate Cluster Centroid}%\Comment{$C.x$ cluster centroid}
+				\For{$O$ in $C$}
+					\State{$O.c\leftarrow$ $1-\frac{1}{dist(O.x, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
+				\EndFor
+			\EndFor
+			\For{All $O$ in NULL Cluster}
+				\State{$O.c$ = 0.5}
+			\EndFor
+			\For{All $C$ in $Clusters$ Except NULL Cluster}
+				\State{$C.l\leftarrow$ Closest $L.x$ to $C.x$}%\Comment{\textbf{C}luster \textbf{L}oc, $L.x$ Loc coords}
+			\EndFor 
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
 
 Our method for Object Ownership Assignment is outlined in Algorithm ....ref....... . 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
