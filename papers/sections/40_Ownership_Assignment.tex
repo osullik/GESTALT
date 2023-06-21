@@ -8,7 +8,7 @@ We call this problem \textit{Object Ownership Assignment}, and define it as foll
 ...........definition latex formatting.................... Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. This amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. 
 
 
-In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. Further, the human eye does not see the world in regular grid lines such as on a map, and so the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate. For example, a winery may have a shed out back that is visible both from that winery, and from a neighboring one. In this case, the object can be useful when searching for either location. We address this aspect of the problem with fuzzy assignment (subsection \ref{subsection:fuzzy_asn}).
+In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. Further, the human eye does not see the world in regular grid lines such as on a map, and so the ownership assignment process is naturally inexact, and objects are 'shared' between locations where appropriate. For example, a winery may have a shed out back that is visible both from that winery, and from a neighboring one. In this case, the object can be useful when searching for either location. We address this aspect of the problem by modifying our method to allow for fuzzy object-location assignment, effectively increasing the recall of the method. 
 
 
 \subsection{Datasets and Metrics}
@@ -20,7 +20,7 @@ The Combined dataset presents a more realistic and challenging scenario for Owne
 The Swan Valley Wineries dataset consists of 31 wineries retrieved from OSM and ................\~150 objects hand-labeled across 6 of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
-\subsection{Method- Object Ownership Assignment}
+\subsection{Method}
 ALGORITHM ObjectOwnershipAssignment
 1. Use DBSCAN to group objects into clusters, or assign them to the null cluster
 2. For objects that did cluster (i.e. objects not assigned to the null cluster):
@@ -30,29 +30,27 @@ ALGORITHM ObjectOwnershipAssignment
 6. Map the centroids to the nearest location
 
 
+Our method for Object Ownership Assignment is outlined in Algorithm ........... . 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
 When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
 This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
 We take this approach rather than using a static threshold parameter (like within x distance) to account for variety in object density of the region under search. 
 We adopt the convention of assigning null cluster objects a confidence score of 0.5 since these objects are deemed to be noise and are not relevant or useful in finding locations.
 
-The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
-The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
-Ideally, a better solution would start with the centroids and cluster around them. 
-The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
-We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
+To further account for uncertainty in object tags, we add an adjustable parameter \textit{c} to the method which allows for a varying degree of \textit{fuzzy assignment} of objects to clusters. 
+By adjusting the parameter between 0 and 1, we can allow for objects to be assigned to multiple clusters if they are close to the centroid (within \textit{$100*c\%$} of the largest object-centroid distance in the dataset, the same value used to normalize the confidence scores). We discuss how changing this parameter affects the precision and recall in subsection \ref{subsection:own_results}.
  
 %In step 6: Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
 
-\subsection{Method- Fuzzy Object Ownership Assignment} \label{subsection:fuzzy_asn}
-..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
+%\subsection{Method- Fuzzy Object Ownership Assignment} 
+%..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
 
-Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
-There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
-This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
+%Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
+%There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
 
 
-\subsection{Results}
+
+\subsection{Results} \label{subsection:own_results}
 This section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
 
 \begin{table}[h!]
@@ -70,7 +68,7 @@ This section discusses the empirical analysis of the clustering methods tested d
 			\hline
 		\end{tabular}
 		\label{table:clustering}
-		\caption{............................Combined means hand-labeled Swan Valley Wineries dataset tags and Flickr noisy object-detected tags which we have no ground truth for. We only report recall for the combined dataset since the hand-labeling was not exhaustive, and some results forom the noisy data may be correct but not in the ground truth.}
+		\caption{............................Combined means hand-labeled Swan Valley Wineries dataset tags and Flickr noisy object-detected tags which we have no ground truth for. We only report recall for the combined dataset since the hand-labeling was not exhaustive, and some results from the noisy data may be correct but not in the ground truth. C represents the fuzziness parameter. higher c means more fuzzy and greater chance objects are assigned to multiple clusters.}
 	\end{center}
 \end{table}
 
@@ -81,6 +79,14 @@ This section discusses the empirical analysis of the clustering methods tested d
 \centering
 \caption[width=\textwidth]{............}
 \end{figure*}
+
+............ interpret results......................
+
+The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
+The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
+Ideally, a better solution would start with the centroids and cluster around them. 
+The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
+We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
 
 
 \subsection{Scalability}
