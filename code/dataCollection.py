@@ -778,8 +778,8 @@ class PhotoDownloader():
 			# Loop over each image
 
 			for idx in range(len(list_of_img_files)):
-				file_id = Path(list_of_img_files[counter]).stem  # extract filename without path or extension
-				#result = results[idx]
+				file_id = Path(list_of_img_files[idx]).stem  # extract filename without path or extension
+				result = results[idx]
 				tags = []
 				coords = []
 				probs = []
@@ -798,6 +798,5 @@ class PhotoDownloader():
 					json_dict[file_id].update({"objects":tags, "coordinates":coords, "probabilities":probs})
 				except KeyError:
 					print("NOT FOUND:",file_id,"\n Tags:",tags,"\n coords:", coords, "\n probs", probs)
-				counter+=1
 
 		return json.dumps(json_dict,indent=4)
