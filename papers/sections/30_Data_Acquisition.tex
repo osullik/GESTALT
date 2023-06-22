@@ -5,12 +5,18 @@
 %The visual encoding is primarily remote sensing imagery providing a top-down view of the earth's surface, but it also includes street-view imagery and other photographs. 
 \emph{GESTALT} enables last-mile search by encoding visual and geospatial data within a given \emph{region}, using two types of geotags: \emph{object} tags and \emph{location} tags.
 
-\emph{Regions} represent a limited physical area of interest within which last-mile search is to be performed. \nrscomment{anything else to the definition? scope? size? bounding box? arbitrary shape?}
+\emph{Regions} represent a limited physical area of interest within which last-mile search is to be performed. 
+Regions can be of arbitrary size, however the performance of the search functionality is related to the amount of objects and locations containted within the region, and so should be adjusted proportional to the density of objects and locations. 
+Regions are defined by bounding-boxes for compatibility with the OSM and Flickr APIs.
 
+\emph{Objects} represent any physical entity located within the region of interest. 
+For example, a \textit{tree, building, lake, bridge, gate} or \textit{sign} could be an object. 
+\textit{Objects} can also have attributes that provide amplifying information about them, including things like \textit{color, material, size, species etc.}. 
 
-\emph{Objects} represent any physical entity located within the region of interest. For example, a \textit{tree, building, lake, bridge, gate} or \textit{sign} could be an object. \textit{Objects} can also have attributes that provide amplifying information about them, including things like \textit{color, material, size, species etc.}. 
-
-\emph{Locations} represent physical entities that \textit{do} something, giving them a purpose beyond that of objects. Locations can contain meaningful groupings of objects determined by ownership, proximity or utility. Examples of locations include \textit{businesses, attractions, properties etc.}. \textit{Locations} have \textit{objects} associated with them, and \emph{GESTALT} enables users to query for locations given a partial set of knowledge about the objects at those locations.
+\emph{Locations} represent physical entities that \textit{do} something, giving them a purpose beyond that of objects. 
+Locations can contain meaningful groupings of objects determined by ownership, proximity or utility. 
+Examples of locations include \textit{businesses, attractions, properties etc.}. 
+\textit{Locations} have \textit{objects} associated with them, and \emph{GESTALT} enables users to query for locations given a partial set of knowledge about the objects at those locations.
 
 \subsection{Object Tags}
 To maximize dataset coverage, and demonstrate the flexibility of \emph{GESTALT} we support three methods of ingesting objects:
@@ -28,11 +34,11 @@ For results reported in this paper, we adopt the rule that hand-labeled objects 
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c| } 
 			\hline
-			 Source & Ingest Method & \# objects & \# classes  \\
+			 Source & Ingest Method & \# tags & \# unique  \\
 			\hline
                 Swan Valley Wineries & Hand-labeled & $146$ & $41$ \\ 
-                OSM Bounding Box\footnote{Bounding Box:(-31.90009882641578115.96168231510637-31.77307863942101116.05029961853784)} & Crowd-Sourced & $2433$\footnote{$3056$ objects originally returned, $623$ dropped for not being objects} & $35$ \\ 
-			    Flickr Bounding Box & Object detection & $1893$\footnote{from 462 photos} & $55$  \\ 
+                OSM Bounding Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2433$\tablefootnote{$3056$ objects originally returned, $623$ dropped for not being objects} & $35$ \\ 
+			    Flickr Bounding Box & Object detection & $1893$\tablefootnote{from $462$ photos} & $55$  \\ 
             \hline
                 OSM Query (Winery/Brewery) & Locations & 36 & 36\\
                 OSM Bounding Box& Locations & 308 & 308\\
@@ -44,26 +50,49 @@ For results reported in this paper, we adopt the rule that hand-labeled objects 
 	\end{center}
 \end{table}} 
 
+\small{
+\begin{table}[h!]
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| } 
+			\hline
+			 Source & Ingest Method & \# tags & \# unique  \\
+			\hline
+                DC & Hand-labeled & $0$ & $0$ \\ 
+                OSM Bounding Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced & $54820$\tablefootnote{$113339$ objects originally returned, $58519$ dropped for not being objects} & $165$ \\ 
+			    Flickr Bounding Box & Object detection & \osullikomment{fill in when yolo finishes}$?$\tablefootnote{from $4000$ photos} & $?$  \\ 
+            \hline
+                OSM Bounding Box & Locations & $13223$ & $13223$\\
+
+			\hline
+		\end{tabular}	
+		\caption{Summary of the Objects and Locations in the DC Dataset. Data available\osullikomment{insert data link here}}
+            \label{table:objects}
+	\end{center}
+\end{table}} 
+
 
 \subsection{Location Tags}
 We support two methods of ingesting locations:
 \begin{enumerate}
-    \item Ingesting KML Files that contain manually annotated locations and their coordinates 
-    \item Querying the Open Street Maps (OSM) API to ingest crowd-sourced location tags and their coordinates 
+    \item Ingesting KML Files that contain manually annotated locations and their coordinates.
+    \item Querying the Open Street Maps (OSM) API to ingest crowd-sourced location tags and their coordinates. 
 \end{enumerate}
-\nrscomment{confidence scores? and do we use hand-labeled locs or do they come from OSM also?}
+
+\osullikomment{0.75 for OSM and yes we sure do, they're the parent container for the objects. }
+%\nrscomment{confidence scores? and do we use hand-labeled locs or do they come from OSM also?}
 
 \subsection{Ingest Methods}
 \subsubsection{Ground Truth Hand Labeled Tags} 
 Hand labeled objects and locations are those that have been manually annotated by a trustworthy source, and are assumed to be correctly labeled and correctly geotagged. 
 \emph{GESTALT} accepts hand-labeled tags to allow for prior manual annotation work to be folded into the database, and to provide a reliable means to report results on ground truth data, so that we can compare \emph{GESTALT} with future architectures that might attempt to solve the last-mile search problem with a different approach. 
 
-For benchmarking purposes we curated the \emph{Swan Valley Wineries} dataset containing 31 ground truth location tags for wineries in the Swan Valley Region of Western Australia and 146 ground truth object tags associated with 6 of those wineries. 
+For benchmarking purposes we curated the \emph{Swan Valley Wineries} dataset containing 31 ground truth location tags for wineries (and five for breweries) in the Swan Valley Region of Western Australia and 146 ground truth object tags associated with six of those wineries. 
 %and the correct associations between them (i.e. which objects belong to which locations). for six wineries within the Swan Valley Region of Western Australia. The objects are stored by their ground truth parent location in a KML file.
 The wineries dataset tags are stored in Keyhole Markup Language~\footnote{\href{https://developers.google.com/kml/documentation/kml\_tut}{https://developers.google.com/kml/documentation/kml\_tut}} (KML).
 The tags consist of an object name, its latitude \& longitude, and any descriptive markings written as key:value pairs. 
 
-The object tagging was conducted manually by a single annotator, combining on-the-ground knowledge with manual inspection of satellite imagery, \textit{Google Earth Professional \footnote{\href{https://www.google.com/earth/about/versions/}{https://www.google.com/earth/about/versions/}} version 7.3} street-view imagery, and publicly available photos of the area. 
+The object tagging was conducted manually by a single annotator using \textit{Google Earth Professional \footnote{\href{https://www.google.com/earth/about/versions/}{https://www.google.com/earth/about/versions/}} version 7.3}. 
+The data sources include on-the-ground knowledge, with manual inspection of satellite imagery, street-view imagery, and publicly available photos of the area. 
 The objects tagged are representative, not exhaustive. 
 Attributes of the objects (e.g. color, size, material) are recorded in the comments field as key:value pairs.
 Each object from the hand-labeled dataset is assigned a confidence score of 1.0, since it was manually identified and tagged.
@@ -79,7 +108,7 @@ Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries data
 \begin{figure*}[ht]       
     \includegraphics[width=0.5\textwidth]{loc_labels_plot.png}
     \centering
-    \caption[width=\textwidth]{............}
+    \caption[width=\textwidth]{The Swan Valley Wineries dataset has six locations with annotated objects, and another 30 without manually annotated objects, but with confirmed location coordinates.}
     \label{fig:loc} 
 \end{figure*}
 
@@ -87,26 +116,33 @@ Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries data
 \begin{figure*}[ht]
     \includegraphics[width=\textwidth]{loc_obj_labels_plot.png}
     \centering
-    \caption[width=\textwidth]{............}
+    \caption[width=\textwidth]{A respesentative view of the six wineries provided in the dataset shows the geospatial heterogenerity of object positions between locations.}
     \label{fig:loc-obj}  
 \end{figure*}
 
 
 \subsubsection{Open Street Maps Tags}
 \emph{GESTALT} can also ingest object and location tags by querying the Open Street Maps (OSM) API.
-OSM is a knowledge collective that contains open-source Geodata~\cite{Haklay2008}, which can be easily extended via their online editing interface.
+OSM is a knowledge collective that contains open-source Geodata~\cite{Haklay2008}, which can be easily extended via their online editing interface. 
+The basic unit in the OSM database is an \textit{element}\footnote{\href{https://wiki.openstreetmap.org/wiki/Elements}{https://wiki.openstreetmap.org/wiki/Elements}}. 
+The key element subtypes are \textit{Nodes} (point data for objects and locations) \textit{ways} (line data for roads, creeks, railways etc) and \textit{relations} (relationships between elements, a suburb is a sub-relation of a state for example).
 While businesses, attractions and other \textit{locations} are commonly annotated by the OSM community, \textit{objects} are more sparsely tagged, since few people have the patience to manually label apparently inconsequential things like trees, statues, fountains and telephone poles. 
-\emph{GESTALT} ingests what object tags do exist in OSM through 
+\emph{GESTALT} ingests \textit{nodes} through the overpass API using the OSMPythonTools package \footnote{\href{https://pypi.org/project/OSMPythonTools/}{https://pypi.org/project/OSMPythonTools/}}. 
+The API query asks for all nodes within a given bounding box that have at least one tag (e.g "name" or "craft" or "landuse" or "address" could all be tags.)
+The initial list of nodes is then pruned to remove results likely to not refer to objects (e.g. nodes with street addesses, phone numbers or names are unlikely to be objects and may be better classified as locations) or that lack detail to be resolved to objects.
+The remaining nodes are transformed into a standard JSON format and stored for use by future subsystems in the \emph{GESTALT} pipeline. 
 
-\nrscomment{describe the process here (API? fields queried? post-processing?)}
+Each object ingested from OSM is assigned a confidence score of 0.75 by default.
+While any user is able to edit tags in the OSM database without review, the open-source community does have some degree of self-regulation and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}, the OSM data can still be wrong in many cases~\cite{VargasMunoz2020}.
 
-Each object ingested from OSM is assigned a confidence score of 0.75, since these tags are maintained by the open-source community and are subject to a combination of human review and an application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}, but can still be wrong in many cases~\cite{VargasMunoz2020}.
-
-\nrscomment{describe how locations are ingested...fields used?}
+%\nrscomment{describe how locations are ingested...fields used?}
 %The OSM query interface leverages the \textit{OSMPythonTools}\footnote{\href{https://pypi.org/project/OSMPythonTools/}{OSMPythonTools PyPI Repo}}. It passes a bounding box to the OSM Overpass-Turbo API\footnote{\href{https://overpass-turbo.eu/}{Overpass-Turbo API}} and requests the relevant location nodes in the area.
 
-Businesses, attractions and other higher-level \textit{locations} are commonly annotated in OSM by the open-source community or business owners themselves.
-However, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
+Businesses, attractions and other higher-level \textit{locations} are commonly annotated as nodes in OSM by the open-source community or business owners themselves. 
+We retrieve them from the OSM Overpass API using the reciprocal method to the above - still collecting all of the nodes with more than one tag, but this time excluding ones that lack features like names, street addresses, phone numbers etc. 
+
+
+While OSM provides a rich, free and accessible data source to leverage the power of the crowds to generate tags for GESTALT, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
 
 %NSCH need to cut/clean up the below chunk about OSM
 %OSM records objects' coordinates as a mixture of point coordinates and bounding polygons. 
@@ -117,9 +153,13 @@ However, the completeness of OSM is generally unassured, so scaling \textit{GEST
 
 \subsubsection{Noisy Image-based Tags}
 The third, and most important method by which \emph{GESTALT} ingests objects, is through automatic object detection.
-Given a set of images and their associated geo data, \nrscomment{what is it actually called?} the Object Detection module uses YOLO~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image. 
-Those objects are then tagged with the geolocation of the image, and stored \nrscomment{how?}. 
-For our experiments, we pull \nrscomment{how many?} images over \nrscomment{timeframe} and use pre-trained YOLO v.8 to detect objects from 80 classes (based on the COCO dataset \nrscomment{footnote}). Each object identified is assigned a probability score \nrscomment{how does YOLO get that????}
+We source relevent images through the Flickr API, returning all images that have been uploaded within a given bounding box since January 1$^st$ 2020. We temporarily store the images locally until this step is complete. 
+We also store relevant geospatial metadata Flickr holds on those images in a JSON format. 
+Given the set of images and their EXIF data the Object Detection module uses YOLO~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image. 
+Those objects are then tagged with the geolocation of the image, and stored in an updated version of the JSON created from the initial Flickr API pull. 
+For our experiments on the Swan Valley Region, we pull 462 images since January 1$^st$ 2020 and use pre-trained YOLO v.8 to detect objects from 80 classes (based on the COCO dataset \nrscomment{footnote}). 
+The DC dataset over the same timeframe returns over 12,000 images. We process a subset of 4000 to demonstrate the functionality of GESTALT over larger scales. 
+Each object identified is assigned the classification confidence score returned by the object detection model. 
 
 
 
