@@ -19,6 +19,8 @@ class ClusteringMetrics:
 
         for vineyard in true_locs_list:
             select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard].drop_duplicates()
+            select_df = select_df.sort_values(by='TP', ascending=False)
+            select_df = select_df.drop_duplicates(subset=['latitude','longitude'], keep="first")
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -41,6 +43,8 @@ class ClusteringMetrics:
 
         for vineyard in true_locs_list:
             select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard].drop_duplicates()
+            select_df = select_df.sort_values(by='TP', ascending=False)
+            select_df = select_df.drop_duplicates(subset=['latitude','longitude'], keep="first")
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -63,6 +67,8 @@ class ClusteringMetrics:
 
         for vineyard in true_locs_list:
             select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard].drop_duplicates()
+            select_df = select_df.sort_values(by='TP', ascending=False)
+            select_df = select_df.drop_duplicates(subset=['latitude','longitude'], keep="first")
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -87,6 +93,8 @@ class ClusteringMetrics:
 
         for vineyard in true_locs_list:
             select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard].drop_duplicates()
+            select_df = select_df.sort_values(by='TP', ascending=False)
+            select_df = select_df.drop_duplicates(subset=['latitude','longitude'], keep="first")
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
