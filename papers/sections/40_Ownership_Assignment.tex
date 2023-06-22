@@ -37,9 +37,6 @@ The Swan Valley Wineries dataset consists of 31 wineries and five breweries retr
 
 \subsection{Method}
 
-\osullikomment{Question: Re ownership Assignment algo, I think it looks cleaner to define all vars up front rather than in-line? If you like this will do for others too}
-\nrscomment{agreed}
-
 \begin{algorithm}
 	\caption{Object to Location Ownership Assignment Algorithm}
 	\label{alg:OwnershipAssignment}
@@ -145,11 +142,13 @@ This section discusses the empirical analysis of the clustering methods tested d
 %\end{figure*}
 
 \nrscomment{interpret results....recall increases with fuzziness etc.}
+
 \osullikomment{Blocked pending analysis results}
 
 The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
 The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
 Ideally, a better solution would start with the centroids and cluster around them. 
+
 \osullikomment{DVBSCAN doesn't do what I thought it did. I think one for future work is modifying DBSCAN to start with known possible centroids (or cluster seeds)}
 %The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
 We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
