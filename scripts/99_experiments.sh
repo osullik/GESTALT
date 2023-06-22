@@ -61,7 +61,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration6
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.5
@@ -69,7 +69,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration7
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.6
@@ -77,7 +77,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration8
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.7
@@ -85,7 +85,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration9
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.8
@@ -93,7 +93,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration10
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.9
@@ -101,7 +101,7 @@ python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
-#Variables for Iteration5
+#Variables for Iteration11
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=1.0
@@ -152,6 +152,54 @@ python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 EPSILON=0.000015696123058
 MIN_CLUSTER_SIZE=3
 FUZZY_THRESHOLD=0.4
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration6
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=0.5
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration7
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=0.6
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration8
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=0.7
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration9
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=0.8
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration10
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=0.9
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration11
+EPSILON=0.000015696123058
+MIN_CLUSTER_SIZE=3
+FUZZY_THRESHOLD=1.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
 python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
