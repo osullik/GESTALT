@@ -62,6 +62,14 @@ A \textit{set membership problem} is the most straightforward and most efficient
 - problem definition
 - complexity}
 
+\nrscomment{Kent, run these queries with fuzzy search please:
+query one tree without pictorial input, report time + num locs returned
+query one bus stop without pictorial input, report time + num locs returned
+query one bench  without pictorial input, report time + num locs returned
+query one building without pictorial input, report time + num locs returned
+possibly other similar ones to try to get a decent distribution of num locations so we can show the time curve. shoot for 1o locs, 100 locs, 1000 locs, 10000 locs, etc
+}
+
         
 \begin{algorithm}
     \caption{Fuzzy Search}\label{alg:fuzzySearch}
@@ -159,12 +167,12 @@ The same occurs for the western direction, and then recursively north and west u
 
 
 \subsubsection{Results on Ground Truth Spatial Queries}
-\nrscomment{write up results}
+\nrscomment{tabulate prec/recall based on Kent's results posted in slack}
 End to end including object-object and object-location concept mapping
 
-\osullikomment{Need to work ouut how to do this. What queries to run etc. }
-
 - table listing the 12 location-object queries and expected results
+
+- calc prec/recall for obj-obj and obj-loc
 
 - visually show the object object ground truth queries in a grid of subplots?
 
@@ -173,7 +181,15 @@ End to end including object-object and object-location concept mapping
 
 \subsection{Scalability}
 
-\nrscomment{write this section}
+\nrscomment{Kent run:
+query 10 bus stops with obj-obj pictorial, report query time and num locations pruned by concept map
+query 10 bus stops with obj-loc pictorial, report query time and num locations pruned by concept map
+query 10 bus stops and 10 trees with obj-obj, report query time and num locations pruned by concept map
+query 10 bus stops and 10 trees with obj-loc, report query time and num locations pruned by concept map
+query 10 bus stops and 10 trees and 10 benches with obj-obj, report query time and num locations pruned by concept map
+query 10 bus stops and 10 trees and 10 benches with obj-loc, report query time and num locations pruned by concept map
+}
+
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
 Spatial queries are the most computationally intensive aspect of the search.
