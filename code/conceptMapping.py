@@ -40,8 +40,8 @@ class ConceptMapper():
                 else:
                     quadrantDict["northeast"].append(locationDict[obj]['name'])
 
-        for key in quadrantDict.keys():
-            print(key, quadrantDict[key])
+        #for key in quadrantDict.keys():
+            #print(key, quadrantDict[key])
         return quadrantDict
 
 

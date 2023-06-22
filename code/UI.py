@@ -1,5 +1,5 @@
 #System Imports
-import random, json
+import random, json, argparse
 
 #Library Imports
 import tkinter as tk
@@ -18,10 +18,21 @@ from search import InvertedIndex
 
 class GestaltGUI():
 
-    def __init__(self, vocab:list):
+    def __init__(self, invertedIndexFile, conceptMapFile, locationsFile):
         #Extract args to class properties
-        self.VOCAB=vocab
+        self.invertedIndex = InvertedIndex(invertedIndexFile)
+        self.VOCAB = self.invertedIndex.ii.keys()
+        print('VOCAB is:', self.VOCAB)
+        
+        with open(conceptMapFile, "rb") as inFile:
+                self.conceptMaps = pickle.load(inFile)
 
+        self.CM = ConceptMapper()
+
+        with open(locationsFile, "r") as inFile:
+                self.referenceLocations = json.load(inFile)
+            
+        
         #Define window Constants
         self.HEIGHT=500
         self.WIDTH=700
@@ -56,6 +67,7 @@ class GestaltGUI():
 
         del(self.flatDict)     
         del(self.CM)
+        self.CM = ConceptMapper()
 
     # BACKEND FUNCTIONS
 
@@ -93,7 +105,7 @@ class GestaltGUI():
             self.flatDict["predicted_location"].append(self.placedObjects[key]['predicted_location'])
         query_df = pd.DataFrame.from_dict(self.flatDict,orient='columns')
 
-        self.CM = ConceptMapper()                                          #Initialize a concept mapper
+                                                  #Initialize a concept mapper
         
         if self._MODE == "object_centric":
             print("\n\n= = = = = = = = =  OBJECT CENTRIC SEARCH = = = = = = = = = \n")
@@ -104,14 +116,12 @@ class GestaltGUI():
             #print("Search Order:",searchOrder)
 
             #Load in the pre-processed Concept maps for the locations using Pickle
-            conceptMapFile = "../data/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations.pkl"
             
-            with open(conceptMapFile, "rb") as inFile:
-                conceptMaps = pickle.load(inFile)
+            
             
             results = []                                                    #Collate the results
-            for locationCM in conceptMaps.keys():
-                result = self.CM.searchMatrix(conceptMaps[locationCM],searchOrder.copy())   #Don't forget to take a copy of the list... 
+            for locationCM in self.conceptMaps.keys():
+                result = self.CM.searchMatrix(self.conceptMaps[locationCM],searchOrder.copy())   #Don't forget to take a copy of the list... 
                 if result == True: 
                     #print("\n", locationCM,"\n")
                     #print(conceptMaps[locationCM])
@@ -130,21 +140,19 @@ class GestaltGUI():
             print("\n\n= = = = = = = = =  LOCATION CENTRIC SEARCH = = = = = = = = = \n")
             
             print("\nQuery Input:\n",query_df)
-            jsonLocationsFile = "../data/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations.JSON"
             
             
             queryLocations = self.CM.getRelativeLocation(self.placedObjects,
                                             (self.DEAD_CENTRE_X,self.DEAD_CENTRE_Y))
 
-            with open(jsonLocationsFile, "r") as inFile:
-                referenceLocations = json.load(inFile)
+            
 
             locationHitCounter = {}
             for quadrant in queryLocations.keys():
                 #print("QUADRANT",quadrant)
-                for loc in referenceLocations:
+                for loc in self.referenceLocations:
                     for item in queryLocations[quadrant]:
-                        if item in referenceLocations[loc][quadrant]:
+                        if item in self.referenceLocations[loc][quadrant]:
                             try:
                                 locationHitCounter[loc] +=1
                             except KeyError:
@@ -327,18 +335,39 @@ class GestaltGUI():
 
 if __name__=="__main__":
 
+    argparser = argparse.ArgumentParser()									# initialize the argParser
+    
+    argparser.add_argument(	"-if", "--inputFile", 							
+							help="The file used to buid an inverted index, should be a CSV with location predictions",
+                            type=str,
+							default=None,
+							required=True)	
+    
+    argparser.add_argument(	"-cmf", "--conceptMapFile", 							
+							help="The File that stores all the concept Maps, should be a PKL file with location predictions",
+                            type=str,
+							default=None,
+							required=True)	
+    
+    argparser.add_argument(	"-lf", "--locationsFile", 							
+							help="The File that holds the reference locations for the query interface",
+                            type=str,
+							default=None,
+							required=True)	
+    
+
+    flags = argparser.parse_args()
+
     #Init the inverted index to get access to its keys (the objects) which will be our search vocab. 
-    II = InvertedIndex("../data/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv")
-    VOCAB = II.ii.keys()
+
     #print(VOCAB)
 
-    GG = GestaltGUI(VOCAB)  # Initialise the Gestaly Gui
+    GG = GestaltGUI(invertedIndexFile=flags.inputFile, 
+                    conceptMapFile=flags.conceptMapFile,
+                    locationsFile=flags.locationsFile)  # Initialise the Gestaly Gui
+    
+    
+    
     GG.prompt_user_for_mode()
-
-
-    
-    
-
-
     GG.root.mainloop()
 

@@ -71,7 +71,7 @@ if __name__=="__main__":
     flags = argparser.parse_args()																		# populate variables from command line arguments
 
     madScientist = Experiments()
-    clusterDF = madScientist.loadClustersFromFile(flags.clusterFile)
-    results = madScientist.calculatePrecisionAndRecall(clusterDF)
+    #clusterDF = madScientist.loadClustersFromFile(flags.clusterFile)
+    #results = madScientist.calculatePrecisionAndRecall(clusterDF)
     #lessMadScientist = ClusteringMetrics(flags.clusterFile)
 

@@ -57,8 +57,12 @@ class InvertedIndex:
         return set.intersection(*set_list)
 
     def search(self, query_terms : list):
-        set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
-        return list(set.intersection(*set_list)), query_terms
+        try:
+            set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
+            return list(set.intersection(*set_list)), query_terms
+        except KeyError:
+            print("Not found in the database")
+        
 
     def ranked_search(self, query_terms : list):
         set_list = [self.ii[normalize_object_term(x)] for x in query_terms]

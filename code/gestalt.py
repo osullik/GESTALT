@@ -263,7 +263,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 					locations = json.load(inLocs)
 				locationsDict.update(locations)
 		
-		ownerAssigner = OwnershipAssigner(locationsDict, objects) 										# Initalize the ownership assigner
+		ownerAssigner = OwnershipAssigner(locationsDict, objectsDict) 										# Initalize the ownership assigner
 		
 		df_locations, df_objects = ownerAssigner.convertToDataFrame(locationsDict, objectsDict)		# Convert the dictionaries created from the JSON inputs to Pandas Dataframes
 
@@ -281,13 +281,12 @@ if flags.ownershipAssignment.lower() == "dbscan":
 if flags.photoDownloader == True:
 	b_box = flags.boundingbox
 	print("BOUNDING BOX:",b_box)
-	outputDirectory = flags.outputDirectory+(str(b_box))
+	outputDirectory = flags.outputDirectory+str(b_box[0])+"_"+str(b_box[1])+"_"+str(b_box[2])+"_"+str(b_box[3])
 
 	downer = PhotoDownloader()
 	#UNCOMMENT 3 FOLLOWING LINES TO ENABLE API QUERYING
-	#photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])
-	#photos=outputDirectory
-	#downer.processQueryResults(photos,outputDirectory,page=flags.flickrPageNumber)
+	photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])
+	downer.processQueryResults(photos,outputDirectory,page=flags.flickrPageNumber)
 
 	json_file = outputDirectory+"/metadata"
 	output = downer.detect_tags_from_jpgs_in_directory(outputDirectory, json_file)
@@ -334,6 +333,7 @@ if flags.gestaltSearch == True:
 	results = ii.search(searchterms)
 	fuzzy_results = ii.fuzzy_search(searchterms)
 	rankedResults = ii.ranked_search(searchterms)
+	print("SEARCH TERMS:", searchterms)
 	print("STANDARD SEARCH:\n",results)	
 	print("FUZZY SEARCH:\n",results)	
 	print("RANKED SEARCH:\n",results)	
