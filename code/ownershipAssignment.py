@@ -228,7 +228,8 @@ class OwnershipAssigner():
 		db_cluster =  DBSCAN(eps=epsilon, min_samples=minCluster).fit(np.radians(loc_arr))
 		self._df_objects['cluster'] = db_cluster.labels_
 
-		centroids = self.calculateCentroids(db_cluster.labels_) 
+		centroids = self.calculateCentroids(db_cluster.labels_)
+		centroid_labels = db_cluster.labels_
 
 		dists = []
 		for idx, row in self._df_objects.iterrows():
@@ -242,12 +243,13 @@ class OwnershipAssigner():
 		if fuzzy_threshold > 0:
 			df_multi_asn_objects = self._df_objects.copy()
 			for idx, row in self._df_objects.iterrows():
-				for centroid in centroids:
-					obj_centroid_dist = self.__distance__((row['latitude'], row['longitude']), centroid)
-					# if obj-centroid distance is within THRESHOLD% of range of obj-centroid distances we saw during exact assignment  
-					threshold = fuzzy_threshold * (self.cluster_max_dist - self.cluster_min_dist)                     
-					if (obj_centroid_dist - self.cluster_min_dist) < threshold:        
-							df_multi_asn_objects = df_multi_asn_objects.append(row)
+				for c_i, centroid in enumerate(centroids):
+					if ((centroid_labels[c_i] != -1) and centroid_labels[c_i] != row['cluster']): # dont care to add to NULL as we dont search it nor same cluster already in as that causes dups
+						obj_centroid_dist = self.__distance__((row['latitude'], row['longitude']), centroid)
+						# if obj-centroid distance is within THRESHOLD% of range of obj-centroid distances we saw during exact assignment  
+						threshold = fuzzy_threshold * (self.cluster_max_dist - self.cluster_min_dist)                     
+						if (obj_centroid_dist - self.cluster_min_dist) < threshold:        
+								df_multi_asn_objects = df_multi_asn_objects.append(row)
 
 			self._df_objects = df_multi_asn_objects  
 
