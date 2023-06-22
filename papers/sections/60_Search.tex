@@ -38,39 +38,57 @@ A \textit{set membership problem} is the most straightforward and most efficient
 - problem definition
 - complexity
 
+        
 \begin{algorithm}
-    \caption{Fuzzy Searching}\label{alg:fuzzySearch}
-    \begin{algorithmic}
+    \caption{Fuzzy Search}\label{alg:fuzzySearch}
+    \begin{algorithmic}[2]
         \State{\textit{\textbf{QT} a list of query terms to search for}}
         \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
         \State{- - - - -}
         \Procedure{fuzzySearch}{$QT$,$II$}
-            \State{$S$= \textbf{II.search}($QT$)} \Comment{\textbf{i}ncremental \textbf{q}uery \textbf{l}ist}
+            \State{$S$= \textbf{II.SEARCH}($QT$)}
             \If{$S$ is Empty}
-                \State{$iql$ = []}\Comment{An list to build with query terms}
-                \While{$S$ is Empty}
-                    \State{$dqt$ = Rarest object from $S$ in $II$}
-                    \State{Append $dqt$ to $iql$}
-                    \State{$S$= \textbf{II.search}($iql$)}
-                    \If{$S$ > 0}
-                        \State{Continue in loop}
-                    \Else
-                        \State{Pop $q$}
-                        \State{$S$= \textbf{II.search}($iql$)}
-                        \State{Break from Loop}
-                    \EndIf
-                \EndWhile
-                \If{$S$ has more than 1 item}
-                    \State{$S$ = \textbf{$II$.Rank($S$,$Q$)}}
+                \State{$q$ = Pop most discriminative term from $QT$}
+                \State{$S$= \textbf{$II$.SEARCH}($QT$)}
+                \If{$S$ is not Empty}
+                    \State{Skip to Line 6}
+                \Else
+                    \State{$S$= \textbf{II.SEARCH}($QT$.remove($q$)}
                 \EndIf
-                \State{\textbf{return} $S$,$q$}
-            \Else
-                \State{\textbf{return} $S$}
+            \EndIf
+            \If{$S$ has more than 1 item}
+                \State{\textbf{return} \textbf{$II$.RANK($S$,$Q$)}}
             \EndIf
         \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+    \caption{Search}\label{alg:search}
+    \begin{algorithmic}
+        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
+        \State{- - - - -}
+        \Procedure{Search}{$QT$,$II$}
+            \State{$Locs$ = []}
+            \For{Each $q$ in $QT$}
+                \State{Retrieve set of Locations $II$[$q$] and add to $Locs$}
+            \EndFor
+            \State{\textbf{return} intersection of sets of Locations in $Locs$}
+            \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+    \caption{Rank}\label{alg:rank}
+    \begin{algorithmic}
+        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
+        \State{- - - - -}
         \Procedure{Rank}{$S$,$q$,$II$}\Comment{$S$ results from $q$ query terms in $II$}
             \State{$LR$ = Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
-
             \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
                 \State{$p$ = 1}\Comment{Probability location correct}
                 \For{$O$ in $q$}
@@ -80,9 +98,10 @@ A \textit{set membership problem} is the most straightforward and most efficient
                 \State{$LR$[$L$] = $P$}
             \EndFor
             \State{\textbf{return}$LR$ ordered most to least likely}
-            \EndProcedure
+        \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
 
 \subsection{Spatial Search}
 % NSCH need to rewrite the below chunk
