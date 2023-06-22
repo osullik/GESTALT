@@ -18,7 +18,7 @@ class ClusteringMetrics:
         true_locs_list = ['Ali\'s Vineyard', 'Little River Winery and Café', 'Faber Vineyard', 'Ugly Duckling Wines', 'Oakover Grounds', 'Lancaster Wines']
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard].drop_duplicates()
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -40,7 +40,7 @@ class ClusteringMetrics:
         true_locs_list = ['Ali\'s Vineyard', 'Little River Winery and Café', 'Faber Vineyard', 'Ugly Duckling Wines', 'Oakover Grounds', 'Lancaster Wines']
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['ground_truth_location'] == vineyard].drop_duplicates()
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FN_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -62,7 +62,7 @@ class ClusteringMetrics:
         true_locs_list = self.metrics_df['predicted_location'].unique()
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard].drop_duplicates()
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
@@ -86,7 +86,7 @@ class ClusteringMetrics:
         true_locs_list = self.metrics_df['predicted_location'].unique()
 
         for vineyard in true_locs_list:
-            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard]
+            select_df = self.metrics_df[self.metrics_df['predicted_location'] == vineyard].drop_duplicates()
             TP_dict[vineyard] = len(select_df[select_df['TP'] == True])
             FP_dict[vineyard] = len(select_df[select_df['F_'] == True])
 
