@@ -1,24 +1,13 @@
 \section{Search}
 \label{section:search}
 
-signpost here. \textbf{Define last-mile search, progressive search.....}
-
-\subsection{Last-mile Search Conditions}
-The core function of \textit{GESTALT} is searching. The search function assumes that the searcher only has partial information about a location. 
-There are two elements of partial information. 
-First is a general idea of the region in which the location occurs. Here region means the area surrounding a location. 
-For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley region of Western Australia. A region could be an administrative boundary like a city, suburb, or general geographic area. 
-Either way, we assume that the searcher can prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
-The second assumes that the searcher knows a subset of the objects associated with a location. They may or may not know any of the attributes of those objects (for example, material, color etc). 
+The core function of \textit{GESTALT} is to perform last-mile search given partial or uncertain information.
+The user is assumed to know the general region of interest, which could be an administrative boundary like a city or suburb, or a general geographic area.
+The user is also expected to know some information about the objects at the location they seek.
+Under these conditions, the search problem can be framed in several ways, described in the subsequent subsections in increasing order of complexity and utility.
 
 
-The search problem can then be framed in several ways, described in the subsequent subsections in increasing order of complexity and utility.
 
-\subsection{Pruning the Search Space}
-The first round of pruning occurs when the user selects the \emph{region} that they wish to search. 
-\emph{GESTALT} is a last-mile search tool that assumes the user has a general idea of the location (region) that they wish to search. 
-The second layer prunes out all locations that do not pass a set-membership test. The arrangement of objects in a location is irrelevant if they do not exist at a particular location, and so we avoid the computation of the spatial query in these cases. 
-The third layer occurs during the search of the concept maps, with impossible results being pruned at each step to reduce the total search space to a tractable size.
 
 
 \subsection{Exact Membership Search}
@@ -26,13 +15,51 @@ The third layer occurs during the search of the concept maps, with impossible re
 
 A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
 
-- \nrscomment{algorithm SEARCH goes here}
 - complexity
+
+\begin{algorithm}
+    \caption{Search}\label{alg:search}
+    \begin{algorithmic}
+        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
+        \State{- - - - -}
+        \Procedure{Search}{$QT$,$II$}
+            \State{$Locs$ = []}
+            \For{Each $q$ in $QT$}
+                \State{Retrieve set of Locations $II$[$q$] and add to $Locs$}
+            \EndFor
+            \State{\textbf{return} intersection of sets of Locations in $Locs$}
+            \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Ranked Membership Search}
 - problem definition
-- \nrscomment{algorithm RANK goes here}
+
 - complexity
+
+\begin{algorithm}
+    \caption{Rank}\label{alg:rank}
+    \begin{algorithmic}
+        \State{\textit{\textbf{QT} a list of query terms to search for}}
+        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
+        \State{- - - - -}
+        \Procedure{Rank}{$S$,$q$,$II$}\Comment{$S$ results from $q$ query terms in $II$}
+            \State{$LR$ = Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
+            \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
+                \State{$p$ = 1}\Comment{Probability location correct}
+                \For{$O$ in $q$}
+                    \State{$OP$ = Prob of Obj@Locin $II$}\Comment{\textbf{O}bject \textbf{P}robability}
+                    \State{$P$ = $P$x$OP$}
+                \EndFor
+                \State{$LR$[$L$] = $P$}
+            \EndFor
+            \State{\textbf{return}$LR$ ordered most to least likely}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Fuzzy Membership Search}
 - problem definition
@@ -64,60 +91,26 @@ A \textit{set membership problem} is the most straightforward and most efficient
 \end{algorithm}
 
 
-\begin{algorithm}
-    \caption{Search}\label{alg:search}
-    \begin{algorithmic}
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
-        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
-        \State{- - - - -}
-        \Procedure{Search}{$QT$,$II$}
-            \State{$Locs$ = []}
-            \For{Each $q$ in $QT$}
-                \State{Retrieve set of Locations $II$[$q$] and add to $Locs$}
-            \EndFor
-            \State{\textbf{return} intersection of sets of Locations in $Locs$}
-            \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
-
-
-\begin{algorithm}
-    \caption{Rank}\label{alg:rank}
-    \begin{algorithmic}
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
-        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
-        \State{- - - - -}
-        \Procedure{Rank}{$S$,$q$,$II$}\Comment{$S$ results from $q$ query terms in $II$}
-            \State{$LR$ = Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
-            \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
-                \State{$p$ = 1}\Comment{Probability location correct}
-                \For{$O$ in $q$}
-                    \State{$OP$ = Prob of Obj@Locin $II$}\Comment{\textbf{O}bject \textbf{P}robability}
-                    \State{$P$ = $P$x$OP$}
-                \EndFor
-                \State{$LR$[$L$] = $P$}
-            \EndFor
-            \State{\textbf{return}$LR$ ordered most to least likely}
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
-
-
 \subsection{Spatial Search}
-% NSCH need to rewrite the below chunk
-Spatial search incorporates the concept of mapping and becomes a spatial search with a specific method depending on the objects' underlying data structure. 
-The general case is as follows: Given a set of locations with geospatial mappings of their child objects and a subset of those geospatial mappings of child objects which location does that subset match? 
-If using a graph structure, each location's objects become a graph where the objects are nodes and the geospatial relations are edges encoding the spatial relations (e.g. west of, north of). It is a subgraph matching problem, which is, of course, NP-Complete. 
-Alternately, representing each location's objects as a KD-Tree rooted on the centroid of the object cluster would allow for dynamic searching. For example, assuming an initial split on the longitude of objects, we could immediately tell that all objects in the left subtree would be west of that root. 
-For either of these geospatial approaches, a translation layer from the positional relational to cardinal relational will need to occur.
 
-\subsubsection{UI for Query Specification}
+The most powerful form of search \emph{GESTALT} enables is spatial search, where users can query for locations based on the spatial configuration of objects in relation to each other or to the location itself.
+However, as discussed in section \ref{section:concept}, this problem quickly becomes intractable as the number of objects increases.
+To combat this effect and still enable users to specify spatial queries, we employ a successive pruning approach, where the search space is scoped down in stages until the resulting search is of reasonable scale to perform quickly.
+
+\subsubsection{Pruning the Search Space}
+The first round of pruning occurs when the user selects the \emph{region} that they wish to search (a pre-condition to performing last-mile search). 
+The second layer of pruning happens when the exact membership search method is applied to the query objects.
+The set-membership test prunes out any locations that do not contain the objects of interest, thereby avoiding unnecessary computation associated with determining the spatial configuration of objects that are irrelevant to the query (i.e. that belong to locations that are not candidates).
+The third layer of pruning occurs during the search of the concept maps. 
+The recursive grid search (Algorithm \ref{alg:geoToGrid}) successively segments the search grid into smaller and smaller sections, eliminating impossible results at each step to reduce the total search space to a tractable size.
+
+\subsubsection{Specifying the Query Pictorially}
 - description
 - picture of the UI
 - refer to appendix algorithm(s) for mapping input to usable form?
 Intuitively we want to be able to compare a user's sketch map to the real world locations \emph{GESTALT} records. 
 
-\subsubsection{Method}
+\subsubsection{Searching the Concept Maps}
 For object-location, the method is easy because we just check \nrscomment{....describe in a sentence or two...}
 
 For object-object search, \nrscomment{....describe the method, refer to algo below....}
@@ -178,9 +171,6 @@ End to end including object-object and object-location concept mapping
 
 
 \subsection{Scalability}
-%Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
-%Options for automation are explored in detail in sections \ref{section:architecture} and \ref{section:related}, but essentially rely on combining remote sensing imagery, ground-based imagery and image metadata to generate mappings of objects to coordinates and parent locations.
-%The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.
 
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
@@ -199,3 +189,24 @@ The worst case complexity is for a search of N object terms where every object c
 
 
 %The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
+
+%\subsection{Last-mile Search Problem}
+%First is a general idea of the region in which the location occurs. 
+%Here region means the area surrounding a location. 
+%For example, in searching for a winery, it is assumed that the searcher knows that they are in the swan valley region of Western Australia. 
+%A region could be an administrative boundary like a city, suburb, or general geographic area. 
+%Either way, we assume that the searcher can prune their search space to the commencement of the \textit{last-mile} search before using \textit{GESTALT}.
+%The second assumes that the searcher knows a subset of the objects associated with a location. 
+%They may or may not know any of the attributes of those objects (for example, material, color etc).
+
+%\emph{GESTALT} is a last-mile search tool that assumes the user has a general idea of the location (region) that they wish to search. 
+
+%Spatial search incorporates the concept of mapping and becomes a spatial search with a specific method depending on the objects' underlying data structure. 
+%The general case is as follows: Given a set of locations with geospatial mappings of their child objects and a subset of those geospatial mappings of child objects which location does that subset match? 
+%If using a graph structure, each location's objects become a graph where the objects are nodes and the geospatial relations are edges encoding the spatial relations (e.g. west of, north of). It is a subgraph matching problem, which is, of course, NP-Complete. 
+%Alternately, representing each location's objects as a KD-Tree rooted on the centroid of the object cluster would allow for dynamic searching. For example, assuming an initial split on the longitude of objects, we could immediately tell that all objects in the left subtree would be west of that root. 
+%For either of these geospatial approaches, a translation layer from the positional relational to cardinal relational will need to occur.
+
+%Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
+%Options for automation are explored in detail in sections \ref{section:architecture} and \ref{section:related}, but essentially rely on combining remote sensing imagery, ground-based imagery and image metadata to generate mappings of objects to coordinates and parent locations.
+%The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.
