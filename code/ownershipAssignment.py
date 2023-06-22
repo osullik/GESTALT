@@ -248,7 +248,8 @@ class OwnershipAssigner():
 						obj_centroid_dist = self.__distance__((row['latitude'], row['longitude']), centroid)
 						# if obj-centroid distance is within THRESHOLD% of range of obj-centroid distances we saw during exact assignment  
 						threshold = fuzzy_threshold * (self.cluster_max_dist - self.cluster_min_dist)                     
-						if (obj_centroid_dist - self.cluster_min_dist) < threshold:        
+						if (obj_centroid_dist - self.cluster_min_dist) < threshold:    
+								row['cluster'] = centroid_labels[c_i] 
 								df_multi_asn_objects = df_multi_asn_objects.append(row)
 
 			self._df_objects = df_multi_asn_objects  
