@@ -70,9 +70,9 @@ QUERY_TERMS4="bird"
 
 # Vars for Pictorial Qery Demo
 
-INVERTED_INDEX="../data/DC/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
-CONCEPT_MAPS="../data/DC/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl"
-UI_LOCATIONS="../data/DC/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON"
+INVERTED_INDEX="../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
+CONCEPT_MAPS="../data/SV/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl"
+UI_LOCATIONS="../data/SV/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON"
 
 
 #Query OSM for Objects
@@ -82,7 +82,7 @@ python3 ../code/gestalt.py -qo -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG 
 
 # Query Flickr for Objects (NOTE - COMMENT THIS LINE OUT IF YOU DONT WANT TO QUERY THE FLICKR INTERFACE)
 ECHO QUERYING FLICKR FOR IMAGES AND RUNNING OBJECT DETECTION
-python3 ../code/gestalt.py -pd -b $BB_SW_LONG $BB_SW_LAT $BB_NE_LONG $BB_NE_LAT -od $FLICKR_OUTPUTDIRECTORY -fpn $FLICKR_START_PAGE
+#python3 ../code/gestalt.py -pd -b $BB_SW_LONG $BB_SW_LAT $BB_NE_LONG $BB_NE_LAT -od $FLICKR_OUTPUTDIRECTORY -fpn $FLICKR_START_PAGE
 
 #Process flickr files. 
 echo "PROCESSING FLICKR IMAGES FOR OBJECTS"

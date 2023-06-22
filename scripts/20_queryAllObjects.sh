@@ -17,3 +17,4 @@ source ../gestalt_env/bin/activate
 
 #Run the script
 python3 ../code/gestalt.py -qo -b $BB_LL $BB_LR $BB_TL $BB_TR -s $SEARCHTERM1 -o $OUTPUTFILE
+
