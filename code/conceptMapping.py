@@ -24,7 +24,7 @@ class ConceptMapper():
         quadrantDict["southeast"] = []
 
         #print(locationDict)
-        print("Location Centroid:", "("+str(midpoint[0])+","+str(midpoint[1])+")")
+        #print("Location Centroid:", "("+str(midpoint[0])+","+str(midpoint[1])+")")
         for obj in locationDict.keys():
             
             #print("Found",locationDict[obj]['name'],"("+locationDict[obj]['latitude']+","+locationDict[obj]['longitude']+")")
@@ -342,7 +342,7 @@ class ConceptMapper():
 
         return toReturn
     
-    def createLocationCentricDict(self,inputFile:str, input_df=None):
+    def createLocationCentricDict(self,inputFile:str, locationsFile:str, input_df=None):
 
         if inputFile is not None: 
             sourceData_df = pd.read_csv(inputFile)[['name','longitude','latitude','predicted_location']]
@@ -372,16 +372,15 @@ class ConceptMapper():
 
         relativeLocationsDict = {}
 
-        #TODO: Get Rid of Hard Coding
-        with open("../data/output/dataCollection/locations_-31.90009882641578115.96168231510637-31.77307863942101116.05029961853784_alllocations.json", 'r') as inFile:
+        with open(locationsFile, 'r') as inFile:
             locationsDict = json.load(inFile)
         
         flatLocations = self.flattenLocationDict(locationsDict)
         #print(flatLocations)
         for concept in conceptDict.keys():
-            print("CONCEPT", concept)
+            #print("CONCEPT", concept)
             #print(conc[concept])
-            print(conceptDict[concept])
+            #print(conceptDict[concept])
             #print(flatLocations[concept]['longitude'])
             #print(flatLocations[concept]['latitude'])
             try:

@@ -120,6 +120,12 @@ if __name__ == "__main__":
 							default=0.0,
 							required=False)	
 	
+	argparser.add_argument(	"-fpn", "--flickrPageNumber", 							
+							help="PageNumber to Start processing flickr results from",
+							type=int,
+							default=1,
+							required=False)	
+	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
@@ -269,7 +275,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		clusters = ownerAssigner._df_objects["cluster"] 											# Infer the location
 		#print(clusters.value_counts())
 
-		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations.csv", index=False)	# Save to file
+		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations_FT="+str(fuzzy_threshold)+".csv", index=False)	# Save to file
 		exit()
 
 if flags.photoDownloader == True:
@@ -278,9 +284,10 @@ if flags.photoDownloader == True:
 	outputDirectory = flags.outputDirectory+(str(b_box))
 
 	downer = PhotoDownloader()
-	photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])
-	photos=outputDirectory
-	downer.processQueryResults(photos,outputDirectory)
+	#UNCOMMENT 3 FOLLOWING LINES TO ENABLE API QUERYING
+	#photos, b_box_dict = downer.searchBoundingBox(b_box[0],b_box[1],b_box[2],b_box[3])
+	#photos=outputDirectory
+	#downer.processQueryResults(photos,outputDirectory,page=flags.flickrPageNumber)
 
 	json_file = outputDirectory+"/metadata"
 	output = downer.detect_tags_from_jpgs_in_directory(outputDirectory, json_file)
@@ -292,6 +299,7 @@ if flags.photoDownloader == True:
 if flags.createConceptMaps==True: 
 	predictedLocationsCSV = flags.inputFile
 	outputDirectory = flags.outputDirectory
+	locationsFile = flags.fileSource[0]
 	CM = ConceptMapper()
 	conceptMaps = CM.createConceptMap(predictedLocationsCSV)
 	originalInputFile = predictedLocationsCSV
@@ -308,7 +316,7 @@ if flags.createConceptMaps==True:
 		pickle.dump(conceptMaps ,out)
 
 	## The Relative Location Dict:
-	relativeLocationsDict = CM.createLocationCentricDict(originalInputFile)
+	relativeLocationsDict = CM.createLocationCentricDict(inputFile=originalInputFile,locationsFile=locationsFile)
 
 	outputFile = outputDirectory+"/RelativeLocations_"+predictedLocationsCSV+".JSON"
 
