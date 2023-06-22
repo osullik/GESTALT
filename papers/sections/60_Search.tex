@@ -6,16 +6,12 @@ The user is assumed to know the general region of interest, which could be an ad
 The user is also expected to know some information about the objects at the location they seek.
 Under these conditions, the search problem can be framed in several ways, described in the subsequent subsections in increasing order of complexity and utility.
 
-
-
-
-
 \subsection{Exact Membership Search}
-- problem definition
 
 A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
 
-- complexity
+\nrscomment{- problem definition
+- complexity}
 
 \begin{algorithm}
     \caption{Search}\label{alg:search}
@@ -35,9 +31,9 @@ A \textit{set membership problem} is the most straightforward and most efficient
 
 
 \subsection{Ranked Membership Search}
+\nrscomment{
 - problem definition
-
-- complexity
+- complexity}
 
 \begin{algorithm}
     \caption{Rank}\label{alg:rank}
@@ -62,8 +58,9 @@ A \textit{set membership problem} is the most straightforward and most efficient
 
 
 \subsection{Fuzzy Membership Search}
+\nrscomment{
 - problem definition
-- complexity
+- complexity}
 
         
 \begin{algorithm}
@@ -105,9 +102,11 @@ The third layer of pruning occurs during the search of the concept maps.
 The recursive grid search (Algorithm \ref{alg:geoToGrid}) successively segments the search grid into smaller and smaller sections, eliminating impossible results at each step to reduce the total search space to a tractable size.
 
 \subsubsection{Specifying the Query Pictorially}
+\nrscomment{
 - description
 - picture of the UI
 - refer to appendix algorithm(s) for mapping input to usable form?
+}
 Intuitively we want to be able to compare a user's sketch map to the real world locations \emph{GESTALT} records. 
 
 \subsubsection{Searching the Concept Maps}
@@ -152,26 +151,19 @@ For object-object search, \nrscomment{....describe the method, refer to algo bel
 
 
 \subsubsection{Results on Ground Truth Spatial Queries}
+\nrscomment{write up results}
 End to end including object-object and object-location concept mapping
 
 - table listing the 12 location-object queries and expected results
 
 - visually show the object object ground truth queries in a grid of subplots?
 
-%The search function has been implemented using the Python \textit{Pandas}\footnote{https://pypi.org/project/pandas/}{Pandas PyPI Repo} library. 
-%This approach assumes a single data frame of objects and their determined locations because of the number of possible attributes an object can have and the relatively few that they possess, this is a sparse data structure. 
-%The sparseness does indicate the discriminatory power of remembering attributes. For example, a 'door' is not informative, but a 'blue door' on your favorite seaside restaurant is more likely to prune the search space. 
-%Because \textit{GESTALT} is designed only for the last-mile search and assumes a small starting region, it may remain feasible to use a simple data structure like a Pandas data frame containing all the objects for all the locations for the query region. 
-%More work with the aggregation functions is required to determine if it can support all the necessary aggregation queries comparing object collections. 
 
-%Semantic search has not been implemented. However, the Levenshtein string distance metric (with $threshold = 0.8$) checks for small spelling discrepancies in input words. The priority weights towards retrieving all possible objects, so we accept the increased risk of mistakenly including an object to move the recall closer to 100\%. The next component to be implemented is a nearest-neighbor retrieval mechanism using word embeddings. Prior work indicates that developing databases of embeddings is trivial\cite{Mueller2012}, but using existing datasets tools like word2vec, GloVe and fasttext can generate embeddings over large, publicly available corpora that can be recreated. 
-
-%As discussed in the subsection on Ownership Assignment implementation, bloom filters are a much more efficient operator for set membership testing. 
-%The KD-Tree is more suited for geospatial queries, so the Pandas Dataframe currently supports the gaps between the two in supporting aggregation queries. More work is required to integrate these data structures into a coherent search pipeline that maximizes recall while actively pruning the search space at every step so that the searcher can find their locations of interest. Natural language querying is an active area of research yet to present a solution capable of effectively translating natural language queries and their SQL solutions. Given the relatively constrained domain of this problem set, it is a good candidate for implementation as a low priority for improvement. 
 
 
 \subsection{Scalability}
 
+\nrscomment{write this section}
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
 Spatial queries are the most computationally intensive aspect of the search.
@@ -210,3 +202,14 @@ The worst case complexity is for a search of N object terms where every object c
 %Automating the labeling process is essential to scaling \textit{GESTALT} beyond a trivial size. 
 %Options for automation are explored in detail in sections \ref{section:architecture} and \ref{section:related}, but essentially rely on combining remote sensing imagery, ground-based imagery and image metadata to generate mappings of objects to coordinates and parent locations.
 %The ability to autonomously determine object locations will set the conditions for the remaining elements of GESTALT to scale.
+
+%The search function has been implemented using the Python \textit{Pandas}\footnote{https://pypi.org/project/pandas/}{Pandas PyPI Repo} library. 
+%This approach assumes a single data frame of objects and their determined locations because of the number of possible attributes an object can have and the relatively few that they possess, this is a sparse data structure. 
+%The sparseness does indicate the discriminatory power of remembering attributes. For example, a 'door' is not informative, but a 'blue door' on your favorite seaside restaurant is more likely to prune the search space. 
+%Because \textit{GESTALT} is designed only for the last-mile search and assumes a small starting region, it may remain feasible to use a simple data structure like a Pandas data frame containing all the objects for all the locations for the query region. 
+%More work with the aggregation functions is required to determine if it can support all the necessary aggregation queries comparing object collections. 
+
+%Semantic search has not been implemented. However, the Levenshtein string distance metric (with $threshold = 0.8$) checks for small spelling discrepancies in input words. The priority weights towards retrieving all possible objects, so we accept the increased risk of mistakenly including an object to move the recall closer to 100\%. The next component to be implemented is a nearest-neighbor retrieval mechanism using word embeddings. Prior work indicates that developing databases of embeddings is trivial\cite{Mueller2012}, but using existing datasets tools like word2vec, GloVe and fasttext can generate embeddings over large, publicly available corpora that can be recreated. 
+
+%As discussed in the subsection on Ownership Assignment implementation, bloom filters are a much more efficient operator for set membership testing. 
+%The KD-Tree is more suited for geospatial queries, so the Pandas Dataframe currently supports the gaps between the two in supporting aggregation queries. More work is required to integrate these data structures into a coherent search pipeline that maximizes recall while actively pruning the search space at every step so that the searcher can find their locations of interest. Natural language querying is an active area of research yet to present a solution capable of effectively translating natural language queries and their SQL solutions. Given the relatively constrained domain of this problem set, it is a good candidate for implementation as a low priority for improvement. 
