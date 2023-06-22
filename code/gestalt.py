@@ -2,6 +2,8 @@
 #System Imports
 import argparse, json, sys, os
 
+import time
+
 #Library Imports
 import pickle
 
@@ -130,6 +132,10 @@ if __name__ == "__main__":
 
 
 	if flags.queryOsmObjects== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
+		
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()
+		
 		bbox = flags.boundingbox
 		outputfile = flags.output
 		searchterms = flags.searchterms
@@ -148,9 +154,17 @@ if __name__ == "__main__":
 		with open(outputfileName,'w') as outfile: 															#dump output to json
 			json.dump(osmDict, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 		#user feedback. 
+		
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO QUERY OSM OBJECTS:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO QUERY OSM OBJECTS:\n", end_wall_time-start_wall_time)
 		exit()
 
 	if flags.queryOsmLocations== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()		
+		
 		bbox = flags.boundingbox
 		outputfile = flags.output
 		searchterms = flags.searchterms
@@ -169,9 +183,17 @@ if __name__ == "__main__":
 		with open(outputfileName,'w') as outfile: 															#dump output to json
 			json.dump(osmDict, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 		#user feedback. 
+
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO QUERY OSM LOCATIONS:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO QUERY OSM LOCATIONS:\n", end_wall_time-start_wall_time)
 		exit()
 
 	if flags.kmlIngestMode == True: 																	# Check to see if gestalt should execute in KML Ingestion mode. 
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()
+		
 		sourceFiles = flags.fileSource
 		outputfile = flags.output
 		tex = TerrainExtractor()
@@ -184,10 +206,18 @@ if __name__ == "__main__":
 			with open(outputfileName,'w') as outfile: 													#output to JSON
 				json.dump(objectLocations, outfile, indent=4)
 			print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
+		
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO INGEST KML:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO INGEST KML:\n", end_wall_time-start_wall_time)		
 		exit()
 
 	if flags.photosFromFlickr==True:
 		print("INGESTING FROM FLICKR")
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()
+
 		object_file = flags.inputFile
 		outputfile = flags.output
 		tex = TerrainExtractor()
@@ -198,11 +228,18 @@ if __name__ == "__main__":
 		with open(outputfileName,'w') as outfile: 													#output to JSON
 			json.dump(objectLocations, outfile, indent=4)
 		print("Successfully outputted data to \"{outputLoc}\"".format(outputLoc=outputfileName)) 	#user feedback
+		
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO QUERY FLICKR:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO QUERY FLICKR:\n", end_wall_time-start_wall_time)
 		exit()
 
 
 	if flags.ownershipAssignment.lower() == "kmeans":
-
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()
+		
 		prefix = flags.inputDirectory																#Read parameters for the file
 		outputFile = flags.outputDirectory
 		numClusters = flags.numClusters
@@ -235,10 +272,18 @@ if __name__ == "__main__":
 		print(clusters.value_counts())
 
 		ownerAssigner._df_objects.to_csv(outputFile+"/KMEANS_PredictedLocations.csv", index=False)	# Print the Clustered file
+		
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO CLUSTER OBJECTS:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO CLUSTER OBJECTS:\n", end_wall_time-start_wall_time)
 		exit()
 
 if flags.ownershipAssignment.lower() == "dbscan":
 		
+		start_wall_time = time.time()
+		start_proc_time=time.process_time()
+
 		prefix = flags.inputDirectory																#Read parameters for the file
 		outputFile = flags.outputDirectory
 		numClusters = flags.numClusters
@@ -276,9 +321,17 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		#print(clusters.value_counts())
 
 		ownerAssigner._df_objects.to_csv(outputFile+"/DBSCAN_PredictedLocations_FT="+str(fuzzy_threshold)+".csv", index=False)	# Save to file
+		
+		end_proc_time=time.process_time()
+		end_wall_time = time.time()
+		print("\nPROCESSOR TIME TO CLUSTER OBJECTS:",end_proc_time-start_proc_time)
+		print("WALL TIME TAKEN TO CLUSTER OBJECTS:\n", end_wall_time-start_wall_time)
+		
 		exit()
 
 if flags.photoDownloader == True:
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
 	b_box = flags.boundingbox
 	print("BOUNDING BOX:",b_box)
 	outputDirectory = flags.outputDirectory+str(b_box[0])+"_"+str(b_box[1])+"_"+str(b_box[2])+"_"+str(b_box[3])
@@ -293,9 +346,18 @@ if flags.photoDownloader == True:
 	with open(json_file+"_objects.json", "w") as out:
 		out.write(output)
 
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("\nPROCESSOR TIME TO DOWNLOAD PHOTOS FROM FLICKR:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN TO DOWNLOAD PHOTOS FROM FLICKR:\n", end_wall_time-start_wall_time)
+
 	exit()
 
 if flags.createConceptMaps==True: 
+
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
+	
 	predictedLocationsCSV = flags.inputFile
 	outputDirectory = flags.outputDirectory
 	locationsFile = flags.fileSource[0]
@@ -303,7 +365,7 @@ if flags.createConceptMaps==True:
 	conceptMaps = CM.createConceptMap(predictedLocationsCSV)
 	originalInputFile = predictedLocationsCSV
 	predictedLocationsCSV = predictedLocationsCSV.split("/")[-1]
-	predictedLocationsCSV = predictedLocationsCSV.split(".")[0]
+	predictedLocationsCSV = predictedLocationsCSV.replace(".csv","")
 
 	outputFile = outputDirectory+"/ConceptMaps_"+predictedLocationsCSV+".pkl"
 	
@@ -322,10 +384,21 @@ if flags.createConceptMaps==True:
 	with open (outputFile,"w") as outFile:
 		json.dump(relativeLocationsDict, outFile, indent=4)
 		print('DUMPED RELATIVE LOCATIONS DICT TO JSON')
+	
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("\nPROCESSOR TIME TO CREATE COCNEPT MAPS:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN TO CREATE CONCEPT MAPS:\n", end_wall_time-start_wall_time)
+
+	exit()
 
 	
 
 if flags.gestaltSearch == True: 
+
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
+
 	searchterms = flags.searchterms
 	invertedIndexSourceCSV = flags.inputFile
 
@@ -337,3 +410,10 @@ if flags.gestaltSearch == True:
 	print("STANDARD SEARCH:\n",results)	
 	print("FUZZY SEARCH:\n",results)	
 	print("RANKED SEARCH:\n",results)	
+
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("\nPROCESSOR TIME TO RUN QUERIES:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN TO RUN QUERIES:\n", end_wall_time-start_wall_time)
+
+	exit()
