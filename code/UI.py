@@ -96,6 +96,8 @@ class GestaltGUI():
         self.CM = ConceptMapper()                                          #Initialize a concept mapper
         
         if self._MODE == "object_centric":
+            print("\n\n= = = = = = = = =  OBJECT CENTRIC SEARCH = = = = = = = = = \n")
+
             queryMap = self.CM.createConceptMap(input_df=query_df, 
                                             inputFile=None)
             searchOrder = self.CM.getSearchOrder(queryMap['PICTORAL_QUERY'])
@@ -109,10 +111,12 @@ class GestaltGUI():
             
             results = []                                                    #Collate the results
             for locationCM in conceptMaps.keys():
-                print(locationCM)
-                result = self.CM.searchMatrix(conceptMaps[locationCM],searchOrder)
+                result = self.CM.searchMatrix(conceptMaps[locationCM],searchOrder.copy())   #Don't forget to take a copy of the list... 
                 if result == True: 
+                    #print("\n", locationCM,"\n")
+                    #print(conceptMaps[locationCM])
                     results.append(locationCM)
+                    result = False
             
             if len(results) ==0:                                            #Output. TODO: Use Popup window to output
                 print('No Results Found')
@@ -120,6 +124,7 @@ class GestaltGUI():
                 print("Found Following Matches to Query:")
                 for res in results: 
                     print(res)
+
         elif self._MODE == "location_centric":
 
             print("\n\n= = = = = = = = =  LOCATION CENTRIC SEARCH = = = = = = = = = \n")
@@ -323,7 +328,7 @@ class GestaltGUI():
 if __name__=="__main__":
 
     #Init the inverted index to get access to its keys (the objects) which will be our search vocab. 
-    II = InvertedIndex("../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv")
+    II = InvertedIndex("../data/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv")
     VOCAB = II.ii.keys()
     #print(VOCAB)
 

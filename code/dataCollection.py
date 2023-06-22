@@ -290,7 +290,7 @@ class osmQueryEngine():
 			#	found = True
 			#except KeyError:
 			#	pass
-			print(element.tags())
+			#print(element.tags())
 
 			try:
 				objectName = element.tags()['railway']
@@ -435,7 +435,7 @@ class osmQueryEngine():
 				found = True
 			except KeyError:
 				pass 		
-						
+
 			try:
 				placeName = element.tags()['name']
 				found = True

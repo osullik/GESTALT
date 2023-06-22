@@ -40,6 +40,8 @@ class ConceptMapper():
                 else:
                     quadrantDict["northeast"].append(locationDict[obj]['name'])
 
+        for key in quadrantDict.keys():
+            print(key, quadrantDict[key])
         return quadrantDict
 
 
@@ -119,7 +121,7 @@ class ConceptMapper():
 
         '''
        
-        print("\n\n===========================\n")
+        #print("\n\n===========================\n")
         searchList = []
         print("Query Matrix is:")
         print(queryMatrix)
@@ -188,21 +190,24 @@ class ConceptMapper():
         #baseCase:
             #The last remaining object is in the matrix; or not 
 
-        if len(matrix) == 1:
-            try:
-                if len(matrix[0]) ==1:
-                    if matrix[0][0] == toFind[0]:
-                        return True
-                    else:
-                        return False
-            except IndexError:
-                pass
+        #if len(matrix) == 1:
+        #    try:
+        #        if len(matrix[0]) ==1:
+        #            if matrix[0][0] == toFind[0]:
+        #                return True
+        #            else:
+        #                return False
+        #    except IndexError:
+        #        pass
+
+
 
         if len(toFind) == 1:                                                        #Base Case; exhaustive search of pruned matrix. 
             #print("Base Case")
             for northToSouth in matrix:
                  for westToEast in northToSouth:
                      if westToEast == toFind[0]:
+                         #print("exhaustive search true, found", toFind[0])
                          return True
             return False
         else:
@@ -216,6 +221,7 @@ class ConceptMapper():
                     for j in range(0,len(matrix[i]),1):
                         #print('got to column', j)
                         if matrix[i][j] == toFind[0]:
+                            #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j )
                             found = True
                             northMostIndex = i
                             break
@@ -223,6 +229,8 @@ class ConceptMapper():
                             pass
                     if found==True:
                         break
+
+                
                 
                 if found ==False:
                     return False
@@ -230,7 +238,14 @@ class ConceptMapper():
                 newMatrix = matrix[northMostIndex:,:].copy()                        #make a copy of the matrix to recurse on
                 
                 toFind.pop(0)                                            #update the list of search terms               
-                return self.searchMatrix(newMatrix, toFind, "westToEast")
+                #print("RECURSE NS to WE")
+
+                recurse_found= self.searchMatrix(newMatrix, toFind, "westToEast")
+                if recurse_found == False:
+                    return False
+                else:
+                    return True
+            
                 #else:
                 #    return False
 
@@ -243,12 +258,14 @@ class ConceptMapper():
                     for j in range(0, len(matrix)):
                        #print("got to column",j)
                         if matrix[j][i] == toFind[0]:
+                           #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j  )
                             #print("INDEX EW:", matrix[j][i])
                             westMostIndex = i
                             found=True
                             break
                     if found==True:
                         break
+
                     
                 if found == False:
                     #print("returning false")
@@ -256,7 +273,12 @@ class ConceptMapper():
                 newMatrix = matrix[:,westMostIndex:].copy()                         #Make a pruned copy to recurse on
                
                 toFind.pop(0)                                             #Update the search list                
-                return self.searchMatrix(newMatrix, toFind, "northToSouth")
+                #print("RECURSE WE to NS")
+                recurse_found = self.searchMatrix(newMatrix, toFind, "northToSouth")
+                if recurse_found == False:
+                    return False
+                else:
+                    return True
                 #else:
                 #    return False
 

@@ -606,6 +606,6 @@ if __name__ == '__main__':
     runner = unittest.TextTestRunner()
     #runner.run(suite_direction_locations())
     #runner.run(suite_get_terms())
-    #runner.run(suite_recursive_grid_search())
+    runner.run(suite_recursive_grid_search())
     runner.run(suite_get_grid())
 
