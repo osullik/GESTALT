@@ -218,15 +218,18 @@ class ConceptMapper():
                 #print("going N to S looking for", toFind[0])
                 for i in range(0, len(matrix)):                                         #Walk north to south through the matrix to figure out where to prune from. 
                     #print("got to row", i)
-                    for j in range(0,len(matrix[i]),1):
-                        #print('got to column', j)
-                        if matrix[i][j] == toFind[0]:
-                            #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j )
-                            found = True
-                            northMostIndex = i
-                            break
-                        else:
-                            pass
+                    for j in range(0,len(matrix[i])):
+                        try:
+                            #print('got to column', j)
+                            if matrix[i][j] == toFind[0]:
+                                #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j )
+                                found = True
+                                northMostIndex = i
+                                break
+                            else:
+                                pass
+                        except IndexError:
+                            return False
                     if found==True:
                         break
 
@@ -257,12 +260,15 @@ class ConceptMapper():
                     #print("got to row", i)
                     for j in range(0, len(matrix)):
                        #print("got to column",j)
-                        if matrix[j][i] == toFind[0]:
-                           #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j  )
-                            #print("INDEX EW:", matrix[j][i])
-                            westMostIndex = i
-                            found=True
-                            break
+                        try:
+                            if matrix[j][i] == toFind[0]:
+                            #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j  )
+                                #print("INDEX EW:", matrix[j][i])
+                                westMostIndex = i
+                                found=True
+                                break
+                        except IndexError:
+                            return False
                     if found==True:
                         break
 

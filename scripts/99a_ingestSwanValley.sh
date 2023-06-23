@@ -20,7 +20,7 @@ mkdir ../data/SV/photos
 echo IMPORTING INPUT KML
 cp -r ../data/input ../data/SV/
 
-#Vars for KNL Ingest
+#Vars for KML Ingest
 KMLFILE1="../data/SV/input/Swan_Valley.kml"
 KML_OUTPUTFILENAME="../data/SV/output/dataCollection/objects_KML" #the python code will append a ".json", don't include it here. 
 
@@ -33,9 +33,9 @@ SEARCHTERM1="allobjects"
 OSM_OBJ_OUTPUT_FILE="../data/SV/output/dataCollection/objects"  #note .json extension will be applied by python script
 
 #VARS FOR FLICKR QUERY
-echo "QUERYING FLICKR FOR IMAGES"
-echo "your FLICKR API Key is:" $flickr_key
-echo "your FLICKR Secret key is:" $flickr_secret
+echo QUERYING FLICKR FOR IMAGES
+echo your FLICKR API Key is: $flickr_key
+echo your FLICKR Secret key is: $flickr_secret
 ulimit -n 1000
 FLICKR_OUTPUTDIRECTORY="../data/SV/photos/"  #note .json extension will be applied by python script
 FLICKR_START_PAGE="1"                       #Note: adjsut to recommence when it fails
@@ -66,24 +66,24 @@ CM_LOCATIONS_FILE="../data/SV/output/dataCollection/locations-31.900098826415781
 
 #Vars for Inverted Index Query Demo
 
-SEARCH_INPUT_FILE="../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
-QUERY_TERMS1="car person cup clock truck"
-QUERY_TERMS2="cup bench bird"
-QUERY_TERMS3="bench bird"
-QUERY_TERMS4="bird"
+SEARCH_INPUT_FILE=../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv
+QUERY_TERMS1= "car person cup clock truck"
+QUERY_TERMS2= "cup bench bird"
+QUERY_TERMS3= "bench bird"
+QUERY_TERMS4= "bird"
 
 # Vars for Pictorial Qery Demo
 
-INVERTED_INDEX="../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
-CONCEPT_MAPS="../data/SV/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl"
-UI_LOCATIONS="../data/SV/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON"
+INVERTED_INDEX=../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv
+CONCEPT_MAPS=../data/SV/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl
+UI_LOCATIONS=../data/SV/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON
 
 #Jngest Hand-Labelled tags from KML
 echo INGESTING KML
 python3 ../code/gestalt.py -k -f $KMLFILE1 -o $KML_OUTPUTFILENAME
 
 #Query OSM for Objects
-echo "QUERYING OSM FOR OBJECTS"
+echo QUERYING OSM FOR OBJECTS
 python3 ../code/gestalt.py -qo -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $SEARCHTERM1 -o $OSM_OBJ_OUTPUT_FILE
 
 
@@ -92,11 +92,11 @@ ECHO QUERYING FLICKR FOR IMAGES AND RUNNING OBJECT DETECTION
 #python3 ../code/gestalt.py -pd -b $BB_SW_LONG $BB_SW_LAT $BB_NE_LONG $BB_NE_LAT -od $FLICKR_OUTPUTDIRECTORY -fpn $FLICKR_START_PAGE
 
 #Process flickr files. 
-echo "PROCESSING FLICKR IMAGES FOR OBJECTS"
+echo PROCESSING FLICKR IMAGES FOR OBJECTS
 python3 ../code/gestalt.py -p -if $FLICKR_INPUTFILE -o $FLICKR_OUTPUTFILE
 
 #Query to OSM for locations
-echo "QUERYING OSM FOR LOCATIONS"
+echo QUERYING OSM FOR LOCATIONS
 python3 ../code/gestalt.py -ql -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $OSM_LOCATION_SEARCH_TERM -o $OSM_LOCATION_OUTPUTFILE
 
 #Use DBSCAN to cluster (exact )
@@ -104,7 +104,7 @@ echo CLUSTERING WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and 
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $DBSCAN_INPUT_DIRECTORY --outputDirectory $DBSCAN_OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 
 #Conduct Concept mapping
-echo "CREATING CONCEPT MAPS"
+echo CREATING CONCEPT MAPS
 python3 ../code/gestalt.py -ccm --inputFile $CM_INPUT_FILE --outputDirectory $CM_OUTPUT_DIRECTORY --fileSource $CM_LOCATIONS_FILE
 
 #TEST SEARCHING:
@@ -116,14 +116,12 @@ python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --sear
 
 # Launch UI
 echo LAUNCHING UI
-python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
+#python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
 
 
-ECHO = = = = = = = = = = = = = = = = = = = = = = = = 
-ECHO = = = = = = = = EXPERIMENTS = = = = = = = = = =
-ECHO = = = = = = = = = = = = = = = = = = = = = = = =
-
-echo = = = = = = = = = RUNNING EXPERIMENTS FOR HAND LABELLED DATA ONLY = = = = = = = = = 
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+ECHO = = = = = = = = EXPERIMENTS FOR PRECISION, RECALL = = = = = = = = = = =
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 
 #Common Variables:
 INPUT_DIRECTORY="../data/SV/output/experiments/datacollection"
@@ -141,6 +139,9 @@ mkdir ../data/SV/output/experiments/dataCollection
 mkdir ../data/SV/output/experiments/ownershipAssignment
 mkdir ../data/SV/output/experiments/ownershipAssignment/wineries_only
 
+"""
+echo = = = = = = = = = RUNNING EXPERIMENTS FOR HAND LABELLED DATA ONLY = = = = = = = = = 
+
 # Prepare 
 #Import KML for Experiment
 EXP_KMLFILE1="../data/SV/input/Swan_Valley.kml"
@@ -153,48 +154,56 @@ EXP_SEARCHTERM2="brewery"
 EXP_OUTPUTFILE="../data/SV/output/experiments/dataCollection/locations_"  #note .json extension will be applied by python script
 python3 ../code/gestalt.py -ql -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $EXP_SEARCHTERM1 $EXP_SEARCHTERM2 -o $EXP_OUTPUTFILE
 
-#Variables for Iteration1
+### RUN THE EXPERIMENTS ###
+
 INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=0.0.csv"
 FUZZY_THRESHOLD=0.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration2
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=0.2.csv"
-FUZZY_THRESHOLD=0.2
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=2.0.csv"
+FUZZY_THRESHOLD=2.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration3
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=0.4.csv"
-FUZZY_THRESHOLD=0.4
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=4.0.csv"
+FUZZY_THRESHOLD=4.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration4
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=0.6.csv"
-FUZZY_THRESHOLD=0.6
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=6.0.csv"
+FUZZY_THRESHOLD=6.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration5
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=0.8.csv"
-FUZZY_THRESHOLD=0.8
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=8.0.csv"
+FUZZY_THRESHOLD=8.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration6
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=1.0.csv"
-FUZZY_THRESHOLD=1.0
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=10.0.csv"
+FUZZY_THRESHOLD=10.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
+#Variables for Iteration7
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/wineries_only/DBSCAN_PredictedLocations_FT=12.0.csv"
+FUZZY_THRESHOLD=12.0
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+"""
 
 echo = = = = = = = = = RUNNING EXPERIMENTS FOR ALL DATA = = = = = = = = = 
 
@@ -223,44 +232,103 @@ EXP_SEARCHTERM1="all_locations"
 EXP_OUTPUTFILE="../data/SV/output/experiments/dataCollection/locations_"  #note .json extension will be applied by python script
 python3 ../code/gestalt.py -ql -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $EXP_SEARCHTERM1 -o $EXP_OUTPUTFILE
 
-#Variables for Iteration1
+### RUN THE EXPERIMENTS ###
+
 INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.0.csv"
 FUZZY_THRESHOLD=0.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
-
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+"""
 #Variables for Iteration2
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.2.csv"
-FUZZY_THRESHOLD=0.2
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=2.0.csv"
+FUZZY_THRESHOLD=2.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration3
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.4.csv"
-FUZZY_THRESHOLD=0.4
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=4.0.csv"
+FUZZY_THRESHOLD=4.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration4
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.6.csv"
-FUZZY_THRESHOLD=0.6
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=6.0.csv"
+FUZZY_THRESHOLD=6.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration5
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.8.csv"
-FUZZY_THRESHOLD=0.8
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=8.0.csv"
+FUZZY_THRESHOLD=8.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
 
 #Variables for Iteration6
-INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=1.0.csv"
-FUZZY_THRESHOLD=1.0
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=10.0.csv"
+FUZZY_THRESHOLD=10.0
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
-python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+
+#Variables for Iteration7
+INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=12.0.csv"
+FUZZY_THRESHOLD=12.0
+python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $INPUT_DIRECTORY --outputDirectory $OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
+ECHO RUNNING EXPERIMENT WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and FUZZY THRESHOLD $FUZZY_THRESHOLD
+#python3 ../code/ClusteringMetrics.py -c $INPUT_FILE
+"""
+
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ECHO = = = = = = = = EXPERIMENTS FOR QUERY TIMES = = = = = = = = = = =
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+
+SEARCH_INPUT_FILE="../data/SV/output/experiments/ownershipAssignment/combined/DBSCAN_PredictedLocations_FT=0.0.csv"
+
+ECHO DUMPING INVERTED INDEX
+python3 ../code/gestalt.py --dumpInvertedIndex --inputFile $SEARCH_INPUT_FILE 
+
+
+QUERY_TERMS1="crossing"
+QUERY_TERMS2="bus_stop"
+QUERY_TERMS3="traffic_signals"
+QUERY_TERMS4="tower"
+QUERY_TERMS5="tree"
+
+QUERY_TERMS6="crossing bus_stop"
+QUERY_TERMS7="crossing traffic_signals"
+QUERY_TERMS8="crossing tower"
+QUERY_TERMS9="crossing tree"
+
+QUERY_TERMS10="crossing bus_stop traffic_signals"
+QUERY_TERMS11="crossing bus_stop tower"
+QUERY_TERMS12="crossing bus_stop tree"
+
+QUERY_TERMS13="crossing bus_stop traffic_signals tower"
+QUERY_TERMS14="crossing bus_stop traffic_signals tree"
+
+QUERY_TERMS15="crossing bus_stop traffic_signals tower tree"
+
+QUERY_TERMS16="crossing bus_stop traffic_signals tower tree level_crossing person turning_circle bench shed"
+
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS1
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS2
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS3
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS4
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS5
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS6
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS7
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS8
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS9
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS10
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS11
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS12
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS13
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS14
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS15
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS16

@@ -17,7 +17,7 @@ FLICKR_START_PAGE="1"                       #Note: adjsut to recommence when it 
 
 #Vars for FLICKR Ingestion
 
-FLICKR_INPUTFILE="../data/DC/photos/['-77.120248'_'38.791086'_'-76.911012'_'38.995732'] /metadata_objects.json"
+FLICKR_INPUTFILE="../data/DC/photos/-77.120248_38.791086_-76.911012_38.995732/metadata_objects.json"
 FLICKR_OUTPUTFILE="../data/DC/output/dataCollection/objects_flickr"  #note .json extension will be applied by python script
 
 #Vars for OSM LOCATION Query: 
@@ -55,22 +55,22 @@ CONCEPT_MAPS="../data/DC/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLoca
 UI_LOCATIONS="../data/DC/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON"
 
 #Query OSM for Objects
-echo "QUERYING OSM FOR OBJECTS"
+echo QUERYING OSM FOR OBJECTS
 python3 ../code/gestalt.py -qo -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $SEARCHTERM1 -o $OSM_OBJ_OUTPUT_FILE
 
 # Query Flickr for Objects
-echo "QUERYING FLICKR FOR IMAGES"
+echo QUERYING FLICKR FOR IMAGES
 #echo "your FLICKR API Key is:" $flickr_key
 #echo "your FLICKR Secret key is:" $flickr_secret
 #ulimit -n 5000
 #python3 ../code/gestalt.py -pd -b $BB_SW_LONG $BB_SW_LAT $BB_NE_LONG $BB_NE_LAT -od $FLICKR_OUTPUTDIRECTORY -fpn $FLICKR_START_PAGE
 
 #Process the FLICKR objects
-echo "PROCESSING FLICKR IMAGES FOR OBJECTS"
+echo PROCESSING FLICKR IMAGES FOR OBJECTS
 python3 ../code/gestalt.py -p -if $FLICKR_INPUTFILE -o $FLICKR_OUTPUTFILE
 
 #Query OSM For Locations
-echo "QUERYING OSM FOR LOCATIONS"
+echo QUERYING OSM FOR LOCATIONS
 python3 ../code/gestalt.py -ql -b $BB_SW_LAT $BB_SW_LONG $BB_NE_LAT $BB_NE_LONG -s $OSM_LOCATION_SEARCH_TERM -o $OSM_LOCATION_OUTPUTFILE
 
 #Use DBSCAN to cluster (exact )
@@ -78,7 +78,7 @@ echo CLUSTERING WITH DBSCAN EPSILON: $EPSILON MINCLUSTER: $MIN_CLUSTER_SIZE and 
 python3 ../code/gestalt.py --ownershipAssignment dbscan --inputDirectory $DBSCAN_INPUT_DIRECTORY --outputDirectory $DBSCAN_OUTPUT_DIRECTORY --epsilon $EPSILON --numClusters $MIN_CLUSTER_SIZE --fuzzy_threshold $FUZZY_THRESHOLD
 
 #Conduct Concept mapping
-echo "CREATING CONCEPT MAPS"
+echo CREATING CONCEPT MAPS
 python3 ../code/gestalt.py -ccm --inputFile $CM_INPUT_FILE --outputDirectory $CM_OUTPUT_DIRECTORY --fileSource $CM_LOCATIONS_FILE
 
 
@@ -91,4 +91,67 @@ python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --sear
 
 # Launch UI
 echo LAUNCHING UI
-python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
+#python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
+
+
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ECHO = = = = = = = = EXPERIMENTS FOR QUERY TIMES = = = = = = = = = = =
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+
+SEARCH_INPUT_FILE="../data/DC/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
+
+ECHO DUMPING INVERTED INDEX
+python3 ../code/gestalt.py --dumpInvertedIndex --inputFile $SEARCH_INPUT_FILE 
+
+
+QUERY_TERMS1="crossing"
+QUERY_TERMS2="traffic_signals"
+QUERY_TERMS3="stop"
+QUERY_TERMS4="tree"
+QUERY_TERMS5="kerb"
+
+QUERY_TERMS6="crossing traffic_signals"
+QUERY_TERMS7="crossing stop"
+QUERY_TERMS8="crossing tree"
+QUERY_TERMS9="crossing kerb"
+
+QUERY_TERMS10="crossing traffic_signals stop"
+QUERY_TERMS11="crossing traffic_signals tree"
+QUERY_TERMS12="crossing traffic_signals kerb"
+
+QUERY_TERMS13="crossing traffic_signals stop tree"
+QUERY_TERMS14="crossing traffic_signals stop kerb"
+
+QUERY_TERMS15="crossing traffic_signals stop tree kerb"
+
+QUERY_TERMS16="crossing traffic_signals stop tree kerb street_lamp person bus_stop gate bollard"
+
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS1
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS2
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS3
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS4
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS5
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS6
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS7
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS8
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS9
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS10
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS11
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS12
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS13
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS14
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS15
+python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS16
+
+
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ECHO = = = = = = = = EXPERIMENTS FOR PICTORIAL QUERY TIMES = = = = = = = = = = =
+ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+INVERTED_INDEX="../data/DC/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
+CONCEPT_MAPS="../data/DC/output/concept_mapping/ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl"
+UI_LOCATIONS="../data/DC/output/concept_mapping/RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON"
+#Test Pictorial Queries
+python3 ../code/experimentVariables.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
+
