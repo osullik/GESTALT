@@ -114,7 +114,7 @@ This process is depicted visually in Figure \ref{figure:ConceptMap}.
     \begin{algorithmic}
         \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s; [0,0] is NW most point}}
         \State{\textit{\textbf{L} A NW to SE ordered list of objects to search for}}
-        \State{\textit{\textbf{D} The direction of Pruning, 'northToSouth' or 'westToEast'}}
+        \State{\textit{\textbf{D} The alternating direction we prune from, 'north' (default) or 'west'}}
         \State{- - - - -}
         \Procedure{recursiveGridSearch}{$M$,$L$,$D$} %\Comment{$M$ a matrix of a Loc's objects, $L$ an ordered list of objects to search for, $D$ is the pruning direction}
             \If{$L$ has only 1 item}\Comment{Base Case}
@@ -124,25 +124,50 @@ This process is depicted visually in Figure \ref{figure:ConceptMap}.
                     \State{\textbf{return} $False$}
                 \EndIf            
             \EndIf
-            \If{$D$ is $northToSouth$}
-                \State{$NorthernObject$ = pop($L$)}                
-                \If{$NorthernObject$ not in $M$}
-                    \State{\textbf{return} $False$}               
-                \EndIf
-                \State{$M$ = Prune all objects north of $NorthernObject$}
-                \State{\textbf{return recursiveGridSearch}($M$,$L$,$westToEast$)}
+            \State{$PruningPoint\leftarrow$ pop($L$)}                
+            \If{$PruningPoint$ not in $M$}
+                \State{\textbf{return} $False$}               
             \EndIf
-            \If{$D$ is $eastToWest$}
-                \State{$WesternObject$ = pop($L$)}
-                \If{$WesternObject$ not in $M$}
-                    \State{\textbf{return} $False$}
-                \EndIf
-                \State{$M$ = Prune all objects west of $WesternObject$}
-                \State{\textbf{return recursiveGridSearch}($M$,$L$,$northToSouth$)}
-            \EndIf
+            \State{$M^\prime \leftarrow$ Prune all objects $D$ of $PruningPoint$}
+            \State{\textbf{return recursiveGridSearch}($M^\prime$,$L$,$D.\textbf{changeDirection}()$)}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+%\begin{algorithm}
+%    \caption{Recursive Grid Search}\label{alg:gridSearch}
+%    \begin{algorithmic}
+%        \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s; [0,0] is NW most point}}
+%        \State{\textit{\textbf{L} A NW to SE ordered list of objects to search for}}
+%        \State{\textit{\textbf{D} The direction of Pruning, 'northToSouth' or 'westToEast'}}
+%        \State{- - - - -}
+%        \Procedure{recursiveGridSearch}{$M$,$L$,$D$} %\Comment{$M$ a matrix of a Loc's objects, $L$ an ordered list of objects to search for, $D$ is the pruning direction}
+%            \If{$L$ has only 1 item}\Comment{Base Case}
+%                \If{pop($L$) in $M$}
+%                    \State{\textbf{return} $True$}              
+%                \Else
+%                    \State{\textbf{return} $False$}
+%                \EndIf            
+%            \EndIf
+%            \If{$D$ is $northToSouth$}
+%                \State{$NorthernObject\leftarrow$ pop($L$)}                
+%                \If{$NorthernObject$ not in $M$}
+%                    \State{\textbf{return} $False$}               
+%                \EndIf
+%               \State{$M\leftarrow$ Prune all objects north of $NorthernObject$}
+%                \State{\textbf{return recursiveGridSearch}($M$,$L$,$westToEast$)}
+%            \EndIf
+%            \If{$D$ is $eastToWest$}
+%                \State{$WesternObject\leftarrow$ pop($L$)}
+%                \If{$WesternObject$ not in $M$}
+%                    \State{\textbf{return} $False$}
+%                \EndIf
+%                \State{$M\leftarrow$ Prune all objects west of $WesternObject$}
+%                \State{\textbf{return recursiveGridSearch}($M$,$L$,$northToSouth$)}
+%            \EndIf
+%       \EndProcedure
+%    \end{algorithmic}
+%\end{algorithm}
 
 
 \subsubsection{Results on Ground Truth Spatial Queries}
