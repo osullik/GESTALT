@@ -2,16 +2,15 @@
 \label{section:search}
 
 The core function of \textit{GESTALT} is to perform last-mile search given partial or uncertain information.
-The user is assumed to know the general region of interest, which could be an administrative boundary like a city or suburb, or a general geographic area.
-The user is also expected to know some information about the objects at the location they seek.
-Under these conditions, the search problem can be framed in several ways, described in the subsequent subsections in increasing order of complexity and utility.
+The user is assumed to know the general region of interest and some information about the objects at the location they seek.
+Under these conditions, the search problem can be framed in several ways, which we describe below in increasing order of complexity and utility.
 
-\subsection{Exact Membership Search}
+\subsection{Membership Search}
 
+\subsubsection{Exact membership search}
 A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
 
-\nrscomment{- problem definition
-- complexity}
+
 
 \begin{algorithm}
     \caption{Search}\label{alg:search}
@@ -30,10 +29,8 @@ A \textit{set membership problem} is the most straightforward and most efficient
 \end{algorithm}
 
 
-\subsection{Ranked Membership Search}
-\nrscomment{
-- problem definition
-- complexity}
+\subsubsection{Ranked membership search}
+
 
 \begin{algorithm}
     \caption{Rank}\label{alg:rank}
@@ -62,13 +59,7 @@ A \textit{set membership problem} is the most straightforward and most efficient
 - problem definition
 - complexity}
 
-\nrscomment{Kent, run these queries with fuzzy search please:
-query one tree without pictorial input, report time + num locs returned
-query one bus stop without pictorial input, report time + num locs returned
-query one bench  without pictorial input, report time + num locs returned
-query one building without pictorial input, report time + num locs returned
-possibly other similar ones to try to get a decent distribution of num locations so we can show the time curve. shoot for 1o locs, 100 locs, 1000 locs, 10000 locs, etc
-}
+\nrscomment{TIMINGS show num locations vs time}
 
         
 \begin{algorithm}
