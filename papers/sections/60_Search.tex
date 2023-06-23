@@ -175,27 +175,45 @@ End to end including object-object and object-location concept mapping
 
 % No space, skip this- visually show the object object ground truth queries in a grid of subplots?
 
-
-
-
 \subsection{Scalability}
 
-\nrscomment{Kent, plot query time vs num locations pruned by concept map. Turn these random sentences into coherent intepretation of results}
+\small{
+\begin{figure*}[h]
+    \centering
+    \begin{subfigure}[t]{.45\textwidth} 
+        \includesvg[width=\textwidth]{queryExecutionRecall.svg}
+        \caption{Additional terms improve precision of results for all techniques except Loc-Obj Pictorial Querying, for which each search term adds to possible matches, rather than pruning impossible matches. Users seeking to prune their search space should seek to input 3 objects to \emph{GESTALT}}
+        \label{fig:queryExecutionRecall}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{.45\textwidth} 
+        \includesvg[width=\textwidth]{queryExecutionTime.svg}
+        \caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}
+        \label{fig:queryExecutionTime}
+    \end{subfigure}
 
-This is on the DC dataset
+    \caption{A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location}\label{figure:PerformanceExperiments} 
+\end{figure*}
+}
 
-This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
+To test the scalability of \emph{GESTALT} we test it over a \textit{region} densely covered with tags for objects and locations - the District of Columbia. 
+Aside from waiting for the download of photos from the flickr API and the use of YOLO on those photos, the construction of the DC dataset occurs within a few seconds. 
+We compare our methods of searching across our inverted index and two concept-map data structures and find that all are performant using the DC dataset, reporting detailed results in Figure \ref{figure:PerformanceExperiments}. 
+We can see that 3 query terms is ideal for a user seeking to prune their search space, and that our geospatial pattern matching using our Object-Object recursive grid search avoids the complexity of the more traditional sub-graph matching approach. 
 
-Spatial queries are the most computationally intensive aspect of the search.
-Object-Centric queries require a concept map that describes all n-ary object-object relations, where Location-Centric queries only need describe the set of binary object-location relations.
-These problems of searching by geographic sets of objects have previously been characterized as graph-matching problems. 
-As a graph-matching problem, the difference between a fully connected graph, and a hub-and-spoke graph is significant, particularly as the number of vertices increases. It quickly becomes intractable. \osullikomment{[CITE HERE]}
-We handle both these types of queries by focusing on pruning the search space down to a reasonable size before checking the spatial relationships between objects.
+%This is on the DC dataset
+%This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
-- for spatial results report number of locations pruned? timings?
+%Spatial queries are the most computationally intensive aspect of the search.
+%Object-Centric queries require a concept map that describes all n-ary object-object relations, where Location-Centric queries only need describe the set of binary object-location relations.
+%These problems of searching by geographic sets of objects have previously been characterized as graph-matching problems. 
+%As a graph-matching problem, the difference between a fully connected graph, and a hub-and-spoke graph is significant, particularly as the number of vertices increases. It quickly becomes intractable. \osullikomment{[CITE HERE]}
+%We handle both these types of queries by focusing on pruning the search space down to a reasonable size before checking the spatial relationships between objects.
+
+%- for spatial results report number of locations pruned? timings?
 
 
-The worst case complexity is for a search of N object terms where every object category is mapped to every location L. In that case we have to do N lookups to pull N sets of size L and intersect them. Realistically this would not happen and some object classes would be very discriminative and we could intersect those first to be more efficient.
+%The worst case complexity is for a search of N object terms where every object category is mapped to every location L. In that case we have to do N lookups to pull N sets of size L and intersect them. Realistically this would not happen and some object classes would be very discriminative and we could intersect those first to be more efficient.
 
 
 
