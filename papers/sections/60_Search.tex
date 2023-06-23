@@ -173,25 +173,27 @@ The precision of the obj-obj queries is negatively impacted by single term queri
 \subsection{Scalability}
 
 \small{
-\begin{figure*}[h]
+\begin{figure}[h]
     \centering
     \begin{subfigure}[t]{.45\textwidth} 
         \includesvg[width=\textwidth]{queryExecutionRecall.svg}
-        \caption{Additional terms improve precision of results for all techniques except Loc-Obj Pictorial Querying, for which each search term adds to possible matches, rather than pruning impossible matches. Users seeking to prune their search space should seek to input 3 objects to \emph{GESTALT}}
+        %\caption{Additional terms improve precision of results for all techniques except Loc-Obj Pictorial Querying, for which each search term adds to possible matches, rather than pruning impossible matches. Users seeking to prune their search space should seek to input 3 objects to \emph{GESTALT}}
         \label{fig:queryExecutionRecall}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{.45\textwidth} 
         \includesvg[width=\textwidth]{queryExecutionTime.svg}
-        \caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}
+        %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}
         \label{fig:queryExecutionTime}
     \end{subfigure}
 
-    \caption{A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location}\label{figure:PerformanceExperiments} 
-\end{figure*}
+    \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}
+    %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
+\end{figure}
 }
 
 Figure \ref{fig:queryExecutionTime} shows the query response times on the Washington D.C. dataset (with over 91,000 objects and 12,000 locations) as the number of query terms increases. 
+The queries tested were constructed using the 10 most common object classes: (e.g. crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls no highly distinctive features of their target location.
 For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
 Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
 The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
