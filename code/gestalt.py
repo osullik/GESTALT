@@ -128,6 +128,12 @@ if __name__ == "__main__":
 							default=1,
 							required=False)	
 	
+	argparser.add_argument(	"-ii", "--dumpInvertedIndex", 							
+							help="Dumps the Inverted Index",
+							action="store_true",
+							default=False,
+							required=False)		
+	
 	flags = argparser.parse_args()																		# populate variables from command line arguments
 
 
@@ -396,24 +402,53 @@ if flags.createConceptMaps==True:
 
 if flags.gestaltSearch == True: 
 
-	start_wall_time = time.time()
-	start_proc_time=time.process_time()
-
 	searchterms = flags.searchterms
 	invertedIndexSourceCSV = flags.inputFile
 
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
 	ii = InvertedIndex(invertedIndexSourceCSV)
-	results = ii.search(searchterms)
-	fuzzy_results = ii.fuzzy_search(searchterms)
-	rankedResults = ii.ranked_search(searchterms)
-	print("SEARCH TERMS:", searchterms)
-	print("STANDARD SEARCH:\n",results)	
-	print("FUZZY SEARCH:\n",results)	
-	print("RANKED SEARCH:\n",results)	
-
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
-	print("\nPROCESSOR TIME TO RUN QUERIES:",end_proc_time-start_proc_time)
-	print("WALL TIME TAKEN TO RUN QUERIES:", end_wall_time-start_wall_time,"\n")
+	print("\nPROCESSOR TIME TO GENERATE INVERTED INDEX:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN TO GENERATE INVERTED INDEX:", end_wall_time-start_wall_time,"\n")
+
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
+	results = ii.search(searchterms)
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("RETURNED STANDARD SEARCH RESULTS:",len(results[0]), "FOR QUERY:", searchterms)	
+	print("\nPROCESSOR TIME FOR STANDARD QUERY:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN FOR STANDARD QUERY:", end_wall_time-start_wall_time,"\n")
+
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
+	fuzzy_results = ii.fuzzy_search(searchterms)
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("SEARCH TERMS:", searchterms)
+	print("RETURNED FUZZY SEARCH RESULTS:",len(fuzzy_results[0]), "FOR QUERY:", searchterms)	
+	print("\nPROCESSOR TIME FOR FUZZY QUERY:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN FOR FUZZY QUERY:", end_wall_time-start_wall_time,"\n")
+
+	rankedResults = ii.ranked_search(searchterms)
+
+	start_wall_time = time.time()
+	start_proc_time=time.process_time()
+	rankedResults = ii.ranked_search(searchterms)
+	end_proc_time=time.process_time()
+	end_wall_time = time.time()
+	print("SEARCH TERMS:", searchterms)
+	print("RETURNED RANKED SEARCH RESULTS:",len(rankedResults[0]), "FOR QUERY:", searchterms)	
+	print("\nPROCESSOR TIME FOR RANKED QUERY:",end_proc_time-start_proc_time)
+	print("WALL TIME TAKEN FOR RANKED QUERY:", end_wall_time-start_wall_time,"\n")
 
 	exit()
+
+
+if flags.dumpInvertedIndex == True:
+	invertedIndexSourceCSV = flags.inputFile
+	ii = InvertedIndex(invertedIndexSourceCSV)
+	for entry in ii.ii_counter:
+		print(entry, ii.ii_counter[entry])
