@@ -1,7 +1,7 @@
 \appendix
 \section{Appendices}\label{section:appendices}
 
-\subsection{Membership Search Rank}
+\subsection{Supplementary Membership Search Algorithms}
 \begin{algorithm}
     \caption{Rank}\label{alg:rank}
     \begin{algorithmic}
@@ -23,8 +23,8 @@
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Concept Map Creation} \label{appendix:conceptcreation}
-
+\subsection{Supplementary Spatial Search Algorithms} \label{appendix:conceptcreation}
+%\subsection{Concept Map Creation}
 \begin{algorithm}
     \caption{Creating a Concept Map}\label{alg:geoToGrid}
     \begin{algorithmic}
@@ -63,9 +63,7 @@
 \end{algorithm}
 
 
-\subsection{Object-Object Search Term Ordering}
-
-
+%\subsection{Object-Object Search Term Ordering}
 \begin{algorithm}
     \caption{Ordering the Search Terms}\label{alg:orderSearchTerms}
     \begin{algorithmic}
@@ -94,7 +92,7 @@
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Location-Centric Strucutre Generation}
+%\subsection{Location-Centric Strucutre Generation}
 
 \begin{algorithm}
     \caption{Generating Location Centric Structure}\label{alg:locationCentricGeneration}
@@ -123,64 +121,64 @@
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Location Centric Querying}
+%\subsection{Location Centric Querying}
 
-\begin{algorithm}
-    \caption{Querying Location Centric Structure}
-    \begin{algorithmic}
-        \State{\textit{\textbf{Q} a Dictionary of lists of objects of form: \{$NW$:[], $NE$:[], $SW$:[], $SE$:[]\}}}
-        \State{\textit{\textbf{NS} a query Direction of "North\_of" or "South\_of"}}
-        \State{\textit{\textbf{EW} a query Direction of "West\_of" or "East\_of"}}
-        \State{\textit{\textbf{S} the name of an object to searc for}}
-        \State{- - - - -}
-        \Procedure{QueryLocationCentricStructure}{$T$,$X$}
-            \If{$NS$ = $North_of$ and $EW$ = $None$}
-                \If{$S$ in $Q.NW$ \textbf{OR} $Q.NE$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%\begin{algorithm}
+%    \caption{Querying Location Centric Structure}
+%    \begin{algorithmic}
+%        \State{\textit{\textbf{Q} a Dictionary of lists of objects of form: \{$NW$:[], $NE$:[], $SW$:[], $SE$:[]\}}}
+%        \State{\textit{\textbf{NS} a query Direction of "North\_of" or "South\_of"}}
+%        \State{\textit{\textbf{EW} a query Direction of "West\_of" or "East\_of"}}
+%        \State{\textit{\textbf{S} the name of an object to searc for}}
+%        \State{- - - - -}
+%        \Procedure{QueryLocationCentricStructure}{$T$,$X$}
+%            \If{$NS$ = $North_of$ and $EW$ = $None$}
+%                \If{$S$ in $Q.NW$ \textbf{OR} $Q.NE$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $North\_of$ and $EW$ = $West\_of$}
-                \If{$S$ in $Q.NW$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $North\_of$ and $EW$ = $West\_of$}
+%                \If{$S$ in $Q.NW$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $North\_of$ and $EW$ = $East\_of$}
-                \If{$S$ in $Q.NE$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $North\_of$ and $EW$ = $East\_of$}
+%                \If{$S$ in $Q.NE$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $South\_of$ and $EW$ = $None$}
-                \If{$S$ in $Q.SW$ \textbf{OR} $Q.SE$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $South\_of$ and $EW$ = $None$}
+%                \If{$S$ in $Q.SW$ \textbf{OR} $Q.SE$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $South\_of$ and $EW$ = $West\_of$}
-                \If{$S$ in $Q.SW$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $South\_of$ and $EW$ = $West\_of$}
+%                \If{$S$ in $Q.SW$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $South\_of$ and $EW$ = $East\_of$}
-                \If{$S$ in $Q.SE$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $South\_of$ and $EW$ = $East\_of$}
+%                \If{$S$ in $Q.SE$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-            \If{$NS$ = $None$ and $EW$ = $West\_Of$}
-                \If{$S$ in $Q.NW$ \textbf{OR} $Q.SW$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
-            \If{$NS$ = $None$ and $EW$ = $East\_of$}
-                \If{$S$ in $Q.NE$ \textbf{OR} $Q.SE$}
-                    \State{\textbf{return}$True$}
-                \EndIf 
-            \EndIf
+%            \If{$NS$ = $None$ and $EW$ = $West\_Of$}
+%                \If{$S$ in $Q.NW$ \textbf{OR} $Q.SW$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
+%            \If{$NS$ = $None$ and $EW$ = $East\_of$}
+%                \If{$S$ in $Q.NE$ \textbf{OR} $Q.SE$}
+%                    \State{\textbf{return}$True$}
+%                \EndIf 
+%            \EndIf
 
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
+%        \EndProcedure
+%    \end{algorithmic}
+%\end{algorithm}
