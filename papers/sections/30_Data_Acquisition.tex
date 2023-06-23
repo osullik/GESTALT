@@ -75,19 +75,19 @@ Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries data
 
 
 \subsubsection{Open Street Maps Tags}
-\osullikomment{I think we can afford to trim this section down if we need the space}
-\emph{GESTALT} can also ingest object and location tags by querying the Open Street Maps (OSM) API.
-OSM is a knowledge collective that contains open-source Geodata~\cite{Haklay2008}, in the form of  \textit{elements}\footnote{\href{https://wiki.openstreetmap.org/wiki/Elements}{https://wiki.openstreetmap.org/wiki/Elements}}. 
-The key element subtypes are \textit{Nodes} (point data for objects and locations) \textit{ways} (line data for roads, creeks, railways, etc.) and \textit{relations} (for relationships between elements, like suburb-state).
+\emph{GESTALT} can also ingest object and location tags by querying the Open Street Maps (OSM) API~\cite{Haklay2008}
+%OSM is a knowledge collective that contains open-source Geodata
+%, in the form of  \textit{elements}\footnote{\href{https://wiki.openstreetmap.org/wiki/Elements}{https://wiki.openstreetmap.org/wiki/Elements}}. 
+%The key element subtypes are 
+for crowd-sourced Geodata, including \textit{Nodes} (point data for objects and locations), \textit{ways} (line data for roads, creeks, railways, etc.), and \textit{relations} (for relationships between elements, like suburb-state).
 While businesses, attractions, and other \textit{locations} are commonly annotated by the OSM community, \textit{objects} are more sparsely tagged as they are typically less interesting subject matter. 
-\emph{GESTALT} ingests \textit{nodes} through the Overpass API using the OSMPythonTools package \footnote{\href{https://pypi.org/project/OSMPythonTools/}{https://pypi.org/project/OSMPythonTools/}}, pulling all nodes within a given bounding box that have at least one tag (like "name," "craft," etc.).
-The initial list of nodes is pruned to remove results not likely referring to objects or that lack detail to be resolved to objects.
-The remaining nodes are transformed into a standard JSON format and stored for indexing and search later in the \emph{GESTALT} pipeline. 
-
-Businesses, attractions, and other higher-level \textit{locations} are commonly annotated as nodes in OSM by the open-source community or business owners. 
-We retrieve them from the OSM Overpass API similarly to objects, but this time excluding results that lack features like names, street addresses, and phone numbers. 
-We assign each location or object tag ingested from OSM is assigned a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community does have some degree of self-regulation~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
-While OSM provides a rich, free, and accessible data source to leverage the power of the crowds to generate tags for \emph{GESTALT}, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
+%\textit{nodes} through the Overpass API using the OSMPythonTools package \footnote{\href{https://pypi.org/project/OSMPythonTools/}{https://pypi.org/project/OSMPythonTools/}}, pulling
+To ingest objects, \emph{GESTALT} pulls all nodes within a given bounding box that have at least one tag (like "name," "craft," etc.) and prunes them to remove results not likely referring to objects or that lack detail to be resolved.
+%The remaining nodes are transformed into a standard JSON format and stored for indexing and search later in the \emph{GESTALT} pipeline. 
+%Businesses, attractions, and other higher-level \textit{locations} are commonly annotated as nodes in OSM by the open-source community or business owners. 
+To ingest locations, \emph{GESTALT} uses a similar process to objects, but this time excluding results that lack features like names, street addresses, and phone numbers. 
+We assign each location or object tag ingested from OSM a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community does have some degree of self-regulation~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
+%While OSM provides a rich, free, and accessible data source to leverage the power of the crowds to generate tags for \emph{GESTALT}, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
 
 \subsubsection{Noisy Image-based Tags}
 The third and most important method by which \emph{GESTALT} ingests objects is through automatic object detection.

@@ -39,10 +39,10 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
         \State{\textit{\textbf{Locs}} a list of locations and their tagged coordinates}
         \State{\textit{\textbf{Objs}} a list of objects and their coordinates}
         \State{\textit{\textbf{Clusters}} a list of object clusters}
-        \State{\textit{\textbf{C}} an individual cluster in $Clusters$}
-        \State{\textit{\textbf{C.x}} a cluster centroid}
+        %\State{\textit{\textbf{C}} an individual cluster in $Clusters$}
+        %\State{\textit{\textbf{C.x}} a cluster centroid}
         \State{\textit{\textbf{C.l}} the predicted $location$ for a $cluster$}
-        \State{\textit{\textbf{O}} an individual object in $Objects$}
+        %\State{\textit{\textbf{O}} an individual object in $Objects$}
         \State{\textit{\textbf{O.c}} confidence score that object was correctly assigned}
         %\State{\textit{\textbf{O.x}} an object's coordinates}
         \State{- - - - - - - - - -}
@@ -51,7 +51,7 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
             \For{All $C$ in $Clusters$ except NULL cluster}
                 \State{$C.x\leftarrow$ Calculate Cluster Centroid}%\Comment{$C.x$ cluster centroid}
                 \For{$O$ in $C$}
-                    \State{$O.c\leftarrow$ $1-\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
+                    \State{$O.c\leftarrow$ $1-normalize(dist(O,C.x)$}%\frac{1}{dist(O, C.x)}$}%\Comment{\textbf{O}bj \textbf{C}onf, $O.x$ obj coords}
                 \EndFor
             \EndFor
             \For{All $O$ in NULL Cluster}
