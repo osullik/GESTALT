@@ -5,13 +5,6 @@ The core function of \textit{GESTALT} is to perform last-mile search given parti
 The user is assumed to know the general region of interest and some information about the objects at the location they seek.
 Under these conditions, the search problem can be framed in several ways, which we describe below in increasing order of complexity and utility.
 
-\subsection{Membership Search}
-
-\subsubsection{Exact membership search}
-A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
-
-
-
 \begin{algorithm}
     \caption{Search}\label{alg:search}
     \begin{algorithmic}
@@ -27,9 +20,6 @@ A \textit{set membership problem} is the most straightforward and most efficient
             \EndProcedure
     \end{algorithmic}
 \end{algorithm}
-
-
-\subsubsection{Ranked membership search}
 
 
 \begin{algorithm}
@@ -53,15 +43,6 @@ A \textit{set membership problem} is the most straightforward and most efficient
     \end{algorithmic}
 \end{algorithm}
 
-
-\subsection{Fuzzy Membership Search}
-\nrscomment{
-- problem definition
-- complexity}
-
-\nrscomment{TIMINGS show num locations vs time}
-
-        
 \begin{algorithm}
     \caption{Fuzzy Search}\label{alg:fuzzySearch}
     \begin{algorithmic}[2]
@@ -87,11 +68,33 @@ A \textit{set membership problem} is the most straightforward and most efficient
 \end{algorithm}
 
 
+\subsection{Membership Search}
+
+\subsubsection{Exact membership search}
+The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match for containing \textit{all} those objects. 
+%A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
+
+\subsubsection{Ranked membership search}
+When the exact membership search returns a large number of hits, such as for a broad query (i.e. Which locations have a tree and a bench?) the ranking of those locations can help narrow the results. Using Algorithm \ref{alg:rank}, we aggregate the confidence scores from the object tagging and ownership assignment stages to determine the overall likelihood that a given location contains the object of interest. These scores are then aggregated per location for the relevant query objects, and the final scores determine the ranking of the results. 
+
+\subsubsection{Fuzzy Membership Search}
+When the exact membership search returns no matching locations, we use a fuzzy search procedure (Algorithm \ref{alg:fuzzySearch}) to find a set of partial match locations based on the most discriminative object(s) in the list of query terms provided. 
+The most discriminative terms are emphasized since rare objects are memorable and more uniquely identify locations than common objects do.
+%Fuzzy search begins with the most discriminative query term (based on counts maintained by the inverted index) and proceeds by adding query terms successively until the set intersection returns no locations matching all the criteria, at which point it walks back by one term and returns the prvious set of locations, which is the closest match.
+
+\subsubsection{Scalability}
+We report the query response time on several queries over the Washington D.C. dataset to demonstrate the scalability of the membership search functionality of \emph{GESTALT}.
+
+\nrscomment{TIMINGS show num locations vs time}
+
+        
+
+
 \subsection{Spatial Search}
 
 The most powerful form of search \emph{GESTALT} enables is spatial search, where users can query for locations based on the spatial configuration of objects in relation to each other or to the location itself.
 However, as discussed in section \ref{section:concept}, this problem quickly becomes intractable as the number of objects increases.
-To combat this effect and still enable users to specify spatial queries, we employ a successive pruning approach, where the search space is scoped down in stages until the resulting search is of reasonable scale to perform quickly.
+To combat this effect and still enable users to specify spatial queries, we employ a successive pruning approach, where the search space is scoped down in stages until the resulting search is of reasonable scale to execute directly.
 
 \subsubsection{Pruning the Search Space}
 The first round of pruning occurs when the user selects the \emph{region} that they wish to search (a pre-condition to performing last-mile search). 
@@ -101,25 +104,30 @@ The third layer of pruning occurs during the search of the concept maps.
 The recursive grid search (Algorithm \ref{alg:geoToGrid}) successively segments the search grid into smaller and smaller sections, eliminating impossible results at each step to reduce the total search space to a tractable size.
 
 \subsubsection{Specifying the Query Pictorially}
-A picture is worth a thousand words, and maps are an ingerently visual medium. \emph{GESTALT} recognises the expressive limitations of words alone for geospatial querying and invites a user to query its database with quick sketch maps. 
-The pictorial query specification abstracts away the need for the user to describe the relations of objects using the confusing language around cardinal directions, and replaces it with the simple visual task of trying to recreate the pattern being held in your mind's eye.
-We implement a very rudimentary prototype pictorial query interface using Python Tkinter.
-The interface has two modes. 
-Figure \ref{fig:GUI-LO} shows the location-object configuration, where the coordinates of the location are placed at the centre of the canvas and all objects positioned around that centrepoint by the user. 
-The second mode shown in Figure \ref{fig:GUI-OO} is the object-object configuration, where the canvas space allows users to place patterns of objects that they recall in space without concern for their loations respective to the location itself. If that pattern of objects exists in the database, \emph{GESTALT} returns the result. Detail on how the underlying data structures are consturcted are available in the Appendices in Appendix \ref{alg:geoToGrid}.
+%A picture is worth a thousand words, and maps are an inherently visual medium. \emph{GESTALT} recognizes the expressive limitations of words alone for geospatial querying and invites a user to query its database with quick sketch maps. 
+Humans naturally conceive of and express geospatial relationships visually.
+In keeping with a human-centric approach to spatial search, \emph{GESTALT} employs a pictorial query interface that encodes the relative positioning of objects and locations to enable search over those relations.
+Figure \ref{fig:GUI-LO} shows the location-object query interface, where the location being sought is represented at the center of the canvas and a user issues a query by positioning objects around that center point. 
+Figure \ref{fig:GUI-OO} demonstrates the object-object query interface, where users define the spatial arrangement of objects they want to query by placing the object names on the canvas space. 
+%specification abstracts away the need for the user to describe the relations of objects using the confusing language around cardinal directions, and replaces it with the simple visual task of trying to recreate the pattern being held in your mind's eye.
+%We implement a very rudimentary prototype pictorial query interface using Python Tkinter.
+%The interface has two modes. 
 
 \subsubsection{Searching the Concept Maps}
-Searching the object-location concept maps requires the user to specify a query, either pictorially or with keywords, for each quadrant of an unknown candidate location, what objects they expect to find there.
-Using that query input, the searher iterates through each location and inspects its NW/NE/SW/SE subdivisions of space, comparing them to the query. 
-Where the same object occurs in the same quadrant in the query and a candidate location, one point is added to the location's score. 
-When all locations have been checked, the candidate locations (i.e. locations with $> 1$ match) are returned, ranked from most to fewest matches. 
+Searching the object-location concept maps involves a simple iteration through the candidate locations, searching each one's NW/NE/SW/SE quadrants for the relevant query objects, and ranking the locations based on how many objects were found in the correct quadrant. 
+%requires the user to specify a query, either pictorially or with keywords, for each quadrant of an unknown candidate location, what objects they expect to find there.
+%Using that query input, the searcher iterates through each location and inspects its NW/NE/SW/SE subdivisions of space, comparing them to the query. 
+%Where the same object occurs in the same quadrant in the query and a candidate location, one point is added to the location's score. 
+%When all locations have been checked, the candidate locations (i.e. locations with $> 1$ match) are returned, ranked from most to fewest matches. 
 
-Searching the object-object concept maps requires the user to specify a query pictorially. 
-That query is converted into a concept map matrix, and the search terms within that matrix are ordered into a queue with the most northern point at index 0, the most western at index 1 and continuing until the most southEasterly query term is at the tail of the queue. 
-Given the query list, algorithm \ref{alg:gridSearch} details the process of recursively pruning the search space. 
-The broad idea is that while finding all possible instances and configurations of a geospatial pattern rapidly approaches NP-Completeness, we can determine if there is any possible match quite easily by using the query term to prune sections of the concept map that are irrelevant. 
-For example, any objects in the location that are north of the most northerly query term that exists in the object cannot possibly satisfy the query, and so we prune those rows. 
-The same occurs for the western direction, and then recursively north and west until the query is eithers satisfied or rejected. The search occurs for each candidate location and requires less than a single matrix traversal to determine if anywhere in that location the query pattern occurs. 
+Searching the object-object concept maps involves using the recursive grid search (Algorithm \ref{alg:gridSearch}) to identify which locations have objects matching the configuration specified in the pictorial query, and returning the relevant set of results. 
+The pictorial query is first converted into a concept map matrix using the process outlined in Appendix \ref{appendix:conceptcreation} and the search terms in the matrix are ordered into a queue with the northernmost enqueued first, followed by the westernmost, then the second northernmost, and so on until all search terms are in the queue.
+Then, the grid search is employed to recursively prune the search space and quickly eliminate candidate locations that do not match the query configuration.
+This process is depicted visually in Figure \ref{figure:ConceptMap}.
+%NSCH add back in if room allows:
+%The broad idea is that while finding all possible instances and configurations of a geospatial pattern rapidly approaches NP-Completeness, we can determine if there is any possible match quite easily by using the query term to prune sections of the concept map that are irrelevant. 
+%For example, any objects in the location that are north of the most northerly query term that exists in the object cannot possibly satisfy the query, and so we prune those rows. 
+%The same occurs for the western direction, and then recursively north and west until the query is eithers satisfied or rejected. The search occurs for each candidate location and requires less than a single matrix traversal to determine if anywhere in that location the query pattern occurs. 
 
 \begin{algorithm}
     \caption{Recursive Grid Search}\label{alg:gridSearch}
@@ -172,14 +180,7 @@ End to end including object-object and object-location concept mapping
 
 \subsection{Scalability}
 
-\nrscomment{Kent run:
-query 10 bus stops with obj-obj pictorial, report query time and num locations pruned by concept map
-query 10 bus stops with obj-loc pictorial, report query time and num locations pruned by concept map
-query 10 bus stops and 10 trees with obj-obj, report query time and num locations pruned by concept map
-query 10 bus stops and 10 trees with obj-loc, report query time and num locations pruned by concept map
-query 10 bus stops and 10 trees and 10 benches with obj-obj, report query time and num locations pruned by concept map
-query 10 bus stops and 10 trees and 10 benches with obj-loc, report query time and num locations pruned by concept map
-}
+\nrscomment{results on query time and num locations pruned by concept map}
 
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 
