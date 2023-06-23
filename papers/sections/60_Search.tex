@@ -146,15 +146,29 @@ This process is depicted visually in Figure \ref{figure:ConceptMap}.
 
 
 \subsubsection{Results on Ground Truth Spatial Queries}
-\nrscomment{tabulate prec/recall based on Kent's results posted in slack. we may need to drop this section for space. leave for last}
-End to end including object-object and object-location concept mapping
 
-- table listing the 12 location-object queries and expected results
-
-- calc prec/recall for obj-obj and obj-loc
-
-
-% No space, skip this- visually show the object object ground truth queries in a grid of subplots?
+\small{
+\begin{table}[h!]
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c| } 
+            \hline
+            Query Method & Metric & Results \\
+            \hline
+            \multirow{2}{7em}{Loc-Obj} & Mean Precision & $0.854$ \\
+            & Mean Recall & $0.917$\\%& 
+            \hline     
+            \multirow{2}{7em}{Obj-Obj} & Mean Precision & $0.721$ \\ 
+            &Mean Recall & $0.875$ \\
+            \hline
+        \end{tabular}
+        \caption{Results of 12 ground-truth pictorial queries run on the \textit{combined swan valley wineries} dataset. Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
+        \label{Table:GroundTruth}
+    \end{center}
+\end{table}
+}
+We ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
+The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
+The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
 
 \subsection{Scalability}
 
