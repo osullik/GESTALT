@@ -450,5 +450,6 @@ if flags.gestaltSearch == True:
 if flags.dumpInvertedIndex == True:
 	invertedIndexSourceCSV = flags.inputFile
 	ii = InvertedIndex(invertedIndexSourceCSV)
+	print("Inverted Index has", len(ii.ii.keys()), "object classes")
 	for entry in ii.ii_counter:
 		print(entry, ii.ii_counter[entry])
