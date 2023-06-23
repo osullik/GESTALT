@@ -1,70 +1,60 @@
 \appendix
-\section{Appendices}\label{section:appendices}
+\section{Appendix}\label{section:appendices}
 
-\subsection{Supplementary Membership Search Algorithms}
-\begin{algorithm}
+\subsection{Membership Search Algorithms}
+\begin{algorithm}[h]
     \caption{Rank}\label{alg:rank}
     \begin{algorithmic}
         \State{\textit{\textbf{QT} a list of query terms to search for}}
         \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
         \State{- - - - -}
-        \Procedure{Rank}{$S$,$q$,$II$}\Comment{$S$ results from $q$ query terms in $II$}
+        \Procedure{Rank}{$S$,$QT$,$II$}\Comment{$S$ results from $Q$ query terms in $II$}
             \State{$LR$ = Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
             \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
-                \State{$p$ = 1}\Comment{Probability location correct}
-                \For{$O$ in $q$}
-                    \State{$OP$ = Prob of Obj@Locin $II$}\Comment{\textbf{O}bject \textbf{P}robability}
-                    \State{$P$ = $P$x$OP$}
+                \State{$p$ = 1}%\Comment{Probability location correct}
+                \For{$O$ in $QT$}
+                    %\State{$OP$ = Prob of Obj@Locin $II$}\Comment{$OP$ = \textbf{O}bject \textbf{P}robability}
+                    \State{$p$ = $p$x$OP$}\Comment{$OP$ = \textbf{O}bject \textbf{P}robability}
                 \EndFor
-                \State{$LR$[$L$] = $P$}
+                \State{$LR$[$L$] = $p$}
             \EndFor
-            \State{\textbf{return}$LR$ ordered most to least likely}
+            \State{\textbf{return} $LR$ ordered most to least likely}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Supplementary Spatial Search Algorithms} \label{appendix:conceptcreation}
+\subsection{Spatial Search Algorithms} \label{appendix:conceptcreation}
 %\subsection{Concept Map Creation}
-\begin{algorithm}
+\begin{algorithm}[h]
     \caption{Creating a Concept Map}\label{alg:geoToGrid}
     \begin{algorithmic}
         \State{\textit{\textbf{T} a Location Table with ID, Name, Lat \& Long of its objects}}
         \State{- - - - -}
         \Procedure{createConceptMap}{$T$}
-
-            \State{LonList = []} \Comment{A list}
-            \State{LatList = []} \Comment{A list}
+            \State{LonList, LatList = []} \Comment{Lists}
+            %\State{LatList = []} \Comment{A list}
             \State{$M$ = [[][]]} \Comment{A matrix of 0s}
-        
-            \State{Sort rows from North to South}
-            
-            \For{$R$ in $T$} \Comment{Where $R$ is a Row}     
+            %\State{Sort rows from North to South}
+            \For{$R$ in $T$} \Comment{Where $T$ sorted North to South}     
                 \State{Add R.$ID$ to $LatList$} \Comment{$R.ID$ is the obj unique ID}
             \EndFor
-            
-            \State{Sort rows from West to East}
-            
-            \For{$R$ in $T$} 
+            %\State{Sort rows from West to East}         
+            \For{$R$ in $T$}  \Comment{Where $T$ sorted West to East}  
                 \State{Add R.$ID$ to $LonList$}
-            \EndFor
-            
+            \EndFor          
             \For{$ID$ in $Lonlist$}          
                 \State{get index of $ID$ in $LonList$ as $i$}
                 \State{get index of $ID$ in $LatList$ as $j$}               
                 \State{$M$[$i$][$j$] = $ID.Name$} \Comment{Name of object with $ID$}
-            \EndFor
-            
+            \EndFor        
             \State{\textbf{return} $M$} \Comment{Having $[0,0]$ as NW corner}
-
         \EndProcedure
-
-
     \end{algorithmic}
 \end{algorithm}
 
 
 %\subsection{Object-Object Search Term Ordering}
-\begin{algorithm}
+\begin{algorithm}[h]
     \caption{Ordering the Search Terms}\label{alg:orderSearchTerms}
     \begin{algorithmic}
         \State{\textit{\textbf{M} A ConceptMap Matrix with objects or 0s}}
@@ -74,16 +64,15 @@
                 \State{Return $M$}
             \EndIf
             \State{$Traversed$ = []}
-            \State{$R$, $C$ = Number of rows and columns}
-            \State{$Rd$ = ($R$+$C$)-1}
-
-            \For{$r$ in range $Rd$}
+            %\State{$R$, $C$ = Number of rows and columns}
+            %\State{$Rd$ = ($R$+$C$)-1}
+            \For{$r$ in range ($R$+$C$)-1} \Comment{$R$, $C$ = Number of rows and columns}
                 \For{$i$ in range $r$+1}
-                    \State{$j$ = $r$-$i$}
-                    \If{$i$ < $R$ and $j$ < $C$}
-                        \If{$M$[$i$][$j$] != 0}
-                            \State{Add $M$[$i$][$j$] to $Traversed$}
-                        \EndIf
+                    %\State{$j$ = $r$-$i$}
+                    \If{$i$ < $R$ and $r$-$i$ < $C$ and $M$[$i$][$r$-$i$] != 0}
+                        %\If{$M$[$i$][$j$] != 0}
+                            \State{Add $M$[$i$][$r$-$i$] to $Traversed$}
+                        %\EndIf
                     \EndIf 
                 \EndFor
             \EndFor
@@ -94,7 +83,7 @@
 
 %\subsection{Location-Centric Strucutre Generation}
 
-\begin{algorithm}
+\begin{algorithm}[h]
     \caption{Generating Location Centric Structure}\label{alg:locationCentricGeneration}
     \begin{algorithmic}
         \State{\textit{\textbf{T} a Location Table with ID, Name, Lat \& Long of its objects}}
