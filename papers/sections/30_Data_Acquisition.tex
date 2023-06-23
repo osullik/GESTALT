@@ -36,31 +36,9 @@ We support two methods of ingesting locations:
     \item Querying the Open Street Maps (OSM) API to ingest crowd-sourced location tags and their coordinates. 
 \end{enumerate}
 
-Similar to the approach with object tags, we assign a confidence score to each location tag upon ingest based on the source providing it.
+Similar to the approach with object tags, we assign a confidence to each location tag ingested based on the source providing it.
 
-\small{
-\begin{table}[h!]
-    \begin{center}
-        \begin{tabular}{ |c|c|c|c|c| } 
-            \hline
-            Dataset & Source & Ingest Method & \# Tags \\%& \# Unique \\
-            \hline
-            \multirow{5}{7em}{Swan Valley Wineries} & Authors & Hand Labeled & $146$ \\%&$41$\\ 
-            & OSM B-Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2466$\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
-            & Flickr B-Box & Object detection & $1893$\tablefootnote{from $462$ photos} \\%& $55$  \\ 
-            & OSM B-Box& Locations & 308 \\%& 308\\
-            \hline     
-            \multirow{5}{7em}{Washington D.C.} %& N/A & Hand Labeled & $0$ & $0$ \\ 
-            &OSM B-Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced &$60123$\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} \\%& $175$ \\ 
-            &Flickr B-Box & Object detection & $31065$\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average number of photos was $7.3$} \\%& $80$  \\ 
-            &OSM B-Box & Locations & $12179$ \\%& $12179$\\
-            \hline
-        \end{tabular}
-        \caption{The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
-        \label{Table:DataSet}
-    \end{center}
-\end{table}
-}
+
 
 \begin{figure}[h!]       
     \includegraphics[width=0.5\textwidth]{loc_labels_plot.png}
@@ -118,6 +96,29 @@ Given those images and their EXIF metadata, the Object Detection module uses pre
 Those objects become tags in \emph{GESTALT}, with their coordinates determined by the geolocation of the image and their confidence score determined by YOLO's confidence at the detection step.
 For our experiments we enable safe-search and limit to public photos that have been added since January 1$^st$ 2020. For the Swan Valley Region we retrieve 462 images, and for the Washington DC Region, we pull a representative 4,000 images out of over 12,000 available. 
 
+\small{
+\begin{table}[h!]
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c|c| } 
+            \hline
+            Dataset & Source & Ingest Method & \# Tags \\%& \# Unique \\
+            \hline
+            \multirow{5}{8em}{Swan Valley Wineries\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']}} & Authors & Hand Labeled & $146$ \\%&$41$\\ 
+            & OSM B-Box & Crowd-Sourced & $2466$\\%\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
+            & Flickr B-Box & Object detection & $1893$\\%\tablefootnote{from $462$ photos} \\%& $55$  \\ 
+            & OSM B-Box& Locations & 308 \\%& 308\\
+            \hline     
+            \multirow{5}{8em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
+            &OSM B-Box & Crowd-Sourced &$60123$ \\%\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} \\%& $175$ \\ 
+            &Flickr B-Box & Object detection & $31065$ \\%\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average was $7.3$} \\%& $80$  \\ 
+            &OSM B-Box & Locations & $12179$ \\%& $12179$\\
+            \hline
+        \end{tabular}
+        \caption{Summary of location and object datasets in \emph{GESTALT}.} %The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
+        \label{table:DataSet}
+    \end{center}
+\end{table}
+}
 
 %\nrscomment{describe how locations are ingested...fields used?}
 %The OSM query interface leverages the \textit{OSMPythonTools}\footnote{\href{https://pypi.org/project/OSMPythonTools/}{OSMPythonTools PyPI Repo}}. It passes a bounding box to the OSM Overpass-Turbo API\footnote{\href{https://overpass-turbo.eu/}{Overpass-Turbo API}} and requests the relevant location nodes in the area.
