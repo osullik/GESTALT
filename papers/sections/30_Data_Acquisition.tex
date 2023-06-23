@@ -30,47 +30,29 @@ To maximize dataset coverage, and demonstrate the flexibility of \emph{GESTALT} 
 
 Upon ingest, each object is assigned a confidence score, reflecting the certainty that the object tagged at those coordinates actually exists and is of the type annotated. 
 For results reported in this paper, we adopt the rule that hand-labeled objects receive a confidence score of $1.0$, OSM objects receive a score of $0.75$ and objects labeled by the object detector receive the confidence score reported by the object detection model. Table~\ref{table:objects} contains a summary of the objects currently in \emph{GESTALT}.
-
 \small{
 \begin{table}[h!]
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| } 
-			\hline
-			 Source & Ingest Method & \# tags & \# unique  \\
-			\hline
-                Swan Valley Wineries & Hand-labeled & $146$ & $41$ \\ 
-                OSM Bounding Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2466$\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} & $38$ \\ 
-			    Flickr Bounding Box & Object detection & $1893$\tablefootnote{from $462$ photos} & $55$  \\ 
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c|c| } 
             \hline
-                OSM Query (Winery/Brewery) & Locations & 36 & 36\\
-                OSM Bounding Box& Locations & 308 & 308\\
-
-			\hline
-		\end{tabular}	
-		\caption{Summary of the Objects and Locations in the Swan Valley Wineries Dataset. Data available\osullikomment{insert data link here}}
-            \label{table:objects}
-	\end{center}
-\end{table}} 
-
-\small{
-\begin{table}[h!]
-	\begin{center}
-		\begin{tabular}{ |c|c|c|c| } 
-			\hline
-			 Source & Ingest Method & \# tags & \# unique  \\
-			\hline
-                DC & Hand-labeled & $0$ & $0$ \\ 
-                OSM Bounding Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced & $60123$\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} & $175$ \\ 
-			    Flickr Bounding Box & Object detection & $31065$\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average number of photos was $7.3$} & $80$  \\ 
+            Dataset & Source & Ingest Method & \# Tags & \# Unique \\
             \hline
-                OSM Bounding Box & Locations & $12179$ & $12179$\\
-
-			\hline
-		\end{tabular}	
-		\caption{Summary of the Objects and Locations in the DC Dataset. Data available\osullikomment{insert data link here}}
-            \label{table:objects}
-	\end{center}
-\end{table}} 
+            \multirow{5}{5em}{Swan Valley Wineries} & Authors & Hand Labeled & $146$ &$41$\\ 
+            & OSM B-Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2466$\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} & $38$ \\
+            & Flickr B-Box & Object detection & $1893$\tablefootnote{from $462$ photos} & $55$  \\ 
+            & OSM B-Box& Locations & 308 & 308\\
+            \hline     
+            \multirow{5}{5em}{Washington DC} & N/A & Hand Labeled & $0$ & $0$ \\ 
+            &OSM B-Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced &$60123$\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} & $175$ \\ 
+            &Flickr B-Box & Object detection & $31065$\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average number of photos was $7.3$} & $80$  \\ 
+            &OSM B-Box & Locations & $12179$ & $12179$\\
+            \hline
+        \end{tabular}
+        \caption{The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
+        \label{Table:DataSet}
+    \end{center}
+\end{table}
+}
 
 
 \subsection{Location Tags}
