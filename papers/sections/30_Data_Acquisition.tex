@@ -86,7 +86,6 @@ Similar to the approach with object tags, we assign a confidence score to each l
 \subsubsection{Ground Truth Hand Labeled Tags} 
 Hand labeled objects and locations are those that have been manually annotated by a trustworthy source, and are assumed to be correctly labeled and correctly geotagged. 
 \emph{GESTALT} accepts hand-labeled tags to allow for prior manual annotation work to be folded into the pipeline, and to provide a reliable means to report results on ground truth data, so that we can compare \emph{GESTALT} with future architectures that might attempt to solve the last-mile search problem with a different approach. 
-
 For benchmarking purposes we curated the \emph{Swan Valley Wineries} dataset containing 31 ground truth location tags for wineries (and five for breweries) in the Swan Valley Region of Western Australia and 146 ground truth object tags associated with six of those wineries. 
 %and the correct associations between them (i.e. which objects belong to which locations). for six wineries within the Swan Valley Region of Western Australia. The objects are stored by their ground truth parent location in a KML file.
 The wineries dataset tags are stored in Keyhole Markup Language~\footnote{\href{https://developers.google.com/kml/documentation/kml\_tut}{https://developers.google.com/kml/documentation/kml\_tut}} (KML).
@@ -151,6 +150,8 @@ We query the Flickr API, for images that have been uploaded within a given regio
 Given those images and their EXIF metadata the Object Detection module uses pre-trained YOLO v.8~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image from 80 classes (based on the COCO dataset~\footnote{\href{{https://cocodataset.org/}}{https://cocodataset.org/}}). 
 Those objects become tags in \emph{GESTALT}, with their coordinates determined by the geolocation of the image and their confidence score determined by YOLO's confidence at the detection step.
 For our experiments on the Swan Valley Region, we pull 462 images and for the Washington D.C. Region we pull 4,000 images. 
+
+%we use the \emph{DC Dataset} we create from OSM and Flickr queries, containing 12,179 locations, 91,188 objects and over 200 distinct object classes across a bounding box sufficent to cover the entire district of columbia.
 
 
 

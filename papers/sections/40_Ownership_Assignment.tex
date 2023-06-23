@@ -1,19 +1,15 @@
 \section{Ownership Assignment}
 \label{section:ownership}
 
-
-We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. 
-\osullikomment{Might it be worth bringing the shawshank quote right up to the front? It's really good - shows locations, finding things on geospatial relations, and has a fun pop culture hook element too}
-Recall the famous line from \textit{The Shawshank Redemption}\footnote{\href{https://www.imdb.com/title/tt0111161/}{https://www.imdb.com/title/tt0111161/}} \textit{"There’s a big hayfield up near Buxton... It’s got a long rock wall with a big oak tree at the north end ... At the base of that wall, you’ll find a rock that has no earthly business in a Maine hayfield. Piece of black, volcanic glass.”}. 
-Real people, in the real world don't think, or remember by latitude and longitude. 
-They live in the world, and experience it thorugh the things that they can see, hear, touch, smell and taste. 
-We design \emph{GESTALT} to enable users to search for locations using the same intuitive tools and tecniques that one might use to tell a friend how to get to a camping site they like, or, in Andy Dufrense's case, where Red can find buried treasure. 
-We enable users to use their experiences of locations in the real world as the search conditions (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
+We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects} (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
+%\osullikomment{Might it be worth bringing the shawshank quote right up to the front? It's really good - shows locations, finding things on geospatial relations, and has a fun pop culture hook element too}
+%Recall the famous line from \textit{The Shawshank Redemption}\footnote{\href{https://www.imdb.com/title/tt0111161/}{https://www.imdb.com/title/tt0111161/}} \textit{"There’s a big hayfield up near Buxton... It’s got a long rock wall with a big oak tree at the north end ... At the base of that wall, you’ll find a rock that has no earthly business in a Maine hayfield. Piece of black, volcanic glass.”}. 
+%Real people, in the real world don't think, or remember by latitude and longitude. 
+%They live in the world, and experience it thorugh the things that they can see, hear, touch, smell and taste. 
+%We design \emph{GESTALT} to enable users to search for locations using the same intuitive tools and tecniques that one might use to tell a friend how to get to a camping site they like, or, in Andy Dufrense's case, where Red can find buried treasure. 
+%We enable users to use their experiences of locations in the real world as the search conditions (i.e. a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
 To enable these types of queries, \emph{GESTALT} must associate objects with their parent locations.
-We call this problem \textit{Object Ownership Assignment}, and define it as follows:
-
-\osullikomment{not sure what you mean by definition formatting?}
-\nrscomment{definition latex formatting} 
+We call this problem \textit{Object Ownership Assignment}, and define it as follows.
 Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to correctly assign each object to its 'parent' location. 
 This amounts to a clustering problem where points (objects) are assigned to centroids (locations) that are known apriori. 
 The objects are not uniformly distributed across locations, and some locations may not have tagged objects associated with them. 
@@ -28,10 +24,9 @@ We address this aspect of the problem by modifying our method to allow for fuzzy
 
 \subsection{Datasets and Metrics}
 
-We perform the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset in addition to the noisy object tags from the Flickr dataset and the crowd-sourced object tags from the OSM dataset. \osullikomment{Worth mentioning the DC data here?}
+We evaluate the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset in addition to the noisy object tags from the Flickr dataset and the crowd-sourced object tags from the OSM dataset.
 Since we have ground truth labels for the winery locations and their objects in the Swan Valley dataset, we report both precision and recall on this dataset.
 The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Swan Valley Wineries dataset alone, given its larger set of locations and very large set of object tags to assign to those locations. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure only the recall on the same set of Winery locations and their known objects that were hand-labeled as part of the Swan Valley dataset. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
-
 The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
@@ -70,7 +65,7 @@ The Swan Valley Wineries dataset consists of 31 wineries and five breweries retr
 \end{algorithm}
 
 
-Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment} . 
+Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment}. 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
 When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
 This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
@@ -153,18 +148,9 @@ We leave a detailed comparison of Object Ownership Assignment techniques as an i
 %The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
 
 
-\subsection{Scalability}
-
-\osullikomment{Report on Swan Valley: Time to build clusters for fuzze = 0, 0.5 and 1.0}
-
-To test the scalability of the Ownership Assignemnt process, we use the \emph{DC Dataset} we create from OSM and Flickr queries, containing 12,179 locations, 91,188 objects and over 200 distinct object classes across a bounding box sufficent to cover the entire district of columbia.
-\osullikomment{Report Clustering Time here for fuzzy = 0, 0.5 and 1.0; update these numbers now that I've fixed the OSM sanitization}
-
+%\subsection{Scalability}
 %The ownership assignment process needs to be unsupervised to enable scaling to millions of object tags. 
 
-\nrscomment{
-- complexity analysis
-- present timings/ etc. }
 
 
 

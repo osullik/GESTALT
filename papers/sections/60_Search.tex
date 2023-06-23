@@ -85,7 +85,7 @@ The most discriminative terms are emphasized since rare objects are memorable an
 \subsubsection{Scalability}
 We report the query response time on several queries over the Washington D.C. dataset to demonstrate the scalability of the membership search functionality of \emph{GESTALT}.
 
-\nrscomment{TIMINGS show num locations vs time}
+\nrscomment{Kent, plot num locations vs time for fuzzy search runs}
 
         
 
@@ -119,7 +119,6 @@ Searching the object-location concept maps involves a simple iteration through t
 %Using that query input, the searcher iterates through each location and inspects its NW/NE/SW/SE subdivisions of space, comparing them to the query. 
 %Where the same object occurs in the same quadrant in the query and a candidate location, one point is added to the location's score. 
 %When all locations have been checked, the candidate locations (i.e. locations with $> 1$ match) are returned, ranked from most to fewest matches. 
-
 Searching the object-object concept maps involves using the recursive grid search (Algorithm \ref{alg:gridSearch}) to identify which locations have objects matching the configuration specified in the pictorial query, and returning the relevant set of results. 
 The pictorial query is first converted into a concept map matrix using the process outlined in Appendix \ref{appendix:conceptcreation} and the search terms in the matrix are ordered into a queue with the northernmost enqueued first, followed by the westernmost, then the second northernmost, and so on until all search terms are in the queue.
 Then, the grid search is employed to recursively prune the search space and quickly eliminate candidate locations that do not match the query configuration.
@@ -173,14 +172,17 @@ End to end including object-object and object-location concept mapping
 
 - calc prec/recall for obj-obj and obj-loc
 
-- visually show the object object ground truth queries in a grid of subplots?
+
+% No space, skip this- visually show the object object ground truth queries in a grid of subplots?
 
 
 
 
 \subsection{Scalability}
 
-\nrscomment{results on query time and num locations pruned by concept map}
+\nrscomment{Kent, plot query time vs num locations pruned by concept map}
+
+This is on the DC dataset
 
 This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
 

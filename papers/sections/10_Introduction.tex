@@ -22,9 +22,8 @@ Taking inspiration from the way humans recall and search for information~\cite{H
     \item Performing probabilistic search over locations based on object membership queries and returning partial matches when the search constraints are too narrow, and ranked results when they are too broad
     %optionally pruning the search results with spatial constraints using the ConceptMaps generated in (3)
 \end{enumerate}
-\nrscomment{is recursive grid search novel? should it be mentioned as a contribution?}
 
-We contribute a new gold standard hand-labeled \textit{Swan Valley Wineries} benchmark dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture, reporting \nrscomment{RESULTS on the wineries dataset. SCALABILITY results on noisy DC data?}
+We contribute a new gold standard hand-labeled \textit{Swan Valley Wineries} benchmark dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture, reporting precision and recall on the ground truth data and performance metrics on a larger set of data to demonstrate the scalability of the search procedures.
 %address the geospatial object ownership assignment inference task using through probabilistic assignment of objects to locations and   %NSCH: need to clarify the exact contribution w.r.t. the current SOTA, adding progressive search if applicable
 
 The rest of this paper is organized as follows. In section \ref{section:architecture}, we define the \emph{GESTALT} architecture and discuss how each subsystem contributes to our human-centric approach to automating the last-mile search. 
