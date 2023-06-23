@@ -158,7 +158,7 @@ if __name__ == "__main__":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO QUERY OSM OBJECTS:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO QUERY OSM OBJECTS:\n", end_wall_time-start_wall_time)
+		print("WALL TIME TAKEN TO QUERY OSM OBJECTS:", end_wall_time-start_wall_time,"\n")
 		exit()
 
 	if flags.queryOsmLocations== True: 																		# Check to see if GESTALT should execute in OSM Query mode. 
@@ -187,7 +187,7 @@ if __name__ == "__main__":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO QUERY OSM LOCATIONS:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO QUERY OSM LOCATIONS:\n", end_wall_time-start_wall_time)
+		print("WALL TIME TAKEN TO QUERY OSM LOCATIONS:", end_wall_time-start_wall_time,"\n")
 		exit()
 
 	if flags.kmlIngestMode == True: 																	# Check to see if gestalt should execute in KML Ingestion mode. 
@@ -210,7 +210,7 @@ if __name__ == "__main__":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO INGEST KML:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO INGEST KML:\n", end_wall_time-start_wall_time)		
+		print("WALL TIME TAKEN TO INGEST KML:", end_wall_time-start_wall_time,"\n")		
 		exit()
 
 	if flags.photosFromFlickr==True:
@@ -232,7 +232,7 @@ if __name__ == "__main__":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO QUERY FLICKR:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO QUERY FLICKR:\n", end_wall_time-start_wall_time)
+		print("WALL TIME TAKEN TO QUERY FLICKR:", end_wall_time-start_wall_time,"\n")
 		exit()
 
 
@@ -276,7 +276,7 @@ if __name__ == "__main__":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO CLUSTER OBJECTS:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO CLUSTER OBJECTS:\n", end_wall_time-start_wall_time)
+		print("WALL TIME TAKEN TO CLUSTER OBJECTS:", end_wall_time-start_wall_time,"\n")
 		exit()
 
 if flags.ownershipAssignment.lower() == "dbscan":
@@ -325,7 +325,7 @@ if flags.ownershipAssignment.lower() == "dbscan":
 		end_proc_time=time.process_time()
 		end_wall_time = time.time()
 		print("\nPROCESSOR TIME TO CLUSTER OBJECTS:",end_proc_time-start_proc_time)
-		print("WALL TIME TAKEN TO CLUSTER OBJECTS:\n", end_wall_time-start_wall_time)
+		print("WALL TIME TAKEN TO CLUSTER OBJECTS:", end_wall_time-start_wall_time,"\n")
 		
 		exit()
 
@@ -349,7 +349,7 @@ if flags.photoDownloader == True:
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
 	print("\nPROCESSOR TIME TO DOWNLOAD PHOTOS FROM FLICKR:",end_proc_time-start_proc_time)
-	print("WALL TIME TAKEN TO DOWNLOAD PHOTOS FROM FLICKR:\n", end_wall_time-start_wall_time)
+	print("WALL TIME TAKEN TO DOWNLOAD PHOTOS FROM FLICKR:", end_wall_time-start_wall_time,"\n")
 
 	exit()
 
@@ -388,7 +388,7 @@ if flags.createConceptMaps==True:
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
 	print("\nPROCESSOR TIME TO CREATE COCNEPT MAPS:",end_proc_time-start_proc_time)
-	print("WALL TIME TAKEN TO CREATE CONCEPT MAPS:\n", end_wall_time-start_wall_time)
+	print("WALL TIME TAKEN TO CREATE CONCEPT MAPS:", end_wall_time-start_wall_time,"\n")
 
 	exit()
 
@@ -414,6 +414,6 @@ if flags.gestaltSearch == True:
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
 	print("\nPROCESSOR TIME TO RUN QUERIES:",end_proc_time-start_proc_time)
-	print("WALL TIME TAKEN TO RUN QUERIES:\n", end_wall_time-start_wall_time)
+	print("WALL TIME TAKEN TO RUN QUERIES:", end_wall_time-start_wall_time,"\n")
 
 	exit()
