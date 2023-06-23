@@ -48,10 +48,9 @@ The other type of spatial relationships \emph{GESTALT} supports searching are ob
 Object-object relations refer to a configuration of objects that relate to one another spatially.
 For example, a tree, a pond, and a sign might form a triangle, with each object having a directional constraint with respect to every other object in the query (i.e., tree northwest of a pond, pond southeast of sign, and sign southwest of tree).
 As the number of objects in the object-object configuration increases, the number of pairwise directional relationships needed to specify the query snowballs.
-Object-object relations lend themselves particularly well to pictorial query specification \nrscomment{CITE}.
+Object-object relations lend themselves particularly well to pictorial query specification~\cite{Soffer1997}.
 This method of specifying the spatial positioning of objects aligns nicely with how humans think about and describe landmarks in the world- by drawing a map. 
 Figure \ref{figure:ConceptMap} shows how we encode a location (\ref{fig:CM-Example}) as a matrix of relative object positions (\ref{fig:CM-OO-Setup}) and then how queries are processed (\ref{fig:CM-OO-Query}).
-
 The object-object approach to defining spatial configurations of objects is also more flexible than the object-location approach, which requires the user to know where each object lies in relation to the location and the general cardinal bearings.
 
 %In these circumstances, we can instead search for the relative position of objects to each other and ignore their absolute position within the location.
@@ -90,7 +89,7 @@ The object-object approach to defining spatial configurations of objects is also
     \hfill
     \begin{subfigure}[t]{.2\textwidth} 
         \includegraphics[width=\textwidth]{LO-Ground-Truth.png}
-        \caption{\small The location of the Oakover coordinates shows that it will not necessarily be the center of the object cluster on which the space is subdivided.}
+        \caption{\small The location matches the query since each object is Southeast of the location coordinates.} %of the Oakover coordinates shows that it will not necessarily be the center of the object cluster on which the space is subdivided.
         \label{fig:LO-Ground-Truth}
     \end{subfigure}
     \hfill
@@ -111,12 +110,8 @@ The object-object approach to defining spatial configurations of objects is also
 
 \subsection{Encoding the Spatial Relationships of objects and locations}
 
-\subsubsection{Object-location encoding}
-Object-Location concept maps are encoded as a per-location index that subdivides the search space into four quadrants - NorthWest, NorthEast, SouthWest, and SouthEast, splitting on the location coordinates. The division of space aims to emulate how people relate the world to their position in it geospatially. 
-
-
-\subsubsection{Object-object encoding}
-Object-object concept maps encode objects in sparse $NxN$ matrices, where $N$ is the number of objects at a location. 
+\textbf{Object-location} concept maps are encoded as a per-location index that subdivides the search space into four quadrants - NorthWest, NorthEast, SouthWest, and SouthEast, splitting on the location coordinates. The division of space aims to emulate how people relate the world to their position in it geospatially. 
+\textbf{Object-object} concept maps encode objects in sparse $NxN$ matrices, where $N$ is the number of objects at a location. 
 Using algorithm \ref{alg:geoToGrid}, we assign each object in a given location to a position $(i,j)$ in the matrix where $i$ is its order of appearance from north to south and $j$ is the same object's order of appearance from west to east (depicted in Figure \ref{fig:CM-OO-Setup}). 
 
 %To encode a location, we begin by setting the centroid of the location provided by OSM during Data Acquisition to be the root of a quartering of the search space into NorthWest, NorthEast, SouthWest and SouthEast quadrants. 

@@ -5,15 +5,15 @@
 %The visual encoding is primarily remote sensing imagery providing a top-down view of the earth's surface, but it also includes street-view imagery and other photographs. 
 \emph{GESTALT} enables last-mile search by encoding visual and geospatial data within a given \emph{region}, using two types of geotags: \emph{object} tags and \emph{location} tags.
 
-\emph{Regions} represent a limited physical area of interest within which a last-mile search will be performed. 
+\textbf{\emph{Regions}} represent a limited physical area of interest within which a last-mile search will be performed. 
 Regions can be arbitrary and represent an administrative boundary like a city, suburb, or general geographic area.
 Regions are defined by bounding boxes for compatibility with the OSM and Flickr APIs.
 
-\emph{Objects} represent any physical entity located within the region of interest. 
+\textbf{\emph{Objects}} represent any physical entity located within the region of interest. 
 For example, a \textit{tree, building, lake, bridge, gate} or \textit{sign} could be an object. 
 \textit{Objects} can also have attributes that provide amplifying information about them, including things like \textit{color, material, size, species, etc.}. 
 
-\emph{Locations} represent physical entities that \textit{do} something, giving them a purpose beyond that of objects. 
+\textbf{\emph{Locations}} represent physical entities that \textit{do} something, giving them a purpose beyond that of objects. 
 Locations can contain meaningful groupings of objects determined by ownership, proximity, or utility. 
 Examples of locations include \textit{businesses, attractions, properties, etc.}. 
 \textit{Locations} have \textit{objects} associated with them, and \emph{GESTALT} enables users to query for locations given a partial set of knowledge about the objects at those locations.
@@ -26,30 +26,6 @@ To maximize dataset coverage and demonstrate the flexibility of \emph{GESTALT}, 
     \item Automatically detecting objects in geolocated photos pulled from the Flickr API. 
 \end{enumerate}
 
-\small{
-\begin{table}[h!]
-    \begin{center}
-        \begin{tabular}{ |c|c|c|c|c| } 
-            \hline
-            Dataset & Source & Ingest Method & \# Tags & \# Unique \\
-            \hline
-            \multirow{5}{5em}{Swan Valley Wineries} & Authors & Hand Labeled & $146$ &$41$\\ 
-            & OSM B-Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2466$\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} & $38$ \\
-            & Flickr B-Box & Object detection & $1893$\tablefootnote{from $462$ photos} & $55$  \\ 
-            & OSM B-Box& Locations & 308 & 308\\
-            \hline     
-            \multirow{5}{5em}{Washington DC} & N/A & Hand Labeled & $0$ & $0$ \\ 
-            &OSM B-Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced &$60123$\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} & $175$ \\ 
-            &Flickr B-Box & Object detection & $31065$\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average number of photos was $7.3$} & $80$  \\ 
-            &OSM B-Box & Locations & $12179$ & $12179$\\
-            \hline
-        \end{tabular}
-        \caption{The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
-        \label{Table:DataSet}
-    \end{center}
-\end{table}
-}
-
 Upon ingest, each object is assigned a confidence score, reflecting the certainty that the object tagged at those coordinates exists and is of the type annotated. 
 For results reported in this paper, we adopt the rule that hand-labeled objects receive a confidence score of $1.0$, OSM objects receive a score of $0.75$, and objects labeled by the object detector receive the confidence score reported by the object detection model. Table~\ref{table:DataSet} contains a summary of the objects currently in \emph{GESTALT}.
 
@@ -61,6 +37,38 @@ We support two methods of ingesting locations:
 \end{enumerate}
 
 Similar to the approach with object tags, we assign a confidence score to each location tag upon ingest based on the source providing it.
+
+\small{
+\begin{table}[h!]
+    \begin{center}
+        \begin{tabular}{ |c|c|c|c|c| } 
+            \hline
+            Dataset & Source & Ingest Method & \# Tags \\%& \# Unique \\
+            \hline
+            \multirow{5}{7em}{Swan Valley Wineries} & Authors & Hand Labeled & $146$ \\%&$41$\\ 
+            & OSM B-Box\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']} & Crowd-Sourced & $2466$\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
+            & Flickr B-Box & Object detection & $1893$\tablefootnote{from $462$ photos} \\%& $55$  \\ 
+            & OSM B-Box& Locations & 308 \\%& 308\\
+            \hline     
+            \multirow{5}{7em}{Washington D.C.} %& N/A & Hand Labeled & $0$ & $0$ \\ 
+            &OSM B-Box\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']} & Crowd-Sourced &$60123$\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} \\%& $175$ \\ 
+            &Flickr B-Box & Object detection & $31065$\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average number of photos was $7.3$} \\%& $80$  \\ 
+            &OSM B-Box & Locations & $12179$ \\%& $12179$\\
+            \hline
+        \end{tabular}
+        \caption{The Swan Valley Wineries dataset supports testing and verification with hand-curated data, and the much larger DC Dataset tests the scalability of \textit{GESTALT}} 
+        \label{Table:DataSet}
+    \end{center}
+\end{table}
+}
+
+\begin{figure}[h!]       
+    \includegraphics[width=0.5\textwidth]{loc_labels_plot.png}
+    %\centering
+    \caption{The Swan Valley Wineries dataset has six locations with annotated objects and another 30 without manually annotated objects but with confirmed location coordinates.}
+    \label{fig:loc} 
+\end{figure}
+
 
 \subsection{Ingest Methods}
 \subsubsection{Ground Truth Hand Labeled Tags} 
@@ -78,15 +86,6 @@ Attributes of the objects (e.g., color, size, material) are recorded in the comm
 Each object from the hand-labeled dataset is assigned a confidence score of 1.0 since it was manually identified and tagged.
 The object tags are aligned with their corresponding winery location in the dataset.
 Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries dataset, and Figure \ref{fig:loc-obj} shows each of the six wineries that was hand labeled with ground-truth object tags, along with those tags and their spatial locations with respect to the winery location.
-
-
-
-\begin{figure*}[ht]       
-    \includegraphics[width=0.4\textwidth]{loc_labels_plot.png}
-    \centering
-    \caption[width=\textwidth]{The Swan Valley Wineries dataset has six locations with annotated objects and another 30 without manually annotated objects but with confirmed location coordinates.}
-    \label{fig:loc} 
-\end{figure*}
 
 
 \begin{figure*}[ht]

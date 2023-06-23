@@ -67,16 +67,6 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
 %\subsection{Results} \label{subsection:own_results}
 We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \frac{0.05}{6371}$ and DC experiments with $\epsilon = \frac{0.01}{6371}$. For both the MinClusterSize=$3$, choosing these values using the knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of roughly 50m	, a reasonable cluster neighborhood size for such an environment, and the minClusterSize is not critical given that fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
 
-\subsection{Results}
-We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Figure \ref{table:clustering}. 
-Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
-As expected, increasing the likelihood that objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision but, interestingly, does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
-
-Overall, the object ownership results show that our method, while straightforward, handles the noisy object tags well, especially on the larger dataset. By using DBSCAN for the initial clustering, we observe a noise reduction effect as objects which do not belong to any locations are relegated to the NULL cluster (i.e., a mistagged singular object with nothing else around it for miles in any direction), and a similar recall on the ground-truth labels is achieved despite adding a considerable quantity of noisy object tags (in the \textit{Combined} dataset). 
-
-The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
-Ideally, a better solution would start with the centroids and cluster around them while retaining the noise reduction effects of DBSCAN.
-We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
 
 \small{
 \begin{table}[h!]
@@ -102,11 +92,25 @@ We leave a detailed comparison of Object Ownership Assignment techniques as an i
                 & Fuzzy & $c = 10$ & - & $0.98$  \\ 
             \hline
         \end{tabular}
-        \caption{ Object-to-location assignment results for Swan Valley Wineries and Combined datasets. Increasing fuzziness parameter $c$ increases the chance objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.}
+        \caption{ Object-to-location assignment results for Swan Valley Wineries and Combined datasets. Increasing fuzziness parameter $c$ improves recall on the noisier \textit{Combined} dataset.} %increases the chance objects are assigned to multiple clusters, which
         \label{table:clustering}
     \end{center}
 \end{table}
 }
+
+
+\subsection{Results}
+We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Figure \ref{table:clustering}. 
+Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
+As expected, increasing the likelihood that objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision but, interestingly, does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
+
+Overall, the object ownership results show that our method, while straightforward, handles the noisy object tags well, especially on the larger dataset. By using DBSCAN for the initial clustering, we observe a noise reduction effect as objects which do not belong to any locations are relegated to the NULL cluster (i.e., a mistagged singular object with nothing else around it for miles in any direction), and a similar recall on the ground-truth labels is achieved despite adding a considerable quantity of noisy object tags (in the \textit{Combined} dataset). 
+
+The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
+Ideally, a better solution would start with the centroids and cluster around them while retaining the noise reduction effects of DBSCAN.
+We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
+
+
 
 %In the absence of reliable crowd-sourced data linking objects to their parent locations, the ownership assignment problem necessitates an unsupervised solution to scale to any nontrivial number of locations and objects. 
 

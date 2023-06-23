@@ -2,44 +2,48 @@
 \label{section:architecture}
 
 \begin{figure*}[t]
-    \includegraphics[width=\textwidth]{gestalt_architecture.png}
+    \includesvg[width=\textwidth]{GESTALT_Diagram.svg}
     \centering
-    \caption[width=\textwidth]{The architecture of \emph{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process, and the search subsystem.\osullikomment{KLM needs to be changed to KML}}
+    \caption[width=\textwidth]{The architecture of \emph{GESTALT} consists of the data collection subsystem, the ownership assignment process, the concept mapping process, and the search subsystem.}
     \label{fig:architecture}
 \end{figure*}
 
-The architecture of \textit{GESTALT} is outlined in Figure \ref{fig:architecture}. The components cover four essential functions: data acquisition, object ownership assignment, concept mapping, and search. 
+%The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to automate the last-mile search problem and allow users to search for locations of interest based on partial information. 
+%Achieving this outcome necessitates collecting and processing objects and locations autonomously, at scale.
+%Given a large number of noisy object tags, \emph{GESTALT} performs fuzzy object assignment, allowing objects to be assigned to multiple nearby locations, thereby improving the system's recall.
+%The subsequent concept mapping and spatial search processes maintain the system's precision using the relative directional relationships between query objects, extracting implicit information about the user's target location. 
+
+
+The architecture of \textit{GESTALT} (Figure \ref{fig:architecture}) covers four essential functions needed to perform last-mile search: data acquisition, object ownership assignment, concept mapping, and search. 
 We describe and motivate each of them below, focusing on their core purposes and leaving the implementation details for sections \ref{section:data} through \ref{section:search}. 
 
-\subsection{Data Acquisition}
-The Data Acquisition subsystem of \emph{GESTALT} leverages a variety of data sources to ingest objects and locations, including hand-labeled data in KML files, crowd-sourced object and location labels from OSM, and automatically generated object tags we extract from Flickr images geolocated within our region of interest. 
+\textbf{Data Acquisition.}
+The Data Acquisition subsystem of \emph{GESTALT} leverages a variety of data sources to ingest or tag objects and locations, including hand-labeled data in KML files, crowd-sourced object and location labels from OSM, and automatically generated object tags it extracts from Flickr images geolocated within the region of interest. 
 Data Acquisition focuses on fusing data in various formats from various sources into a standard format so the data can be transformed and searched.
 
-
-\subsection{Ownership Assignment}
+\textbf{Ownership Assignment.}
 The Ownership Assignment subsystem of \emph{GESTALT} maps the \textit{objects} to the \textit{locations} they most likely belong to using a fuzzy clustering that allows objects to be assigned to multiple locations. 
 We use DBSCAN~\cite{DBSCAN} to cluster the objects on the first pass and prune out noisy objects that are unlikely to be associated with any particular location.
 The resulting cluster centroids are then mapped to locations based on proximity using a nearest-neighbor search on a KD-Tree, and objects are added to nearby clusters using an adjustable 'fuzziness' parameter.
-\emph{GESTALTs} assignment protocol accounts for uncertainty in tag coordinates of locations and objects and allows for the possibility that objects can be visible from multiple locations in the real world.
+\emph{GESTALT}'s assignment protocol accounts for uncertainty in tag coordinates of locations and objects and allows for the possibility that objects can be visible from multiple locations in the real world.
 
-\subsection{Concept Mapping}
-The Concept Mapping subsystem of \emph{GESTALT} creates the data structures (inverted index, location-object concept map, object-object concept map) that enable successive pruning and spatial searching of objects and locations. 
-The inverted index maps each object class to the set of locations that contain objects of that type, enabling membership queries to prune the search space for downstream spatial searching. 
-The location-object concept map treats the coordinates of the \textit{location} as the division point on both the north-south and west-east axes and maps the objects for each location to the quadrant that specifies the cardinal direction they lie in with respect to the location.
-The object-object concept map (for each location) relates each object to every other object using sparse $NxN$ matrices, where $N$ is the number of objects assigned to the location, and an object at position $(i,j)$ is the i$^{th}$ object from the north and the j$^{th}$ object from the west. 
+\textbf{Concept Mapping.}
+The Concept Mapping subsystem of \emph{GESTALT} creates the data structures (inverted index, location-object concept map, object-object concept map) that enable successive pruning for spatial searching of objects and locations. 
+The inverted index maps each object class to the set of locations that contain objects of that type, enabling membership queries, which prune the search space for downstream spatial searching. 
+The location-object concept map treats the coordinates of the \textit{location} as the division point on the north-south and west-east axes and maps the objects for each location to the corresponding quadrant they lie in with respect to the location.
+The object-object concept map (for each location) encodes the implicit directional relationships between the objects at that location using sparse matrices that can be recursively searched to eliminate candidate locations that do not match the spatial query specification. 
 
-\subsection{Search}
-
+\textbf{Search.}
 The Search subsystem of \emph{GESTALT} enables the user to identify locations of interest based on partial knowledge about the collection and geospatial arrangement of objects at that location. 
 The search process is designed for the way humans naturally conceptualize and describe locations and directions- by drawing a sketch map.
 Queries can be issued using keywords and cardinal relations (like Northwest, Southeast, etc.) or a pictorial specification, where objects can be added and visually arranged in a configuration that is matched against the concept maps.
 The Search subsystem supports fuzzy searching to return inexact matches when query terms are too narrowly defined and ranking to reflect the uncertainty in any given object's identification, tagging, and assignment to a location.
 
-\subsection{Summary of Architecture}
-The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to automate the last-mile search problem and allow users to search for locations of interest based on partial information. 
-Achieving this outcome necessitates collecting and processing objects and locations autonomously, at scale.
-Given a large number of noisy object tags, \emph{GESTALT} performs fuzzy object assignment, allowing objects to be assigned to multiple nearby locations, thereby improving the system's recall.
-The subsequent concept mapping and spatial search processes maintain the system's precision using the relative directional relationships between query objects, extracting implicit information about the user's target location. 
+%\subsection{Summary of Architecture}
+%The Architecture of \textit{GESTALT} is designed to be lightweight and modular. The core requirement is to automate the last-mile search problem and allow users to search for locations of interest based on partial information. 
+%Achieving this outcome necessitates collecting and processing objects and locations autonomously, at scale.
+%Given a large number of noisy object tags, \emph{GESTALT} performs fuzzy object assignment, allowing objects to be assigned to multiple nearby locations, thereby improving the system's recall.
+%The subsequent concept mapping and spatial search processes maintain the system's precision using the relative directional relationships between query objects, extracting implicit information about the user's target location. 
 
 %, aiming to maximize the recall of all possible objects. 
 %\emph{GESTALT} currently supports ingestion of hand-labelled objects from KML Files, crowd-sourced object labels from OSM and automatically generated object tags we extract from images geolocated within our region of interest by Flickr.
