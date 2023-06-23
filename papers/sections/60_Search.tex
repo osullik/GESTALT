@@ -21,28 +21,6 @@ Under these conditions, the search problem can be framed in several ways, which 
     \end{algorithmic}
 \end{algorithm}
 
-
-\begin{algorithm}
-    \caption{Rank}\label{alg:rank}
-    \begin{algorithmic}
-        \State{\textit{\textbf{QT} a list of query terms to search for}}
-        \State{\textit{\textbf{II} an inverted index with objects as keys and locations as values}}
-        \State{- - - - -}
-        \Procedure{Rank}{$S$,$q$,$II$}\Comment{$S$ results from $q$ query terms in $II$}
-            \State{$LR$ = Empty Ordered Dictionary}\Comment{\textbf{L}ocation \textbf{R}ank}
-            \For{Each $L$ in $S$}\Comment{\textbf{L}ocation}
-                \State{$p$ = 1}\Comment{Probability location correct}
-                \For{$O$ in $q$}
-                    \State{$OP$ = Prob of Obj@Locin $II$}\Comment{\textbf{O}bject \textbf{P}robability}
-                    \State{$P$ = $P$x$OP$}
-                \EndFor
-                \State{$LR$[$L$] = $P$}
-            \EndFor
-            \State{\textbf{return}$LR$ ordered most to least likely}
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
-
 \begin{algorithm}
     \caption{Fuzzy Search}\label{alg:fuzzySearch}
     \begin{algorithmic}[2]
@@ -71,7 +49,7 @@ Under these conditions, the search problem can be framed in several ways, which 
 \subsection{Membership Search}
 
 \subsubsection{Exact membership search}
-The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match for containing \textit{all} those objects. 
+The simplest search function in \emph{GESTALT} (Algorithm \ref{alg:search}) takes a set of query terms representing objects the user knows are at a location, and performs the appropriate look-ups and set intersections to determine which locations are a match for containing \textit{all} those objects.
 %A \textit{set membership problem} is the most straightforward and most efficient. Given a set of locations, each of which has a set of objects it 'owns' and a set of objects in the search term, which locations have complete coverage of the search set.
 
 \subsubsection{Ranked membership search}
@@ -82,10 +60,12 @@ When the exact membership search returns no matching locations, we use a fuzzy s
 The most discriminative terms are emphasized since rare objects are memorable and more uniquely identify locations than common objects do.
 %Fuzzy search begins with the most discriminative query term (based on counts maintained by the inverted index) and proceeds by adding query terms successively until the set intersection returns no locations matching all the criteria, at which point it walks back by one term and returns the prvious set of locations, which is the closest match.
 
-\subsubsection{Scalability}
-We report the query response time on several queries over the Washington D.C. dataset to demonstrate the scalability of the membership search functionality of \emph{GESTALT}.
+%\subsubsection{Scalability}
 
-\nrscomment{Kent, plot num locations vs time for fuzzy search runs}
+
+%on several queries over the Washington D.C. dataset to demonstrate the scalability of the membership search functionality of \emph{GESTALT}. 
+
+%\nrscomment{Kent, plot num locations vs time for fuzzy search runs}
 
         
 
@@ -114,6 +94,7 @@ Figure \ref{fig:GUI-OO} demonstrates the object-object query interface, where us
 %The interface has two modes. 
 
 \subsubsection{Searching the Concept Maps}
+To avoid unnecessary computation, the spatial searches are only performed after the initial membership check has been done to narrow the pool of locations to those that contain the right set of objects.
 Searching the object-location concept maps involves a simple iteration through the candidate locations, searching each one's NW/NE/SW/SE quadrants for the relevant query objects, and ranking the locations based on how many objects were found in the correct quadrant. 
 %requires the user to specify a query, either pictorially or with keywords, for each quadrant of an unknown candidate location, what objects they expect to find there.
 %Using that query input, the searcher iterates through each location and inspects its NW/NE/SW/SE subdivisions of space, comparing them to the query. 
@@ -196,27 +177,29 @@ End to end including object-object and object-location concept mapping
 \end{figure*}
 }
 
-To test the scalability of \emph{GESTALT} we test it over a \textit{region} densely covered with tags for objects and locations - the District of Columbia. 
-Aside from waiting for the download of photos from the flickr API and the use of YOLO on those photos, the construction of the DC dataset occurs within a few seconds. 
-We compare our methods of searching across our inverted index and two concept-map data structures and find that all are performant using the DC dataset, reporting detailed results in Figure \ref{figure:PerformanceExperiments}. 
-We can see that 3 query terms is ideal for a user seeking to prune their search space, and that our geospatial pattern matching using our Object-Object recursive grid search avoids the complexity of the more traditional sub-graph matching approach. 
-
-%This is on the DC dataset
-%This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
-
-%Spatial queries are the most computationally intensive aspect of the search.
-%Object-Centric queries require a concept map that describes all n-ary object-object relations, where Location-Centric queries only need describe the set of binary object-location relations.
-%These problems of searching by geographic sets of objects have previously been characterized as graph-matching problems. 
-%As a graph-matching problem, the difference between a fully connected graph, and a hub-and-spoke graph is significant, particularly as the number of vertices increases. It quickly becomes intractable. \osullikomment{[CITE HERE]}
-%We handle both these types of queries by focusing on pruning the search space down to a reasonable size before checking the spatial relationships between objects.
-
-%- for spatial results report number of locations pruned? timings?
-
+Figure \ref{fig:queryExecutionTime} shows the query response times on the Washington D.C. dataset (with over 91,000 objects and 12,000 locations) as the number of query terms increases. 
+For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
+Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
+The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
+%it does not stop early when a candidate does not match on an object, instead returning the count of matches to be used to rank all of the candidates.
 
 %The worst case complexity is for a search of N object terms where every object category is mapped to every location L. In that case we have to do N lookups to pull N sets of size L and intersect them. Realistically this would not happen and some object classes would be very discriminative and we could intersect those first to be more efficient.
 
 
 
+%To test the scalability of \emph{GESTALT} we test it over a \textit{region} densely covered with tags for objects and locations - the District of Columbia. 
+%Aside from waiting for the download of photos from the flickr API and the use of YOLO on those photos, the construction of the DC dataset occurs within a few seconds. 
+%We compare our methods of searching across our inverted index and two concept-map data structures and find that all are performant using the DC dataset, reporting detailed results in Figure \ref{figure:PerformanceExperiments}. 
+%We can see that 3 query terms is ideal for a user seeking to prune their search space, and that our geospatial pattern matching using our Object-Object recursive grid search avoids the complexity of the more traditional sub-graph matching approach. 
+
+
+%This is on the DC dataset
+%This multiple-ownership situation is one of the driving requirements for implementing concept mapping to extract additional discriminatory information between locations based on the geospatial layout of objects.
+%Spatial queries are the most computationally intensive aspect of the search.
+%Object-Centric queries require a concept map that describes all n-ary object-object relations, where Location-Centric queries only need describe the set of binary object-location relations.
+%These problems of searching by geographic sets of objects have previously been characterized as graph-matching problems. 
+%As a graph-matching problem, the difference between a fully connected graph, and a hub-and-spoke graph is significant, particularly as the number of vertices increases. It quickly becomes intractable. \osullikomment{[CITE HERE]}
+%We handle both these types of queries by focusing on pruning the search space down to a reasonable size before checking the spatial relationships between objects.
 
 %The search problem must balance precision and recall while not being computationally intractable. An effective search process will use bloom filters to prune the search space for the more complicated geospatial search. Semantic enrichment should be applied independently at each stage of the search in an attempt to improve the recall of \textit{GESTALT}.
 
