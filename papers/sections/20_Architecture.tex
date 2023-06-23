@@ -34,7 +34,7 @@ This assignment protocol is designed to account for uncertainty in tag coordinat
 The Concept Mapping subsystem of \emph{GESTALT} creates the data structures (inverted index, location-object concept map, object-object concept map) that enable successive pruning and spatial searching of objects and locations. 
 The inverted index maps each object class to the set of locations that contain objects of that type, enabling membership queries to prune the search space for downstream spatial searching. 
 The location-object concept map treats the coordinates of the \textit{location} as the division point on both the north-south and west-east axes, and maps the objects for each location to the quadrant that specifies the cardinal direction they lie in with respect to the location.% (NW, NE, SW and SE). 
-The object-object concept map (for each location) relates each object to every other object. These take the form of sparse M x M matrices, where M is the number of objects assigned to the location, and an object at position [i,j] is the i$^{th}$ object from the north and the j$^{th}$ object from the west. 
+The object-object concept map (for each location) relates each object to every other object using sparse $NxN$ matrices, where $N$ is the number of objects assigned to the location, and an object at position $(i,j)$ is the i$^{th}$ object from the north and the j$^{th}$ object from the west. 
 
 %makes no assumptions about the position of the objects relative to the location, and rather 
 %The object-object concept map is sparse M x M matrix, where M is the number of objects assigned to the location, and an object at position [i,j] is the i$^th$ object from the north and the j$^th$ object from the west. 

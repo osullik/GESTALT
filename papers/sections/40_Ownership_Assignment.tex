@@ -30,7 +30,7 @@ The Combined dataset presents a more realistic and challenging scenario for Owne
 The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
-\subsection{Method and Results}
+\subsection{Method}
 
 Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment}. 
 After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
@@ -78,11 +78,15 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
 \end{algorithm}
 
 %\subsection{Results} \label{subsection:own_results}
-We run all experiments with DBSCAN parameters $\epsilon = \frac{0.1}{6371}$ and MinClusterSize=$3$, choosing these values using knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of 100m, which is a reasonable cluster neighborhood size for such an environment, and the minClusterSize is not critical given the fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
-We show the Object-to-location assignment results for the Swan Valley Wineries and the Combined datasets in Figure \ref{table:clustering}. 
-Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
+We run all experiments with DBSCAN parameters $\epsilon = \frac{0.1}{6371}$ and MinClusterSize=$3$, choosing these values using knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of 100m, which is a reasonable cluster neighborhood size for such an environment, and the minClusterSize is not critical given that fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
 
-The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
+\subsection{Results}
+We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Figure \ref{table:clustering}. 
+Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
+As expected, increasing the likelihood objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision, but interestingly does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
+
+Overall, the object ownership results show that our method, while straightforward, handles the noisy object tags well, especially on the larger dataset. By using DBSCAN for the initial clustering, we observe a noise reduction effect as objects which do not belong to any locations are relegated to the NULL cluster (i.e. a mis-tagged singular object with nothing else around it for miles in any direction), and a similar recall on the ground-truth labels is achieved despite adding a considerable quantity of noisy object tags (in the \textit{Combined} dataset). 
+
 The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
 Ideally, a better solution would start with the centroids and cluster around them, while still retaining the noise reduction effects of DBSCAN.
 We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
