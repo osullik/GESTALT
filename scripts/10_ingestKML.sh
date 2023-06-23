@@ -4,13 +4,13 @@
 
 #Variables (update these to change the python script that runs)
 
-KMLFILE1="../data/input/Swan_Valley.kml"
+KMLFILE1="../data/SV/input/Swan_Valley.kml"
 ### Add any additional kml files below, then insert them appropriately in the below script following the -f tag
 #kmlFile2="../data/Buladelad.kml"
 #...
 #kmlFileN=
 
-OUTPUTFILENAME="../data/output/dataCollection/objects_KML" #the python code will append a ".json", don't include it here. 
+OUTPUTFILENAME="../data/SV/output/experiments/dataCollection/objects_KML" #the python code will append a ".json", don't include it here. 
 
 
 #Activate the venv

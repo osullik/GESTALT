@@ -10,7 +10,7 @@ BB_TL="-31.77307863942101"
 BB_TR="116.05029961853784"
 SEARCHTERM1="winery"
 SEARCHTERM2="brewery"
-OUTPUTFILE="../data/output/dataCollection/locations_"  #note .json extension will be applied by python script
+OUTPUTFILE="../data/SV/output/experiments/dataCollection/locations_"  #note .json extension will be applied by python script
 
 
 #Activate the venv

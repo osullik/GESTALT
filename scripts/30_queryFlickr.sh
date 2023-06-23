@@ -9,11 +9,15 @@ LL_LON="115.96168231510637"
 TR_LAT="-31.77307863942101" 
 TR_LON="116.05029961853784"
 
-OUTPUTDIRECTORY="../data/photos/"  #note .json extension will be applied by python script
+OUTPUTDIRECTORY="../data/SV/photos/"  #note .json extension will be applied by python script
 
 
 #Activate the venv
 source ../gestalt_env/bin/activate
+
+#Increase the max file limit so that the object detection can run:
+
+ulimit -n 1000
 
 #Check env variables: 
 

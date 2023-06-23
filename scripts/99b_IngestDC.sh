@@ -83,7 +83,7 @@ python3 ../code/gestalt.py -ccm --inputFile $CM_INPUT_FILE --outputDirectory $CM
 
 
 #TEST SEARCHING:
-echo SEARCHING INVERTED INDEX
+#echo SEARCHING INVERTED INDEX
 python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS1
 python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS2
 python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --searchterms $QUERY_TERMS3

@@ -9,7 +9,7 @@ BB_LR="115.96168231510637"
 BB_TL="-31.77307863942101" 
 BB_TR="116.05029961853784"
 SEARCHTERM1="allobjects"
-OUTPUTFILE="../data/output/dataCollection/objects_"  #note .json extension will be applied by python script
+OUTPUTFILE="../data/SV/output/experiments/dataCollection/objects_"  #note .json extension will be applied by python script
 
 
 #Activate the venv
