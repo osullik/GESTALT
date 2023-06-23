@@ -18,10 +18,11 @@ Taking inspiration from the way humans recall and search for information~\cite{H
 \begin{enumerate}
     \item Multiple methods for ingesting location and object tags, including doing so automatically using computer vision based object detection methods on geotagged images
     \item Density based clustering of object tags to fuzzily assign objects to (possibly multiple) nearby locations, enabling users to ask membership questions, like "Which locations contain a swimming pool, a statue, and a palm tree?"
-    \item Mapping objects associated with each location to a matrix (termed a \emph{ConceptMap}) to facilitate spatial querying of object-object cardinal relations like "A bus stop Northwest of a telephone pole" and object-location relations like "A driveway Southeast of a winery".
+    \item Mapping objects associated with each location to a matrix (termed a \emph{ConceptMap}) to facilitate spatial querying of object-object cardinal relations like "A bus stop Northwest of a telephone pole" and object-location relations like "A driveway Southeast of a winery"
     \item Performing probabilistic search over locations based on object membership queries and returning partial matches when the search constraints are too narrow, and ranked results when they are too broad
     %optionally pruning the search results with spatial constraints using the ConceptMaps generated in (3)
 \end{enumerate}
+\nrscomment{is recursive grid search novel? should it be mentioned as a contribution?}
 
 We contribute a new gold standard hand-labeled \textit{Swan Valley Wineries} benchmark dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture, reporting \nrscomment{RESULTS on the wineries dataset. SCALABILITY results on noisy DC data?}
 %address the geospatial object ownership assignment inference task using through probabilistic assignment of objects to locations and   %NSCH: need to clarify the exact contribution w.r.t. the current SOTA, adding progressive search if applicable
