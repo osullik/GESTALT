@@ -30,8 +30,21 @@ The Combined dataset presents a more realistic and challenging scenario for Owne
 The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 
-\subsection{Method}
+\subsection{Method and Results}
 
+Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment}. 
+After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
+When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
+This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
+We take this approach rather than using a static threshold parameter (like within x distance) to account for variety in object density of the region under search. 
+We adopt the convention of assigning null cluster objects a confidence score of 0.5 since these objects are deemed to be noise and are not relevant or useful in finding locations.
+To further account for uncertainty in object tags, we add an adjustable parameter \textit{c} to the method which allows for a varying degree of \textit{fuzzy assignment} of objects to clusters. 
+By increasing the parameter value, we can allow for objects to be assigned to multiple clusters if they are close to the centroid (within \textit{$c\%$} of the largest object-centroid distance in the dataset, the same value used to normalize the confidence scores). %We discuss how changing this parameter affects the precision and recall in subsection \ref{subsection:own_results}.
+%In step 6: Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
+%\subsection{Method- Fuzzy Object Ownership Assignment} 
+%..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
+%Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
+%There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
 \begin{algorithm}
 	\caption{Object to Location Ownership Assignment Algorithm}
 	\label{alg:OwnershipAssignment}
@@ -64,30 +77,17 @@ The Swan Valley Wineries dataset consists of 31 wineries and five breweries retr
 	\end{algorithmic}
 \end{algorithm}
 
+%\subsection{Results} \label{subsection:own_results}
+We run all experiments with DBSCAN parameters $\epsilon = \frac{0.1}{6371}$ and MinClusterSize=$3$, choosing these values using knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of 100m, which is a reasonable cluster neighborhood size for such an environment, and the minClusterSize is not critical given the fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
+We show the Object-to-location assignment results for the Swan Valley Wineries and the Combined datasets in Figure \ref{table:clustering}. 
+Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
 
-Our method for Object Ownership Assignment is outlined in Algorithm \ref{alg:OwnershipAssignment}. 
-After clustering the objects, we determine the centroids of the relevant object clusters, calculate the confidence scores in the object-cluster assignments, and then map the cluster centroids to their nearest known location tags. 
-When calculating the confidence scores, we normalize the object-centroid distances (omitting objects in the null cluster, which has no meaningful centroid and would skew the normalization). 
-This confidence score (between 0 and 1) measures how far a given object is from it's cluster's centroid, assigning higher scores to objects near the centroid and lower ones to objects far from the centroid. 
-We take this approach rather than using a static threshold parameter (like within x distance) to account for variety in object density of the region under search. 
-We adopt the convention of assigning null cluster objects a confidence score of 0.5 since these objects are deemed to be noise and are not relevant or useful in finding locations.
-
-To further account for uncertainty in object tags, we add an adjustable parameter \textit{c} to the method which allows for a varying degree of \textit{fuzzy assignment} of objects to clusters. 
-By adjusting the parameter between 0 and 1, we can allow for objects to be assigned to multiple clusters if they are close to the centroid (within \textit{$100*c\%$} of the largest object-centroid distance in the dataset, the same value used to normalize the confidence scores). We discuss how changing this parameter affects the precision and recall in subsection \ref{subsection:own_results}.
- 
-%In step 6: Given a KD tree constructed from location point coordinates, a nearest neighbor search on the KD tree yields the location nearest to the centroid and it is assigned ownership of that cluster
-
-%\subsection{Method- Fuzzy Object Ownership Assignment} 
-%..................TODO NSCH:............ Write up ALGO for fuzzy clustering of objects to locations, where objects can be assigned to multiple locations with some probability p.
-
-%Of note, because the human eye can see over property boundaries and other invisible lines on maps, we can accept a small margin of error where objects from neighboring locations might be mislabeled. For example, perhaps there is a large red shed at the back of a location's property that is not visible to the main part of the parent location but is clearly visible to the neighboring location.
-%There will also exist some objects which plausibly could be seen and remembered by patrons of several locations, for example, a lake or a giant statue. 
+The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
+The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
+Ideally, a better solution would start with the centroids and cluster around them, while still retaining the noise reduction effects of DBSCAN.
+We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
 
 
-
-\subsection{Results} \label{subsection:own_results}
-\osullikomment{Nicole you'll need to update these numbers after you run them through your analysis again. }
-This section discusses the empirical analysis of the clustering methods tested during the implementation of the Ownership Assignment process. 
 \small{
 \begin{table}[h!]
 	\begin{center}
@@ -95,34 +95,24 @@ This section discusses the empirical analysis of the clustering methods tested d
 			\hline
 			Dataset & Method & Fuzzy Param & Precision & Recall \\
 			\hline
-			\multirow{5}{4em}{Wineries} 
-                & Exact & $c = 0.0$ & $1.0$ & $0.9272366522366523$  \\ 
-				& Fuzzy & $c = 0.1$ & $1.0$ & $0.9371639544053337$  \\ 
-				& Fuzzy & $c = 0.2$ & $1.0$ & $0.9476125333854473$  \\
-				& Fuzzy & $c = 0.3$ & $1.0$ & $0.9532960538279688$  \\ 
-				& Fuzzy & $c = 0.4$ & $1.0$ & $0.9557047250443477$  \\ 
-				& Fuzzy & $c = 0.5$ & $1.0$ & $0.958204892379114$  \\ 
-				& Fuzzy & $c = 0.6$ & $1.0$ & $0.9585494229562027$  \\ 
-				& Fuzzy & $c = 0.7$ & $1.0$ & $0.9594202898550726$  \\ 
-				& Fuzzy & $c = 0.8$ & $1.0$ & $0.9599579242636747$  \\ 
-				& Fuzzy & $c = 0.9$ & $1.0$ & $0.9541992532697066$  \\ 
-				& Fuzzy & $c = 1.0$ & $1.0$ & $0.9547516522596055$  \\ 
+			\multirow{5}{4em}{Swan Valley Wineries} 
+                & Exact & $c = 0$ & $1.0$ & $0.89$  \\ 
+				& Fuzzy & $c = 2$ & $0.85$ & $0.89$  \\ 
+				& Fuzzy & $c = 4$ & $0.85$ & $0.89$  \\
+				& Fuzzy & $c = 6$ & $0.85$ & $0.89$  \\ 
+				& Fuzzy & $c = 8$ & $0.85$ & $0.89$  \\ 
+				& Fuzzy & $c = 10$ & $0.85$ & $0.89$  \\ 
 			\hline
 			\multirow{5}{4em}{Combined} 
-                & Exact & $c = 0.0$ & - & $0.9348124098124098$  \\ 
-				& Fuzzy & $c = 0.1$ & - & $0.9471508069381088$  \\ 
-				& Fuzzy & $c = 0.2$ & - & $0.9382094943240453$  \\ 
-				& Fuzzy & $c = 0.3$ & - & $0.9412204625439919$  \\ 
-				& Fuzzy & $c = 0.4$ & - & $0.9337391384811933$  \\ 
-				& Fuzzy & $c = 0.5$ & - & $0.9306786154945126$  \\ 
-				& Fuzzy & $c = 0.6$ & - & $0.9299095431931251$  \\ 
-				& Fuzzy & $c = 0.7$ & - & $0.9276190476190475$  \\ 
-				& Fuzzy & $c = 0.8$ & - & $0.9255792621327837$  \\ 
-				& Fuzzy & $c = 0.9$ & - & $0.9249924084835232$  \\ 
-				& Fuzzy & $c = 1.0$ & - & $0.9178969436169039$  \\ 
+                & Exact & $c = 0$ & - & $0.88$  \\ 
+				& Fuzzy & $c = 2$ & - & $0.88$  \\ 
+				& Fuzzy & $c = 4$ & - & $0.91$  \\ 
+				& Fuzzy & $c = 6$ & - & $0.94$  \\ 
+				& Fuzzy & $c = 8$ & - & $0.97$  \\ 
+				& Fuzzy & $c = 10$ & - & $0.98$  \\ 
 			\hline
 		\end{tabular}
-		\caption{\osullikomment{All run with $\epsilon = \frac{0.1}{6371}$ and MinCluster=$3$} ............................Combined means hand-labeled Swan Valley Wineries dataset tags and Flickr noisy object-detected tags which we have no ground truth for. We only report recall for the combined dataset since the hand-labeling was not exhaustive, and some results from the noisy data may be correct but not in the ground truth. C represents the fuzziness parameter. higher c means more fuzzy and greater chance objects are assigned to multiple clusters.}
+		\caption{ Object-to-location assignment results for Swan Valley Wineries and Combined datasets. Increasing fuzziness parameter $c$ increases the chance objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.}
         \label{table:clustering}
 	\end{center}
 \end{table}
@@ -136,14 +126,8 @@ This section discusses the empirical analysis of the clustering methods tested d
 %\caption[width=\textwidth]{............}
 %\end{figure*}
 
-\nrscomment{interpret results....recall increases with fuzziness etc.}
 
-\osullikomment{Blocked pending analysis results}
 
-The benefit of using DBSCAN in the Object Ownership Assignment context is that it acts as a noise reducer, filtering out objects which do not belong to any locations (i.e. a mis-tagged singular object with nothing else around it for miles in any direction). 
-The downside of using DBSCAN in this context is that it determines the centroids of the object clusters based on the object density, and then we must map those to our known location centroids in a post-processing step. 
-Ideally, a better solution would start with the centroids and cluster around them, while still retaining the noise reduction effects of DBSCAN.
-We leave a detailed comparison of Object Ownership Assignment techniques as an interesting avenue of future study for the last-mile search problem.
 %\osullikomment{DVBSCAN doesn't do what I thought it did. I think one for future work is modifying DBSCAN to start with known possible centroids (or cluster seeds)}
 %The DVBSCAN algorithm Ram et al. proposed in 2010 presents a promising direction to resolve this problem~\cite{Ram2010}, while retaining the noise reduction effects of traditional DBSCAN. 
 
