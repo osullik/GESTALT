@@ -94,7 +94,7 @@ The third and most important method by which \emph{GESTALT} ingests objects is t
 We query the Flickr API for images uploaded within a given region (bounding box) since January 1$^{st}$ 2020. 
 Given those images and their EXIF metadata, the Object Detection module uses pre-trained YOLO v.8~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image from 80 classes (based on the COCO dataset~\footnote{\href{{https://cocodataset.org/}}{https://cocodataset.org/}}). 
 Those objects become tags in \emph{GESTALT}, with their coordinates determined by the geolocation of the image and their confidence score determined by YOLO's confidence at the detection step.
-For our experiments we enable safe-search and limit to public photos that have been added since January 1$^st$ 2020. For the Swan Valley Region we retrieve 462 images, and for the Washington DC Region, we pull a representative 4,000 images out of over 12,000 available. 
+For our experiments we enable safe-search and limit to public photos. For the Swan Valley Region we retrieve 462 images, and for the Washington DC Region, we pull 4,000 images.% out of over 12,000 available. 
 
 \small{
 \begin{table}[h!]
@@ -103,14 +103,14 @@ For our experiments we enable safe-search and limit to public photos that have b
             \hline
             Dataset & Type & Source & Labels & \# Tags \\%& \# Unique \\
             \hline
-            \multirow{5}{5em}{Swan Valley Wineries\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']}} 
+            \multirow{5}{6em}{Swan Valley Wineries\tablefootnote{BoundingBox:['115.96168231510637', '-31.90009882641578', '116.05029961853784', '-31.77307863942101']}} 
             & Objects & KML file & Hand Labeled & $146$ \\%&$41$\\ 
             & Objects & OSM B-Box & Crowd-Sourced & $2466$\\%\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
             & Objects & Flickr B-Box & Object detection & $1893$\\%\tablefootnote{from $462$ photos} \\%& $55$  \\ 
             & Locations & KML file & Hand Labeled & $31$ \\%&$41$\\
             & Locations & OSM B-Box& Crowd-Sourced & 308 \\%& 308\\
             \hline     
-            \multirow{5}{5em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
+            \multirow{5}{6em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
             & Objects & OSM B-Box & Crowd-Sourced &$60123$ \\%\tablefootnote{$113339$ objects originally returned, $53216$ dropped for not being objects} \\%& $175$ \\ 
             & Objects & Flickr B-Box & Object detection & $31065$ \\%\tablefootnote{from $4249$ photos. Most objects in a photo was $61$, average was $7.3$} \\%& $80$  \\ 
             & Locations & OSM B-Box & Crowd-Sourced & $12179$ \\%& $12179$\\
