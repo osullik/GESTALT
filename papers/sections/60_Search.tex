@@ -186,33 +186,38 @@ This process is depicted visually in Figure \ref{figure:ConceptMap}.
             &Mean Recall & $0.875$ \\
             \hline
         \end{tabular}
-        \caption{Results of 12 ground-truth pictorial queries run on the \textit{combined swan valley wineries} dataset. Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
+        \caption{Spatial results across 24 ground-truth pictorial queries run on the \textit{combined swan valley wineries} dataset.} %Clustering used DBSCAN with $\epsilon = \frac{0.05}{6371}$ and MinCluster=$3$.} 
         \label{Table:GroundTruth}
     \end{center}
 \end{table}
 }
-We ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
-The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
-The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
+We hand labeled the ground truth responses for 24 spatial queries on object configurations for objects belonging to the 6 wineries in the Swan Valley Wineries dataset. 
+To test the overall recall of \emph{GESTALT}'s spatial search process in a noisy environment, we test those queries on the \textit{Combined} dataset.
+The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
+We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
+However, the precision we recorded is reasonable, which points to the discriminative power of spatial configurations of objects as a search constraint.
+
+%ran 12 queries on each pictorial querying method and record the results in table \ref{Table:GroundTruth}. 
+%The recall of the Loc-Obj queries tends to increase with the number of query terms, as they are additive. 
+%The precision of the obj-obj queries is negatively impacted by single term queries, which returns any location with that object present.
 
 \subsection{Scalability}
 
 \small{
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[t]{.45\textwidth} 
+    \begin{subfigure}[t]{.45\textwidth}
         \includesvg[width=\textwidth]{queryExecutionRecall.svg}
+        
         %\caption{Additional terms improve precision of results for all techniques except Loc-Obj Pictorial Querying, for which each search term adds to possible matches, rather than pruning impossible matches. Users seeking to prune their search space should seek to input 3 objects to \emph{GESTALT}}
-        \label{fig:queryExecutionRecall}
     \end{subfigure}
     \hfill
     \begin{subfigure}[t]{.45\textwidth} 
         \includesvg[width=\textwidth]{queryExecutionTime.svg}
-        %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}
-        \label{fig:queryExecutionTime}
+        %\caption{Query time remains constant for Pictorial Obj-Obj querying after a second item because it only requires a single matrix traversal per location to match the query pattern to that candidate location. The set intersections in our Index Searches are order-optimized to execute the most discriminitive sets first in queries.}    
     \end{subfigure}
 
-    \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}
+    \caption{Number of candidate locations and query response times for queries on the Washington D.C. Dataset (12,179 Locations, 91,188 objects).}\label{figure:PerformanceExperiments}\label{fig:queryExecutionRecall}        \label{fig:queryExecutionTime}
     %A suite of queries run across the DC Dataset (12179 Locations, 148 Distinct classes among 91188 objects) clustered using DBSCAN with $\epsilon=0.00000156961$ (roughly 50m),MinCluster=$3$ and out Fuzzy Threshold$=0.0$. We use the 10 most common object classes: (eg crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls almost no distinguishing features of their target location} 
 \end{figure}
 }
