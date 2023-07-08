@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drag and Drop</title>
+    <style>
+        .dragBox {
+            width: 200px;
+            height: 100px;
+            background-color: lightblue;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var boxData = [];
+            var boxCount = 0;  // Initial box count
+            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            class Box {
+                constructor(name, x, y) {
+                    this.name = name;
+                    this.x = x;
+                    this.y = y;
+                    this.element = this.createBoxElement();
+                    this.attachEventListeners();
+                    this.updateCoordinates();
+                }
+
+                createBoxElement() {
+                    var box = document.createElement('div');
+                    box.classList.add('dragBox');
+                    box.innerText = this.name + ': \nX: ' + this.x + ' Y: ' + this.y;
+                    box.dataset.index = boxCount++;
+                    document.body.appendChild(box);
+                    return box;
+                }
+
+                attachEventListeners() {
+                    var offsetX = 0;
+                    var offsetY = 0;
+                    var isDragging = false;
+
+                    this.element.addEventListener('mousedown', (event) => {
+                        offsetX = event.clientX - this.element.offsetLeft;
+                        offsetY = event.clientY - this.element.offsetTop;
+                        isDragging = true;
+                    });
+
+                    document.addEventListener('mousemove', (event) => {
+                        if (isDragging) {
+                            var x = event.clientX - offsetX;
+                            var y = event.clientY - offsetY;
+                            this.element.style.left = x + 'px';
+                            this.element.style.top = y + 'px';
+
+                            if (this.x === x && this.y === y) {
+                                return;
+                            }
+
+                            this.x = x;
+                            this.y = y;
+                            this.updateCoordinates();
+                        }
+                    });
+
+                    document.addEventListener('mouseup', () => {
+                        isDragging = false;
+                    });
+                }
+
+                updateCoordinates() {
+                    var self = this;  // Preserve the reference to the current box object
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/coordinates/',
+                        data: { 'index': self.element.dataset.index, 'x': self.x, 'y': self.y },
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                        },
+                        success: function(response) {
+                            self.element.innerText = self.name + ': \nX: ' + response.x + ' Y: ' + response.y;
+                            self.x = response.x;
+                            self.y = response.y;
+                        }
+                    });
+                }
+            }
+
+            function addBox() {
+                var boxName = prompt('Enter the name for the new box:');
+                if (boxName) {
+                    var newBox = new Box(boxName, 0, 0);
+                    boxData.push(newBox);
+                }
+            }
+
+            var addButton = document.createElement('button');
+            addButton.innerText = 'Add Box';
+            addButton.addEventListener('click', addBox);
+            document.body.appendChild(addButton);
+        });
+    </script>
+</head>
+<body>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+</body>
+</html>
