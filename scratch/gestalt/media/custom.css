@@ -1,0 +1,23 @@
+.layered {
+  display: grid;
+
+  /* Set horizontal alignment of items in, case they have a different width. */
+  /* justify-items: start | end | center | stretch (default); */
+  justify-items: start;
+
+  /* Set vertical alignment of items, in case they have a different height. */
+  /* align-items: start | end | center | stretch (default); */
+  align-items: start;
+}
+
+.layered > * {
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+
+
+/* for demonstration purposes only */
+.layered > * {
+  outline: 1px solid red;
+  background-color: rgba(255, 255, 255, 0.4)
+}   

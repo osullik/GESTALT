@@ -1,0 +1,87 @@
+<!--- <h1>Hello, World!</h1>
+--->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=devicewidth, initial-scale=1.0">
+   <title>Document</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/
+dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/media/custom.css" media="1">
+</head>
+<body>
+   <style>
+      img{
+         width: 800px;
+      }
+   </style>
+
+ <!--  <form method="post" class="text-center">{%csrf_token%}
+      <button style="height:500px;width:500px;border:1px solid #000000;background-color: white;display:inline-block">.....</button>
+	  <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;display:inline-block"> 	</canvas>
+   </form> -->
+
+
+<!--{% if img%}
+<div class="text-center p-5 mt-5 container border shadowsm">
+	
+      <!--<img src="http://127.0.0.1:8000/media/{{img}}" class= "img-fluid">
+</div> 
+{%endif%} -->
+
+
+<div style="display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; background-color: rgba(255, 255, 255, 0.4)">
+  <img src="https://via.placeholder.com/250x100?text=first" style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(255, 255, 255, 0.4)" />
+  <p style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(255, 255, 255, 0.4)">
+    2
+  </p>
+  <div style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(255, 255, 255, 0.4)">
+	<canvas id="myCanvas" width="500" height="500" style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(255, 255, 255, 0.4)"> 	
+	</canvas>
+
+    <p style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(0, 0, 0, 0)">
+      Third layer . continued
+    </p>
+	
+	{% if img%}
+	<div style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(0, 0, 0, 0)">
+		<img src="http://127.0.0.1:8000/media/{{img}}" >
+	</div> 
+	{%endif%}
+
+	
+    <form method="post" style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(0, 0, 0, 0)">{%csrf_token%}
+      <button style="height:500px;width:500px; display: grid; justify-items: start; align-items: start; grid-column-start: 1; grid-row-start: 1; outline: 1px solid red; background-color: rgba(0, 0, 0, 0)">.....</button>
+    </form>
+	
+
+	
+	<!-- -->
+	
+</div>  
+
+
+{% if messages%}
+{% for message in messages%}
+<div class="text-center mt-5">{{message}}</div>
+{%endfor%}
+{%endif%}
+
+</div>
+
+<div>
+	<form action="#" method="get">
+		 <input type="text" value="8" name="mytextbox" size="1"/>
+		 <input type="submit" class="btn" value="Click" name="mybtn">
+	</form>
+</div>
+
+
+</body>
+</html>
+
+
