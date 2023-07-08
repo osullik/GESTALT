@@ -34,7 +34,7 @@
                 createBoxElement() {
                     var box = document.createElement('div');
                     box.classList.add('dragBox');
-                    box.innerText = this.name + ': \nX: ' + this.x + ' Y: ' + this.y;
+                    box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
                     box.dataset.index = boxCount++;
                     document.body.appendChild(box);
                     return box;
@@ -79,12 +79,12 @@
                     $.ajax({
                         type: 'POST',
                         url: '/coordinates/',
-                        data: { 'index': self.element.dataset.index, 'x': self.x, 'y': self.y },
+                        data: { 'index': self.element.dataset.index, 'name': self.name, 'x': self.x, 'y': self.y },
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRFToken', csrfToken);
                         },
                         success: function(response) {
-                            self.element.innerText = self.name + ': \nX: ' + response.x + ' Y: ' + response.y;
+                            self.element.innerText = self.name + ': X: ' + response.x + ' Y: ' + response.y;
                             self.x = response.x;
                             self.y = response.y;
                         }
@@ -100,10 +100,27 @@
                 }
             }
 
+            function submitQuery() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/boxdata/',
+                    success: function(response) {
+                        var boxData = response.box_data;
+                        console.log(boxData);  // Print the box data in the browser console
+                        // Perform further processing with the box data as desired
+                    }
+                });
+            }
+
             var addButton = document.createElement('button');
             addButton.innerText = 'Add Box';
             addButton.addEventListener('click', addBox);
             document.body.appendChild(addButton);
+
+            var submitButton = document.createElement('button');
+            submitButton.innerText = 'Submit query';
+            submitButton.addEventListener('click', submitQuery);
+            document.body.appendChild(submitButton);
         });
     </script>
 </head>
