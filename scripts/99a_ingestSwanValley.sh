@@ -4,7 +4,6 @@ source ../gestalt_env/bin/activate
 ECHO SETTING UP CLEAN:
 
 echo DELETING OLD DATA
-rm -r ../data/SV/input
 rm -r ../data/SV/output
 #Don't delete photos to save on re-downloading. 
 
