@@ -226,6 +226,7 @@ if __name__ == "__main__":
 
 		object_file = flags.inputFile
 		outputfile = flags.output
+		print("OUTPUT TO", outputfile)
 		tex = TerrainExtractor()
 		fullfilename = object_file.split("/")[-1] 													#get everything right of final "/" (i.e. filename)
 		shortFileName = fullfilename.split(".")[0] 													#get everything left of the "." (i.e not filetype)
