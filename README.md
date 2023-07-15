@@ -284,7 +284,7 @@ We'll use Google Drive at the link above Initially, with a TO-DO of finding a be
 -    [ ] Refactor build scripts & Test from scratch
 -    [ ] Send docco of Inputs & outputs
 -    [ ] Send Django Docco
--    [ ] Send resources for getting started with Git.
+-    [X] Send resources for getting started with Git.
 
 **NICOLE**
 -    [ ] Create Lab Slack
