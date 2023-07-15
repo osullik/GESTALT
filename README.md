@@ -12,11 +12,11 @@ Download the python distribution that is compatible with Tkinker; we use **pytho
 
 Clone the Git Repo: 
 
-    https://github.com/osullik/GESTALT.git
+    git clone https://github.com/osullik/GESTALT_SIGSPATIAL.git
 
 Navigate to the root of that project ~/GESTALT/
 
-    cd GESTALT
+    cd GESTALT_SIGSPATIAL
 
 create a virtual environment using the requirements.txt
 
@@ -42,11 +42,7 @@ and activate your virtual environment
 
 install the requirements for the venv: 
 
-    pip install -r code/requrements.txt
-
-if you're not intending to collect all the data yourself you'll need to download the data folder and replace the existing data folder with it
-
-    [Google Drive Link](https://drive.google.com/drive/folders/1-YSaEZ9dwJy6IG7oMcPr12XJrsQIi_ox?usp=drive_link)
+    pip install -r code/requirements.txt
 
 With all this in place you're ready to start working with GESTALT!
 
@@ -56,20 +52,20 @@ To demonstrate the utility of GESTALT and allow for the replication of our resul
 
 To get the files from FLICKR you need API Keys. API access can be requested [here](https://www.flickr.com/services/api/misc.api_keys.html). You then need to add them to your local environment variables with commands
 
-        flickr_key=<your_api_key_here>
-        flickr_secret=<your_secret_key_here>
+    export flickr_key=<your_api_key_here>
+    export flickr_secret=<your_secret_key_here>
 
-To use the end-to-end scripts, navigate to the scripts folder from the root directory **IMPORTANT: The scripts use relative directory addressing and all assume that they are being executed from within the GESTALT/scripts directory**: 
+To use the end-to-end scripts, navigate to the scripts folder from the root directory **IMPORTANT: The scripts use relative directory addressing and all assume that they are being executed from within the GESTALT_SIGSPATIAL/scripts directory**: 
 
-        cd scripts
+    cd scripts
 
 ### Swan Valley Wineries:
 
-        99a_ingestSwanValley.sh	
+    sh 99a_ingestSwanValley.sh	
 
 ### DC:
 
-        99b_IngestDC.sh
+    sh 99b_IngestDC.sh
 
 Note that after you have run the shell scritps for the first time you may want to comment out the lines that invokes the querying of FLICKR - the results will be stored after a single run. 
 
@@ -80,36 +76,36 @@ Note that depending on which experiment you are running you will need to modify 
 
 Navigate to the scripts folder from the root directory **IMPORTANT: The scripts use relative directory addressing and all assume that they are being executed from within the GESTALT/scripts directory**: 
 
-        cd scripts
+    cd scripts
 
 To extract the KML files run the following command (note: you can add or subtract additional KML files following the instructions in the script)
 
-        sh 10_ingestKML.sh
+    sh 10_ingestKML.sh
 
 The JSON outputs of the KML files will reside in *GESTALT/data/output/dataCollection*
 
 To extract all objects within a bounding box from the overpass API use the following (noting that you can edit the bounding box and in the shell file):
 
-        sh 20_queryAllObjects.sh
+    sh 20_queryAllObjects.sh
 
 The JSON output of the query will reside in *GESTALT/data/output/dataCollection/osm_:bbox:_allobjects.json* (whrre :bbox: is the bounding box the objects are found in.)
 
 To get the files from FLICKR you need API Keys. API access can be requested [here](https://www.flickr.com/services/api/misc.api_keys.html). You then need to add them to your local environment variables with commands
 
-        flickr_key=<your_api_key_here>
-        flickr_secret=<your_secret_key_here>
+    export flickr_key=<your_api_key_here>
+    export flickr_secret=<your_secret_key_here>
 
 then you can access the flickr and download all relevant images using:
 
-        sh 30_queryFlickr.sh
+    sh 30_queryFlickr.sh
 
 and to extract the objects fro, them run: 
 
-        sh 40_ingestFlickrObjects.sh
+    sh 40_ingestFlickrObjects.sh
 
 To extract the locations with specific search terms from the Openstreetmaps overpass API use the following (noting that you can edit the bounding box and search terms in the shell file):
 
-        sh 50_queryLocations.sh
+    sh 50_queryLocations.sh
 
 The JSON output of the query will reside in *GESTALT/data/output/dataCollection/:osmsearchTermList:.json* (where :osmsearchTermList is the concatenated list of all search terms)
 
@@ -118,26 +114,100 @@ This completes the data collection phase
 ### Ownership Assignment 
 The ownership assignment analyses the collected data, and determines which objects belong to which location. To run these steps, do: 
 
-        sh 60a_assign_kmeans.sh
+    sh 60a_assign_kmeans.sh
 
-        sh 60b_assign_dbscan.sh
+    sh 60b_assign_dbscan.sh
 
 These will output their results to: *GESTALT/data/output/owneshipAssignment/KMEANS_PredictedLocations.csv* and *GESTALT/data/output/owneshipAssignment/DBSCAN_PredictedLocations.csv* respectively
 
 ### Concept Mapping
 The concept mapping takes the predicted loctations of each objects and creates a grid representation of the locaiton to be used in searching. to execute it, run: 
 
-        sh 61_createConceptMaps.sh
+    sh 61_createConceptMaps.sh
 
 ### Search
 
 To activate the search functions run:
 
-        sh 70_searchGestalt.sh
+    sh 70_searchGestalt.sh
 
 ## User Interface
 
-        python ../code/UI.py
+    python ../code/UI.py
+
+## Visualization
+We provide a Jupyter Notebook configured to allow you to explore the results of clustering. Note it will only work after you have completed the clustering step. Open a new terminal and navigate back to your GESTALT_SIGSPATIAL directory. 
+
+First, we need to make sure Jupyter Can get to the gestalt_env virtual environment by making it into a kernel. Use the following command: 
+
+    ipython kernel install --name "gestalt_env" --user
+
+Then; lunch Jupyter Lab with 
+
+    jupyter lab
+
+Once it has launched, you will need to select the gestalt_env kernel and launch the **Clustering.ipynb** file. 
+
+To run the vizualizations simply change the data directory to match either your SV or DC path to the data/<DS/SV>/output/ownershipAssignment directory and run all the cells to the bottom in order. 
+
+# Project Structure
+We have built-in checks to prevent directory and file errors, but in the event that there are issues, you may need to manually create some of the data directories below. 
+
+```
+├── README.md
+├── code
+│   ├── Clustering.ipynb
+│   ├── ClusteringMetrics.py
+│   ├── UI.py
+│   ├── conceptMapping.py
+│   ├── dataCollection.py
+│   ├── experimentVariables.py
+│   ├── experiments.py
+│   ├── gestalt.py
+│   ├── ownershipAssignment.py
+│   ├── queryFlickr.py
+│   ├── requirements.txt
+│   ├── search.py
+│   └── tests.py
+├── data
+│   ├── DC
+│   │   ├── input
+│   │   ├── output
+│   │   │   ├── concept_mapping
+│   │   │   ├── dataCollection
+│   │   │   └── ownershipAssignment
+│   │   └── photos
+│   │       └── -77.120248_38.791086_-76.911012_38.995732
+│   └── SV
+│       ├── input
+│       │   └── Swan_Valley.kml
+│       ├── output
+│       │   └── output
+│       │       ├── concept_mapping
+│       │       ├── dataCollection
+│       │       └── ownershipAssignment
+│       └── photos
+│           └── 115.96168231510637_-31.90009882641578_116.05029961853784_-31.77307863942101
+├── labeled_queries
+│   ├── obj-loc.txt
+│   └── obj-obj.txt
+└── scripts
+    ├── 10_ingestKML.sh
+    ├── 20_queryAllObjects.sh
+    ├── 30_queryFlickr.sh
+    ├── 40_ingestFlickrObjects.sh
+    ├── 50_queryLocations.sh
+    ├── 51_queryAllLocations.sh
+    ├── 60a_assign_kmeans.sh
+    ├── 60b_assign_dbscan.sh
+    ├── 61_createConceptMaps.sh
+    ├── 70_searhGestalt.sh
+    ├── 99_experiments.sh
+    ├── 99a_ingestSwanValley.sh
+    └── 99b_IngestDC.sh
+
+
+```
 
 # GETTING STARTED:
 
