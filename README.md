@@ -12,7 +12,7 @@ Download the python distribution that is compatible with Tkinker; we use **pytho
 
 Clone the Git Repo: 
 
-    git clone https://github.com/osullik/GESTALT_SIGSPATIAL.git
+    git clone https://github.com/osullik/GESTALT.git
 
 Navigate to the root of that project ~/GESTALT/
 
