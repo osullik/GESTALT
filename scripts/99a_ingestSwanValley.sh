@@ -115,7 +115,7 @@ python3 ../code/gestalt.py --gestaltSearch --inputFile $SEARCH_INPUT_FILE --sear
 
 # Launch UI
 echo LAUNCHING UI
-#python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
+python3 ../code/UI.py --inputFile $INVERTED_INDEX --conceptMapFile $CONCEPT_MAPS --locationsFile $UI_LOCATIONS
 
 
 ECHO = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
