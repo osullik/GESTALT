@@ -67,10 +67,10 @@ CM_LOCATIONS_FILE="../data/SV/output/dataCollection/locations-31.900098826415781
 #Vars for Inverted Index Query Demo
 
 SEARCH_INPUT_FILE=../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv
-QUERY_TERMS1= "car person cup clock truck"
-QUERY_TERMS2= "cup bench bird"
-QUERY_TERMS3= "bench bird"
-QUERY_TERMS4= "bird"
+QUERY_TERMS1="car person cup clock truck"
+QUERY_TERMS2="cup bench bird"
+QUERY_TERMS3="bench bird"
+QUERY_TERMS4="bird"
 
 # Vars for Pictorial Qery Demo
 
