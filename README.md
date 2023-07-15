@@ -16,7 +16,7 @@ Clone the Git Repo:
 
 Navigate to the root of that project ~/GESTALT/
 
-    cd GESTALT_SIGSPATIAL
+    cd GESTALT
 
 create a virtual environment using the requirements.txt
 
