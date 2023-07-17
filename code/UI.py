@@ -18,6 +18,7 @@ from search import InvertedIndex
 
 class GestaltGUI():
 
+    #Aleeza test commit 7/17
     def __init__(self, invertedIndexFile, conceptMapFile, locationsFile):
         #Extract args to class properties
         self.invertedIndex = InvertedIndex(invertedIndexFile)
