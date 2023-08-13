@@ -1,20 +1,98 @@
+<!-- GESTALT-- OBJECT CENTRIC SEARCH-->
+
+<!-- HTML & CSS (embedded in the <head>)-->
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Drag and Drop</title>
-    <style>
-        .dragBox {
-            width: 200px;
-            height: 100px;
-            background-color: lightblue;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+
+  <style>
+    html {
+    height: 100%;
+    width: 100%; }
+
+    h1 {
+    color: white;
+    background-color: black;
+    margin: 0px; 
+    font-family: monaco; }
+
+    .background_container {
+    display: flex; 
+    height: 600px; }
+
+    .brown_background_div {
+    background-color: #DACD9F;
+    width: 70%; }
+
+   .green_background_div {
+    background-color: #B2CD9F;
+    width: 30%; }
+
+    #searchTypeList {
+    width: 300px;
+    height: 30px;
+    font-size: 20px;
+    font-family: monaco;
+    position: absolute; 
+    top: 60px;
+    left: 1050px;
+    background-color: grey; }
+
+    #objectNameList {
+    width: 180px;
+    height: 30px;
+    font-size: 20px;
+    font-family: monaco;
+    position: absolute; 
+    top: 100px;
+    left: 1100px;
+    background-color: grey; }
+
+    .dragBox {
+    width: 150px;
+    height: 70px;
+    background-color: lightblue;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold; }
+  </style>
+
+</head>
+
+<body>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    <h1>GESTALT - Object Centric Search</h1>
+    <div class="background_container">
+
+    <div class="brown_background_div"> 
+    </div> <!-- end brown-background-div -->
+    <div class="green_background_div"> 
+      <select id="searchTypeList" name="searchTypeList">
+        <option value="object_centric_search">Object Centric Search</option>
+        <option value="location_centric_search">Location Centric Search</option>
+      </select>
+      <select id="objectNameList" name="objectNameList">
+        <option value="Object1">Object1</option>
+        <option value="Object2">Object2</option>
+        <option value="Object3">Object3</option>
+      </select>
+    </div> <!-- end green-background-div -->
+ </div>  <!-- end background-container div -->
+
+</body>
+</html>
+
+<!-- JavaScript -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             var boxData = [];
@@ -93,11 +171,14 @@
             }
 
             function addBox() {
-                var boxName = prompt('Enter the name for the new box:');
-                if (boxName) {
-                    var newBox = new Box(boxName, 0, 0);
-                    boxData.push(newBox);
-                }
+                var objectNameList = document.getElementById('objectNameList');
+                var selectedIndex = objectNameList.selectedIndex;
+                
+                var selectedOption = objectNameList.options[selectedIndex];
+                console.log(selectedOption);
+        
+                var newBox = new Box(selectedOption.value, 0, 0);
+                boxData.push(newBox);  
             }
 
             function submitQuery() {
@@ -112,19 +193,44 @@
                 });
             }
 
+            function refreshPage() {
+                location.reload();
+            }
+
             var addButton = document.createElement('button');
-            addButton.innerText = 'Add Box';
+            addButton.innerText = 'Add Selected Object to Search';
             addButton.addEventListener('click', addBox);
             document.body.appendChild(addButton);
+            addButton.style.position = "absolute";
+            addButton.style.top = "190px";
+            addButton.style.left = "1100px";
+            addButton.style.width = "200px";
+            addButton.style.fontSize = "15px";
+            addButton.style.fontFamily = "monaco";
 
             var submitButton = document.createElement('button');
-            submitButton.innerText = 'Ask question';
+            submitButton.innerText = 'Submit Query';
             submitButton.addEventListener('click', submitQuery);
             document.body.appendChild(submitButton);
+            submitButton.style.position = "absolute";
+            submitButton.style.top = "350px";
+            submitButton.style.left = "1100px";
+            submitButton.style.width = "200px";
+            submitButton.style.fontSize = "15px";
+            submitButton.style.fontFamily = "monaco";
+            submitButton.style.color = "green";
+
+            var resetButton = document.createElement('button');
+            resetButton.innerText = "RESET";
+            resetButton.addEventListener('click', refreshPage);
+            document.body.appendChild(resetButton);
+            resetButton.style.position = "absolute";
+            resetButton.style.top = "500px";
+            resetButton.style.left = "1100px";
+            resetButton.style.width = "200px";
+            resetButton.style.fontSize = "15px";
+            resetButton.style.fontFamily = "monaco";
+            resetButton.style.color = "red";
         });
+
     </script>
-</head>
-<body>
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-</body>
-</html>
