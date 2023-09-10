@@ -1,0 +1,56 @@
+\section{Conclusion}
+\label{section:conclusion}
+
+The last-mile search problem refers to the bottleneck faced by users who want to find a location that matches some set of criteria that is not easily query-able with a GIS tool.
+This typically includes visual landmarks or terrain features that comprise a partial or uncertain set of information about the location of interest.
+Solving the last-mile search problem without manual inspection of images requires spatial search techniques beyond just accommodating queries for collections of objects in close geographic proximity to each other.
+Taking inspiration from the way humans recall and search for information, we developed \emph{GESTALT}, a pipeline that enables querying for locations based on the spatial configuration of nearby objects given partial information about them.
+Our method includes automatically detecting objects from geotagged images, clustering object tags to fuzzily assign objects to (possibly multiple) nearby locations, mapping objects into a format that enables pictorial querying on spatial relations between them, and performing probabilistic search over locations to return partial matches when the search constraints are too narrow, and ranked results when they are too broad.
+\emph{GESTALT} shows high recall on the ground truth benchmark dataset we contribute and easily scales to the larger, noisier datasets we tested it on.
+This work invites several new avenues of research in improving human-centric spatial search.
+Some examples include developing techniques to handle querying across additional dimensions, like time, object attribute values, and object size, scale, quantity.
+Advances in computer vision can also be leveraged to quantify and adjust for uncertainty in object position within an image scene using the camera's bearing information~\cite{Ming2021,Liu2020,Snavely2011,Hays2008}, which we already incorporate into some of our datasets.
+
+
+%FUTURE: online clustering: \cite{Montiel2021}
+%Fuzzy string matching
+%Incorporate user feedback to update tags that might be wrong in the data
+%Grid-ifying the earth and making a gestalt for each grid cell to enable last-mmile search anywhere on earth
+
+%Enable searching for object quantities: For example, searching "tree" would return every winery in the Swan Valley region. A second limitation is the lack of support for aggregation. Searching for 'tree' might yield nothing, but searching for '30 trees' would considerably prune the result. 
+%Issue: multiple sources may tag same object, need to deduplicate them
+
+%Where multiple images cover the same area from different perspectives, the composite of these images will be used to estimate the positions of objects, as has been shown in prior work like IM2GPS from Carnegie Mellon University \cite{Hays2008} and numerous other efforts over internet-available images \cite{Snavely2011}. 
+
+%\subsection{Future Work}
+%Throughout this paper, we identify many avenues for future work. Sections \ref{section:datasets} and \ref{section:architecture} explain the requirement for large-scale pictorial to geospatial scene mapping to enable the large-scale identification of objects to fuel \emph{GESTALT}'s search. 
+%Section \ref{section:datasets} highlights the need to develop datasets in dense suburban and urban locations to enable robust testing of the ownership assignment process. 
+%Sections \ref{section:architecture} and \ref{section:implementation} identify the requirement to trial the DVBSCAN algorithm to improve the ownership assignment process and the need to test the concept mapping proposed using KD-Trees robustly.
+%Sections \ref{section:implementation} and \ref{section:related} emphasize the need for a user query interface. Work on pictoral querying offers an exciting direction that enables abstracted user querying and leverages the cognitive advantages of geospatially constructing their query. 
+%The search component of \textit{GESTALT} needs to be tested at scale. While section \ref{section:implementation} notes that the assumption of only a \textit{last-mile} search allows us to assume small datasets, the performance of the belling tool discussed in section \ref{section:related} shows how quickly performance degrades if not managed well.
+%Finally, and most importantly, though the psychology literature indicates that the \textit{GESTALT} approach should be helpful to a searcher, there is no work evaluating this theory and measuring the extent to which it is functional. A user study should be prioritized for a fully functional \textit{GESTALT} prototype before it expands to full scale.
+
+%\subsection{Conclusion}
+%The \textit{GESTALT} project aims to reduce the time a searcher spends on the \textit{last-mile} of searching for a location. 
+%It assumes that the \textit{last-mile} is in a constrained geographical region and allows users to search for objects they are likely to remember from candidate locations. 
+%\textit{GESTALT} is designed to collect geospatial information about locations and objects within geographic regions from open-source geospatial and pictorial data. 
+%It infers the associations between objects visible to searchers in the real world and the location that they belong to and stores them using bloom filters and KD-Trees for efficient representation and search.
+%\textit{GESTALT} implements concept mapping to allow a user to query the implicit geospatial relations between objects in candidate locations, leveraging the inherent ordering of the multidimensional KD-Tree data structure for efficient search. 
+%\textit{GESTALT} demonstrates at a trim level, on the Swan Valley wineries dataset, that the approach is feasible and identifies future work in scaling it.
+
+%\subsection{Normalizing Search Terms}
+%Regardless of the formulation of the search problem, there is a clear requirement for semantic search across objects. For simple spelling variations (e.g. 'colour' in the King's Australian English versus 'color' in American English), a string distance metric like \textit{Levenshtein} distance would suffice. 
+%But a richer semantic search is required for more pronounced linguistic variations like 'water fountain' versus 'drinking fountain' versus 'bubbler'. 
+%The first option to reduce the likelihood of inconsistently named objects is to enforce compliance with the Open Street Maps ontology, which is an extensive definition of locations, objects and their descriptions. 
+%While adherence to the ontology enforces internal consistency, it does not overcome the issue of a user searching with unknown terms. 
+%A straightforward option could be to use the vector embedding of a word as a starting point and use the k-nearest words in vector space as alternate search terms. 
+%It is unlikely that this will significantly impact the false positive rate once an appropriate similarity threshold is set but may increase the system's overall recall. 
+%A more complicated approach could leverage an external semantic data source like DBPedia or WikiData, or even WordNet to search for semantically similar terms to substitute in the search. 
+
+%The first challenge is classifying an image as 'indoors' (where no objects will be visible from RSI and the closest building will 'own' it) or 'outdoors', where objects can map to the RSI. Numerous approaches exist to the indoor/outdoor scene classification \cite{Tong2017}. 
+
+%The third are \textit{Positional Relations} which are applied to the two other types to enable reasoning about objects that are left, right, up, down, beside, behind etc., other objects. 
+%Positional relation use will be extensive because few humans think in cardinal directions, and most spatial reasoning is conducted from the person's perspective. 
+%Positional Relations enable users to query for locations where there is a letterbox on the left of the driveway as you enter the driveway while the house is in front of you. 
+
+%Ownership assignment is implemented in Python in two ways. The first is the trivial implementation, where the location returned from the OSM query is a bounding polygon. In this case, if the point lies within the minimal enclosing rectangle of the polygon, it is added as a 'member' of that location. 

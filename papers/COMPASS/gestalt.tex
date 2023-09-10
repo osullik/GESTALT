@@ -1,0 +1,123 @@
+% This must be in the first 5 lines to tell arXiv to use pdfLaTeX, which is strongly recommended.
+\pdfoutput=1
+
+%\documentclass[sigconf,authordraft]{acmart}
+\documentclass[sigconf]{acmart}
+
+
+\setcopyright{acmcopyright}
+\copyrightyear{2023}
+\acmYear{2023}
+\acmDOI{XXXXXXX.XXXXXXX}
+
+
+\usepackage[]{svg}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{afterpage}
+\usepackage{tablefootnote}
+\usepackage{appendix}
+\usepackage{float}
+
+
+\begin{document}
+
+% % % % % % % % % % % % % % % % % % % %
+% User-defined packages, commands etc %
+% % % % % % % % % % % % % % % % % % % %
+
+%\renewcommand{\shortauthors}{O'Sullivan}
+
+\graphicspath{ {figures/}{auto_commit_fig/}{auto_fig/} }
+
+% Macro to include a latex file in the ./Sections/ directory
+\newcommand{\latexfile}[1]{\input{sections/#1}}
+
+\newcommand{\pinaforecomment}[4]{\colorbox{#1}{\textcolor{#4}{\parbox{.8\linewidth}{#2: #3}}}}
+\newcommand{\osullikomment}[1]{\pinaforecomment{green}{Kent}{#1}{black}}
+\newcommand{\nrscomment}[1]{\pinaforecomment{violet}{Nicole}{#1}{white}}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
+% % % % % % % % % % % % % % % % % % % %
+% Document preliminaries              %
+% % % % % % % % % % % % % % % % % % % %
+
+
+\title{GESTALT: Augmenting geospatial search with micro-terrain detail\\}
+
+\author{Kent O'Sullivan{$^\dagger$}}
+\email{osullik@umd.edu}
+\affiliation{%
+  \institution{University of Maryland}
+  %\streetaddress{P.O. Box 1212}
+  %\city{Dublin}
+  %\state{Ohio}
+  \country{USA}
+  %\postcode{43017-6221}
+}
+
+\author{Nicole R. Schneider$^\dagger$}
+\email{nsch@umd.edu}
+\affiliation{%
+  \institution{University of Maryland}
+  %\streetaddress{P.O. Box 1212}
+  %\city{Dublin}
+  %\state{Ohio}
+  \country{USA}
+  %\postcode{43017-6221}
+}
+
+\author{Hanan Samet}
+\email{hjs@cs.umd.edu}
+\affiliation{%
+  \institution{University of Maryland}
+  %\streetaddress{P.O. Box 1212}
+  %\city{Dublin}
+  %\state{Ohio}
+  \country{USA}
+  %\postcode{43017-6221}
+}
+
+
+
+\begin{abstract}
+\latexfile{00_Abstract.tex}
+\end{abstract}
+
+\maketitle
+$\dagger$ Equal contribution by the authors. 
+
+% % % % % % % % % % % % % % % % % % % %
+% Document Content                    %
+% % % % % % % % % % % % % % % % % % % %
+\latexfile{10_Introduction.tex}
+%\latexfile{20_Problem.tex}
+\latexfile{20_Architecture.tex}
+%\latexfile{40_Implementation.tex}
+\latexfile{30_Data_Acquisition.tex}
+\latexfile{40_Ownership_Assignment.tex}
+\latexfile{50_Concept_Mapping.tex}
+\latexfile{60_Search.tex}
+%\latexfile{50_Results.tex}
+\latexfile{70_Related.tex}
+\latexfile{80_Conclusion.tex}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{gestalt} \label{bibliography}
+
+\blankpage
+\blankpage
+
+\latexfile{99_Appendices.tex}
+
+
+\end{document}
+\endinput   

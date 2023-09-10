@@ -1,0 +1,71 @@
+\section{Introduction}
+\label{section:introduction}
+%\subsection{Background}
+Geographic information systems (GIS) provide users with a means to efficiently search over spatial data given certain key pieces of information, like the coordinates or exact name of a location of interest. 
+However, current GIS capabilities do not enable users to easily search for locations about which they have imperfect or incomplete information. 
+From psychology and neuroscience research about how humans develop cognitive maps of terrain for navigation and route planning~\cite{Weisberg2016, Miller2013, Keatley2021}, we know that people tend to anchor memories of a location around its visible objects and landmarks, likely doing so hierarchically, or separately relating global and local features~\cite{Weisberg2016}. 
+For example, a user may remember a location by a series of visual features encountered near it, like a large building, a bus stop, and a brightly colored sign, but fail to recall its exact address or physical coordinates. 
+In these cases, GIS tools may help narrow down the general region of interest. However, the user must then perform a manual \emph{last-mile} search to find the exact location of interest within that region. 
+Last-mile search typically involves visually inspecting images to identify distinct landmarks or terrain features that match the partial information about the location. 
+The last-mile component of the search process is a bottleneck, as it encumbers the user with the burden of sifting through many possible candidate locations until the correct one is visually identified. 
+
+Last-mile search is a common problem in the open-source intelligence community, where geospatial analysts must try to identify a specific location within a general area using incomplete or uncertain information about the location. 
+The process boils down to a data fusion and search task, where information from reports is manually compared to the visual features of remote sensing images and street-view photographs until the expected configuration of objects is found, indicating the location is a match.
+Recent related work from \textit{Bellingcat}~\footnote{\href{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}} highlights the need for search techniques that can accommodate queries for collections of objects in close geographic proximity to each other.
+However, automating the last-mile search process requires addressing several additional criteria, including accounting for the spatial configuration of objects concerning each other, handling uncertainty in the information known about a location by relaxing the search constraints until a partial match is found, and accounting for the fuzzy boundaries between locations, whereby an object may be visible from several nearby locations and can be associated with all of them to maximize the recall of the search result.
+
+Taking inspiration from the way humans recall and search for information~\cite{Helbing2020, Oliveira2016, Weisberg2016}, we present \emph{GESTALT}, an end-to-end pipeline for extracting geospatial data, transforming it into coherent object and location relations, storing those relations, and searching over them. Specifically, \emph{GESTALT} provides the following functionality:
+\begin{enumerate}
+    \item Multiple methods for ingesting location and object tags, including automatically using object detection methods on geotagged images.
+    \item Density-based clustering of object tags to fuzzily assign objects to (possibly multiple) nearby locations, enabling users to ask membership questions, like "Which locations contain a swimming pool, a statue, and a palm tree?"
+    \item Mapping objects associated with each location to a matrix (termed a \emph{ConceptMap}) to facilitate pictorially querying spatial relations like "A bus stop Northwest of a telephone pole"
+    \item Performing probabilistic search over locations based on object membership queries and returning partial matches when the search constraints are too narrow, and ranked results when they are too broad.
+\end{enumerate}
+
+We contribute a new gold standard hand-labeled \textit{Swan Valley Wineries} benchmark dataset for the last-mile spatial search problem and provide a proof of concept implementation of the proposed \emph{GESTALT} architecture, reporting precision and recall on the ground truth data and performance metrics on a more extensive set of data to demonstrate the scalability of the search procedures.
+
+The rest of this paper is organized as follows. In section \ref{section:architecture}, we define the \emph{GESTALT} architecture and discuss how each subsystem contributes to our human-centric approach to automating the last-mile search. 
+Next, in section \ref{section:data}, we describe the process used to generate the gold standard wineries dataset and extract noisy object tags from geotagged images. Then, we describe the object ownership assignment process in section \ref{section:ownership}, the concept mapping step in section \ref{section:concept}, and the search problem in \ref{section:search}. 
+Finally, we summarize related work in section \ref{section:related} and conclude by identifying future research directions in section \ref{section:conclusion}.
+
+%Traditionally, analysts will get to a \textit{near-enough} start point and then begin the excruciating manual review of remote sensing imagery, photography and other reports to try to match the objects they know about to the location they are searching for in the geospatial configuration they are expecting.
+
+%is searching for a specific location, they have many tools at their disposal. If they remember the exact name of the location they are looking for, most modern systems can return an exact match. If they know the physical address of the location, they can use that information to determine what they are looking for. There are situations, however, where a user has access to imperfect information about a location they are searching for. 
+
+%%Perhaps it is a location they visited a long time ago which has faded in memory or a vague recommendation from a friend. Perhaps they attempt to combine fragmented evidence for a police investigation or fuse intelligence in a military operation. %%NSCH add as motivation somewhere?
+
+%Regardless of the reason, common approaches to the problem now see users employing GIS tools for their bold adjust to get them to the correct general area and then rely on a manual last-mile effort typically involving the visual inspection of remote sensing imagery,searching for distinct landmarks or terrain features that match their partial information. While the most important, the last mile effort is also the bottleneck.
+
+%The two key research questions driving the development of \textit{GESTALT} are:
+%\begin{enumerate}
+%\item What components of the \textit{last-mile} search can be automated
+%\item How helpful is automation in completing the \textit{last-mile} search?
+%\end{enumerate}
+
+%\subsection{Overview of Running-Example}
+%A running scenario illustrates the architecture in use throughout the \textit{GESTALT} paper. 
+%The running scenario is a \textit{last-mile search} problem. The searcher's task is to find out which of the wineries they visited before attending a lunch with %friends to share their recommendations. 
+%However, because of over-indulgence while on tour, they are struggling to recall which wineries they visited.
+%They know that the general region is the Swan Valley Wine Region near Perth in Western Australia. There are more than 30 wineries in the small Swan Valley Wine %Region and far more locations, including the many distilleries, breweries, chocolate shops and other auxiliary venues. 
+%They remember a few key facts about their trip, but the details are fuzzy. That is, they have \textit{partial information} about each of the wineries:
+%\begin{enumerate}
+%	\item They have a photo in front of Oakover Grounds, so know they must have visited it. 
+%	\item They recall drinking a lovely Verdehlo at a table made from wine barrels. 
+%	\item They didn't like the Chenin Blanc they were drinking in the place with palm trees.
+%	\item There was a noisy generator at one that ruined the ambience. 
+%\end{enumerate}	
+%They could find Oakover Estate quickly enough using Google Maps but didn't recognise any other names. 
+%Searching for "Winery with wine barrel tables" yielded inconclusive results listing most of the wineries from the original set. The lack of search-space reduction is likely due to the text associated with most wineries mentioning wine, barrels and tables. 
+%Ordinarily, they would manually use google maps satellite imagery, street view and user review photos to identify which wineries they were at. Indeed, there is a better way.
+
+%\subsection{Contributions}
+%The critical contribution of this work is the architecture for \textit{GESTALT}, an end-to-end pipeline for extracting geospatial data, transforming it into coherent object-location relations, and loading it into a store and searching it. Further, this work evaluates the performance of popular clustering algorithms on the geospatial object ownership assignment inference task. It contributes a new gold standard \textit{Swan Valley Wineries} dataset and a proof of concept implementation of the architecture using the Wineries Dataset.This paper will explore the sourcing and creation of datasets for the \textit{GESTALT} project in section \ref{section:datasets}. It will then explore the architecture and define the goals for each subsystem in section \ref{section:architecture} before exploring the implementation in section \ref{section:implementation}. A detailed comparison of Object ownership assignment methods is in section \ref{section:results} before exploring related work in section \ref{section:related}. The paper concludes by identifying future work in section \ref{section:conclusion}.  
+
+%\subsection{Organization}
+%This paper will explore the sourcing and creation of datasets for the \textit{GESTALT} project in section \ref{section:datasets}. It will then explore the architecture and define the goals for each subsystem in section \ref{section:architecture} before exploring the implementation in section \ref{section:implementation}. A detailed comparison of Object ownership assignment methods is in section \ref{section:results} before exploring related work in section \ref{section:related}. The paper concludes by identifying future work in section \ref{section:conclusion}.  
+
+%that identifying locations based on collections of objects associated with them is a technique actively used by investigators. 
+%The investigative requirements are evidently great enough to necessitate Bellingcat developing an \textit{OpenStreetMap Search Tool} to search for locations using objects\footnote{\href{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}{https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/}}.
+%Bellingcat's tool puts a user-friendly interface on the OSM Overpass-Turbo Interface\footnote{\href{https://overpass-turbo.eu/}{https://overpass-turbo.eu/}} 
+%Our testing indicates a rapid degradation in query execution time as scale increases, and is distinct from our work in that it only queries OSM data, only checks for set intersections of objects within a given proximity threshold of each other and does not allow for pictorial querying.
+%\emph{GESTALT} approaches the same problem in a more comprehensive way, aiming to help investigators with their \textit{last-mile} search to identify locations of interest based on the objects that they know (or suspect) are associated with the location. 

@@ -1,0 +1,100 @@
+\section{Related Work}
+\label{section:related}
+
+\emph{GESTALT} is designed to take a human-centric approach to geospatial search, borrowing principles from human spatial cognition and studies of the way humans navigate the physical world and conceive of objects on a map.
+We address related work in human spatial reasoning and pictorial querying, and then compare \emph{GESTALT} with the closest geospatial search tool available currently.
+
+\subsection{Human Spatial Cognition and Reasoning}
+According to criminology, psychology and neuroscience, people tend to anchor memories on objects they see while experiencing a location~\cite{Helbing2020}, and use them to find it again. 
+Even robots we design to do perception need visual anchoring~\cite{Oliveira2016}.
+These principles underpin \emph{GESTALT}'s human-centric approach to last-mile spatial search, wherein the goal is to retrieve locations within a region given information about their objects.
+This forms the reciprocal problem to the online game \textit{Geoguessr}~\footnote{\href{https://www.geoguessr.com/}{Geoguessr Website}}, which challenges users to determine the broad region of a photograph based on the visible objects.
+The success of \textit{GeoGuessr} shows that enough objects, even common ones, have the power to substantially prune a large search space down to just a few, or even one candidate region.
+\emph{GESTALT}'s approach to geospatial search closely follows the \textit{Winthrop Method}~\cite{Keatley2021} which was developed in Northern Ireland in the 1970s to detect clandestine weapons caches.
+The core principle behind this method is that humans form mental models of terrain based on objects in the environment, and then use those to navigate.
+Other research has show that When revisiting locations, the objects can even serve as keys to other memories of that location~\cite{Miller2013}.
+
+
+\subsection{Pictorial Querying}
+The core spatial search functionality of \emph{GESTALT} leverages a pictorial query interface to bridge the gap between the user's mental model of objects, and the geospatial data available to search. 
+The idea of pictorial querying was developed by Soffer and Samet~\cite{Soffer1997}.
+Their approach focuses on matching locations from a user-defined pictorial input to an underlying database of maps. 
+In the 27 years since Soffer and Samet first specified the Pictorial Query Language, considerable advances in digital storage and access to geospatial data have addressed some of the initial scale limitations that the conversion of maps to digital pictorial representations presents. 
+For example, the role of a system like MAGELLAN~\cite{Samet1998} in \emph{GESTALT} is replaced by sourcing the locations from OSM, and the requirement for a separate system to efficiently index and query map tiles like MARCO~\cite{Samet1996} is now handled by OSM in its entirety. 
+Additional work in pictorial querying notes the problem of searching when there are multiple instances of the objects, which is NP-Complete when formulated as a subgraph matching problem~\cite{Folkers2000}. 
+\textit{GESTALT} addresses the complexity issues by successively pruning the search space, beginning with the last-mile search region, pruning out any locations that fail to contain the query terms, and then commencing the spatial search, which involves recursively pruning the search space even further, until a a candidate location is determine to match or not match the configuration specified in the pictorial query.
+
+
+
+\subsection{Automated Geospatial Search}
+In recent months the Open Source Intelligence platform \textit{Bellingcat}\footnote{\href{https://www.bellingcat.com/about/who-we-are/}{Bellingcat Website}} released \textit{Bellingcat OSM Search}\footnote{\href{https://osm-search.bellingcat.com/}{Bellingcat OSM Search Tool}}\cite{Williams2023}, a tool also aimed at pruning search space using tagged objects. 
+Using drop-downs and sliding bars, a user can specify a text-based query for OSM tagged objects that appear within an adjustable distance from each other inside a region of interest. 
+Although aimed at addressing the same last-mile search problem as \emph{GESTALT}, there are several key limitations to the Bellingcat OSM Search Tool that \emph{GESTALT} overcomes.
+\begin{enumerate}
+    \item Their tool only accounts for the distance between objects, not their geographic configuration. They key contribution of \emph{GESTALT} is allowing users to leverage information they remember about how the objects relate to each other spatially to improve the search result.
+    \item Their tool is limited to data tagged in OSM, which is sparse for object tags that give \emph{GESTALT} much of its pruning power.
+    \item Their tool does not rank results, which is critical when object tags are noisy and users are uncertain about the partial information they recall about a location.
+    \item Their tool returns 0 results if a set of search terms fails to match on every term in the window of interest, which is problematic when dealing with noisy, incomplete data where the likelihood of any given object being tagged is not very high. On the other hand, \emph{GESTALT} uses a fuzzy matching procedure to return a partial match based on the most discriminative search term provided when the entire set yields no results, taking the approach that a partial answer is better than no answer.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Geospatial Question Answering}
+%Towards identifying where the user could be looking, the field of geospatial question answering, related to geospatial information retrieval, offers promising directions. 
+%In 2018 Punjani et al. sought to determine whether geospatial information could be incorporated into a question-answering system~\cite{Punjani2018}. 
+%They used the established Frankenstein variant of the Qanary approach to developing question-answering pipelines to develop GeoQA. 
+%GeoQA can answer questions in several useful geospatial categories, including point, range, and property-based queries. 
+%They built their system on linked data collected from OpenStreetMaps and WikiData. 
+%More recently, the efforts to develop WorldKG, a geospatial knowledge graph of the world, extend the linked-data approach and allow users to generate SPARQL queries to answer complex geospatial questions across the fused knowledge of OpenStreetMaps, DBPedia and WikiData~\cite{dsouza2021}. 
+%These linked data approaches to geospatial question answering are valuable advancements but do not include enough micro-terrain detail to satisfy the requirement of my project to allow a user to find a location based on partial information about the micro-terrain of the location.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Games like \textit{Geoguessr}~\footnote{\href{https://www.geoguessr.com/}{Geoguessr Website}} which invert the last-mile
+%demonstrates that for many people, figuring out where they are in the world can be a source of much joy. 
+%A 2023 journal article analyzing the strategies employed by a top player identifies several successful strategies that are used by a leading player~\cite{Berners-Lee2023}. 
+%The Geoguessr problem is a distinct and, in many ways, reciprocal problem to the \textit{last-mile} search problem \textit{GESTALT} seeks to solve. While the last mile search assumes a general region is known, the geoguessr frequently has no idea where in the world they are and needs to use clues from the interface (powered by google street view) to determine the country, state, county etc., that they are in. 
+%While not directly relevant, Geoguessr demonstrates the importance of searching for landmarks, and often even benign objects like bus stops, in locating where in the world an image is. 
+
+%A 2013 Neuroscience study shows that when we revisit those locations, the objects we remember serve as keys to other memories of that location~\cite{Miller2013}, \textit{GESTALT} aims to exploit these geospatial aspects of memory for helping searchers to find the locations they are looking for.
+%\textbf{Winthropping}. The Winthrop Method is a geospatial search method developed by Captain Winthrop of the Royal Engineers for use in Northern Ireland in the 1970s~\cite{Keatley2021} to detect clandestine weapons caches and concealed improvised explosive devices. 
+%The underlying logic is that to find something, a human has to have some method of navigating to it and that the objects in our environment help to form mental models of the terrain, we can use to navigate by. 
+%A popular example is the closing scene of the film \textit{The Shawshank Redemption} where the protagonist Andy Dufrense provides instructions to his fellow prisoner Ellis Redding on how to find a gift left for him \textit{"It's got a long rock wall with a big oak tree at the north end... find that spot. At the base of that wall, you'll find a ...piece of black, volcanic glass. There's some thing buried under it I want you to have."} 
+%The two reasons that Winthropping works are \textit{Affordance} and \textit{Satisficing}. Affordance refers to the interaction of an agent with its environment and, in simple terms, means that particular objects will have a more significant impact on us and remain in our memory than others. 
+%When combined with the idea of satisficing, in which an agent makes a satisfactory or sufficient but possibly sub-optimal decision, it illustrates the value of object-based search. 
+%We cannot remember every detail of a location, so our brains will record only a few key objects or experiences for us to leverage. 
+%A 2013 Neuroscience study shows that when we revisit those locations, the objects we remember serve as keys to other memories of that location~\cite{Miller2013}, \textit{GESTALT} aims to exploit these geospatial aspects of memory for helping searchers to find the locations they are looking for.
+
+
+%\subsection{Remote Sensing Imagery}
+%Relevant to the data collection subsystem if \textit{GESTALT}, 2018 efforts to improve the state of the art in object detection from remote sensing imagery focused on developing datasets for training and evaluating models. 
+%The xView project supports the detection of 60 classes of objects~\cite{Lam2018} using horizontal bounding boxes. The DOTA project supports a much more modest 20 classes~\cite{Xia2018}. 
+%Both focus towards shipping and industrial applications and so will not generalize well. The 2021 update to the DOTA project highlighted that remote sensing object detection continues to suffer from the arbitrary rotation of objects and the vast disparities in the clustering of objects~\cite{Ding2021}. 
+%DOTA version 2 tries to address these issues by employing orientation bounding boxes but is still very constrained in the classes of objects it supports. 
+%A separate effort by Li et al. in 2020 can detect objects less constrained to heavy industry but only accounts for 20 or so objects~\cite{Li2020}. 
+%Overall current work on remote-sensing object detection indicates that it is still an emerging field incapable of supporting the labeling of micro-terrain features required for the proposed system. 
+%An area growing parallel with remote sensing object detection is image captioning and visual question answering. 
+%In addition to implementing previously discussed object detection techniques, they employ alternate data sources to augment their ability to provide answers to natural language questions about remote sensing imagery. 
+%In 2017 Shi and Zou demonstrated that it is possible to automate caption generation for remote sensing imagery. However, their experimentation showed it to be ineffective at tasks like counting objects~\cite{Shi2017}, an essential requirement of micro-terrain analysis.
+
+%\subsection{Visual Question Answering}
+%The paper that initiated the domain of Remote Sensing Visual Question Answering (RSVQA) was published in 2020 by Lobry et al. and showed an excellent ability to answer direct questions about a given remote sensing image, including area estimates, object counts and determining the relative locations of objects~\cite{Lobry2020}. 
+%These capabilities are all helpful in the concept mapping component of \textit{GESTALT}. Importantly they also incorporated geospatial information from OpenStreetMap into their system. 
+%A fundamental limitation they identified is that the lack of information in OSM about specific micro-terrain features and the inability of object detection models to provide it presents a significant gap holding back the advancement of the RSVQA field. 
+%My work may contribute towards closing that gap. Later work by Zheng et al. and Yuan et al. highlight that RSVQA is very much in its infancy, and they focus on improving the underlying models used in RSVQA systems~\cite{Zheng2021, Yuan2022}.
+%In addition to the gap identified by Lobry et al., one limitation is that the RSVQA approach focuses on answering questions about the things the user is already looking at. 
+%In my partial information use case, the user doesn't know exactly where to look, so using the RSVQA approach would render no improvement to performance over the visual inspection itself. 
+%The real challenge is identifying where to look, not what they are already looking at.
+
+%NSCH find other OSM-based terrain search tools and summarize them here
+
+
+%In their use-case, they start with a photo and attempt to geolocate it by performing the \textit{Last-Mile} search based on the presence of OSM Map Features. Their system implements a more user-friendly interface over the OSM Overpass-Turbo API, allowing searchers to use drop-down lists and sliders rather than generating complicated queries. 
+%Their tool demonstrates the importance and utility of the problem that \textit{GESTALT} seeks to solve. It also shows how much data is already contained on OSM that can be leveraged by \textit{GESTALT}. 
+%The obvious limitation is in performance. As it directly queries the OSM API, the query executes very slowly. For example, running the query to return all wineries in the swan valley region took 21 seconds to complete. In \textit{GESTALT}, it takes less than 1 second. 
+%Their system does not address data collection, ownership assignment or concept mapping. It also doesn't allow for spatial queries expected by \textit{GESTALT} searchers. 
+%The Bellingcat tool demonstrates the utility of a system like \textit{GESTALT} and highlights how careful consideration of data structure design is essential for developing a performant system. 
+
+%\subsection{Human Spatial Cognition}
+ %"Global objects were already in their original locations and could not be moved. This was because (a) they had not been targets before, (b) it is rather unusual to move them in everyday life, and (c) a recent VR scene building experiment by Draschkow and Võ (2017) shows that they are usually placed earlier in the building process and then serve as anchors to guide the arrangement of smaller objects that we typically interact with, which makes them appropriate location recall cues in our study." \cite{Helbing2020}
+ %robots that do perception need anchoring too \cite{Oliveira2016}
+
+  %This study of cognitive strategies used in navigation and route planning shows that people form spatial representations of a virtual environment in differnt ways, including likely hierarchically, or with separate local and global features \cite{Weisberg2016}. The implications are that our approach is consistent with how people remember spatial locations using a hierarchical cognitive map of objects/landmarks and/or using a hierarchical representation of objects/landmarks. Explain how these two possibilities are both served by the GESTALT searching method...

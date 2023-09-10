@@ -1,0 +1,764 @@
+@Article{Ding2021,
+  author    = {Ding, Jian and Xue, Nan and Xia, Gui-Song and Bai, Xiang and Yang, Wen and Yang, Michael Ying and Belongie, Serge and Luo, Jiebo and Datcu, Mihai and Pelillo, Marcello and others},
+  journal   = {IEEE transactions on pattern analysis and machine intelligence},
+  title     = {Object detection in aerial images: A large-scale benchmark and challenges},
+  year      = {2021},
+  number    = {11},
+  pages     = {7778--7796},
+  volume    = {44},
+  comment   = {__H1:__ They seek to improve the SOTA in object detection of aerial images WRT arbitrary object rotation and the inaccurate horizontal bounding box (HBB) labelling scheme. 
+
+__H3:__ They propose the DOTA dataset which uses orientation bounding boxes (OBB) to label 18 categories of item. 
+
+Discipline: Object Detection in Aerial Images
+
+
+"Publicly Released datasets Contain a limited number of instances and end to use images taken under ideal conditions (e.g., clear backgrounds and centered objects" --> COMMENT: Using Satellite Imagery from Maps applications gives us close to ideal. 
+
+The object categories in DOTA-v2.0: plane, ship, storage tank, baseball diamond, tennis court, basketball court, ground track field, harbor, bridge, large vehicle, small vehicle, helicopter, roundabout, soccer ball field, swimming pool, container crane, airport and helipad. --> COMMENT: Limited Dataset. 
+
+https://captain-whu.github.io/DOTA/},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Ding2022.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/iel7/34/4359286/09560031.pdf},
+}
+
+@Article{Lam2018,
+  author  = {Lam, Darius and Kuzma, Richard and McGee, Kevin and Dooley, Samuel and Laielli, Michael and Klaric, Matthew and Bulatov, Yaroslav and McCord, Brendan},
+  journal = {arXiv preprint arXiv:1802.07856},
+  title   = {xview: Objects in context in overhead imagery},
+  year    = {2018},
+  comment = {__H1__ There is too much unlabelled remote sensing imagery. 
+
+
+__H3__ Use of a 3 stage annotation and quality control process. 
+
+- 60 Object Classes
+
+- "public overhead datasets in existence typically suffer from low class ount, poor geographic diversity, few training instances, or too narrow class scope"
+
+- Uses Horzontal Bounding Boxes
+
+- Most of the objects are focused on port / industrial areas and disaster relief. May not be useful for what I have in mind.},
+  file    = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Lam2018.pdf:PDF},
+  groups  = {CMSC828T},
+  url     = {https://arxiv.org/pdf/1802.07856},
+}
+
+@InProceedings{Xia2018,
+  author    = {Xia, Gui-Song and Bai, Xiang and Ding, Jian and Zhu, Zhen and Belongie, Serge and Luo, Jiebo and Datcu, Mihai and Pelillo, Marcello and Zhang, Liangpei},
+  booktitle = {Proceedings of the IEEE conference on computer vision and pattern recognition},
+  title     = {DOTA: A large-scale dataset for object detection in aerial images},
+  year      = {2018},
+  pages     = {3974--3983},
+  comment   = {__H1__
+
+__H3__
+
+Definition: Object detection in Earth Vision refers to localizing obects of interest (e.g., vehicles, airplanes) on the earth’s surface and predicting their categories
+
+_Challenges of Earth Vision:_
+- Vast changes in scale of object. depending on resolution. 
+
+- Arbitrary object rotation (i.e. no "up" like there is in regular object detection). 
+
+- Object clustering crowds images. 
+
+- Object count are imbalances. E.g. a 200 x 200 m car yard could have 100 cars, but a 2000 x 2000 stretch of desert might only have one or two. 
+
+- Training data ususally in perfect condition, test is not. --> COMMENT, for pre-processing large swathes of maps, we can assume this away. 
+
+Properties of a good dataset: 
+1) a large number of images,
+2) many instances per categories, 
+3) properly oriented object annotation, and 
+4) many different classes of objects, which make it approach to real-world applications.
+
+
+Categories: plane, ship, storage tank, baseball dia-
+mond, tennis court, swimming pool, ground track field, harbor, bridge, large vehicle, small vehicle, helicopter, roundabout, soccer ball field and basketball court. --> COMMENT: Limited utility in these classes.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Xia2018.pdf:PDF},
+  groups    = {CMSC828T},
+  url       = {http://openaccess.thecvf.com/content_cvpr_2018/papers/Xia_DOTA_A_Large-Scale_CVPR_2018_paper.pdf},
+}
+
+@Article{Li2020,
+  author    = {Li, Ke and Wan, Gang and Cheng, Gong and Meng, Liqiu and Han, Junwei},
+  journal   = {ISPRS journal of photogrammetry and remote sensing},
+  title     = {Object detection in optical remote sensing images: A survey and a new benchmark},
+  year      = {2020},
+  pages     = {296--307},
+  volume    = {159},
+  comment   = {__H1__ How do we improve the ability of deep learning models to apply to the Remote Sensing Imagery Domain?  
+
+__H3__ We proposed a new dataset for training. 
+
+__Observations from paper__
+
+- 20 Object Classes: 
+_Windmill, Vehicle, Train Station, Tennis Court, Storage Tank, Stadium, Ship, Harbour, Ground Track Field, Golf Course, Expressway Toll Station, Expressway Service Area, Dam, Chimney, Bridge, Overpass, Basketball Court, Baseball Field, Airport, Airplane_
+
+- "it is difficult to straight-forward transfer deep learning based object detection methods to optical remote sensing images"},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Li2020.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {Elsevier},
+  url       = {https://reader.elsevier.com/reader/sd/pii/S0924271619302825?token=92C775A3C0FC0E9B054597B8CECD1F9DCA518AA4E715A2B5AAFD68F889D4B63D91C5053CB6D0D2AF180B5597822C4DE8&originRegion=us-east-1&originCreation=20230312185336},
+}
+
+@InProceedings{Pink2008,
+  author       = {Pink, Oliver},
+  booktitle    = {2008 IEEE Computer Society Conference on Computer Vision and Pattern Recognition Workshops},
+  title        = {Visual map matching and localization using a global feature map},
+  year         = {2008},
+  organization = {IEEE},
+  pages        = {1--7},
+  comment      = {__RQ__ How do we improve SLAM to support autonomous driving cars
+
+__H1__ Use aerial imagery to generate maps in advance that the autonomous system can draw on for navigation assistance. 
+
+__H3__ Uses aerial images to recognise lane markings and generate feature maps
+
+
+__Comment__
+
+- Not super relevant, but could we use the process of lane detection to generate simple maps of the ground so that, given an arbitrary map fragment, we are able to identify where in the larger map it comes from?},
+  file         = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Pink2008.pdf:PDF},
+  groups       = {CMSC828T},
+  url          = {https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=4563135},
+}
+
+@Article{Lobry2020,
+  author    = {Lobry, Sylvain and Marcos, Diego and Murray, Jesse and Tuia, Devis},
+  journal   = {IEEE Transactions on Geoscience and Remote Sensing},
+  title     = {RSVQA: Visual question answering for remote sensing data},
+  year      = {2020},
+  number    = {12},
+  pages     = {8555--8566},
+  volume    = {58},
+  comment   = {__RQ__
+Is it possible to retrieve information from remote sensing imagery using Visual Questions answering? 
+
+__H1__
+retrieve information from remote sensing imagery using Visual Questions answering. 
+
+
+__H3__
+
+__ Quotes and Refs__
+"the ability to use remote sensing data as a direct source of information is currently limited to experts within the remote sensing and computer vision communities"
+
+"The objective of VQA is to answer a free-form and open-ended question about a given image"
+
+"A VQA model is generally made of four distinct components: 
+1) a visual feature extractor; 
+2) a language feature extractor; 
+3) a fusion step between the two modalities; and
+4) a prediction component."
+
+"we use the openly accessible OpenStreetMap (OSM) data containing geolocalized information provided by volunteers."
+
+"Dataset attributes for question answer pairs:
+Questions:  
+1. Classify a map element to a category. 
+2. Derive attributes: Shape / Size etc. 
+3. Determine Relative location  to other elements. 
+4. NL questions generated to match the observed elements. 
+Answers: 
+Extract the objects corresponding to the question type: 
+1. Counting 
+2. Presence
+3. Area of
+4. Comparison Between
+5. Rural / Urban. 
+
+"due to the source of our data (OSM),
+the questions are only on a specific set of static objects (e.g., buildings and roads). Other objects of interest for applications of a VQA system to remote sensing would also include different static objects, moving objects (e.g., cars), or seasonal aspects. Including these objects would require another
+source of data or manual construction of qestion/answer pairs." --> COMMENT: Justification for future work!!!!
+
+__COMMENTS__
+- Use the accessibility to experts quote.
+- Their concluding remarks about the mlimitations of OSM are useful starting point to justify my idea.
+- Their technical approach to VQA is relevant and useful.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Lorby2020.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9088993},
+}
+
+@Article{Yuan2022,
+  author    = {Yuan, Zhenghang and Mou, Lichao and Wang, Qi and Zhu, Xiao Xiang},
+  journal   = {IEEE Transactions on Geoscience and Remote Sensing},
+  title     = {From easy to hard: Learning language-guided curriculum for visual question answering on remote sensing data},
+  year      = {2022},
+  pages     = {1--11},
+  volume    = {60},
+  comment   = {__RQ__
+How do we improve the ability of VQA systems to operate on remote sensing data? 
+
+__H1__
+
+__H3__
+Multi-level visual feature learning combined with self paced curriculum learning. 
+
+__QUOTES__
+
+""VQA for remote sensing is in its infancy"
+"Two main challenges are:
+_1. No object annotations are available in the RSVQA data and 2. Questions are of varying difficulty levels_
+
+__COMMENTS__
+
+This paper focuses on improving the models for employing VQA, but also notes that the lack of object annotations is problematic.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Yuan2022.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9771224},
+}
+
+@Article{Zheng2021,
+  author    = {Zheng, Xiangtao and Wang, Binqiang and Du, Xingqian and Lu, Xiaoqiang},
+  journal   = {IEEE Transactions on Geoscience and Remote Sensing},
+  title     = {Mutual attention inception network for remote sensing visual question answering},
+  year      = {2021},
+  pages     = {1--14},
+  volume    = {60},
+  comment   = {__RQ__
+How do we extend RSVQA to consider world-level context e.g. it's a beach. 
+__H1__
+
+
+__H3__
+They use captioning datasets to work backwards and develop a dataset for world level VQA. 
+
+__QUOTES__
+RSVQA is more effective than caption generation as it can provide information more specifically relevant to humans. 
+
+VQA systems have three parts: 
+1. A Visual Representaiton
+2. A Questions Representation. 
+3. A fusion module, that checks the alignment between visual and question. 
+
+- They ran a number of experiments to impove performance. 		
+
+__COMMENTS__
+- Lists a number of candiadate datasets. 
+
+- This, like other VQA is focused on resolving geospatial features based on visual input. I'm more interested in determing where a combination of features is present on a map.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Zheng2022.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/iel7/36/4358825/09444570.pdf},
+}
+
+@Article{Shi2017,
+  author    = {Shi, Zhenwei and Zou, Zhengxia},
+  journal   = {IEEE Transactions on Geoscience and Remote Sensing},
+  title     = {Can a machine generate humanlike language descriptions for a remote sensing image?},
+  year      = {2017},
+  number    = {6},
+  pages     = {3623--3634},
+  volume    = {55},
+  comment   = {__RQ__
+can a machine generate humanlike language descriptions for a remote sensing image
+
+__H1__
+Generate captions for Remote Sensing Imagery. 
+
+__H3__
+
+__QUOTES__
+Possible applications: 
+- Image Retrieval
+- Military Intelligence. (Convert large images into small text captions for compressed transmission)
+
+- For most caption creation algoritims they follow the approach of: 
+1. Image Understanding (region-feature based and global-feature based). 
+2. Language Generation. 
+
+
+
+__COMMENTS__
+
+- Yes they show it's possible. 
+- One of its issues is misclassifying things or miscounting things.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Shi2017.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/iel7/36/4358825/07891049.pdf},
+}
+
+@InProceedings{Punjani2018,
+  author    = {Punjani, Dharmen and Singh, Kuldeep and Both, Andreas and Koubarakis, Manolis and Angelidis, Iosif and Bereta, Konstantina and Beris, Themis and Bilidas, Dimitris and Ioannidis, Theofilos and Karalis, Nikolaos and others},
+  booktitle = {Proceedings of the 12th workshop on geographic information retrieval},
+  title     = {Template-based question answering over linked geospatial data},
+  year      = {2018},
+  pages     = {1--10},
+  comment   = {__RQ__
+Can geospatial data be used in question answering. 
+
+__H1__
+ offer a question answering service on top of linked geospatial data sources
+
+__H3__
+They create a gold standard dataset of geospatial questions. 
+
+
+__QUOTES__
+
+"A geospatial feature is an abstraction
+of a real world phenomenon and can have various attributes that describe its thematic and spatial characteristics. "
+
+"OpenStreetMap data (published
+in RDF by project LinkedGeoData"
+
+"The GIR community has been emphasizing the
+need to develop techniques for answering geographic questions expressed in natural language over text data since 2004"
+
+"no gold standard for
+geospatial question answering over linked data has been proposed"
+
+GeoSPARQL, an extension of SPARQL with a vocabulary, datatypes and functions for expressing geospatial queries over linked data.
+
+Related Work: 
+- Detecting Place Names in text
+- Associating spatial language qualifiers
+- Disambiguating place names. 
+- Younis' work: 3 categories of questions: 
+  a. Proximity
+  b. Crossing
+  c . Containment. 
+
+GADM - Global Dataset of Administrative Areas. 
+
+Question Categories: 
+	- Location Retrieval
+	- Asking whether a feature is in a geospatial relation with another feature.
+	- Asking for features of a given class that are in a geospatial relation with another feature.
+	- Asking for features of a given class that are in a geospatial rel ation with any features of another class.
+	- Asking for features of a given class that are in a geospatial relation with an unspecified feature of another class which, in turn, is in another geospatial relation with a feature specified explicitly.
+	- Queries that include the thematic and/or geospatial characteristics of the features that are expected as answers
+	- Questions with quantities and aggregates.
+
+__COMMENTS__
+
+- Good to know that i can get OSM in RDF.
+- Lol, References STEWARD
+
+- They used manual mappings from OSM classed to DBPedia Classes. 
+
+- They use Frankenstine, an implementation of QUanary which is a foral method for developing QA pipelines. 
+
+- They use pre-defined query template patterns and map natural language inputs to those templates. Cool idea and applicable to 848e as well. 
+
+- The NLP to Query generation part of this one is one of the main challenges. 
+
+https://geotriples.di.uoa.gr/ could be a useful tool.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Punjani2018.pdf:PDF},
+  groups    = {CMSC828T, CMSC848E - ML for DM},
+  url       = {https://dl.acm.org/doi/pdf/10.1145/3281354.3281362},
+}
+
+@InProceedings{Dsouza2021,
+  author    = {Dsouza, Alishiba and Tempelmeier, Nicolas and Yu, Ran and Gottschalk, Simon and Demidova, Elena},
+  booktitle = {Proceedings of the 30th ACM International Conference on Information \& Knowledge Management},
+  title     = {Worldkg: A world-scale geographic knowledge graph},
+  year      = {2021},
+  pages     = {4475--4484},
+  comment   = {__RQ__
+How can we convert heterogeneous Geospatial data into a machine readable KG. 
+
+__H1__
+
+
+__H3__
+Create a World Knowledge Ontology and then instantiate a knowledge graph using Open Streetmaps, Wikidata and DBPedia
+
+__QUOTES__
+
+We define the WorldKG ontology based on key-value pairs of the OSM schema
+
+Ontology Creation: 
+1. Scrape and Filter Key-Value Pairs
+2. Infer Class Heirarchy
+3. Convery property and Class Names
+4. Schema Alignment with DBPedia and Wikidata. 
+
+__COMMENTS__
+
+Can clearly support many of the query types I care about. 
+
+- Focused at a more macro level than I'm worried about though. 
+
+- Suggests that using a linked data strucutre could be the way to go. 
+
+- Presents an ontology that I can use to build on.},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Dsouza2021.pdf:PDF},
+  groups    = {CMSC828T},
+  url       = {https://dl.acm.org/doi/pdf/10.1145/3459637.3482023},
+}
+
+@Article{Waldinger2004,
+  author    = {Waldinger, Richard J and Appelt, Douglas E and Dungan, Jennifer L and Fry, John and Hobbs, Jerry R and Israel, David J and Jarvis, Peter and Martin, David L and Riehemann, Susanne Z and Stickel, Mark E and others},
+  journal   = {New Directions in Question Answering},
+  title     = {Deductive Question Answering from Multiple Resources.},
+  year      = {2004},
+  pages     = {253--262},
+  volume    = {2004},
+  comment   = {This paper is about extending KB-QA with axiomatic reasoning to 
+give it the ability to answer queries with multiple sources of information. 
+
+It Shows that information aggregation can reveal secrets (incidentally)},
+  file      = {:/Volumes/GoogleDrive/My Drive/CMSC723/WhoIsYourDaddyAndWhatDoesHeDo/Papers/Waldinger2004.pdf:PDF},
+  groups    = {Question Answering, CMSC828T},
+  publisher = {Citeseer},
+  url       = {https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=b1bde182cddbd23e3930a8b7538a227673bda7ab},
+}
+
+@Article{Novikov2019,
+  author    = {Andrei Novikov},
+  journal   = {Journal of Open Source Software},
+  title     = {{PyClustering}: Data Mining Library},
+  year      = {2019},
+  month     = {apr},
+  number    = {36},
+  pages     = {1230},
+  volume    = {4},
+  doi       = {10.21105/joss.01230},
+  groups    = {CMSC828T},
+  publisher = {The Open Journal},
+  url       = {https://doi.org/10.21105/joss.01230},
+}
+
+@Article{VargasMunoz2020,
+  author    = {Vargas-Munoz, John E and Srivastava, Shivangi and Tuia, Devis and Falcao, Alexandre X},
+  journal   = {IEEE Geoscience and Remote Sensing Magazine},
+  title     = {OpenStreetMap: Challenges and opportunities in machine learning and remote sensing},
+  year      = {2020},
+  number    = {1},
+  pages     = {184--199},
+  volume    = {9},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Vargas-Munoz2020.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9119753},
+}
+
+@Article{Haklay2008,
+  author    = {Haklay, Mordechai and Weber, Patrick},
+  journal   = {IEEE Pervasive computing},
+  title     = {Openstreetmap: User-generated street maps},
+  year      = {2008},
+  number    = {4},
+  pages     = {12--18},
+  volume    = {7},
+  comment   = {OSM is a knowledge collective that creates Open Geodata as its main objective. Simultaneously, it includes a peer production network, as different groups within the organi- zation are developing different aspects of the project—digitizing tools, map- rendering software, server software, and running activities such as mapping parties.
+
+OSM also demonstrates some important aspects in terms of geographical information delivery. The data format and structures demonstrate a simple approach for developing and delivering geographical information, in contrast to current practice within the GIS in- dustry. 
+
+On the other hand, OSM data isn’t complete or consistent across the world, or even across London, where the project started. The data’s accu- racy is unknown, given that there are no systemic and comprehensive qual- ity assurance processes integral to the data collection. Furthermore, there’s no intention of universal coverage;},
+  file      = {:/Users/kentosullivan/Library/Mobile Documents/com~apple~CloudDocs/UMD/2023 - Spring/CMSC828T/Project/Papers/Haklay_2008.pdf:PDF},
+  groups    = {CMSC828T},
+  publisher = {Ieee},
+  url       = {https://ieeexplore.ieee.org/iel5/7756/4653458/04653466.pdf},
+}
+
+@Article{Mooney2017,
+  author    = {Mooney, Peter and Minghini, Marco and others},
+  journal   = {Mapping and the citizen sensor},
+  title     = {A review of OpenStreetMap data},
+  year      = {2017},
+  pages     = {37--59},
+  comment   = {- Highlights benefit of OSM as the biggest VGI (Volunteered Geographic Information). 
+
+- Notes that licencing is a concern (i.e. can only be used in open source applications). 
+
+- Notes concerns in data quality control juxtaposed to the speed and access of low-bar editing. 
+
+- Notes the lack of protocol and controls. 
+
+- Map gardening (maintenance) versus information creation.},
+  groups    = {CMSC828T},
+  publisher = {Ubiquity Press},
+  url       = {https://library.oapen.org/bitstream/handle/20.500.12657/31138/1/637890.pdf#page=46},
+}
+
+@InProceedings{Tong2017,
+  author       = {Tong, Zhehang and Shi, Dianxi and Yan, Bingzheng and Wei, Jing},
+  booktitle    = {2017 2nd International Conference on Control, Automation and Artificial Intelligence (CAAI 2017)},
+  title        = {A review of indoor-outdoor scene classification},
+  year         = {2017},
+  organization = {Atlantis Press},
+  pages        = {469--474},
+  comment      = {Indoor/Outdoor scene classification},
+  groups       = {CMSC828T},
+  url          = {https://www.atlantis-press.com/article/25881214.pdf},
+}
+
+@Article{Ming2021,
+  author    = {Ming, Yue and Meng, Xuyang and Fan, Chunxiao and Yu, Hui},
+  journal   = {Neurocomputing},
+  title     = {Deep learning for monocular depth estimation: A review},
+  year      = {2021},
+  pages     = {14--33},
+  volume    = {438},
+  groups    = {CMSC828T},
+  publisher = {Elsevier},
+  url       = {https://www.sciencedirect.com/science/article/pii/S0925231220320014},
+}
+
+@InProceedings{Liu2020,
+  author       = {Liu, Yang and Jiang, Jie and Sun, Jiahao and Bai, Liang and Wang, Qi},
+  booktitle    = {2020 IEEE Fifth international conference on data science in cyberspace (DSC)},
+  title        = {A survey of depth estimation based on computer vision},
+  year         = {2020},
+  organization = {IEEE},
+  pages        = {135--141},
+  groups       = {CMSC828T},
+  url          = {https://ieeexplore.ieee.org/iel7/9169739/9172417/09172861.pdf},
+}
+
+@InProceedings{Hays2008,
+  author       = {Hays, James and Efros, Alexei A},
+  booktitle    = {2008 ieee conference on computer vision and pattern recognition},
+  title        = {IM2GPS: estimating geographic information from a single image},
+  year         = {2008},
+  organization = {IEEE},
+  pages        = {1--8},
+  comment      = {Estimating the geolocation of an image based on its contents. 
+
+Related to but distinct. 
+
+NEED TO READ IN DETAIL.},
+  groups       = {CMSC828T},
+  url          = {https://ieeexplore.ieee.org/iel5/4558014/4587335/04587784.pdf},
+}
+
+@Article{Snavely2011,
+  author    = {Snavely, Noah},
+  journal   = {IPSJ Transactions on Computer Vision and Applications},
+  title     = {Scene reconstruction and visualization from internet photo collections: A survey},
+  year      = {2011},
+  pages     = {44--66},
+  volume    = {3},
+  groups    = {CMSC828T},
+  publisher = {Information Processing Society of Japan},
+  url       = {https://www.jstage.jst.go.jp/article/ipsjtcva/3/0/3_0_44/_pdf},
+}
+
+@InProceedings{Mueller2012,
+  author       = {M{\"u}ller, Mark-Christoph and Strube, Michael},
+  booktitle    = {Proceedings of the 27th International Conference on Computational Linguistics: System Demonstrations. August 20-26, 2018, Santa Fe, New Mexico, USA},
+  title        = {Transparent, efficient, and robust word embedding access with WOMBAT},
+  year         = {2012},
+  organization = {Association for Computational Linguistics},
+  pages        = {53--57},
+  groups       = {CMSC828T},
+  url          = {https://aclanthology.org/C18-2012.pdf},
+}
+
+@Article{Schubert2017,
+  author    = {Schubert, Erich and Sander, J{\"o}rg and Ester, Martin and Kriegel, Hans Peter and Xu, Xiaowei},
+  journal   = {ACM Transactions on Database Systems (TODS)},
+  title     = {DBSCAN revisited, revisited: why and how you should (still) use DBSCAN},
+  year      = {2017},
+  number    = {3},
+  pages     = {1--21},
+  volume    = {42},
+  comment   = {Gives advice on how to choose parameters for DBSCAN
+
+epsilon should be set to :
+	(a) Distance to the fourtn nearest neighbour
+	(b) (2 * dimensionality of the data) - 1
+	(c) Based on domain knoweldge. 
+
+The 'minpoints' parameter has minimal impact.},
+  groups    = {CMSC828T},
+  publisher = {ACM New York, NY, USA},
+  url       = {https://dl.acm.org/doi/pdf/10.1145/3068335},
+}
+
+@InProceedings{Ester1996,
+  author    = {Ester, Martin and Kriegel, Hans-Peter and Sander, J{\"o}rg and Xu, Xiaowei and others},
+  booktitle = {kdd},
+  title     = {A density-based algorithm for discovering clusters in large spatial databases with noise.},
+  year      = {1996},
+  number    = {34},
+  pages     = {226--231},
+  volume    = {96},
+  groups    = {CMSC828T},
+  url       = {https://cse.hkust.edu.hk/~raywong/comp5331/References/ADensityBasedAlgorithmForDiscoveringClustersInLargeSpatialDatabasesWithNoise.pdf},
+}
+
+@Article{Ram2010,
+  author    = {Ram, Anant and Jalal, Sunita and Jalal, Anand S and Kumar, Manoj},
+  journal   = {International Journal of Computer Applications},
+  title     = {A density based algorithm for discovering density varied clusters in large spatial databases},
+  year      = {2010},
+  number    = {6},
+  pages     = {1--4},
+  volume    = {3},
+  comment   = {The DBSCAN Variant using pre-assigned centroids},
+  groups    = {CMSC828T},
+  publisher = {International Journal of Computer Applications, 244 5 th Avenue,\# 1526, New~…},
+  url       = {https://www.researchgate.net/profile/Anant-Ram/publication/282334683_A_Density_based_Algorithm_for_Discovering_Density_Varied_Clusters_in_Large_Spatial_Databases/links/560d049d08aed543358d5e32/A-Density-based-Algorithm-for-Discovering-Density-Varied-Clusters-in-Large-Spatial-Databases.pdf},
+}
+
+@Article{Williams2023,
+  author    = {Williams, Logan},
+  journal   = {Bellingcat Blog},
+  title     = {Finding Geolocation Leads with Bellingcat's OpenStreetMap Search Tool},
+  year      = {2023},
+  month     = may,
+  groups    = {CMSC828T},
+  keywords  = {Geolocation, Tech Team},
+  timestamp = {2023-05-08},
+  url       = {https://www.bellingcat.com/resources/how-tos/2023/05/08/finding-geolocation-leads-with-bellingcats-openstreetmap-search-tool/},
+}
+
+@InProceedings{Soffer1997,
+  author    = {Soffer, Aya and Samet, Hanan},
+  booktitle = {Proceedings of the Second International Conference on Visual Information Systems},
+  title     = {Pictorial query specification for browsing through image databasess},
+  year      = {1997},
+  pages     = {117--124},
+  groups    = {CMSC828T},
+  url       = {https://www.cs.umd.edu/~hjs/pubs/soffervlc.pdf},
+}
+
+@Article{Samet1996,
+  author    = {Samet, Hanan and Soffer, Aya},
+  journal   = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  title     = {Marco: Map retrieval by content},
+  year      = {1996},
+  number    = {8},
+  pages     = {783--798},
+  volume    = {18},
+  groups    = {CMSC828T},
+  publisher = {IEEE},
+  url       = {https://ieeexplore.ieee.org/iel1/34/11231/00531799.pdf},
+}
+
+@Article{Samet1998,
+  author    = {Samet, Hanan and Soffer, Aya},
+  journal   = {International journal on document analysis and recognition},
+  title     = {Magellan: Map acquisition of geographic labels by legend analysis},
+  year      = {1998},
+  pages     = {89--101},
+  volume    = {1},
+  groups    = {CMSC828T},
+  publisher = {Springer},
+  url       = {https://link.springer.com/content/pdf/10.1007/s100320050009.pdf},
+}
+
+@InProceedings{Folkers2000,
+  author       = {Folkers, Andre and Samet, Hanan and Soffer, Aya},
+  booktitle    = {Proceedings 15th International Conference on Pattern Recognition. ICPR-2000},
+  title        = {Processing pictorial queries with multiple instances using isomorphic subgraphs},
+  year         = {2000},
+  organization = {IEEE},
+  pages        = {51--54},
+  volume       = {4},
+  comment      = {Isomporphic Graph Sub-Matching is NP-Complete},
+  groups       = {CMSC828T},
+  url          = {https://ieeexplore.ieee.org/iel5/7237/19521/00902863.pdf},
+}
+
+@Article{Keatley2021,
+  author    = {Keatley, David and O’Donnell, Chris and Chapman, Brendan and Clarke, David D},
+  journal   = {Journal of Police and Criminal Psychology},
+  title     = {The psycho-criminology of burial sites: developing the winthropping method for locating clandestine burial sites},
+  year      = {2021},
+  pages     = {1--10},
+  groups    = {CMSC828T},
+  publisher = {Springer},
+}
+
+@Article{Miller2013,
+  author    = {Miller, Jonathan F and Neufang, Markus and Solway, Alec and Brandt, Armin and Trippel, Michael and Mader, Irina and Hefft, Stefan and Merkow, Max and Polyn, Sean M and Jacobs, Joshua and others},
+  journal   = {Science},
+  title     = {Neural activity in human hippocampal formation reveals the spatial context of retrieved memories},
+  year      = {2013},
+  number    = {6162},
+  pages     = {1111--1114},
+  volume    = {342},
+  groups    = {CMSC828T},
+  publisher = {American Association for the Advancement of Science},
+  url       = {https://www.science.org/doi/pdf/10.1126/science.1244056},
+}
+
+@Article{BernersLee2023,
+  author    = {Berners-Lee, Ben},
+  journal   = {New Media \& Society},
+  title     = {The semiotics of digital cartography at the Geoguessr interface: A practice-oriented case study},
+  year      = {2023},
+  pages     = {14614448231160132},
+  groups    = {CMSC828T},
+  publisher = {SAGE Publications Sage UK: London, England},
+  url       = {https://journals.sagepub.com/doi/pdf/10.1177/14614448231160132},
+},
+
+% NSCH added direct to Overleaf below this point
+@article{Helbing2020,
+title = {Search superiority: Goal-directed attentional allocation creates more reliable incidental identity and location memory than explicit encoding in naturalistic virtual environments},
+journal = {Cognition},
+volume = {196},
+pages = {104147},
+year = {2020},
+issn = {0010-0277},
+doi = {https://doi.org/10.1016/j.cognition.2019.104147},
+url = {https://www.sciencedirect.com/science/article/pii/S001002771930321X},
+author = {Jason Helbing and Dejan Draschkow and Melissa L.-H. Võ},
+keywords = {Object memory, Visual search, Incidental memory, Task effects, Visual long-term memory, Virtual reality eye tracking},
+abstract = {We use representations and expectations formed during life-long learning to support attentional allocation and perception. In comparison to traditional laboratory investigations, real-world memory formation is usually achieved without explicit instruction and on-the-fly as a by-product of natural interactions with our environment. Understanding this process and the quality of naturally formed representations is critical to understanding how memory is used to guide attention and perception. Utilizing immersive, navigable, and realistic virtual environments, we investigated incidentally generated memory representations by comparing them to memories for items which were explicitly memorized. Participants either searched for objects embedded in realistic indoor environments or explicitly memorized them for follow-up identity and location memory tests. We show for the first time that memory for the identity of naturalistic objects and their location in 3D space is higher after incidental encoding compared to explicit memorization, even though the subsequent memory tests came as a surprise to participants. Relating gaze behavior to memory performance revealed that encoding time was more predictive of subsequent memory when participants explicitly memorized an item, compared to incidentally encoding it. Our results suggest that the active nature of guiding attentional allocation during proactive behavior allows for behaviorally optimal formation and utilization of representations. This highlights the importance of investigating cognition under ecologically valid conditions and shows that understanding the most natural processes for encoding and maintaining information is critical for understanding adaptive behavior.}
+},
+
+@article{Oliveira2016,
+title = {3D object perception and perceptual learning in the RACE project},
+journal = {Robotics and Autonomous Systems},
+volume = {75},
+pages = {614-626},
+year = {2016},
+issn = {0921-8890},
+doi = {https://doi.org/10.1016/j.robot.2015.09.019},
+url = {https://www.sciencedirect.com/science/article/pii/S0921889015002146},
+author = {Miguel Oliveira and Luís {Seabra Lopes} and Gi Hyun Lim and S. Hamidreza Kasaei and Ana Maria Tomé and Aneesh Chauhan},
+keywords = {3D object perception, , Dual memory systems, Open-ended learning, Interactive learning},
+abstract = {This paper describes a 3D object perception and perceptual learning system developed for a complex artificial cognitive agent working in a restaurant scenario. This system, developed within the scope of the European project RACE, integrates detection, tracking, learning and recognition of tabletop objects. Interaction capabilities were also developed to enable a human user to take the role of instructor and teach new object categories. Thus, the system learns in an incremental and open-ended way from user-mediated experiences. Based on the analysis of memory requirements for storing both semantic and perceptual data, a dual memory approach, comprising a semantic memory and a perceptual memory, was adopted. The perceptual memory is the central data structure of the described perception and learning system. The goal of this paper is twofold: on one hand, we provide a thorough description of the developed system, starting with motivations, cognitive considerations and architecture design, then providing details on the developed modules, and finally presenting a detailed evaluation of the system; on the other hand, we emphasize the crucial importance of the Point Cloud Library (PCL) for developing such system.11This paper is a revised and extended version of Oliveira et al. (2014).}
+},
+
+@article{Weisberg2016,
+  title={How do (some) people make a cognitive map? Routes, places, and working memory.},
+  author={Weisberg, Steven M and Newcombe, Nora S},
+  journal={Journal of Experimental Psychology: Learning, Memory, and Cognition},
+  volume={42},
+  number={5},
+  pages={768},
+  year={2016},
+  publisher={American Psychological Association}
+},
+
+@article{Montiel2021,
+  title={River: machine learning for streaming data in Python},
+  author={Montiel, Jacob and Halford, Max and Mastelini, Saulo Martiello
+          and Bolmier, Geoffrey and Sourty, Raphael and Vaysse, Robin and Zouitine, Adil
+          and Gomes, Heitor Murilo and Read, Jesse and Abdessalem, Talel and others},
+  year={2021}
+},
+
+@inproceedings{DBSCAN,
+author = {Ester, Martin and Kriegel, Hans-Peter and Sander, J\"{o}rg and Xu, Xiaowei},
+title = {A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise},
+year = {1996},
+publisher = {AAAI Press},
+abstract = {Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLAR-ANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.},
+booktitle = {Proceedings of the Second International Conference on Knowledge Discovery and Data Mining},
+pages = {226–231},
+numpages = {6},
+keywords = {arbitrary shape of clusters, handling nlj4-275oise, clustering algorithms, efficiency on large spatial databases},
+location = {Portland, Oregon},
+series = {KDD'96}
+}
+
+
+
