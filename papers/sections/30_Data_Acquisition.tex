@@ -6,8 +6,8 @@
 \emph{GESTALT} enables last-mile search by encoding visual and geospatial data within a given \emph{region}, using two types of geotags: \emph{object} tags and \emph{location} tags.
 
 \textbf{\emph{Regions}} represent a limited physical area of interest within which a last-mile search will be performed. 
-Regions can be arbitrary and represent an administrative boundary like a city, suburb, or general geographic area.
-Regions are defined by bounding boxes for compatibility with the OSM and Flickr APIs.
+Regions can be arbitrarily defined or represent an administrative boundary like a city, suburb, or general geographic area.
+We select regions using bounding boxes for compatibility with the OSM and Flickr APIs.
 
 \textbf{\emph{Objects}} represent any physical entity located within the region of interest. 
 For example, a \textit{tree, building, lake, bridge, gate} or \textit{sign} could be an object. 
@@ -63,7 +63,7 @@ The objects tagged are representative, not exhaustive.
 Attributes of the objects (e.g., color, size, material) are recorded in the comments field as key:value pairs.
 Each object from the hand-labeled dataset is assigned a confidence score of 1.0 since it was manually identified and tagged.
 The object tags are aligned with their corresponding winery location in the dataset.
-Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries dataset, and Figure \ref{fig:loc-obj} shows each of the six wineries that was hand labeled with ground-truth object tags, along with those tags and their spatial locations with respect to the winery location.
+Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries dataset, and Figure \ref{fig:loc-obj} shows a detailed view of each of the six wineries that was hand labeled with ground-truth object tags.%, along with those tags and their spatial locations with respect to the winery location.
 
 
 \begin{figure*}[ht]
@@ -79,22 +79,17 @@ Figure \ref{fig:loc} shows the winery locations in the Swan Valley Wineries data
 %OSM is a knowledge collective that contains open-source Geodata
 %, in the form of  \textit{elements}\footnote{\href{https://wiki.openstreetmap.org/wiki/Elements}{https://wiki.openstreetmap.org/wiki/Elements}}. 
 %The key element subtypes are 
-for crowd-sourced Geodata, including \textit{Nodes} (point data for objects and locations), \textit{ways} (line data for roads, creeks, railways, etc.), and \textit{relations} (for relationships between elements, like suburb-state).
+for crowd-sourced geodata, including \textit{Nodes} (point data for objects and locations), \textit{ways} (line data for roads, creeks, railways, etc.), and \textit{relations} (for relationships between elements, like suburb-state).
 While businesses, attractions, and other \textit{locations} are commonly annotated by the OSM community, \textit{objects} are more sparsely tagged as they are typically less interesting subject matter. 
 %\textit{nodes} through the Overpass API using the OSMPythonTools package \footnote{\href{https://pypi.org/project/OSMPythonTools/}{https://pypi.org/project/OSMPythonTools/}}, pulling
 To ingest objects, \emph{GESTALT} pulls all nodes within a given bounding box that have at least one tag (like "name," "craft," etc.) and prunes them to remove results not likely referring to objects or that lack detail to be resolved.
 %The remaining nodes are transformed into a standard JSON format and stored for indexing and search later in the \emph{GESTALT} pipeline. 
 %Businesses, attractions, and other higher-level \textit{locations} are commonly annotated as nodes in OSM by the open-source community or business owners. 
 To ingest locations, \emph{GESTALT} uses a similar process to objects, but this time excluding results that lack features like names, street addresses, and phone numbers. 
-We assign each location or object tag ingested from OSM a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community does have some degree of self-regulation~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
+We assign each location or object tag ingested from OSM a confidence score of 0.75 because while any user can edit tags in the OSM database without review, the open-source community has some degree of self-regulation~\cite{VargasMunoz2020}, and prior work has examined the application of machine learning for detecting anomalous behavior in OSM edits~\cite{Mooney2017}.
 %While OSM provides a rich, free, and accessible data source to leverage the power of the crowds to generate tags for \emph{GESTALT}, the completeness of OSM is generally unassured, so scaling \textit{GESTALT} beyond the trivial requires an automated method for object detection and resolution. 
 
-\subsubsection{Noisy Image-based Tags}
-The third and most important method by which \emph{GESTALT} ingests objects is through automatic object detection.
-We query the Flickr API for images uploaded within a given region (bounding box) since January 1$^{st}$ 2020. 
-Given those images and their EXIF metadata, the Object Detection module uses pre-trained YOLO v.8~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image from 80 classes (based on the COCO dataset~\footnote{\href{{https://cocodataset.org/}}{https://cocodataset.org/}}). 
-Those objects become tags in \emph{GESTALT}, with their coordinates determined by the geolocation of the image and their confidence score determined by YOLO's confidence at the detection step.
-For our experiments we enable safe-search and limit to public photos. For the Swan Valley Region we retrieve 462 images, and for the Washington DC Region, we pull 4,000 images.% out of over 12,000 available. 
+
 
 \small{
 \begin{table}[h!]
@@ -107,7 +102,7 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
             & Objects & KML file & Hand Labeled & $146$ \\%&$41$\\ 
             & Objects & OSM B-Box & Crowd-Sourced & $2466$\\%\tablefootnote{$3056$ objects originally returned, $590$ dropped for not being objects} \\%& $38$ \\
             & Objects & Flickr B-Box & Object detection & $1893$\\%\tablefootnote{from $462$ photos} \\%& $55$  \\ 
-            & Locations & KML file & Hand Labeled & $31$ \\%&$41$\\
+            & Locations & KML file & Hand Labeled & $36$ \\%&$41$\\
             & Locations & OSM B-Box& Crowd-Sourced & 308 \\%& 308\\
             \hline     
             \multirow{5}{6em}{Washington D.C.\tablefootnote{BoundingBox:['-77.120248', '38.791086', '-76.911012', '38.995732']}} %& N/A & Hand Labeled & $0$ & $0$ \\ 
@@ -121,6 +116,15 @@ For our experiments we enable safe-search and limit to public photos. For the Sw
     \end{center}
 \end{table}
 }
+
+\subsubsection{Noisy Image-based Tags}
+The third and most important method by which \emph{GESTALT} ingests objects is through automatic object detection.
+We query the Flickr API for images uploaded within a given region (bounding box) since January 1$^{st}$ 2020. 
+Given those images and their EXIF metadata, the Object Detection module uses pre-trained YOLO v.8~\footnote{\href{https://github.com/ultralytics/ultralytics}{YOLO}} to identify objects in each image from 80 classes (based on the COCO dataset~\footnote{\href{{https://cocodataset.org/}}{https://cocodataset.org/}}). 
+Those objects become tags in \emph{GESTALT}, with their coordinates determined by the geolocation of the image and their confidence score determined by YOLO's confidence at the detection step.
+%For our experiments we enable safe-search and limit to public photos. 
+For the Swan Valley Region we retrieve 462 images, and for the Washington DC Region, we pull 4,000 images.% out of over 12,000 available. 
+
 
 %\nrscomment{describe how locations are ingested...fields used?}
 %The OSM query interface leverages the \textit{OSMPythonTools}\footnote{\href{https://pypi.org/project/OSMPythonTools/}{OSMPythonTools PyPI Repo}}. It passes a bounding box to the OSM Overpass-Turbo API\footnote{\href{https://overpass-turbo.eu/}{Overpass-Turbo API}} and requests the relevant location nodes in the area.

@@ -2,7 +2,6 @@
 \label{section:ownership}
 
 We formulate the last-mile search problem in terms of \textit{locations}, which are searchable entities that 'own' or contain any number of \textit{objects}. %(i.e., a location that contains <object1, object2, etc.>, or a location that contains <object1 Northeast of object2>). 
-
 To support user queries, \emph{GESTALT} must associate objects with their parent locations.
 We call this problem \textit{Object Ownership Assignment} and define it as follows.
 Given a collection of locations and objects within a region, \emph{Ownership Assignment} seeks to assign each object to its 'parent' location correctly. 
@@ -16,10 +15,10 @@ We address this aspect of the problem by modifying our method to allow for fuzzy
 
 \subsection{Datasets and Metrics}
 
-We evaluate the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset in addition to the noisy object tags from the Flickr dataset and the crowd-sourced object tags from the OSM dataset.
-Since we have ground truth labels for the winery locations and their objects in the Swan Valley dataset, we report both precision and recall on this dataset.
-The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Swan Valley Wineries dataset alone, given its more extensive set of locations and a large set of object tags to assign to those locations. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure only the recall on the same Winery locations and their known objects that were hand-labeled as part of the Swan Valley dataset. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
-The Swan Valley Wineries dataset consists of 31 wineries and five breweries retrieved from OSM and 146 objects hand-labeled across five of those 31 locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
+We evaluate the Ownership Assignment task on two datasets: the hand-labeled Swan Valley Wineries dataset alone and a \textit{Combined} dataset that includes all of the object and location tags from the Swan Valley Wineries dataset and the noisy object tags from the Flickr dataset and crowd-sourced object tags from the OSM dataset.
+Since we have ground truth labels for the winery locations and their objects in the Wineries dataset, we report both precision and recall on this dataset.
+The Combined dataset presents a more realistic and challenging scenario for Ownership Assignment than the Wineries dataset alone, given its more extensive set of locations and large set of object tags to assign. However, since the Combined dataset includes noisy tags for which we have no ground truth labels, we do not report precision on the Combined dataset. Instead, we measure the recall of object assignment to the labeled Winery locations. The Combined dataset tests how well the recall performance of our Ownership Assignment method holds up to additional noise and more densely packed objects and locations.
+The Swan Valley Wineries dataset consists of 31 wineries and 5 breweries and 146 objects hand-labeled across 6 of those locations with ground-truth labels. Table \ref{table:clustering} contains the recall (and precision, where applicable) on those locations and objects.
 
 \subsection{Method}
 
@@ -65,7 +64,7 @@ By increasing the parameter value, we can allow for objects to be assigned to mu
 \end{algorithm}
 
 %\subsection{Results} \label{subsection:own_results}
-We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \frac{0.05}{6371}$ and DC experiments with $\epsilon = \frac{0.01}{6371}$. For both the MinClusterSize=$3$, choosing these values using the knowledge that the environment of interest (Swan Valley region) is semi-rural. The epsilon value is set to the equivalent of roughly 50m	, a reasonable cluster neighborhood size for such an environment, and the minClusterSize is not critical given that fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
+We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \frac{0.05}{6371}$ and later Washington D.C. experiments with $\epsilon = \frac{0.01}{6371}$. For both regions we set the MinClusterSize=$3$. These parameters were selected using the knowledge about the general setting for each dataset, with Swan Valley being a semi-rural environment and Washington D.C. being a dense urban environment. For Swan Valley, the epsilon value is set to the equivalent of roughly 50m	, a reasonable cluster neighborhood size for such an environment. Generally, the minClusterSize is not critical given that fuzzy assignment allows objects to be added to nearby clusters, which overcomes too fine a clustering outcome. 
 
 
 \small{
@@ -102,7 +101,7 @@ We run all Swan Valley Wineries experiments with DBSCAN parameter $\epsilon = \f
 \subsection{Results}
 We show the Object-to-location assignment results for the Swan Valley Wineries and the \textit{Combined} datasets in Figure \ref{table:clustering}. 
 Increasing the fuzziness parameter $c$ increases the chance that objects are assigned to multiple clusters, which improves recall on the noisier \textit{Combined} dataset.
-As expected, increasing the likelihood that objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision but, interestingly, does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
+As expected, increasing the likelihood that objects are assigned to multiple clusters in the less noisy Swan Valley Wineries dataset reduces the precision but, does not show the benefit in recall that it did for the noisier \textit{Combined} dataset.
 
 Overall, the object ownership results show that our method, while straightforward, handles the noisy object tags well, especially on the larger dataset. By using DBSCAN for the initial clustering, we observe a noise reduction effect as objects which do not belong to any locations are relegated to the NULL cluster (i.e., a mistagged singular object with nothing else around it for miles in any direction), and a similar recall on the ground-truth labels is achieved despite adding a considerable quantity of noisy object tags (in the \textit{Combined} dataset). 
 

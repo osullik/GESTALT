@@ -81,7 +81,7 @@ The first round of pruning occurs when the user selects the \emph{region} that t
 The second layer of pruning happens when the exact membership search method is applied to the query objects.
 The set-membership test prunes out any locations that do not contain the objects of interest, thereby avoiding unnecessary computation associated with determining the spatial configuration of objects that are irrelevant to the query (i.e. that belong to locations that are not candidates).
 The third layer of pruning occurs during the search of the concept maps. 
-The recursive grid search (Algorithm \ref{alg:geoToGrid}) successively segments the search grid into smaller and smaller sections, eliminating impossible results at each step to reduce the total search space to a tractable size.
+The recursive grid search (Algorithm \ref{alg:gridSearch}) successively segments the search grid into smaller and smaller sections, eliminating impossible results at each step to reduce the total search space to a tractable size.
 
 \subsubsection{Specifying the Query Pictorially}
 %A picture is worth a thousand words, and maps are an inherently visual medium. \emph{GESTALT} recognizes the expressive limitations of words alone for geospatial querying and invites a user to query its database with quick sketch maps. 
@@ -191,7 +191,7 @@ This process is depicted visually in Figure \ref{figure:ConceptMap}.
     \end{center}
 \end{table}
 }
-We hand labeled the ground truth responses for 24 spatial queries on object configurations for objects belonging to the 6 wineries in the Swan Valley Wineries dataset. 
+We hand labeled the ground truth responses for 24 spatial queries on object configurations for objects belonging to 6 wineries in the Swan Valley Wineries dataset. 
 To test the overall recall of \emph{GESTALT}'s spatial search process in a noisy environment, we test those queries on the \textit{Combined} dataset.
 The results (Table \ref{Table:GroundTruth}) show that \emph{GESTALT} has a high recall on both methods of query specification, object-location and object-object.
 We expect precision to be low on these query results when compared to the ground-truth, since the \textit{Combined} dataset includes many additional locations that were not considered during the hand-labeling.
@@ -222,11 +222,11 @@ However, the precision we recorded is reasonable, which points to the discrimina
 \end{figure}
 }
 
-Figure \ref{fig:queryExecutionTime} shows the query response times on the Washington D.C. dataset (with over 91,000 objects and 12,000 locations) as the number of query terms increases. 
-The queries tested were constructed using the 10 most common object classes: (e.g. crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls no highly distinctive features of their target location.
+Figure \ref{fig:queryExecutionTime} shows query response times on the Washington D.C. dataset (with over 91,000 objects and 12,000 locations) as the number of query terms increases. 
+The queries tested were constructed using the 10 most common object classes (e.g. crossing, traffic signals, street lamp, bus stop) to simulate worst case conditions where the user recalls no highly distinctive features of their target location.
 For the three membership searches (exact, ranked, and fuzzy), the response times decrease as the number of objects specified in the query increases (i.e. as the pool of possible locations meeting the query specification narrows), following the trend in Figure \ref{fig:queryExecutionRecall} which shows the aggressive pruning that takes place as the queries become more specific.
 Critically, this same effect is achieved for the object-object spatial search, where the recursive pruning of the search space quickly eliminates any candidates that are not viable matches to the pictorial query specification.
-The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping is done when the right object is found to the wrong cardinal direction of the location. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
+The location-object search does not show this effect because it counts the number of objects matching the query configuration and uses that to rank candidates, so no early stopping occurs. %which iterates through the quadrants of each location and counts the number of objects matching the directional specification from the query,
 %it does not stop early when a candidate does not match on an object, instead returning the count of matches to be used to rank all of the candidates.
 
 %The worst case complexity is for a search of N object terms where every object category is mapped to every location L. In that case we have to do N lookups to pull N sets of size L and intersect them. Realistically this would not happen and some object classes would be very discriminative and we could intersect those first to be more efficient.

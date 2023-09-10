@@ -7,8 +7,7 @@ Solving the last-mile search problem without manual inspection of images require
 Taking inspiration from the way humans recall and search for information, we developed \emph{GESTALT}, a pipeline that enables querying for locations based on the spatial configuration of nearby objects given partial information about them.
 Our method includes automatically detecting objects from geotagged images, clustering object tags to fuzzily assign objects to (possibly multiple) nearby locations, mapping objects into a format that enables pictorial querying on spatial relations between them, and performing probabilistic search over locations to return partial matches when the search constraints are too narrow, and ranked results when they are too broad.
 \emph{GESTALT} shows high recall on the ground truth benchmark dataset we contribute and easily scales to the larger, noisier datasets we tested it on.
-This work invites several new avenues of research in improving human-centric spatial search.
-Some examples include developing techniques to handle querying across additional dimensions, like time, object attribute values, and object size, scale, quantity.
+This work invites several new avenues of research in improving human-centric spatial search, including developing techniques to handle querying across additional dimensions, like time, object attribute values, and object size, scale, and quantity.
 Advances in computer vision can also be leveraged to quantify and adjust for uncertainty in object position within an image scene using the camera's bearing information~\cite{Ming2021,Liu2020,Snavely2011,Hays2008}, which we already incorporate into some of our datasets.
 
 

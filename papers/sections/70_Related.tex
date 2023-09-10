@@ -1,8 +1,8 @@
 \section{Related Work}
 \label{section:related}
 
-\emph{GESTALT} is designed to take a human-centric approach to geospatial search, borrowing principles from human spatial cognition and studies of the way humans navigate the physical world and conceive of objects on a map.
-We address related work in human spatial reasoning and pictorial querying, and then compare \emph{GESTALT} with the closest geospatial search tool available currently.
+\emph{GESTALT} takes a human-centric approach to geospatial search, borrowing principles from human spatial cognition and studies of the way humans navigate the physical world and conceive of objects on a map.
+We address related work in human spatial reasoning and pictorial querying and compare \emph{GESTALT} with the closest geospatial search tool available currently.
 
 \subsection{Human Spatial Cognition and Reasoning}
 According to criminology, psychology and neuroscience, people tend to anchor memories on objects they see while experiencing a location~\cite{Helbing2020}, and use them to find it again. 
@@ -12,7 +12,7 @@ This forms the reciprocal problem to the online game \textit{Geoguessr}~\footnot
 The success of \textit{GeoGuessr} shows that enough objects, even common ones, have the power to substantially prune a large search space down to just a few, or even one candidate region.
 \emph{GESTALT}'s approach to geospatial search closely follows the \textit{Winthrop Method}~\cite{Keatley2021} which was developed in Northern Ireland in the 1970s to detect clandestine weapons caches.
 The core principle behind this method is that humans form mental models of terrain based on objects in the environment, and then use those to navigate.
-Other research has show that When revisiting locations, the objects can even serve as keys to other memories of that location~\cite{Miller2013}.
+Other research has show that when revisiting locations, the objects can even serve as keys to other memories of that location~\cite{Miller2013}.
 
 
 \subsection{Pictorial Querying}
@@ -31,10 +31,10 @@ In recent months the Open Source Intelligence platform \textit{Bellingcat}\footn
 Using drop-downs and sliding bars, a user can specify a text-based query for OSM tagged objects that appear within an adjustable distance from each other inside a region of interest. 
 Although aimed at addressing the same last-mile search problem as \emph{GESTALT}, there are several key limitations to the Bellingcat OSM Search Tool that \emph{GESTALT} overcomes.
 \begin{enumerate}
-    \item Their tool only accounts for the distance between objects, not their geographic configuration. They key contribution of \emph{GESTALT} is allowing users to leverage information they remember about how the objects relate to each other spatially to improve the search result.
-    \item Their tool is limited to data tagged in OSM, which is sparse for object tags that give \emph{GESTALT} much of its pruning power.
+    \item Their tool only accounts for the distance between objects, not their geographic configuration. The key contribution of \emph{GESTALT} is allowing users to leverage information they remember about how the objects relate to each other spatially to improve the search result.
+    \item Their tool is limited to data tagged in OSM, which is sparse for object tags, whereas \emph{GESTALT} can automatically exctract object tags from any geotagged images %that give \emph{GESTALT} much of its pruning power.
     \item Their tool does not rank results, which is critical when object tags are noisy and users are uncertain about the partial information they recall about a location.
-    \item Their tool returns 0 results if a set of search terms fails to match on every term in the window of interest, which is problematic when dealing with noisy, incomplete data where the likelihood of any given object being tagged is not very high. On the other hand, \emph{GESTALT} uses a fuzzy matching procedure to return a partial match based on the most discriminative search term provided when the entire set yields no results, taking the approach that a partial answer is better than no answer.
+    \item Their tool returns 0 results if a set of search terms fails to match on every term in the window of interest, which is problematic when dealing with noisy, incomplete data where the likelihood of any given object being tagged is not very high. \emph{GESTALT} uses a fuzzy matching procedure to return a partial match based on the most discriminative search term provided when the entire set yields no results, assuming a partial answer is better than no answer.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
