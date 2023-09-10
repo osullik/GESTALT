@@ -1,4 +1,4 @@
-<!-- GESTALT-- OBJECT CENTRIC SEARCH-->
+<!-- GESTALT-- _____ CENTRIC SEARCH-->
 
 <!-- HTML & CSS (embedded in the <head>)-->
 
@@ -35,11 +35,21 @@
     #searchTypeList {
     width: 300px;
     height: 30px;
-    font-size: 20px;
+    font-size: 15px;
     font-family: monaco;
     position: absolute; 
-    top: 60px;
-    left: 1050px;
+    top: 15px;
+    left: 250px;
+    background-color: grey; }
+
+    .setSearchTypeButton {
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    font-family: monaco;
+    position: absolute; 
+    top: 15px;
+    left: 600px;
     background-color: grey; }
 
     #objectNameList {
@@ -69,21 +79,18 @@
 <body>
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-    <h1>GESTALT - Object Centric Search</h1>
+    <h1>GESTALT - </h1>
+
     <div class="background_container">
 
     <div class="brown_background_div"> 
     </div> <!-- end brown-background-div -->
     <div class="green_background_div"> 
-      <select id="searchTypeList" name="searchTypeList">
-        <option value="object_centric_search">Object Centric Search</option>
-        <option value="location_centric_search">Location Centric Search</option>
-      </select>
-      <select id="objectNameList" name="objectNameList">
-        <option value="Object1">Object1</option>
-        <option value="Object2">Object2</option>
-        <option value="Object3">Object3</option>
-      </select>
+        <select id="objectNameList" name="objectNameList">
+            <option value="Object1">Object1</option>
+            <option value="Object2">Object2</option>
+            <option value="Object3">Object3</option>
+        </select>
     </div> <!-- end green-background-div -->
  </div>  <!-- end background-container div -->
 
@@ -187,8 +194,11 @@
                     url: '/boxdata/',
                     success: function(response) {
                         var boxData = response.box_data;
-                        console.log(boxData);  // Print the box data in the browser console
+                        console.log(boxData); // Print the box data in the browser console
                         // Perform further processing with the box data as desired
+                        console.log(searchType);
+                        //Also prints either "Location" or "Object" to the console depending on the
+                                //search type the user chooses to use
                     }
                 });
             }
@@ -231,6 +241,47 @@
             resetButton.style.fontSize = "15px";
             resetButton.style.fontFamily = "monaco";
             resetButton.style.color = "red";
+
+            var searchType = "Object";
+
+            var objectCentricSearchButton = document.createElement('button');
+            objectCentricSearchButton.innerText = "Object Centric Search";
+            objectCentricSearchButton.addEventListener('click', function() {
+                refreshPage();
+                searchType = "Object";
+            });
+            document.body.appendChild(objectCentricSearchButton);
+            objectCentricSearchButton.style.position = "absolute";
+            objectCentricSearchButton.style.top = "15px";
+            objectCentricSearchButton.style.left = "300px";
+            objectCentricSearchButton.style.width = "250px";
+            objectCentricSearchButton.style.fontSize = "15px";
+            objectCentricSearchButton.style.fontFamily = "monaco";
+            objectCentricSearchButton.style.backgroundColor = "green";
+
+            var locationCentricSearchButton = document.createElement('button');
+            locationCentricSearchButton.innerText = "Location Centric Search";
+            locationCentricSearchButton.addEventListener('click', function() {
+                searchType = "Location";
+
+                var compass = document.createElement("div");
+                compass.textContent = "+";
+                compass.style.position = "absolute";
+                compass.style.top = "300px";
+                compass.style.left = "450px";
+                compass.style.fontSize = "40px";
+                document.body.appendChild(compass);
+                locationCentricSearchButton.style.backgroundColor = "green";
+                objectCentricSearchButton.style.backgroundColor = "white";
+            });
+            document.body.appendChild(locationCentricSearchButton);
+            locationCentricSearchButton.style.position = "absolute";
+            locationCentricSearchButton.style.top = "15px";
+            locationCentricSearchButton.style.left = "600px";
+            locationCentricSearchButton.style.width = "250px";
+            locationCentricSearchButton.style.fontSize = "15px";
+            locationCentricSearchButton.style.fontFamily = "monaco";
+
         });
 
     </script>
