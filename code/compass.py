@@ -57,11 +57,41 @@ class Compass():
 
         x = (((pow(p,2)) + (pow(n,2)) - (pow(c,2)))/(2*(p)*(n)))
 
-        cos_inverse_of_x = math.acos(x)
+        cos_inverse_of_x = math.degrees(math.acos(x))
 
-        return math.degrees(cos_inverse_of_x)
+        if point[0] < centroid[0]:
+            cos_inverse_of_x += 180
 
+        return cos_inverse_of_x
+    
+    def getAllAngles(self, reference:tuple, centroid:tuple, points:list[tuple]):
+        
+        angles = []
 
+        for point in points: 
+            angles.append(self.getAngle(reference=reference, centroid=centroid, point=point))
 
+        return angles
+    
+    def rotatePoint(self, centroid:tuple, point:tuple, angle:int):
+
+        angle_rad = math.radians(angle)
+
+        ox, oy = centroid
+        px, py = point
+
+        qx = ox + math.cos(angle_rad) * (px - ox) - math.sin(angle_rad) * (py - oy)
+        qy = oy + math.sin(angle_rad) * (px - ox) + math.cos(angle_rad) * (py - oy)
+        
+        return (qx, qy)
+
+    def rotateAllPoints(self, centroid:tuple, points:list[tuple], angle:int):
+        
+        rotatedPoints = []
+
+        for point in points:
+            rotatedPoints.append(self.rotatePoint(centroid=centroid, point=point, angle=angle))
+
+        return(rotatedPoints)
 
 # Main
