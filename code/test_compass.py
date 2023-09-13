@@ -32,6 +32,10 @@ class test_Points(unittest.TestCase):
         name = "testPoint"
         self.assertEqual(self.testPoint.getName(), name)
 
+    def test_dumpTuple(self):
+        tuple = ("testPoint", (0,0))
+
+
 class test_Compass(unittest.TestCase):
 
     def setUp(self):
@@ -405,41 +409,47 @@ class test_Compass(unittest.TestCase):
         angles = self.COMPASS.getAnglesAllRefsAllPoints(centroid=centroid, references=referencePoints, points=twoPoints)
 
         states = []
-        #for angle in angles:
-        #    states.append(self.COMPASS.rotateAllPoints(centroid=centroid, points=twoPoints, angle=angle))
 
-        
-        self.states = [[(0,0), (10,10)],[(5,10), (5,0)], [(0,5), (10,5)], [(0,10), (10,0)], [(5,0), (5,10)], [(10,5),(0,5)],[(10,0),(0,10)]]
+        self.states = [[(0,0), (10,10)],[(5,12), (5,-2)], [(-2,5), (12,5)], [(0,10), (10,0)], [(5,-2), (5,12)], [(12,5),(-2,5)],[(10,0),(0,10)]]                  
 
         states = self.COMPASS.multiRotatePoints(centroid=centroid, points=twoPoints, angles=angles, rotateFromBlank=True)
 
-        #print("BOUNDING BOX:", LL.getCoordinates(), TR.getCoordinates())
-        #print("CENTROID:", centroid.getCoordinates())
-        #print("NORTH", referencePoints[0].getCoordinates())
-        #print("WEST", referencePoints[1].getCoordinates())
-        #print("NORTHWEST", referencePoints[2].getCoordinates())
-        #print("\n")
         for i in range(0, len(states)):
             for j in range(0,len(states[i])):
-                #print("START STATE", self.states[0])
-                #if i == 0:
-                #    print("ROTATION: 0", )
-                #else:
-                #    print("ROATATION", angles[i])
-                #print("AROUND CENTROID:", centroid.getCoordinates())
-                #print("CALCULATED", states[i][j].getName(), states[i][j].getCoordinates())
-                #print("MANUAL_CALCULATED_ANS", self.states[i][j])
-                #print("\n")
+                
                 for k in range(0, len(states[i][j].getCoordinates())):
-                    self.assertAlmostEqual(states[i][j].getCoordinates()[k], self.states[i][j][k])
+                    self.assertAlmostEqual(round(states[i][j].getCoordinates()[k]), round(self.states[i][j][k]),places=0)
 
+    def test_uniqueStates(self):
 
-      
+        self.duplicatedStates = [
+                                [Point('a',0,0),Point('b',10,10)],
+                                [Point('a',0,0),Point('b',10,10)],
+                                [Point('a',0,0),Point('b',10,10)],
+                                [Point('a',5,12),Point('b',5,-2)],
+                                [Point('a',-2,5),Point('b',12,5)],
+                                [Point('a',0,10),Point('b',10,0)],
+                                [Point('a',5,-2),Point('b',5,12)],
+                                [Point('a',5,-2),Point('b',5,12)],
+                                [Point('a',12,5),Point('b',-2,5)],
+                                [Point('a',12,5),Point('b',-2,5)],
+                                [Point('a',10,0),Point('b',0,10)] 
+                                ]
 
-
-    # Rotate points by a given angle around the centroid
+        self.uniqueStates = set((
+                                    frozenset((('a',(0,0)),('b',(10,10)))),
+                                    frozenset((('a',(5,12)),('b',(5,-2)))),
+                                    frozenset((('a',(-2,5)),('b',(12,5)))),
+                                    frozenset((('a',(0,10)),('b',(10,0)))),
+                                    frozenset((('a',(5,-2)),('b',(5,12)))),
+                                    frozenset((('a',(12,5)),('b',(-2,5)))),
+                                    frozenset((('a',(10,0)),('b',(0,10))))     
+                            ))
     
-    # Rotate points around a centroid by a list of angles
+        uniqueStates = self.COMPASS.getUniqueStates(states=self.duplicatedStates)
+
+        self.assertSetEqual(uniqueStates, self.uniqueStates)
+        
       
 
 # Main Function

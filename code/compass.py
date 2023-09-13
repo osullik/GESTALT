@@ -20,6 +20,9 @@ class Point():
     
     def getName(self)->str:
         return(self._name)
+    
+    def dumpTuple(self)->tuple:
+        return((self._name, (self._x, self._y)))
 
 class Compass():
     def __init__(self):
@@ -88,7 +91,7 @@ class Compass():
 
         N = Point("north",centroid.getCoordinates()[0], boundingBox[1].getCoordinates()[1])
         W = Point("west", boundingBox[0].getCoordinates()[0], centroid.getCoordinates()[1])
-        NW = Point("northwest",boundingBox[0].getCoordinates()[1], boundingBox[1].getCoordinates()[0])
+        NW = Point("northwest",boundingBox[0].getCoordinates()[0], boundingBox[1].getCoordinates()[1])
 
         return([N,W,NW])
 
@@ -137,8 +140,10 @@ class Compass():
         cos_inverse_of_x = math.degrees(math.acos(x))                   #Convert from radians to degrees readability 
 
         if point.getCoordinates()[0] < centroid.getCoordinates()[0]:
-            cos_inverse_of_x += 180
+            cos_inverse_of_x = 360 - cos_inverse_of_x
 
+        #print(point.getName(), centroid.getName(), reference.getName(), cos_inverse_of_x)
+        #print(point.getCoordinates(), centroid.getCoordinates(), reference.getCoordinates(), cos_inverse_of_x)
         return cos_inverse_of_x
     
     def getAllAngles(self, reference:Point, centroid:Point, points:list[Point]):
@@ -165,7 +170,7 @@ class Compass():
     def getAnglesAllRefs(self, centroid:Point, references:list[Point], point:Point):
         angles = []
         for reference in references:
-            print("REFERENCE_POINT", reference.getName())
+            #print("REFERENCE_POINT", reference.getName())
             angles.append(self.getAngle(reference=reference, centroid=centroid, point=point))
 
         return angles
@@ -173,9 +178,11 @@ class Compass():
     def getAnglesAllRefsAllPoints(self, centroid:Point, references:list[Point], points:list[Point]):
         angles = []
 
+        #print("ANGLES ARE:")
         for point in points:
             pointAngles = self.getAnglesAllRefs(centroid=centroid, references=references, point=point)
             angles.extend(pointAngles)
+            
         
         return angles
     
@@ -196,10 +203,10 @@ class Compass():
         #Note: Rotates counter-clockwise
 
         angle_rad = math.radians(angle)
-        print("POINT", point.getName())
-        print("POINT", point.getCoordinates())
-        print("CENTROID", centroid.getCoordinates())
-        print("DEGREES", angle)
+        #print("POINT", point.getName())
+        #print("POINT", point.getCoordinates())
+        #print("CENTROID", centroid.getCoordinates())
+        #print("DEGREES", angle)
         #print("RADIANS", angle_rad)
         #print("COS_DEG", math.cos(angle))
         #print("COS_RAD", math.cos(angle_rad))
@@ -215,7 +222,7 @@ class Compass():
         qx = ox + math.cos(angle_rad) * (px - ox) - math.sin(angle_rad) * (py - oy)
         qy = oy + math.sin(angle_rad) * (px - ox) + math.cos(angle_rad) * (py - oy)
 
-        print("TRANSFORMATION", qx,qy)
+        #print("TRANSFORMATION", qx,qy)
         
         #c_r, c_theta = self.convertCartesianToPolar(ox,oy)
         #p_r, p_theta = self.convertCartesianToPolar(px, py)
@@ -258,9 +265,9 @@ class Compass():
 
         for point in points:
             rotatedPoint = self.rotatePoint(centroid=centroid, point=point, angle=angle)
-            print("ROTATE_ALL_POINTS")
-            print("ORIGINAL:", point.getName(), point.getCoordinates())
-            print("ROTATATION:", rotatedPoint.getName(), rotatedPoint.getCoordinates())
+            #print("ROTATE_ALL_POINTS")
+            #print("ORIGINAL:", point.getName(), point.getCoordinates())
+            #print("ROTATATION:", rotatedPoint.getName(), rotatedPoint.getCoordinates())
             rotatedPoints.append(rotatedPoint)
 
         return(rotatedPoints.copy())
@@ -283,13 +290,14 @@ class Compass():
 
         canvasList.append(canvas)
 
-        print("ANGLES LIST:", angles)
+        #print("ANGLES LIST:", angles)
         for angle in angles:
-            print("\n# # # # #\n")
+            #print("\n# # # # #\n")
             angle = int(angle)
             c_state = []
             c_state_end = []
             for point in canvas:
+                c_state.append(point.getName())
                 c_state.append(point.getCoordinates())
 
             #print("CANVAS BEGINNING STATE:", c_state)
@@ -304,11 +312,25 @@ class Compass():
             canvasList.append(canvas)
             
             for point in canvas:
+                c_state_end.append(point.getName())
                 c_state_end.append(point.getCoordinates())
             #print("CANVAS END STATE:", c_state_end, "\n")
 
         return canvasList.copy()
     
+    def getUniqueStates(self, states:list[tuple])->list:
+        uniqueStates = set()
+        print("STATES", states)
+        for state in states:
+            points = []
+            for point in state:
+                points.append(point.dumpTuple())
+            pointSet = frozenset(points)
+            #print("POINTS SET:", pointSet)
+            uniqueStates.add(pointSet)
+        #print("UNIQUE STATES:", uniqueStates)
+
+        return uniqueStates    
 
 
 
