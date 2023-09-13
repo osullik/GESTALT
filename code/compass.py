@@ -162,6 +162,23 @@ class Compass():
 
         return angles
     
+    def getAnglesAllRefs(self, centroid:Point, references:list[Point], point:Point):
+        angles = []
+        for reference in references:
+            print("REFERENCE_POINT", reference.getName())
+            angles.append(self.getAngle(reference=reference, centroid=centroid, point=point))
+
+        return angles
+    
+    def getAnglesAllRefsAllPoints(self, centroid:Point, references:list[Point], points:list[Point]):
+        angles = []
+
+        for point in points:
+            pointAngles = self.getAnglesAllRefs(centroid=centroid, references=references, point=point)
+            angles.extend(pointAngles)
+        
+        return angles
+    
     def rotatePoint(self, centroid:Point, point:Point, angle:int):
         '''
         PURPOSE:
@@ -179,14 +196,49 @@ class Compass():
         #Note: Rotates counter-clockwise
 
         angle_rad = math.radians(angle)
+        print("POINT", point.getName())
+        print("POINT", point.getCoordinates())
+        print("CENTROID", centroid.getCoordinates())
+        print("DEGREES", angle)
+        #print("RADIANS", angle_rad)
+        #print("COS_DEG", math.cos(angle))
+        #print("COS_RAD", math.cos(angle_rad))
+        #print("SIN_DEG", math.cos(angle))
+        #print("SIN_RAD", math.cos(angle_rad))
+        
+
+
 
         ox, oy = centroid.getCoordinates()
         px, py = point.getCoordinates()
 
         qx = ox + math.cos(angle_rad) * (px - ox) - math.sin(angle_rad) * (py - oy)
         qy = oy + math.sin(angle_rad) * (px - ox) + math.cos(angle_rad) * (py - oy)
+
+        print("TRANSFORMATION", qx,qy)
         
+        #c_r, c_theta = self.convertCartesianToPolar(ox,oy)
+        #p_r, p_theta = self.convertCartesianToPolar(px, py)
+
+        #new_r = math.sqrt((p_r ** 2) + (c_r ** 2) - (2 * p_r * c_r * math.cos(p_theta - c_theta)))
+        #new_theta = p_theta + angle_rad
+
+        #newX, newY = self.convertPolarToCartesian(new_r,new_theta)
+
+
+
         return Point(point.getName()+"`",qx, qy)
+        #return Point(point.getName()+"`",newX, newY)
+
+    def convertCartesianToPolar(self, x, y):
+        r = math.sqrt(x**2 + y**2)
+        theta = math.atan2(y, x)
+        return r, theta
+    
+    def convertPolarToCartesian(self, r, theta):
+        x = r * math.cos(theta)
+        y = r * math.sin(theta)
+        return x, y
 
     def rotateAllPoints(self, centroid:Point, points:list[Point], angle:int):
         '''
@@ -205,11 +257,15 @@ class Compass():
         rotatedPoints = []
 
         for point in points:
-            rotatedPoints.append(self.rotatePoint(centroid=centroid, point=point, angle=angle))
+            rotatedPoint = self.rotatePoint(centroid=centroid, point=point, angle=angle)
+            print("ROTATE_ALL_POINTS")
+            print("ORIGINAL:", point.getName(), point.getCoordinates())
+            print("ROTATATION:", rotatedPoint.getName(), rotatedPoint.getCoordinates())
+            rotatedPoints.append(rotatedPoint)
 
-        return(rotatedPoints)
+        return(rotatedPoints.copy())
     
-    def multiRotatePoints(self, centroid:Point, points:list[Point], angles:list[int]):
+    def multiRotatePoints(self, centroid:Point, points:list[Point], angles:list[int],rotateFromBlank:bool=True):
         '''
         PURPOSE:
             apply a whole canvas rotation multiple times, updating the canvas state each time
@@ -227,11 +283,31 @@ class Compass():
 
         canvasList.append(canvas)
 
+        print("ANGLES LIST:", angles)
         for angle in angles:
-            canvas = self.rotateAllPoints(centroid=centroid, points=canvas, angle=angle)
-            canvasList.append(canvas)
+            print("\n# # # # #\n")
+            angle = int(angle)
+            c_state = []
+            c_state_end = []
+            for point in canvas:
+                c_state.append(point.getCoordinates())
 
-        return canvasList
+            #print("CANVAS BEGINNING STATE:", c_state)
+
+            #print("ROTATION ANGLE", angle)
+
+            if rotateFromBlank == False:
+                canvas = self.rotateAllPoints(centroid=centroid, points=canvas, angle=angle).copy()
+            else:
+                canvas = self.rotateAllPoints(centroid=centroid, points=points, angle=angle).copy()
+                
+            canvasList.append(canvas)
+            
+            for point in canvas:
+                c_state_end.append(point.getCoordinates())
+            #print("CANVAS END STATE:", c_state_end, "\n")
+
+        return canvasList.copy()
     
 
 

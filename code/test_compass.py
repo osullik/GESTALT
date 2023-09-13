@@ -218,6 +218,78 @@ class test_Compass(unittest.TestCase):
         for i in range(0, len(returnedAngles)):
             self.assertAlmostEqual(returnedAngles[i], self.multi_angle_list[i], places=2)
 
+    def test_getAllAngles(self):
+
+        #
+        # 10  NW    N
+        # 9  |\ \  | \
+        # 8  | \  \|  \
+        # 7  |  \  | \ \
+        # 6  |   \ |   \\
+        # 5  W-----C-----P1
+        # 4
+        # 3
+        # 2
+        # 1
+        # 0   
+        #    0 123456789 10
+
+        self.multi_N  = Point('north', 5 ,10 )
+        self.multi_W  = Point('west',  0 ,5 )
+        self.multi_NW = Point('northwest', 0, 10)
+        self.multi_refs = [self.multi_N, self.multi_W, self.multi_NW]
+        self.multi_C  = Point('centroid',5 ,5 )
+        self.multi_P1 = Point('P1',10,5 )
+
+        self.angle_N_C_P1 = 90
+        self.angle_W_C_P1 = 180
+        self.angle_NW_C_P1 = 135
+
+        self.angles = [self.angle_N_C_P1, self.angle_W_C_P1, self.angle_NW_C_P1]
+
+        angles = self.COMPASS.getAnglesAllRefs(centroid = self.multi_C, references=self.multi_refs, point=self.multi_P1)
+
+        for i in range (0, len(angles)):
+            self.assertAlmostEqual(angles[i], self.angles[i], places=2)
+
+    def test_getAllAnglesAllRefsAllPoints(self):
+
+        #
+        # 10  NW    N
+        # 9  |\ \\ ||\
+        # 8  | \ \\| |\
+        # 7  |  \ \| \ \
+        # 6  |   \ |  |\\
+        # 5  W-----C-----P1
+        # 4    \    \\ |
+        # 3       \  \\ |
+        # 2          \\\ |
+        # 1            \\ | 
+        # 0              P2
+        #    0 123456789 10
+
+        self.multi_N  = Point('north', 5 ,10 )
+        self.multi_W  = Point('west',  0 ,5 )
+        self.multi_NW = Point('northwest', 0, 10)
+        self.multi_refs = [self.multi_N, self.multi_W, self.multi_NW]
+        self.multi_C  = Point('centroid',5 ,5 )
+        self.multi_P1 = Point('P1',10,5 )
+        self.multi_P2 = Point('P2',10,0 )
+        self.multi_points = [self.multi_P1, self.multi_P2]
+
+        self.angle_N_C_P1 = 90
+        self.angle_W_C_P1 = 180
+        self.angle_NW_C_P1 = 135
+
+        self.angle_N_C_P2 = 135
+        self.angle_W_C_P2 = 225
+        self.angle_NW_C_P2 = 180
+        self.angles = [self.angle_N_C_P1, self.angle_W_C_P1, self.angle_NW_C_P1, self.angle_N_C_P2, self.angle_W_C_P2, self.angle_NW_C_P2]
+
+
+        angles = self.COMPASS.getAnglesAllRefsAllPoints(centroid = self.multi_C, references=self.multi_refs, points=self.multi_points)
+
+
     def test_singleRotation(self):
 
         self.rotate_centroid    = Point('centroid',5 ,5 )
@@ -225,10 +297,19 @@ class test_Compass(unittest.TestCase):
         self.roatate_angle      = 180
         self.rotate_P1_prime    = Point("P1`",5 ,0 )
 
+        self.rotate_P2          =Point("P2", 0, 0)
+        self.roatate_angle_P2   =225
+        self.rotate_P2_prime    =Point("P2`",5, 5+5*math.sqrt(2))
+
         p1_prime = self.COMPASS.rotatePoint(centroid=self.rotate_centroid, point=self.rotate_P1, angle=self.roatate_angle)
+        p2_prime = self.COMPASS.rotatePoint(centroid=self.rotate_centroid, point=self.rotate_P2, angle=self.roatate_angle_P2)
+
 
         for i in range (0, len(p1_prime.getCoordinates())):
             self.assertAlmostEqual(p1_prime.getCoordinates()[i], self.rotate_P1_prime.getCoordinates()[i], places=2)
+
+        for i in range (0, len(p2_prime.getCoordinates())):
+            self.assertAlmostEqual(p2_prime.getCoordinates()[i], self.rotate_P2_prime.getCoordinates()[i], places=2)
 
     def test_singleRotation_multiPoints(self):
 
@@ -303,14 +384,58 @@ class test_Compass(unittest.TestCase):
 
         resultsList = [[self.multi_rotate_P1, self.multi_rotate_P2], [self.multi_rotate_P1_prime_1, self.multi_rotate_P2_prime_1], [self.multi_rotate_P1_prime_2, self.multi_rotate_P2_prime_2],]
 
-        rotationSets = self.COMPASS.multiRotatePoints(centroid=self.multi_rotate_centroid, points=self.multi_points_list, angles=self.multi_angles_list)
+        rotationSets = self.COMPASS.multiRotatePoints(centroid=self.multi_rotate_centroid, points=self.multi_points_list, angles=self.multi_angles_list, rotateFromBlank=False)
 
         for i in range(0, len(resultsList)):
             for j in range(0, len(resultsList[i])):
                 for k in range(0, len(resultsList[i][j].getCoordinates())):
                     self.assertAlmostEqual(rotationSets[i][j].getCoordinates()[k], resultsList[i][j].getCoordinates()[k], places=2)
 
+
+    def test_getAllRotations(self):
+
+        point_a = Point("a", 0 ,0 )
+        point_b = Point("b", 10, 10)
+        twoPoints = [point_a, point_b]
+
+
+        LL, TR, centroid = self.COMPASS.getCentroid(twoPoints)
+        referencePoints = self.COMPASS.getReferencePoints(boundingBox=[LL,TR], centroid=centroid)
         
+        angles = self.COMPASS.getAnglesAllRefsAllPoints(centroid=centroid, references=referencePoints, points=twoPoints)
+
+        states = []
+        #for angle in angles:
+        #    states.append(self.COMPASS.rotateAllPoints(centroid=centroid, points=twoPoints, angle=angle))
+
+        
+        self.states = [[(0,0), (10,10)],[(5,10), (5,0)], [(0,5), (10,5)], [(0,10), (10,0)], [(5,0), (5,10)], [(10,5),(0,5)],[(10,0),(0,10)]]
+
+        states = self.COMPASS.multiRotatePoints(centroid=centroid, points=twoPoints, angles=angles, rotateFromBlank=True)
+
+        #print("BOUNDING BOX:", LL.getCoordinates(), TR.getCoordinates())
+        #print("CENTROID:", centroid.getCoordinates())
+        #print("NORTH", referencePoints[0].getCoordinates())
+        #print("WEST", referencePoints[1].getCoordinates())
+        #print("NORTHWEST", referencePoints[2].getCoordinates())
+        #print("\n")
+        for i in range(0, len(states)):
+            for j in range(0,len(states[i])):
+                #print("START STATE", self.states[0])
+                #if i == 0:
+                #    print("ROTATION: 0", )
+                #else:
+                #    print("ROATATION", angles[i])
+                #print("AROUND CENTROID:", centroid.getCoordinates())
+                #print("CALCULATED", states[i][j].getName(), states[i][j].getCoordinates())
+                #print("MANUAL_CALCULATED_ANS", self.states[i][j])
+                #print("\n")
+                for k in range(0, len(states[i][j].getCoordinates())):
+                    self.assertAlmostEqual(states[i][j].getCoordinates()[k], self.states[i][j][k])
+
+
+      
+
 
     # Rotate points by a given angle around the centroid
     
