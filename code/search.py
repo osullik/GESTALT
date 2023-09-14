@@ -10,8 +10,11 @@ def normalize_object_term(term):
 class InvertedIndex:
     """
     """
-    def __init__(self, filename):
-        self.df = pd.read_csv(filename)
+    def __init__(self, filename=None, dataframe=None):
+        if filename is not None:
+            self.df = pd.read_csv(filename)
+        else:
+            self.df = dataframe
         self.objects_df = self.df[['name','predicted_location']]
         self.objects_df_grouped = self.objects_df.groupby(self.objects_df.columns.tolist(),as_index=False).size()
         self.objects_df_grouped = self.objects_df_grouped.rename(columns={'size':'num_occurences'})  # this puts object counts in there, but we drop it for now
@@ -25,6 +28,12 @@ class InvertedIndex:
         for idx, row in self.objects_df_grouped_list.iterrows():
             self.ii[idx] = set(row['predicted_location'])
             self.ii_counter[idx] = len(set(row['predicted_location']))
+
+    def getIndex(self):
+        return self.ii
+    
+    def getIndexCounter(self):
+        return self.ii_counter
 
     def most_discriminative(self, query_terms):
         best_qt = query_terms[0]
