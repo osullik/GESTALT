@@ -186,7 +186,7 @@ class Compass():
         
         return angles
     
-    def rotatePoint(self, centroid:Point, point:Point, angle:int):
+    def rotatePoint(self, centroid:Point, point:Point, angle:int, alignToIntegerGrid:bool=False):
         '''
         PURPOSE:
             given a point and an implicit canvas, rotate that point counter-clockwise around the canvas by a given angle.
@@ -194,6 +194,7 @@ class Compass():
             centroid - point object - the pivot
             point - point object - the point to rotate around the pivot
             angle - int - angle in degrees to rotate the point around the pivot
+            alignToIntegerGrid - boolean - tells the function whether or not to force alignment to discrete integer positions.
         PROCESS:
             Convert degrees to radians
             Apply math transformation to the point to get it to the new location
@@ -203,18 +204,6 @@ class Compass():
         #Note: Rotates counter-clockwise
 
         angle_rad = math.radians(angle)
-        #print("POINT", point.getName())
-        #print("POINT", point.getCoordinates())
-        #print("CENTROID", centroid.getCoordinates())
-        #print("DEGREES", angle)
-        #print("RADIANS", angle_rad)
-        #print("COS_DEG", math.cos(angle))
-        #print("COS_RAD", math.cos(angle_rad))
-        #print("SIN_DEG", math.cos(angle))
-        #print("SIN_RAD", math.cos(angle_rad))
-        
-
-
 
         ox, oy = centroid.getCoordinates()
         px, py = point.getCoordinates()
@@ -222,32 +211,13 @@ class Compass():
         qx = ox + math.cos(angle_rad) * (px - ox) - math.sin(angle_rad) * (py - oy)
         qy = oy + math.sin(angle_rad) * (px - ox) + math.cos(angle_rad) * (py - oy)
 
-        #print("TRANSFORMATION", qx,qy)
-        
-        #c_r, c_theta = self.convertCartesianToPolar(ox,oy)
-        #p_r, p_theta = self.convertCartesianToPolar(px, py)
+        if alignToIntegerGrid == True:
+            qx = round(qx)
+            qy = round(qy)
 
-        #new_r = math.sqrt((p_r ** 2) + (c_r ** 2) - (2 * p_r * c_r * math.cos(p_theta - c_theta)))
-        #new_theta = p_theta + angle_rad
+        return Point(point.getName(),qx, qy)
 
-        #newX, newY = self.convertPolarToCartesian(new_r,new_theta)
-
-
-
-        return Point(point.getName()+"`",qx, qy)
-        #return Point(point.getName()+"`",newX, newY)
-
-    def convertCartesianToPolar(self, x, y):
-        r = math.sqrt(x**2 + y**2)
-        theta = math.atan2(y, x)
-        return r, theta
-    
-    def convertPolarToCartesian(self, r, theta):
-        x = r * math.cos(theta)
-        y = r * math.sin(theta)
-        return x, y
-
-    def rotateAllPoints(self, centroid:Point, points:list[Point], angle:int):
+    def rotateAllPoints(self, centroid:Point, points:list[Point], angle:int, alignToIntegerGrid:bool=False):
         '''
         PURPOSE:
             apply a rotation to all points on a canvas
@@ -255,6 +225,7 @@ class Compass():
             centroid - point object - the pivot point
             points - list of point objects - the points on the 'canvas' to move around the pivot
             angle - int - angle in degrees to rotate all the points arounf the pivot by
+            alignToIntegerGrid - boolean - tells the function whether or not to force alignment to discrete integer positions.
         METHOD:
             feed each point in turn to the rotatePoint method and save the whole canvasState to a list
         OUTPUT:
@@ -264,15 +235,12 @@ class Compass():
         rotatedPoints = []
 
         for point in points:
-            rotatedPoint = self.rotatePoint(centroid=centroid, point=point, angle=angle)
-            #print("ROTATE_ALL_POINTS")
-            #print("ORIGINAL:", point.getName(), point.getCoordinates())
-            #print("ROTATATION:", rotatedPoint.getName(), rotatedPoint.getCoordinates())
+            rotatedPoint = self.rotatePoint(centroid=centroid, point=point, angle=angle, alignToIntegerGrid=alignToIntegerGrid)
             rotatedPoints.append(rotatedPoint)
 
         return(rotatedPoints.copy())
     
-    def multiRotatePoints(self, centroid:Point, points:list[Point], angles:list[int],rotateFromBlank:bool=True):
+    def multiRotatePoints(self, centroid:Point, points:list[Point], angles:list[int],rotateFromBlank:bool=True, aligntoIntegerGrid:bool=False):
         '''
         PURPOSE:
             apply a whole canvas rotation multiple times, updating the canvas state each time
@@ -290,47 +258,51 @@ class Compass():
 
         canvasList.append(canvas)
 
-        #print("ANGLES LIST:", angles)
         for angle in angles:
-            #print("\n# # # # #\n")
             angle = int(angle)
-            c_state = []
-            c_state_end = []
-            for point in canvas:
-                c_state.append(point.getName())
-                c_state.append(point.getCoordinates())
-
-            #print("CANVAS BEGINNING STATE:", c_state)
-
-            #print("ROTATION ANGLE", angle)
 
             if rotateFromBlank == False:
-                canvas = self.rotateAllPoints(centroid=centroid, points=canvas, angle=angle).copy()
+                canvas = self.rotateAllPoints(centroid=centroid, points=canvas, angle=angle, alignToIntegerGrid=aligntoIntegerGrid).copy()
             else:
-                canvas = self.rotateAllPoints(centroid=centroid, points=points, angle=angle).copy()
+                canvas = self.rotateAllPoints(centroid=centroid, points=points, angle=angle, alignToIntegerGrid=aligntoIntegerGrid).copy()
                 
             canvasList.append(canvas)
-            
-            for point in canvas:
-                c_state_end.append(point.getName())
-                c_state_end.append(point.getCoordinates())
-            #print("CANVAS END STATE:", c_state_end, "\n")
 
         return canvasList.copy()
     
-    def getUniqueStates(self, states:list[tuple])->list:
+    def getUniqueStates(self, states:list[list[Point]])->list:
+        '''
+        PURPOSE:
+            Deduplicate states created in the rotation so that there are fewer queries run through GESTALT's recursive grid search. 
+        INPUT ARGS:
+            states - list lists of of Point objects - the states generated by rotating the query points around the axis. 
+        PROCESS:
+            Dump the points to plain tuples
+            Convert the list of tuples for a state into a frozenset (using a set makes them order-invariant for the points)
+            Take the set of all uniquePoint frozensets. 
+        OUTPUT
+            UniqueStates - set of Frozensets - the unique possible rotations out of all the rotations. 
+        '''
         uniqueStates = set()
-        print("STATES", states)
         for state in states:
             points = []
             for point in state:
                 points.append(point.dumpTuple())
             pointSet = frozenset(points)
-            #print("POINTS SET:", pointSet)
             uniqueStates.add(pointSet)
-        #print("UNIQUE STATES:", uniqueStates)
 
         return uniqueStates    
+    
+
+    def generateRotations(self,points:list[Point], alignToIntegerGrid:bool=False):
+
+        LL, TR, centroid = self.getCentroid(points)
+        referencePoints = self.getReferencePoints(boundingBox=[LL,TR], centroid=centroid)
+        angles = self.getAnglesAllRefsAllPoints(centroid=centroid, references=referencePoints, points=points)
+        states = self.multiRotatePoints(centroid=centroid, points=points, angles=angles, rotateFromBlank=True, aligntoIntegerGrid=alignToIntegerGrid)
+        uniqueStates = self.getUniqueStates(states=states)
+
+        return uniqueStates
 
 
 

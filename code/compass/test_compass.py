@@ -299,11 +299,11 @@ class test_Compass(unittest.TestCase):
         self.rotate_centroid    = Point('centroid',5 ,5 )
         self.rotate_P1          = Point('P1',5,10)
         self.roatate_angle      = 180
-        self.rotate_P1_prime    = Point("P1`",5 ,0 )
+        self.rotate_P1_prime    = Point("P1",5 ,0 )
 
         self.rotate_P2          =Point("P2", 0, 0)
         self.roatate_angle_P2   =225
-        self.rotate_P2_prime    =Point("P2`",5, 5+5*math.sqrt(2))
+        self.rotate_P2_prime    =Point("P2",5, 5+5*math.sqrt(2))
 
         p1_prime = self.COMPASS.rotatePoint(centroid=self.rotate_centroid, point=self.rotate_P1, angle=self.roatate_angle)
         p2_prime = self.COMPASS.rotatePoint(centroid=self.rotate_centroid, point=self.rotate_P2, angle=self.roatate_angle_P2)
@@ -326,9 +326,9 @@ class test_Compass(unittest.TestCase):
         self.roatate_angle      = 180
 
         #P1 and Angle used from last test (5,10) and 180 Deg respectively
-        self.rotate_P1_prime    = Point("P1`",5 ,0 )
-        self.rotate_P2_prime    = Point("P2`",0, 0 )
-        self.rotate_P3_prime    = Point("P3`",9 ,9 )
+        self.rotate_P1_prime    = Point("P1",5 ,0 )
+        self.rotate_P2_prime    = Point("P2",0, 0 )
+        self.rotate_P3_prime    = Point("P3",9 ,9 )
 
         # Test Each individually
 
@@ -362,8 +362,8 @@ class test_Compass(unittest.TestCase):
         self.multi_rotate_P1          = Point('P1',5 ,10)
         self.multi_roatate_angle_1    = 90
         self.multi_roatate_angle_2    = 90
-        self.multi_rotate_P1_prime_1  = Point('P1`',0, 5 )
-        self.multi_rotate_P1_prime_2  = Point('P1``',5 ,0 )
+        self.multi_rotate_P1_prime_1  = Point('P1',0, 5 )
+        self.multi_rotate_P1_prime_2  = Point('P1',5 ,0 )
 
         #Test Individually
         p1_prime_1 = self.COMPASS.rotatePoint(centroid=self.multi_rotate_centroid, point=self.multi_rotate_P1, angle=self.multi_roatate_angle_1)
@@ -379,8 +379,8 @@ class test_Compass(unittest.TestCase):
         #Test_batch
 
         self.multi_rotate_P2          = Point('P2',10 ,5)
-        self.multi_rotate_P2_prime_1  = Point('P2`',5, 10 )
-        self.multi_rotate_P2_prime_2  = Point('P2``',0 ,5 )
+        self.multi_rotate_P2_prime_1  = Point('P2',5, 10 )
+        self.multi_rotate_P2_prime_2  = Point('P2',0 ,5 )
 
 
         self.multi_points_list = [self.multi_rotate_P1, self.multi_rotate_P2]
@@ -450,7 +450,27 @@ class test_Compass(unittest.TestCase):
 
         self.assertSetEqual(uniqueStates, self.uniqueStates)
         
-      
+    
+    def test_generateRotations(self):
+
+        point_a = Point("a", 0 ,0 )
+        point_b = Point("b", 10, 10)
+        twoPoints = [point_a, point_b]
+
+        self.uniqueRotations = set((
+                                    frozenset((('a',(0,0)),('b',(10,10)))),
+                                    frozenset((('a',(5,12)),('b',(5,-2)))),
+                                    frozenset((('a',(-2,5)),('b',(12,5)))),
+                                    frozenset((('a',(0,10)),('b',(10,0)))),
+                                    frozenset((('a',(5,-2)),('b',(5,12)))),
+                                    frozenset((('a',(12,5)),('b',(-2,5)))),
+                                    frozenset((('a',(10,0)),('b',(0,10))))     
+                            ))
+        
+        rotatedStates = self.COMPASS.generateRotations(points=twoPoints, alignToIntegerGrid=True)
+
+        self.assertSetEqual(rotatedStates, self.uniqueRotations)
+
 
 # Main Function
 
