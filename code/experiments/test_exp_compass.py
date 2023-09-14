@@ -175,7 +175,7 @@ class test_compass_experiments(unittest.TestCase):
         self.assertEqual(len(possibleConfigurations),len(queryMapConfigurations))
 
     def test_gridSearchByRotatedQueries(self):
-        self.ER.loadLocations(objectsDataFrame=self.singleLoc_df)
+        self.ER.preprocessData(objectsDataFrame=self.singleLoc_df)
 
         np.set_printoptions(precision=3)
         point_a = Point("B", 0 ,0 )
