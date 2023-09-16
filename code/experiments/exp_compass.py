@@ -14,6 +14,7 @@ sys.path.insert(1, os.getcwd()+"/../")
 sys.path.insert(1, os.getcwd()+"/../compass")
 sys.path.insert(1, os.getcwd()+"/../gestalt")
 sys.path.insert(1, os.getcwd()+"/../generator")
+sys.path.insert(1, os.getcwd()+"/../../data")
 
 from compass import Point
 from compass import Compass
@@ -135,16 +136,16 @@ class CompassExperimentRunner():
         return(allQueries)
                 
     def gridSearchAllRotations(self, queries:list):
-    '''
-    PURPOSE:
-        To feed each possible query configration into the gridSearch until we get a match
-    INPUT ARGS:
-        queries - list of tuples of form ({"PICTORIAL_QUERY":concept map}, [searchOrder])
-    METHOD:
-        Get each query & feed it into the search. 
-    OUTPUT:
-        returns true if a match is found, false otherwise
-        
+        '''
+        PURPOSE:
+            To feed each possible query configration into the gridSearch until we get a match
+        INPUT ARGS:
+            queries - list of tuples of form ({"PICTORIAL_QUERY":concept map}, [searchOrder])
+        METHOD:
+            Get each query & feed it into the search. 
+        OUTPUT:
+            returns true if a match is found, false otherwise
+            
         '''
 
         results = []
@@ -167,6 +168,90 @@ class CompassExperimentRunner():
             for res in results: 
                 print(res)
             return True
+
+class CompassDataLoader():
+    def __init__(self) -> None:
+        self.ER = CompassExperimentRunner()
+        pass
+
+    def checkExperimentFilesExist(self, experimentName:str, locationFileName:str, queryFileName:str, experimentsDirectory:str="experiments")->bool:
+
+        dataDirectory = ""
+        for p in sys.path:
+            if p.endswith("data"):
+                dataDirectory = p
+
+        assert((dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?")
+
+        experimentsDirectoryPath = os.path.join(dataDirectory, experimentsDirectory)
+        assert (os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist.")
+
+        experimentDirectory = os.path.join(experimentsDirectoryPath, "experiment_"+experimentName)
+        assert (os.path.exists(experimentDirectory),"'data/experiments/experiment_"+experimentName+"' does not exist.")
+        
+        locationPath = os.path.join(experimentDirectory,"locations",locationFileName)
+        queryPath = os.path.join(experimentDirectory,"queries",queryFileName)
+
+        if os.path.isfile(locationPath):
+            if os.path.isfile(queryPath):
+                return (True)
+            else:
+                print("FileNotFound:", queryFileName, "in experiment", experimentName)
+                return (False)
+        else:
+            print("FileNotFound:", locationFileName, "in experiment", experimentName)
+            return (False)
+        
+    def getExperimentFiles(self,experimentName:str, experimentsDirectory:str="experiments"):
+
+        dataDirectory = ""
+        for p in sys.path:
+            if p.endswith("data"):
+                dataDirectory = p
+        assert((dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?")
+
+        experimentsDirectoryPath = os.path.join(dataDirectory, experimentsDirectory)
+        assert (os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist.")
+
+        experimentDirectory = os.path.join(experimentsDirectoryPath, "experiment_"+experimentName)
+        assert (os.path.exists(experimentDirectory),"'data/experiments/experiment_"+experimentName+"' does not exist.")
+
+        locationPath = os.path.join(experimentDirectory,"locations")
+        queryPath = os.path.join(experimentDirectory,"queries")
+
+        locations = os.listdir(locationPath)
+        queries = os.listdir(queryPath)
+
+        returnLocations = []
+        returnQueries = []
+
+        for location in locations:
+            returnLocations.append(os.path.join(locationPath,location))
+
+        for query in queries:
+            returnQueries.append(os.path.join(queryPath,query))
+        
+        return (returnLocations,returnQueries)
+    
+    def loadCSV(self,filePath:str)->pd.DataFrame:
+
+        df = pd.read_csv(filePath, sep=",", header='infer')
+
+        return df
+    
+    def loadCSVToConceptMap(self, filePath:str)->np.array:
+
+        pathList = os.path.split(filePath)
+        name = pathList[-1]
+        name = name.split(".")[0]
+
+        df = pd.read_csv(filePath, sep=",", header='infer')
+        self.ER.loadLocations(df)
+        cm = self.ER.getConceptMapDict()[name]
+
+        return(cm)
+
+
 
 
 

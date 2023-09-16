@@ -20,7 +20,7 @@ from compass import Point
 from compass import Compass
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
-from exp_compass import CompassExperimentRunner
+from exp_compass import CompassExperimentRunner, CompassDataLoader
 
 
 #Classes
@@ -217,11 +217,106 @@ class test_compass_experiments(unittest.TestCase):
 
         self.assertTrue(self.ER.gridSearchAllRotations(queries=queryMapConfigurations))
         
+class test_data_loader(unittest.TestCase):
+    def setUp(self) -> None:
+        self.compass = Compass()
+        self.conceptmapper = ConceptMapper()
+        self.DL = CompassDataLoader()
+        return super().setUp()
+    
+    def tearDown(self) -> None:
+        return super().tearDown()
+    
+    def test_experimentFilesExist(self):
+        
+        experimentName = 'test'
+        locationFile = "location_test.csv"
+        queryFile = "query_test.csv"
 
+        self.assertTrue(self.DL.checkExperimentFilesExist(experimentName, locationFile, queryFile))
+
+
+    def test_getExperimentFiles(self):
+        
+        expected_location_files = ["location_test.csv"]
+        expected_query_files = ["query_test.csv"]
+
+        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+        self.assertTrue(locations[0].endswith(expected_location_files[0]))
+        self.assertTrue(queries[0].endswith(expected_query_files[0]))
+
+
+        '/Users/osullik/Desktop/active_work/GESTALT/code/experiments/../../data/experiments/experiment_test/locations/location_test.csv'
+        
+    def test_loadCSV(self):
+        
+        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+
+        location_dict = {"name":["A","A","B","C","D"],
+                         "longitude":[10,0,0,10,5],
+                         "latitude":[0,10,0,10,5],
+                         "predicted_location":["location_test","location_test","location_test","location_test","location_test"],
+                         "object_prob":[1,1,1,1,1],
+                         "assignment_prob":[1,1,1,1,1]
+                         }
+        
+        query_dict = {"name":["A","B","C"],
+                         "longitude":[9,1,9],
+                         "latitude":[1,1,9],
+                         "predicted_location":["query_test","query_test","query_test"],
+                         "object_prob":[1,1,1],
+                         "assignment_prob":[1,1,1]
+                         }
+        
+        location_df = pd.DataFrame(data=location_dict)
+        query_df = pd.DataFrame(data=query_dict)
+
+        self.assertTrue(self.DL.loadCSV(filePath=locations[0]).equals(location_df))
+        self.assertTrue(self.DL.loadCSV(filePath=queries[0]).equals(query_df))
+
+    def test_loadCSVToConceptMap(self):
+
+        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+
+        location_dict = {"name":["A","A","B","C","D"],
+                         "longitude":[10,0,0,10,5],
+                         "latitude":[0,10,0,10,5],
+                         "predicted_location":["location_test","location_test","location_test","location_test","location_test"],
+                         "object_prob":[1,1,1,1,1],
+                         "assignment_prob":[1,1,1,1,1]
+                         }
+        
+        query_dict = {"name":["A","B","C"],
+                         "longitude":[9,1,9],
+                         "latitude":[1,1,9],
+                         "predicted_location":["query_test","query_test","query_test"],
+                         "object_prob":[1,1,1],
+                         "assignment_prob":[1,1,1]
+                         }
+
+        location_cm = np.array( [
+                                ["A", 0 , 0 , 0 , 0 ],
+                                [ 0 , 0 , 0 , 0 ,"C"],
+                                [ 0 , 0 ,"D", 0 , 0 ],
+                                [ 0 ,"B", 0 , 0 , 0 ],
+                                [ 0 , 0 , 0 ,"A", 0 ],                  
+                                ],dtype=object)
+        
+        query_cm = np.array( [
+                                [ 0 , 0 ,"C"],
+                                ["B", 0 , 0 ],
+                                [ 0 ,"A", 0 ],                 
+                                ],dtype=object)
+        
+        location_cm_fromCSV = self.DL.loadCSVToConceptMap(filePath=locations[0])
+        query_cm_fromCSV = self.DL.loadCSVToConceptMap(filePath=queries[0])
+
+        self.assertTrue(np.array_equal(location_cm_fromCSV,location_cm))
+        self.assertTrue(np.array_equal(query_cm_fromCSV,query_cm))
 
 #Test Suites:
 
-def suite_allTest():
+def suite_allExperimentsTests():
     suite = unittest.TestSuite()
     suite.addTest(test_compass_experiments("test_objectsExist"))
     suite.addTest(test_compass_experiments("test_createConceptMap"))
@@ -231,8 +326,17 @@ def suite_allTest():
     suite.addTest(test_compass_experiments("test_generateRotatedQueryMaps"))
     suite.addTest(test_compass_experiments("test_gridSearchByRotatedQueries"))
     return suite
+
+def suite_dataLoaderTests():
+    suite = unittest.TestSuite()
+    suite.addTest(test_data_loader("test_experimentFilesExist"))
+    suite.addTest(test_data_loader("test_getExperimentFiles"))
+    suite.addTest(test_data_loader("test_loadCSV"))
+    suite.addTest(test_data_loader("test_loadCSVToConceptMap"))
+    return suite
 #Main Function
 
 if __name__ == '__main__':
     runner = unittest.TextTestRunner()
-    runner.run(suite_allTest())
+    runner.run(suite_allExperimentsTests())
+    runner.run(suite_dataLoaderTests())
