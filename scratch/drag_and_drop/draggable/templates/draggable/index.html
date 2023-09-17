@@ -72,6 +72,23 @@
     justify-content: center;
     font-size: 15px;
     font-weight: bold; }
+
+    #northButton {
+    position: absolute;
+    top: 20px;
+    left: 1305px;
+    color: white;
+    font-size: 15px;
+    font-family: monaco; }
+
+    .northButtonLabel {
+    position: absolute;
+    top: 20px;
+    left: 1110px;
+    color: white;
+    font-size: 15px;
+    font-family: monaco; }
+
   </style>
 
 </head>
@@ -81,10 +98,14 @@
 
     <h1>GESTALT - </h1>
 
+    <input type="checkbox" id="northButton" name="northButton" value="northButton">
+    <label for="northButton" class="northButtonLabel">I know where North is</label>
+
     <div class="background_container">
 
     <div class="brown_background_div"> 
     </div> <!-- end brown-background-div -->
+
     <div class="green_background_div"> 
         <select id="objectNameList" name="objectNameList">
             <option value="Object1">Object1</option>
@@ -169,7 +190,7 @@
                             xhr.setRequestHeader('X-CSRFToken', csrfToken);
                         },
                         success: function(response) {
-                            self.element.innerText = self.name + ': X: ' + response.x + ' Y: ' + response.y;
+                            self.element.innerText = self.name;
                             self.x = response.x;
                             self.y = response.y;
                         }
@@ -197,8 +218,11 @@
                         console.log(boxData); // Print the box data in the browser console
                         // Perform further processing with the box data as desired
                         console.log(searchType);
-                        //Also prints either "Location" or "Object" to the console depending on the
+                        //Prints either "Location" or "Object" to the console depending on the
                                 //search type the user chooses to use
+                        console.log(userKnowsNorth);
+                        //Prints either "Does not know where North is" or "Knows where North is" to
+                                //the console depending on the user's selection of the checkbox
                     }
                 });
             }
@@ -206,6 +230,31 @@
             function refreshPage() {
                 location.reload();
             }
+
+            var userKnowsNorth = "Does not know where North is";
+            var container = $(".brown_background_div");
+            var northArrow = document.createElement('span');
+            northArrow.textContent = "^";
+            northArrow.style.fontSize = "50px";
+            northArrow.style.fontWeight = 'bold';
+            northArrow.style.color = 'red';
+            northArrow.style.position = 'absolute';
+            northArrow.style.left = '900px';
+            northArrow.style.top = "70px";
+
+            let northCheckbox = document.getElementById("northButton");
+            northCheckbox.addEventListener( "change", () => {
+            if (northCheckbox.checked ) {
+                userKnowsNorth = "Knows where North is";
+                container.append(northArrow);
+            } else {
+                userKnowsNorth = "Does not know where North is";
+                if (northArrow){
+                    northArrow.parentNode.removeChild(northArrow);
+                } 
+            }
+            });
+    
 
             var addButton = document.createElement('button');
             addButton.innerText = 'Add Selected Object to Search';
