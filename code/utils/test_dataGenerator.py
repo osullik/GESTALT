@@ -108,6 +108,93 @@ class test_compass_experiments(unittest.TestCase):
         
         self.assertTrue(os.path.isfile(saveLocation))
 
+    def test_generateQueryDistortions(self):
+
+        query = {
+                "name":["i","j"],
+                "longitude":[4,6],
+                "latitude":[4,6]
+                }
+
+        query_df = pd.DataFrame(data=query)
+
+        distorted_query_rotated_ans = {
+                "name":["i","j"],
+                "longitude":[6,4],
+                "latitude":[6,4]
+                }
+        
+        distorted_query_expanded_ans = {
+                "name":["i","j"],
+                "longitude":[0,10],
+                "latitude":[0,10]
+                }
+        
+        distorted_query_pos_vert_shift_ans = {
+                "name":["i","j"],
+                "longitude":[4,6],
+                "latitude":[8,10]
+                }
+        
+        distorted_query_neg_vert_shift_ans = {
+                "name":["i","j"],
+                "longitude":[4,6],
+                "latitude":[0,2]
+                }
+        
+        distorted_query_pos_horiz_shift_ans = {
+                "name":["i","j"],
+                "longitude":[8,10],
+                "latitude":[4,6]
+                }
+        
+        distorted_query_neg_horiz_shift_ans = {
+                "name":["i","j"],
+                "longitude":[0,2],
+                "latitude":[4,6]
+                }
+
+        distorted_query_rotated = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=180, expansion=0, shift_vertical=0, shift_horizontal=0)
+
+        distorted_query_expanded = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=0, expansion=1, shift_vertical=0, shift_horizontal=0)
+
+        distorted_query_pos_vert_shift = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=0, expansion=0, shift_vertical=1, shift_horizontal=0)
+
+        distorted_query_neg_vert_shift = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=0, expansion=0, shift_vertical=-1, shift_horizontal=0)
+
+        distorted_query_pos_horiz_shift = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=0, expansion=0, shift_vertical=0, shift_horizontal=1)
+
+        distorted_query_neg_horiz_shift = self.DG.distortQuery(query_dict=query, canvas_size = 10, rotation_degrees=0, expansion=0, shift_vertical=0, shift_horizontal=-1)
+
+
+        #self.assertTrue(distorted_query_rotated.equals(pd.DataFrame(data=distorted_query_rotated_ans)))
+        self.assertDictEqual(distorted_query_rotated,distorted_query_rotated_ans)
+        self.assertDictEqual(distorted_query_expanded,distorted_query_expanded_ans)
+        self.assertDictEqual(distorted_query_pos_vert_shift,distorted_query_pos_vert_shift_ans)
+        self.assertDictEqual(distorted_query_neg_vert_shift,distorted_query_neg_vert_shift_ans)
+        self.assertDictEqual(distorted_query_pos_horiz_shift,distorted_query_pos_horiz_shift_ans)
+        self.assertDictEqual(distorted_query_neg_horiz_shift,distorted_query_neg_horiz_shift_ans)
+
+    def test_insertQueryToLocation(self):
+
+        query = {
+                "name":["0","1","2"],
+                "longitude":[0,4,6],
+                "latitude":[0,4,6]
+                }
+        
+        new_loc = {
+                "name":["1","2"],
+                "longitude":[4,6],
+                "latitude":[4,6]
+                }
+        
+        numClasses = 4
+        
+        pointList = self.DG.generateMatrix(scaleFactor=3, edgeFactor=1)
+        labelledPoints = self.DG.labelNodes(points=pointList,numClasses=numClasses, random_seed=3, queryTerms=query)
+
+        self.assertDictEqual(labelledPoints,new_loc)
 
 
 
