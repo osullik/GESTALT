@@ -122,7 +122,7 @@ class DataGenerator():
 
         df_to_save = pd.DataFrame(data=data)
 
-        df_to_save.to_csv(filePathToSave,sep=",",header=True)
+        df_to_save.to_csv(filePathToSave,sep=",",header=True,index=False)
 
         print("FILEPATHTOSAVE", filePathToSave)
 
