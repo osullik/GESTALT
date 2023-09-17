@@ -176,6 +176,7 @@ class test_compass_experiments(unittest.TestCase):
         self.assertDictEqual(distorted_query_neg_horiz_shift,distorted_query_neg_horiz_shift_ans)
 
     def test_insertQueryToLocation(self):
+        #Non-deterministic test; will fail frequently 
 
         query = {
                 "name":["0","1","2"],
@@ -184,9 +185,9 @@ class test_compass_experiments(unittest.TestCase):
                 }
         
         new_loc = {
-                "name":["1","2"],
-                "longitude":[4,6],
-                "latitude":[4,6]
+                "name":['i','i','I','i','i','i','L','I','L','I','p','I','i','I','i','i','0','1','2'],
+                "longitude":[0, 0, 0, 0, 0, 1, 1, 1, 2, 3, 4, 4, 4, 5, 6, 6, 0, 4, 6],
+                "latitude":[1, 2, 3, 4, 5, 0, 4, 6, 0, 0, 0, 1, 6, 0, 1, 4, 0, 4, 6]
                 }
         
         numClasses = 4
