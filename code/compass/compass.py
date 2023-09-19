@@ -23,6 +23,10 @@ class Point():
     
     def dumpTuple(self)->tuple:
         return((self._name, (self._x, self._y)))
+    
+    def updateCoordinates(self,x,y):
+        self._x = x
+        self._y = y
 
 class Compass():
     def __init__(self):
@@ -134,8 +138,16 @@ class Compass():
         c = self.getSideLength(point1=point, point2=reference)
         p = self.getSideLength(point1=centroid, point2=reference)
         n = self.getSideLength(point1=centroid, point2=point)
-
-        x = (((pow(p,2)) + (pow(n,2)) - (pow(c,2)))/(2*(p)*(n)))
+        #print("##########")
+        #print("Name", point.getName(), "C", c, "P", p, "N", n)
+        #print("CENTROID", centroid.getCoordinates())
+        #print("POINT", point.getCoordinates())
+        #print("REFERENCE", reference.getCoordinates())
+        
+        try:
+            x = (((pow(p,2)) + (pow(n,2)) - (pow(c,2)))/(2*(p)*(n)))
+        except ZeroDivisionError as e:
+            return 0 ### Unsure if this is the best way to handle it. 
 
         cos_inverse_of_x = math.degrees(math.acos(x))                   #Convert from radians to degrees readability 
 
@@ -144,6 +156,7 @@ class Compass():
 
         #print(point.getName(), centroid.getName(), reference.getName(), cos_inverse_of_x)
         #print(point.getCoordinates(), centroid.getCoordinates(), reference.getCoordinates(), cos_inverse_of_x)
+        #print("ANGLE:", cos_inverse_of_x)
         return cos_inverse_of_x
     
     def getAllAngles(self, reference:Point, centroid:Point, points:list[Point]):

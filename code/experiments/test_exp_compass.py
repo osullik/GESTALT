@@ -14,7 +14,7 @@ import numpy as np
 sys.path.insert(1, os.getcwd()+"/../")
 sys.path.insert(1, os.getcwd()+"/../compass")
 sys.path.insert(1, os.getcwd()+"/../gestalt")
-sys.path.insert(1, os.getcwd()+"/../generator")
+sys.path.insert(1, os.getcwd()+"/../utils")
 
 from compass import Point
 from compass import Compass
@@ -161,16 +161,7 @@ class test_compass_experiments(unittest.TestCase):
                                             ], dtype=object)
                                 ]
 
-        queryMapConfigurations = self.ER.getQueryMapConfigurations(points=test_points,alignToIntegerGrid=True)
-
-        #print("\n")
-        #for i in range (0, len(queryMapConfigurations)):
-        #    print("Query Map")
-        #    print(queryMapConfigurations[i][0]["PICTORIAL_QUERY"])
-        #print('\n')
-        #for i in range(0, len(possibleConfigurations)):
-        #    print("Answer:")
-        #    print(possibleConfigurations[i])
+        queryMapConfigurations = self.ER.getQueryMapConfigurations(points=test_points,alignToIntegerGrid=False) #Aligning to grid reduces precision
 
         self.assertEqual(len(possibleConfigurations),len(queryMapConfigurations))
 
@@ -211,7 +202,7 @@ class test_compass_experiments(unittest.TestCase):
                                             ], dtype=object)
                                 ]
 
-        queryMapConfigurations = self.ER.getQueryMapConfigurations(points=test_points,alignToIntegerGrid=True)
+        queryMapConfigurations = self.ER.getQueryMapConfigurations(points=test_points,alignToIntegerGrid=False)
 
         self.assertEqual(len(possibleConfigurations),len(queryMapConfigurations))
 
@@ -230,32 +221,34 @@ class test_data_loader(unittest.TestCase):
     def test_experimentFilesExist(self):
         
         experimentName = 'test'
-        locationFile = "location_test.csv"
-        queryFile = "query_test.csv"
+        locationFile = "location0.csv"
+        queryFile = "query0.csv"
 
         self.assertTrue(self.DL.checkExperimentFilesExist(experimentName, locationFile, queryFile))
 
 
     def test_getExperimentFiles(self):
         
-        expected_location_files = ["location_test.csv"]
-        expected_query_files = ["query_test.csv"]
+        expected_location_files = ["location0.csv"]
+        expected_query_files = ["query0.csv"]
+        expected_metadata_file = "test.json"
 
-        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+        locations, queries, metadata = self.DL.getExperimentFiles(experimentName='test')
+
+        print(locations, queries, metadata)
         self.assertTrue(locations[0].endswith(expected_location_files[0]))
         self.assertTrue(queries[0].endswith(expected_query_files[0]))
+        self.assertTrue(metadata.endswith(expected_metadata_file))
 
-
-        '/Users/osullik/Desktop/active_work/GESTALT/code/experiments/../../data/experiments/experiment_test/locations/location_test.csv'
         
     def test_loadCSV(self):
         
-        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+        locations, queries, metadata = self.DL.getExperimentFiles(experimentName='test')
 
         location_dict = {"name":["A","A","B","C","D"],
                          "longitude":[10,0,0,10,5],
                          "latitude":[0,10,0,10,5],
-                         "predicted_location":["location_test","location_test","location_test","location_test","location_test"],
+                         "predicted_location":["location0","location0","location0","location0","location0"],
                          "object_prob":[1,1,1,1,1],
                          "assignment_prob":[1,1,1,1,1]
                          }
@@ -263,7 +256,7 @@ class test_data_loader(unittest.TestCase):
         query_dict = {"name":["A","B","C"],
                          "longitude":[9,1,9],
                          "latitude":[1,1,9],
-                         "predicted_location":["query_test","query_test","query_test"],
+                         "predicted_location":["query0","query0","query0"],
                          "object_prob":[1,1,1],
                          "assignment_prob":[1,1,1]
                          }
@@ -271,17 +264,18 @@ class test_data_loader(unittest.TestCase):
         location_df = pd.DataFrame(data=location_dict)
         query_df = pd.DataFrame(data=query_dict)
 
+
         self.assertTrue(self.DL.loadCSV(filePath=locations[0]).equals(location_df))
         self.assertTrue(self.DL.loadCSV(filePath=queries[0]).equals(query_df))
 
     def test_loadCSVToConceptMap(self):
 
-        locations, queries = self.DL.getExperimentFiles(experimentName='test')
+        locations, queries, metadata = self.DL.getExperimentFiles(experimentName='test')
 
         location_dict = {"name":["A","A","B","C","D"],
                          "longitude":[10,0,0,10,5],
                          "latitude":[0,10,0,10,5],
-                         "predicted_location":["location_test","location_test","location_test","location_test","location_test"],
+                         "predicted_location":["location0","location0","location0","location0","location0"],
                          "object_prob":[1,1,1,1,1],
                          "assignment_prob":[1,1,1,1,1]
                          }
@@ -289,7 +283,7 @@ class test_data_loader(unittest.TestCase):
         query_dict = {"name":["A","B","C"],
                          "longitude":[9,1,9],
                          "latitude":[1,1,9],
-                         "predicted_location":["query_test","query_test","query_test"],
+                         "predicted_location":["query0","query0","query0"],
                          "object_prob":[1,1,1],
                          "assignment_prob":[1,1,1]
                          }
@@ -308,8 +302,12 @@ class test_data_loader(unittest.TestCase):
                                 [ 0 ,"A", 0 ],                 
                                 ],dtype=object)
         
-        location_cm_fromCSV = self.DL.loadCSVToConceptMap(filePath=locations[0])
-        query_cm_fromCSV = self.DL.loadCSVToConceptMap(filePath=queries[0])
+        print("LOCATIONS\n", locations)
+        location_cm_fromCSV = self.DL.loadLocationCSVToConceptMap(filePath=locations[0])
+        query_cm_fromCSV = self.DL.loadQueryCSVToConceptMap(filePath=queries[0])
+
+        print("FROM FILE:\n",query_cm_fromCSV)
+        print("ANSWER:\n", query_cm)
 
         self.assertTrue(np.array_equal(location_cm_fromCSV,location_cm))
         self.assertTrue(np.array_equal(query_cm_fromCSV,query_cm))

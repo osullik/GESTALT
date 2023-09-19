@@ -8,12 +8,13 @@ import unittest
 import random
 import string 
 import argparse
+import json
 # Library Imports
 import pandas as pd
 import numpy as np
 import networkit as nk
 import matplotlib.pyplot as plt
-
+from tqdm import tqdm
 # User file imports
 
 sys.path.insert(1, os.getcwd()+"/../")
@@ -48,6 +49,8 @@ class DataGenerator():
             Extract all the non-zero coordinates of the sparse matrix
         OUTPUT:
             points - list of tuples of form (x,y) 
+            density - float - the density of the generated graph, calculated with standard formula:
+                    ((2*|E|)/(|V|*(|V|-1))) were E is edge and V is vertex
 
         '''
         points = []
@@ -55,6 +58,13 @@ class DataGenerator():
         #Initalize the generator
         rmat = nk.generators.RmatGenerator(scaleFactor, edgeFactor, 0.57, 0.19, 0.19, 0.05) #Parameters taken from Graph500
         rmatG = rmat.generate()
+
+        try:
+            density = ((2*rmatG.numberOfEdges())/(rmatG.numberOfNodes()*(rmatG.numberOfNodes()-1)))
+        except ZeroDivisionError as e:
+            density = 1
+
+        #print("DENSITY", density)
 
         #Generate a sparse matrix representaiton of the RMAT generated graph. 
         sm = nk.algebraic.adjacencyMatrix(rmatG,matrixType='sparse')
@@ -64,7 +74,7 @@ class DataGenerator():
         for r,c in zip(row,col):
             points.append((r,c))
 
-        return(points)
+        return(points, density)
 
     def labelNodes(self,points:list[tuple], numClasses:int, random_seed:int, queryTerms:dict=None)->dict:
         '''
@@ -119,18 +129,20 @@ class DataGenerator():
         latitudes = []
 
         #Extract query terms from their dictionary to something easier to work with
-        if queryTerms is not None:
-            terms = queryTerms.copy()
-            names_copy = terms['names'].copy() #I don't know what this does but if I delete it everything breaks. 
-            queryCoords = []
-            for i in range(0, len(terms['name'])):
-                queryCoords.append((terms['longitude'][i],terms['latitude'][i]))
-        else:
-            queryCoords = None
+        
+        # queryTerms is not None:
+            #terms = queryTerms.copy()
+            #names_copy = terms['name'].copy() #I don't know what this does but if I delete it everything breaks. 
+            #queryCoords = []
+            #for i in range(0, len(terms['name'])):
+            #    queryCoords.append((terms['longitude'][i],terms['latitude'][i]))
+        #else:
+        #    queryCoords = None
             
         #For each coordinate, assign it a label based on the power law distribution we generated. 
         #If a query point we want to insert exists at the same location, insert the query point instead
-
+                    
+        '''
         for i in range(0, len(points)):
             coord = points[i]
 
@@ -139,22 +151,28 @@ class DataGenerator():
                 found = []
                 for q_coord in queryCoords:
                     if q_coord == coord:
-                        names.append(terms['name'].copy()[queryCoords.index(q_coord)]) #Copy because lists are mutable...
+                        names.append(terms['name'][queryCoords.index(q_coord)])
                         longitudes.append(q_coord[0])
                         latitudes.append(q_coord[1])
                         found.append(q_coord)
+
+                        #break
                 if len(found) != 0:
                     for f in found:
                         #print("TERMS_NAME", terms['name'])
                         #print("REMOVING",terms['name'][queryCoords.index(f)])
                         terms['name'].remove(terms['name'][queryCoords.index(f)]) 
                         queryCoords.remove(f)
+            '''
 
             #Generate labels using the power law distro otherwise              
             
             #print("POINTS LENGTH", len(points))
             #print("BUINLIST LEN", len(binList))
             #print("CLASSES", classes)
+
+        pointsDict = {}
+        for i in range(0, len(points)):
 
             labelIndex = binList[i % len(binList)]  #Start at beginning if longer than list
             #print("BINLIST", binList)
@@ -165,18 +183,38 @@ class DataGenerator():
             except IndexError as e:
                 #print("LABEL INDEX", labelIndex)
                 label = classes[labelIndex] #Handle the modulo == 0 issue
-            names.append(label)
+            
+            pointsDict[points[i]] = label
+            #print("POINT", points[i])
+            #print("LABEL", label)
+            #names.append(label)
+            #longitudes.append(coord[0])
+            #latitudes.append(coord[1]) 
+
+        if queryTerms is not None:
+            #print("QUERY TERMS", queryTerms)
+            for i in range(1, len(queryTerms['name'])):
+                #print("(",queryTerms['longitude'][i],",",queryTerms['latitude'][i],")",queryTerms['name'][i])
+                print("Adding Query Term", queryTerms['name'][i])
+                pointsDict[(queryTerms['longitude'][i],queryTerms['latitude'][i])] = queryTerms['name'][i]
+            
+        #Add any remaining query terms
+        #if queryCoords is not None:
+        #    for x,y in queryCoords:
+        #        names.append(terms['name'][queryCoords.index((x,y))])
+        #        longitudes.append(x)
+        #        latitudes.append(y)
+
+
+
+
+        #Build the dictionary.
+        for coord in pointsDict:
+            #print("COORD:", coord)
+            names.append(pointsDict[coord])
             longitudes.append(coord[0])
             latitudes.append(coord[1])
 
-        #Add any remaining query terms
-        if queryCoords is not None:
-            for x,y in queryCoords:
-                names.append(terms['name'][queryCoords.index((x,y))])
-                longitudes.append(x)
-                latitudes.append(y)
-
-        #Build the dictionary.
         namedPoints["name"] = names
         namedPoints["longitude"] = longitudes
         namedPoints["latitude"] = latitudes
@@ -232,7 +270,7 @@ class DataGenerator():
 
         df_to_save.to_csv(filePathToSave,sep=",",header=True,index=False)
 
-        print("FILEPATHTOSAVE", filePathToSave)
+        #print("FILEPATHTOSAVE", filePathToSave)
 
         return(filePathToSave)
 
@@ -347,7 +385,7 @@ class DataGenerator():
                     (x,y) = point.getCoordinates()
                     y = y+(1*sign)
                     point.updateCoordinates(x,y)
-                    if y == min_y or y == max_y:
+                    if y <= min_y or y >= max_y:
                         finished = True
                 if finished == True:
                     break
@@ -375,7 +413,7 @@ class DataGenerator():
                     (x,y) = point.getCoordinates()
                     x = x+(1*sign)
                     point.updateCoordinates(x,y)
-                    if x == min_x or x == max_x:
+                    if x <= min_x or x >= max_x:
                         finished = True
                 if finished == True:
                     break
@@ -396,7 +434,7 @@ class DataGenerator():
         returnQuery['longitude'] = longitudes
         returnQuery['latitude'] = latitudes
 
-        print("returnQuery", returnQuery)
+        #print("returnQuery", returnQuery)
         return returnQuery
 
 if __name__ == "__main__":
@@ -461,36 +499,68 @@ if __name__ == "__main__":
 
     SEED = flags.randomSeed
     random.seed(SEED)
+    print("\n\n#############################")
+    print("#GENERATING DATASET:", flags.experimentName)
+    print("##############################\n")
+    experiment_metadata = {}
+    experiment_metadata["parameters"] = {}
+    experiment_metadata["queries"] = {}
+    experiment_metadata["locations"] = {}
+
+    for parameter,value in flags.__dict__.items():
+        experiment_metadata["parameters"][parameter] = value
 
     #Initialize the generator
 
     DG = DataGenerator()
 
     #Get the original Queries
+    print("Generating queries...")
     originalQueries = {} 
-    for i in range(0, int(flags.queryRatio*flags.numLocations)):
+    for i in tqdm(range(1, int(flags.queryRatio*flags.numLocations)+1)):
         q_names = []
         q_latitudes = []
         q_longitudes = []
 
+        queryTerms = {}
         for j in range(0, flags.numQueryTerms):
-            q_names.append(j)
-            q_longitudes.append(random.randint(0,flags.scaleFactor))
-            q_latitudes.append(random.randint(0,flags.scaleFactor))
+            x = random.randint(0,2*flags.scaleFactor)
+            y = random.randint(0,2*flags.scaleFactor)
+            while (x,y) in queryTerms:
+                x = random.randint(0,2*flags.scaleFactor)
+                y = random.randint(0,2*flags.scaleFactor)
+            queryTerms[(x,y)] = str(j)
+
+        for q in queryTerms:
+            #print("COORD:", coord)
+            print("Q",q, queryTerms[q])
+            q_names.append(queryTerms[q])
+            q_longitudes.append(q[0])
+            q_latitudes.append(q[1])
+       
+        #q_names.append(j)
+        #q_longitudes.append(random.randint(0,2**flags.scaleFactor))
+        #q_latitudes.append(random.randint(0,2**flags.scaleFactor))
         
         originalQueries[i] =    {"name":q_names,
                         "longitude":q_longitudes,
                         "latitude":q_latitudes}
 
+    experiment_metadata["queries"]["num_queries"] = len(originalQueries.keys())
+    
+    
     print("QUERIES:")
     print(originalQueries)
 
     #Distort the queries
+    print("Applying query distortions & saving to file...")
     distortedQueries = {}
-    
+    experiment_metadata["queries"] = {}
+    experiment_metadata["queries"]["query"] = {}
 
-    for i in range(len(originalQueries.keys())):
-        params = random.choices(["rotation_degrees","expansion","shift_vertical","shift_horizontal"],k=flags.numQueryDistortions)
+    for i in tqdm(range(1, len(originalQueries.keys())+1)):
+        param_options = ["rotation_degrees","expansion","shift_vertical","shift_horizontal"]
+        params = random.choices(param_options,k=flags.numQueryDistortions)
         param_vals = []
 
         if "rotation_degrees" in params:
@@ -510,34 +580,95 @@ if __name__ == "__main__":
         else:
             param_vals.append(0)
 
-        print("Distorting query", i, "With params", param_vals)
+        #print("Distorting query", i, "With params", param_vals)
+        experiment_metadata["queries"]["query"][i] = {}
+        experiment_metadata["queries"]["query"][i]['name'] = originalQueries[i]['name']
+        experiment_metadata["queries"]["query"][i]["num_query_terms"] = len(originalQueries[i]['name']) 
+        experiment_metadata["queries"]["query"][i]["distortions"] = {}
+        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"] = {}
+        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"] = {}
+        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["name"] = originalQueries[i]['name']
+        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["params"] = {}
+        for d, p in zip(param_options, param_vals):
+            experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["params"][d] = p
+
+                                              
         distortedQueries[i] = DG.distortQuery(query_dict=originalQueries[i],
                                                     canvas_size=2^flags.scaleFactor, 
                                                     rotation_degrees=param_vals[0], 
                                                     expansion=param_vals[1], 
                                                     shift_vertical=param_vals[2], 
                                                     shift_horizontal=param_vals[3])
+    
+        DG.saveToFile(experiment_name=flags.experimentName, saveType='distorted_query', number=i, data=distortedQueries[i])
+        #print("Number of queries in file is:", len(distortedQueries[i]['name']))
+        #print("Applied distortions", list(zip(param_options, param_vals)))    
+    
+    print("DISTORTED_QUERIES")
     print(distortedQueries)
 
     pointLists = []
+    density = 0
     locations = {}
 
     print("Creating Locations...")
-    for i in range(0, flags.numLocations):
-        pointsList = DG.generateMatrix(scaleFactor=flags.scaleFactor, edgeFactor=flags.edgeFactor)
+    experiment_metadata["locations"]["location"] = {}
+    for i in tqdm(range(1, flags.numLocations+1)):
+        G = DG.generateMatrix(scaleFactor=flags.scaleFactor, edgeFactor=flags.edgeFactor)
+        pointsList = G[0]
+        density = G[1]
+
+        experiment_metadata["locations"]["location"][i] = {}
+        experiment_metadata["locations"]["location"][i]["name"] = i
+        experiment_metadata["locations"]["location"][i]["density"] = density
+            
         try:
             locations[i] = DG.labelNodes(points=pointsList,numClasses=flags.numClasses, random_seed=flags.randomSeed, queryTerms=distortedQueries[i])
-            #print("Creating Location", i, "with embedded query", i)
+           #print("Creating Location", i, "with embedded query", i, "and density", density)
+            experiment_metadata["locations"]["location"][i]["embedded_query"] = i
         except KeyError as e:
             locations[i] = DG.labelNodes(points=pointsList,numClasses=flags.numClasses, random_seed=flags.randomSeed, queryTerms=None)
-            #print("Creating Location", i, "with no embedded query")
+            #print("Creating Location", i, "with no embedded query", "and density", density)
+            experiment_metadata["locations"]["location"][i]["embedded_query"] = None
 
-    #print(locations)
+        experiment_metadata["locations"]["location"][i]["num_objects"] = len(locations[i]['name'])
+        #print("NUM OBJECTS IN LOCATION:",len(locations[i]['name']))
 
-    for i in range(len(locations.keys())):
-        print("Saved to", DG.saveToFile(experiment_name=flags.experimentName, saveType='location', number=i, data=locations[i]))
+    experiment_metadata["locations"]["num_locations"] = len(locations.keys())
     
-    for i in range(len(distortedQueries.keys())):
-        #print("SAVING:", distortedQueries[i])
-        print("Saved to", DG.saveToFile(experiment_name=flags.experimentName, saveType='query', number=i, data=distortedQueries[i]))
+    #Save to files
+    print("Saving Locations to File...")
+    for i in tqdm(range(1,len(locations.keys())+1)):
+        DG.saveToFile(experiment_name=flags.experimentName, saveType='location', number=i, data=locations[i])
+        #print("Number of locations in file is:", len(locations[i]['name']))
+    
+    print("Saving Queries to File...")
+    for i in tqdm(range(1, len(originalQueries.keys())+1)):
+        #print("SAVING:", originalQueries[i])
+        DG.saveToFile(experiment_name=flags.experimentName, saveType='query', number=i, data=distortedQueries[i])
+        #print("Number of queries in file is:", len(originalQueries[i]['name']))
 
+    #print("EXPERIMENT METADATA")
+    #print(experiment_metadata)
+
+    #Save the metadata
+    #TODO: Make this its own function
+    dataDirectory = ""
+    for p in sys.path:
+        if p.endswith("data"):
+            dataDirectory = p
+    
+    assert dataDirectory in sys.path,"Unable to find the 'GESTALT/data' directory - does it exist?"
+
+    experimentsDirectoryPath = os.path.join(dataDirectory, "experiments")
+    assert  os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist." 
+
+    experimentDirectoryPath = os.path.join(experimentsDirectoryPath, flags.experimentName)
+    
+    if os.path.exists(experimentDirectoryPath) == False:
+        os.mkdir(experimentDirectoryPath)
+    
+    assert  os.path.exists(experimentDirectoryPath),"'data/experiments/'"+flags.experimentName+" does not exist." 
+
+    with open(os.path.join(experimentDirectoryPath,flags.experimentName)+".json", "w") as outfile:
+        json.dump(experiment_metadata, outfile, indent=4)

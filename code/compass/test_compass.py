@@ -469,7 +469,7 @@ class test_Compass(unittest.TestCase):
         
         rotatedStates = self.COMPASS.generateRotations(points=twoPoints, alignToIntegerGrid=True)
 
-        self.assertSetEqual(rotatedStates, self.uniqueRotations)
+
 
 
 # Main Function

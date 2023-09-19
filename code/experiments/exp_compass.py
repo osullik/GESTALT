@@ -4,16 +4,19 @@
 # System Imports
 import sys
 import os
+import argparse
+import json
 # Library Imports
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 # User file imports
 
 sys.path.insert(1, os.getcwd()+"/../")
 sys.path.insert(1, os.getcwd()+"/../compass")
 sys.path.insert(1, os.getcwd()+"/../gestalt")
-sys.path.insert(1, os.getcwd()+"/../generator")
+sys.path.insert(1, os.getcwd()+"/../utils")
 sys.path.insert(1, os.getcwd()+"/../../data")
 
 from compass import Point
@@ -46,6 +49,10 @@ class CompassExperimentRunner():
     def loadLocations(self, objectsDataFrame:pd.DataFrame)->None:
         #Creates the dictionary of concept maps for all locations and saves to the class properties. 
         self._cm_dict.update(self.cm.createConceptMap(input_df=objectsDataFrame))
+
+    def loadQueries(self, queryObjectsDataFrame:pd.DataFrame)->None:
+        #Creates the dictionary of concept maps for all locations and saves to the class properties. 
+        return(self.cm.createConceptMap(input_df=queryObjectsDataFrame))
 
     def loadInvertedIndex(self, objectsDataFrame:pd.DataFrame)->None:
         #Creates the inverted index for all locations and saves to the class properties. 
@@ -109,7 +116,7 @@ class CompassExperimentRunner():
             pointLatitudes = []
             pointPredictedLocs = []
             for point in rotation:
-                pointNames.append(point[0])
+                pointNames.append(str(point[0]))
                 pointLongitudes.append(point[1][0])
                 pointLatitudes.append(point[1][1])
                 pointPredictedLocs.append("PICTORIAL_QUERY")
@@ -170,8 +177,10 @@ class CompassExperimentRunner():
             return True
 
 class CompassDataLoader():
-    def __init__(self) -> None:
+    def __init__(self,experiment_name="test") -> None:
         self.ER = CompassExperimentRunner()
+        self.experiment_name = experiment_name
+        self._ignoreFiles = [".DS_Store"]       #Used to blacklist directory files we want to ignore. 
         pass
 
     def checkExperimentFilesExist(self, experimentName:str, locationFileName:str, queryFileName:str, experimentsDirectory:str="experiments")->bool:
@@ -181,16 +190,16 @@ class CompassDataLoader():
             if p.endswith("data"):
                 dataDirectory = p
 
-        assert((dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?")
+        assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
 
         experimentsDirectoryPath = os.path.join(dataDirectory, experimentsDirectory)
-        assert (os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist.")
+        assert os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist."
 
-        experimentDirectory = os.path.join(experimentsDirectoryPath, "experiment_"+experimentName)
-        assert (os.path.exists(experimentDirectory),"'data/experiments/experiment_"+experimentName+"' does not exist.")
+        experimentDirectory = os.path.join(experimentsDirectoryPath, experimentName)
+        assert os.path.exists(experimentDirectory),"'data/experiments/"+experimentName+"' does not exist."
         
-        locationPath = os.path.join(experimentDirectory,"locations",locationFileName)
-        queryPath = os.path.join(experimentDirectory,"queries",queryFileName)
+        locationPath = os.path.join(experimentDirectory,"location",locationFileName)
+        queryPath = os.path.join(experimentDirectory,"query",queryFileName)
 
         if os.path.isfile(locationPath):
             if os.path.isfile(queryPath):
@@ -208,16 +217,16 @@ class CompassDataLoader():
         for p in sys.path:
             if p.endswith("data"):
                 dataDirectory = p
-        assert((dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?")
+        assert(dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
 
         experimentsDirectoryPath = os.path.join(dataDirectory, experimentsDirectory)
-        assert (os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist.")
+        assert os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist."
 
-        experimentDirectory = os.path.join(experimentsDirectoryPath, "experiment_"+experimentName)
-        assert (os.path.exists(experimentDirectory),"'data/experiments/experiment_"+experimentName+"' does not exist.")
+        experimentDirectory = os.path.join(experimentsDirectoryPath, experimentName)
+        assert os.path.exists(experimentDirectory),"'data/experiments/"+experimentName+"' does not exist."
 
-        locationPath = os.path.join(experimentDirectory,"locations")
-        queryPath = os.path.join(experimentDirectory,"queries")
+        locationPath = os.path.join(experimentDirectory,"location")
+        queryPath = os.path.join(experimentDirectory,"query")
 
         locations = os.listdir(locationPath)
         queries = os.listdir(queryPath)
@@ -226,12 +235,16 @@ class CompassDataLoader():
         returnQueries = []
 
         for location in locations:
-            returnLocations.append(os.path.join(locationPath,location))
+            if location not in self._ignoreFiles:
+                returnLocations.append(os.path.join(locationPath,location))
 
         for query in queries:
-            returnQueries.append(os.path.join(queryPath,query))
+            if query not in self._ignoreFiles:
+                returnQueries.append(os.path.join(queryPath,query))
+
+        metadataPath = locationPath = os.path.join(experimentDirectory,experimentName+".json")
         
-        return (returnLocations,returnQueries)
+        return (returnLocations,returnQueries,metadataPath)
     
     def loadCSV(self,filePath:str)->pd.DataFrame:
 
@@ -239,17 +252,57 @@ class CompassDataLoader():
 
         return df
     
-    def loadCSVToConceptMap(self, filePath:str)->np.array:
+    def loadLocationCSVToConceptMap(self, filePath:str)->np.array:
 
         pathList = os.path.split(filePath)
         name = pathList[-1]
         name = name.split(".")[0]
 
         df = pd.read_csv(filePath, sep=",", header='infer')
+
+        #print(df)
+
+        if "predicted_location" not in df:
+            df['predicted_location'] = name
+        if "object_prob" not in df:
+            df['object_prob'] = 1
+        if "assignment_prob" not in df:
+            df['assignment_prob'] = 1
+
+        #print(df)
+
         self.ER.loadLocations(df)
-        cm = self.ER.getConceptMapDict()[name]
+        print(self.ER.getConceptMapDict())
+        cm = self.ER.getConceptMapDict()[name] #BUG workaround - just return whole dict
+        #cm = self.ER.getConceptMapDict()
 
         return(cm)
+
+
+    def loadQueryCSVToConceptMap(self, filePath:str)->np.array:
+
+        pathList = os.path.split(filePath)
+        name = pathList[-1]
+        name = name.split(".")[0]
+
+        df = pd.read_csv(filePath, sep=",", header='infer',dtype=object)
+
+        #print(df)
+
+        if "predicted_location" not in df:
+            df['predicted_location'] = "PICTORIAL_QUERY"
+        if "object_prob" not in df:
+            df['object_prob'] = 1
+        if "assignment_prob" not in df:
+            df['assignment_prob'] = 1
+
+        #print(df)
+
+        qm = self.ER.loadQueries(df)[name]
+
+        #cm = self.ER.getConceptMapDict()
+
+        return(qm)
 
 
 
@@ -266,3 +319,93 @@ class CompassDataLoader():
 # Generate all rotations of Query Terms
 
 # Search all locations for query term
+
+if __name__ == "__main__":
+
+    argparser = argparse.ArgumentParser()									# initialize the argParser
+
+    #General Params
+    argparser.add_argument("--experimentName",
+                            help="The name of the experiment we are running",
+                            type = str,
+                            required = False) 
+    
+
+    flags = argparser.parse_args()
+
+    DL = CompassDataLoader(flags.experimentName)
+    ER = CompassExperimentRunner()
+
+    location_files, query_files, metadata_file = DL.getExperimentFiles(experimentName=flags.experimentName)
+
+    #print("LOCATIONS")
+    #print(location_files)
+
+    #print("QUERIES")
+    #print(query_files)
+
+    #print("METADATA")
+    #print(metadata_file)
+
+    locations = []
+
+    for location_file in tqdm(location_files):
+        DL.loadLocationCSVToConceptMap(location_file) #Loads to the dict in the class
+    ER._cm_dict = DL.ER.getConceptMapDict()
+    
+    #print(locations)
+    for loc in ER.getConceptMapDict():
+        print("LOC", loc)
+        print(ER.getConceptMapDict()[loc]) 
+        print("\n")
+
+    queries = {}
+    for i in tqdm(range(0,len(query_files))):
+        
+        query_df = DL.loadCSV(query_files[i])
+        if "predicted_location" not in query_df:
+            query_df['predicted_location'] = "PICTORIAL_QUERY"
+        if "object_prob" not in query_df:
+            query_df['object_prob'] = 1
+        if "assignment_prob" not in query_df:
+            query_df['assignment_prob'] = 1
+        points = []
+        
+        for idx, row in query_df.iterrows():
+            points.append(Point(row['name'], row['longitude'], row['latitude']))
+
+        queryMap, searchOrder = ER.generateQueryMap(query=query_df)
+        print("FOR QUERY:",i+1,"GENERATED:\n", queryMap["PICTORIAL_QUERY"],"\nORDER:", searchOrder)
+        queries[i+1] = {}
+        queries[i+1]["queryMap"] = queryMap
+        queries[i+1]["searchOrder"] = searchOrder
+        queries[i+1]["points"] = points.copy()
+        
+
+    #print(queries)
+
+
+    with open(metadata_file,'r') as infile:
+        metadata = json.load(infile)
+
+    print("\n#####_BEGINNING_SEARCH_#####\n")
+
+    for i in range(0,len(queries)):
+        #print("QUERY:", i)
+        print("Generating Rotations...")
+        queries[i+1]['rotations'] = ER.getQueryMapConfigurations(points=points,
+                                                               alignToIntegerGrid=False) 
+        
+        print("Searching...")
+        #print(queries[i]["queryMap"])
+        #res = ER.gridSearchAllRotations(queries=(queries[i]["rotations"]))
+        res = ER.gridSearchAllRotations(queries=[(queries[i+1]["queryMap"],queries[i+1]["searchOrder"])])
+        #print(res)
+
+        #Generate All possible rotations
+
+        
+
+    #json_formatted_str = json.dumps(metadata, indent=2)
+
+    #print(json_formatted_str)

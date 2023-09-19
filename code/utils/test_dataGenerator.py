@@ -41,8 +41,10 @@ class test_compass_experiments(unittest.TestCase):
 
         pt = (0,0)
         points = [pt]
+        density = 1
 
-        self.assertEqual(self.DG.generateMatrix(scaleFactor=0, edgeFactor=1), points)
+        self.assertEqual(self.DG.generateMatrix(scaleFactor=0, edgeFactor=1)[0], points)
+        self.assertEqual(self.DG.generateMatrix(scaleFactor=0, edgeFactor=1)[1], density)
 
     def test_multi_nodes(self):
         #Note: since it's probabalistic this might fail occasioanally
@@ -51,16 +53,20 @@ class test_compass_experiments(unittest.TestCase):
         pt3 = (1,0)
 
         points = [pt1,pt2,pt3]
+        density = 2.0
 
-        generatedGraph = self.DG.generateMatrix(scaleFactor=1, edgeFactor=1)
+        G = self.DG.generateMatrix(scaleFactor=1, edgeFactor=1)
+        generatedGraph = G[0]
+        generatedDensity = G[1]
 
         self.assertListEqual(generatedGraph,points)
+        self.assertEqual(generatedDensity,density)
 
 
     def test_labelNodes(self):
 
         labelledNodes = {
-                        "name":["i"],
+                        "name":["I"],
                         "longitude":[0],
                         "latitude":[0]
                         }
@@ -75,7 +81,7 @@ class test_compass_experiments(unittest.TestCase):
     def test_multiLabelling(self):
 
         labelledNodes = {
-                        "name":["i","i","I"],
+                        "name":["I","I","L"],
                         "longitude":[0,0,1],
                         "latitude":[0,1,0]
                         }
@@ -192,7 +198,7 @@ class test_compass_experiments(unittest.TestCase):
         
         numClasses = 4
         
-        pointList = self.DG.generateMatrix(scaleFactor=3, edgeFactor=1)
+        pointList = self.DG.generateMatrix(scaleFactor=3, edgeFactor=1)[0]
         labelledPoints = self.DG.labelNodes(points=pointList,numClasses=numClasses, random_seed=3, queryTerms=query)
 
         self.assertDictEqual(labelledPoints,new_loc)
