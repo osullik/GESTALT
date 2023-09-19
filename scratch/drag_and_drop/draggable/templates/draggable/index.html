@@ -223,6 +223,26 @@
                         console.log(userKnowsNorth);
                         //Prints either "Does not know where North is" or "Knows where North is" to
                                 //the console depending on the user's selection of the checkbox
+						
+						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
+                    }
+                });
+				
+				$.ajax({
+                    type: 'GET',
+                    url: '/searchresult/',
+                    success: function(response) {
+                        var locationData = response.locations;
+                        console.log(locationData); // Print the box data in the browser console
+                        // Perform further processing with the box data as desired
+                        console.log(searchType);
+                        //Prints either "Location" or "Object" to the console depending on the
+                                //search type the user chooses to use
+                        console.log(userKnowsNorth);
+                        //Prints either "Does not know where North is" or "Knows where North is" to
+                                //the console depending on the user's selection of the checkbox
+						
+						alert(locationData)
                     }
                 });
             }
@@ -234,10 +254,10 @@
             var userKnowsNorth = "Does not know where North is";
             var container = $(".brown_background_div");
             var northArrow = document.createElement('span');
-            northArrow.textContent = "^";
-            northArrow.style.fontSize = "50px";
+            northArrow.textContent = "North ⇑";
+            northArrow.style.fontSize = "40px";
             northArrow.style.fontWeight = 'bold';
-            northArrow.style.color = 'red';
+            northArrow.style.color = 'black';
             northArrow.style.position = 'absolute';
             northArrow.style.left = '900px';
             northArrow.style.top = "70px";

@@ -44,6 +44,15 @@ def update_coordinates(request):
             'y': y
         }
         return JsonResponse(response_data)
+        
+def get_search_result(request):
+    response_data = {
+            'locations': ["Ali's Vineyard"],
+            'x': "x",
+            'y': "y"
+        }
+    print(response_data)
+    return JsonResponse(response_data)
 
 #  Was originally using this code to access the separate html file:
 # def get_box_data2(request):

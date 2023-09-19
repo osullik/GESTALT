@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('coordinates/', views.update_coordinates, name='update_coordinates'),
     path('boxdata/', views.get_box_data, name='get_box_data'),
+    path('searchresult/', views.get_search_result, name='get_search_result'),
 ]
 
 # Was originally using this code to access the separate html file:
