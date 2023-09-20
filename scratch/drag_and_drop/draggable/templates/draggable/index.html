@@ -229,10 +229,6 @@
 
                         //The code below appends a pop-up box to the screen once the user hits Run Query:
                         //Replace the "filler text" with the produced results from the search
-                        resultsDisplay.innerText = "This is a filler for the actual results.";
-                        document.body.appendChild(resultsDisplay);
-                        document.body.appendChild(quitResultsDisplay);
-
                     }
                 });
 				
@@ -250,7 +246,14 @@
                         //Prints either "Does not know where North is" or "Knows where North is" to
                                 //the console depending on the user's selection of the checkbox
 						
-						for (i in locationData) { alert(locationData[i]); } //alert(locationData)
+						var resultsString = "Locations matching query configuration: \n";
+						for (i in locationData) {
+						resultsString = resultsString.concat(locationData[i])
+						//alert(locationData[i]); 
+						} //alert(locationData)
+						resultsDisplay.innerText = resultsString
+						document.body.appendChild(resultsDisplay);
+                        document.body.appendChild(quitResultsDisplay);
                     }
                 });
             }
@@ -312,7 +315,7 @@
             submitButton.addEventListener('click', submitQuery);
             document.body.appendChild(submitButton);
             submitButton.style.position = "absolute";
-            submitButton.style.top = "350px";
+            submitButton.style.top = "250px";
             submitButton.style.left = "1100px";
             submitButton.style.width = "200px";
             submitButton.style.fontSize = "15px";
@@ -324,7 +327,7 @@
             resetButton.addEventListener('click', refreshPage);
             document.body.appendChild(resetButton);
             resetButton.style.position = "absolute";
-            resetButton.style.top = "500px";
+            resetButton.style.top = "310px";
             resetButton.style.left = "1100px";
             resetButton.style.width = "200px";
             resetButton.style.fontSize = "15px";
@@ -376,19 +379,19 @@
             locationCentricSearchButton.style.fontFamily = "monaco";
 
             var resultsDisplay = document.createElement('div');
-            resultsDisplay.style.backgroundColor = "#AAEFDF";
-            resultsDisplay.style.width = "600px";
-            resultsDisplay.style.height = "300px";
+            resultsDisplay.style.backgroundColor = "#e7efee";
+            resultsDisplay.style.width = "400px";
+            resultsDisplay.style.height = "200px";
             resultsDisplay.style.position = "absolute";
-            resultsDisplay.style.top = "175px";
-            resultsDisplay.style.left = "200px";
+            resultsDisplay.style.top = "400px";
+            resultsDisplay.style.left = "1075px";
 
             var quitResultsDisplay = document.createElement('button');
             quitResultsDisplay.innerText = "X";
             quitResultsDisplay.style.fontSize = "20px";
             quitResultsDisplay.style.position = "absolute";
-            quitResultsDisplay.style.top = "182px";
-            quitResultsDisplay.style.left = "762px";
+            quitResultsDisplay.style.top = "370px";
+            quitResultsDisplay.style.left = "1480px";
             quitResultsDisplay.addEventListener('click', refreshPage);
 
         });
