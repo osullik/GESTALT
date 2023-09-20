@@ -98,12 +98,13 @@
 
     <h1>GESTALT - </h1>
 
-    <input type="checkbox" id="northButton" name="northButton" value="northButton">
+    <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
     <label for="northButton" class="northButtonLabel">I know where North is</label>
 
     <div class="background_container">
 
     <div class="brown_background_div"> 
+
     </div> <!-- end brown-background-div -->
 
     <div class="green_background_div"> 
@@ -225,6 +226,13 @@
                                 //the console depending on the user's selection of the checkbox
 						
 						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
+
+                        //The code below appends a pop-up box to the screen once the user hits Run Query:
+                        //Replace the "filler text" with the produced results from the search
+                        resultsDisplay.innerText = "This is a filler for the actual results.";
+                        document.body.appendChild(resultsDisplay);
+                        document.body.appendChild(quitResultsDisplay);
+
                     }
                 });
 				
@@ -251,9 +259,10 @@
                 location.reload();
             }
 
-            var userKnowsNorth = "Does not know where North is";
+            var userKnowsNorth = "Knows where North is";
             var container = $(".brown_background_div");
-            var northArrow = document.createElement('span');
+            var northArrow = document.createElement('string');
+            document.body.appendChild(northArrow);
             northArrow.textContent = "North ⇑";
             northArrow.style.fontSize = "40px";
             northArrow.style.fontWeight = 'bold';
@@ -264,15 +273,26 @@
 
             let northCheckbox = document.getElementById("northButton");
             northCheckbox.addEventListener( "change", () => {
-            if (northCheckbox.checked ) {
-                userKnowsNorth = "Knows where North is";
-                container.append(northArrow);
-            } else {
-                userKnowsNorth = "Does not know where North is";
-                if (northArrow){
-                    northArrow.parentNode.removeChild(northArrow);
-                } 
-            }
+              if (searchType === "Object") {
+                if (northCheckbox.checked ) {
+                    userKnowsNorth = "Knows where North is";
+                    container.append(northArrow);
+                } else {
+                    userKnowsNorth = "Does not know where North is";
+                    if (northArrow){
+                        northArrow.parentNode.removeChild(northArrow);
+                    } 
+                }
+              } else { //if (searchType === "Location")
+                if (northCheckbox.checked) {
+                    userKnowsNorth = "Knows where North is";
+                    container.append(northArrow);
+                } else {
+                    userKnowsNorth = "Knows where North is";
+                    alert("North must be known in order to run the location-centric search.");
+                    northCheckbox.checked = true;
+                }
+              }
             });
     
 
@@ -333,6 +353,10 @@
             locationCentricSearchButton.addEventListener('click', function() {
                 searchType = "Location";
 
+                container.append(northArrow);
+                northCheckbox.checked = true;
+                userKnowsNorth = "Knows where North is";
+
                 var compass = document.createElement("div");
                 compass.textContent = "+";
                 compass.style.position = "absolute";
@@ -350,6 +374,22 @@
             locationCentricSearchButton.style.width = "250px";
             locationCentricSearchButton.style.fontSize = "15px";
             locationCentricSearchButton.style.fontFamily = "monaco";
+
+            var resultsDisplay = document.createElement('div');
+            resultsDisplay.style.backgroundColor = "#AAEFDF";
+            resultsDisplay.style.width = "600px";
+            resultsDisplay.style.height = "300px";
+            resultsDisplay.style.position = "absolute";
+            resultsDisplay.style.top = "175px";
+            resultsDisplay.style.left = "200px";
+
+            var quitResultsDisplay = document.createElement('button');
+            quitResultsDisplay.innerText = "X";
+            quitResultsDisplay.style.fontSize = "20px";
+            quitResultsDisplay.style.position = "absolute";
+            quitResultsDisplay.style.top = "182px";
+            quitResultsDisplay.style.left = "762px";
+            quitResultsDisplay.addEventListener('click', refreshPage);
 
         });
 
