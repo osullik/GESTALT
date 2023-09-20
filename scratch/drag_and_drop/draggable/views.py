@@ -47,6 +47,13 @@ def get_box_data(request):
     }
     print(response_data)
     return JsonResponse(response_data)
+    
+def get_objects(request):
+    response_data = {
+        'objects': ['pond','testnm']
+    }
+    print("VIEWS SAYS: ", response_data)
+    return JsonResponse(response_data)
 
 def index(request):
     print("STARTUP....")
