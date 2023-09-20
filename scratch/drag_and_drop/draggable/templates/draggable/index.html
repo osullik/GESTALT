@@ -108,11 +108,11 @@
     </div> <!-- end brown-background-div -->
 
     <div class="green_background_div"> 
-        <select id="objectNameList" name="objectNameList">
+        <!--<select id="objectNameList" name="objectNameList">
             <option value="Object1">Object1</option>
             <option value="Object2">Object2</option>
             <option value="Object3">Object3</option>
-        </select>
+        </select>-->
     </div> <!-- end green-background-div -->
  </div>  <!-- end background-container div -->
 
@@ -127,7 +127,7 @@
             var boxData = [];
             var boxCount = 0;  // Initial box count
             var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
+			
             class Box {
                 constructor(name, x, y) {
                     this.name = name;
@@ -199,16 +199,22 @@
                 }
             }
 
+
+			
+			
             function addBox() {
-                var objectNameList = document.getElementById('objectNameList');
-                var selectedIndex = objectNameList.selectedIndex;
-                
-                var selectedOption = objectNameList.options[selectedIndex];
+               // var objectNameList = document.getElementById('objectNameList');
+               // var selectedIndex = objectNameList.selectedIndex;
+               // var selectedOption = objectNameList.options[selectedIndex];
+			   
+			    var objectNameList = document.getElementsByName('boxNames')[0];
+                var selectedOption = objectNameList.value;
                 console.log(selectedOption);
         
-                var newBox = new Box(selectedOption.value, 0, 0);
+                var newBox = new Box(selectedOption, 0, 0);
                 boxData.push(newBox);  
             }
+			
 
             function submitQuery() {
                 $.ajax({
@@ -297,6 +303,28 @@
                 }
               }
             });
+			
+			
+			// Add the dropdown menu to the document
+		    var options = ["palm_tree", "statue", "bench", "umbrella"];
+            var selectedOption = document.createElement('select');
+            selectedOption.name = 'boxNames';
+            for (var i = 0; i < options.length; i++) {
+                var option = document.createElement('option');
+                option.value = options[i];
+                option.text = options[i];
+                selectedOption.appendChild(option);
+            }
+            document.body.appendChild(selectedOption);
+            document.body.appendChild(selectedOption);
+            selectedOption.style.position = "absolute";
+            selectedOption.style.top = "110px";
+            selectedOption.style.left = "1100px";
+            selectedOption.style.width = "200px";
+			selectedOption.style.height = "30px";
+            selectedOption.style.fontSize = "15px";
+            selectedOption.style.fontFamily = "monaco";
+            selectedOption.style.color = "black";
     
 
             var addButton = document.createElement('button');
