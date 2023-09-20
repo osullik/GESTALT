@@ -1,8 +1,24 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.templatetags.static import static
+import sys
+import os
+import pickle
+import pandas as pd
+import json
+
+sys.path.insert(1, os.getcwd()+"/../../code/")
+sys.path.insert(1, os.getcwd()+"/../../data/")
+sys.path.insert(1, os.path.join(os.getcwd(),"media"))
+
+from conceptMapping import ConceptMapper
+from search import InvertedIndex
 
 box_data = {}  # List to store the box data
+base_dir = settings.MEDIA_ROOT    
 
 # def index(request):
 #     return render(request, 'draggable/index.html')
@@ -45,13 +61,75 @@ def update_coordinates(request):
         }
         return JsonResponse(response_data)
         
+@csrf_exempt         
 def get_search_result(request):
+    print("About to search for: ", box_data['0'])
+
+    # TODO do the search with everything in box_data
+    dataDirectory = ""
+    for p in sys.path:
+        if p.endswith("media"):
+           dataDirectory = p 
+
+    assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
+    
+    CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+    INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+    UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
+    
+    invertedIndex = InvertedIndex(INVERTED_INDEX)
+    VOCAB = invertedIndex.ii.keys()
+    print('VOCAB is:', VOCAB)
+  
+    with open(CONCEPT_MAPS, "rb") as inFile:
+         conceptMaps = pickle.load(inFile)
+    CM = ConceptMapper()
+
+    with open(UI_LOCATIONS, "r") as inFile:
+        referenceLocations = json.load(inFile)
+         
+    flatDict = {}
+    flatDict["name"] = []
+    flatDict["longitude"] = []
+    flatDict["latitude"] = []
+    flatDict["predicted_location"] = []
+    for key in box_data.keys():
+        print("KEY: ", box_data[key]["name"], box_data[key]["x"], box_data[key]["y"])
+        flatDict["name"].append("palm_tree")#box_data[key]["name"])
+        flatDict["longitude"].append(box_data[key]["x"])
+        flatDict["latitude"].append(box_data[key]["y"])
+        flatDict["predicted_location"].append("PICTORIAL_QUERY")
+    
+    query_df = pd.DataFrame.from_dict(flatDict, orient='columns')
+    print(query_df)
+    
+    print("\n\n= = = = = = = = =  OBJECT CENTRIC SEARCH = = = = = = = = = \n")
+    CM = ConceptMapper()
+    queryMap = CM.createConceptMap(input_df=query_df, inputFile=None)
+    searchOrder = CM.getSearchOrder(queryMap['PICTORIAL_QUERY'])
+    print(searchOrder)
+    
+    results = []
+    for locationCM in conceptMaps.keys():
+        result = CM.searchMatrix(conceptMaps[locationCM],searchOrder.copy())
+        if result == True: 
+            results.append(locationCM)
+            result = False
+            
+    if len(results) == 0:
+        print('No Results Found')
+    else:
+        print("Found Following Matches to Query:")
+        for res in results: 
+            print(res)
+                    
+                    
+
     response_data = {
-            'locations': ["Ali's Vineyard"],
-            'x': "x",
-            'y': "y"
+            'locations': results,
         }
     print(response_data)
+    
     return JsonResponse(response_data)
 
 #  Was originally using this code to access the separate html file:
