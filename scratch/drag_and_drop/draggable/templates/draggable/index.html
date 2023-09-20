@@ -98,20 +98,21 @@
 
     <h1>GESTALT - </h1>
 
-    <input type="checkbox" id="northButton" name="northButton" value="northButton">
+    <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
     <label for="northButton" class="northButtonLabel">I know where North is</label>
 
     <div class="background_container">
 
     <div class="brown_background_div"> 
+
     </div> <!-- end brown-background-div -->
 
     <div class="green_background_div"> 
-        <select id="objectNameList" name="objectNameList">
+        <!--<select id="objectNameList" name="objectNameList">
             <option value="Object1">Object1</option>
             <option value="Object2">Object2</option>
             <option value="Object3">Object3</option>
-        </select>
+        </select>-->
     </div> <!-- end green-background-div -->
  </div>  <!-- end background-container div -->
 
@@ -124,9 +125,34 @@
     <script>
         $(document).ready(function() {
             var boxData = [];
+			var OBJECTS = [];
             var boxCount = 0;  // Initial box count
             var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
+			
+			class Region {
+                constructor(name) {
+                    this.name = name;
+                    //this.selectRegion();
+					console.log("created Region with name: ");
+					console.log(this.name);
+                }
+				
+				selectRegion() {
+					var self = this;
+					$.ajax({
+						type: 'GET',
+						url: '/getobjs/',
+						success: function(response) {
+							OBJECTS = response['objects'];
+							console.log("trying to set self.objects...");
+							console.log(OBJECTS);
+						}
+					});				
+				}
+			}
+			
+			
+			
             class Box {
                 constructor(name, x, y) {
                     this.name = name;
@@ -198,16 +224,75 @@
                 }
             }
 
+			
             function addBox() {
-                var objectNameList = document.getElementById('objectNameList');
-                var selectedIndex = objectNameList.selectedIndex;
-                
-                var selectedOption = objectNameList.options[selectedIndex];
+			    var objectNameList = document.getElementsByName('boxNames')[0];
+                var selectedOption = objectNameList.value;
                 console.log(selectedOption);
         
-                var newBox = new Box(selectedOption.value, 0, 0);
+                var newBox = new Box(selectedOption, 0, 0);
                 boxData.push(newBox);  
             }
+			
+			function pullObjs() { //return new Promise( function(response) {
+				return $.ajax({
+						type: 'GET',
+						url: '/getobjs/',
+						success: function(response) {
+							OBJECTS = response['objects'];
+							console.log("trying to set OBJECTS in promise...");
+							console.log(OBJECTS);
+						}
+					});
+				}
+				//)
+				//}
+				
+			function addRegion() {
+			    var regionName = document.getElementsByName('regionChoice')[0];
+                var selectedRegion = regionName.value;
+        
+                pullObjs().then(function(response) {
+				// Run this when your request was successful
+				console.log("GOT RESPONSE");
+				console.log(response)
+				
+					
+					
+				var newRegion = new Region(selectedRegion);	
+				//OBJECTS = newRegion.objects;
+				console.log("Objects is now...");
+				console.log(OBJECTS);
+				console.log("Region name is now...");
+				console.log(newRegion.name)
+				
+				
+				// Add the object dropdown menu to the document
+				console.log("trying to add dropdown with these OBJECTS...");
+				console.log(OBJECTS);
+				var options = OBJECTS //["palm_tree", "statue", "bench", "umbrella"];
+				var selectedOption = document.createElement('select');
+				selectedOption.name = 'boxNames';
+				for (var i = 0; i < options.length; i++) {
+					var option = document.createElement('option');
+					option.value = options[i];
+					option.text = options[i];
+					selectedOption.appendChild(option);
+				}
+				document.body.appendChild(selectedOption);
+				selectedOption.style.position = "absolute";
+				selectedOption.style.top = "110px";
+				selectedOption.style.left = "1100px";
+				selectedOption.style.width = "200px";
+				selectedOption.style.height = "30px";
+				selectedOption.style.fontSize = "15px";
+				selectedOption.style.fontFamily = "monaco";
+				selectedOption.style.color = "black";
+				
+				})
+				
+				}
+			
 
             function submitQuery() {
                 $.ajax({
@@ -223,6 +308,36 @@
                         console.log(userKnowsNorth);
                         //Prints either "Does not know where North is" or "Knows where North is" to
                                 //the console depending on the user's selection of the checkbox
+						
+						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
+
+                        //The code below appends a pop-up box to the screen once the user hits Run Query:
+                        //Replace the "filler text" with the produced results from the search
+                    }
+                });
+				
+				$.ajax({
+                    type: 'GET',
+                    url: '/searchresult/',
+                    success: function(response) {
+                        var locationData = response.locations;
+                        console.log(locationData); // Print the box data in the browser console
+                        // Perform further processing with the box data as desired
+                        console.log(searchType);
+                        //Prints either "Location" or "Object" to the console depending on the
+                                //search type the user chooses to use
+                        console.log(userKnowsNorth);
+                        //Prints either "Does not know where North is" or "Knows where North is" to
+                                //the console depending on the user's selection of the checkbox
+						
+						var resultsString = "Locations matching query configuration: \n";
+						for (i in locationData) {
+						resultsString = resultsString.concat(locationData[i]);
+						//alert(locationData[i]); 
+						} //alert(locationData)
+						resultsDisplay.innerText = resultsString;
+						document.body.appendChild(resultsDisplay);
+                        document.body.appendChild(quitResultsDisplay);
                     }
                 });
             }
@@ -230,32 +345,72 @@
             function refreshPage() {
                 location.reload();
             }
+			
+			
+			
+			
 
-            var userKnowsNorth = "Does not know where North is";
+            var userKnowsNorth = "Knows where North is";
             var container = $(".brown_background_div");
-            var northArrow = document.createElement('span');
-            northArrow.textContent = "^";
-            northArrow.style.fontSize = "50px";
+            var northArrow = document.createElement('string');
+            document.body.appendChild(northArrow);
+            northArrow.textContent = "North ⇑";
+            northArrow.style.fontSize = "40px";
             northArrow.style.fontWeight = 'bold';
-            northArrow.style.color = 'red';
+            northArrow.style.color = 'black';
             northArrow.style.position = 'absolute';
             northArrow.style.left = '900px';
             northArrow.style.top = "70px";
 
             let northCheckbox = document.getElementById("northButton");
             northCheckbox.addEventListener( "change", () => {
-            if (northCheckbox.checked ) {
-                userKnowsNorth = "Knows where North is";
-                container.append(northArrow);
-            } else {
-                userKnowsNorth = "Does not know where North is";
-                if (northArrow){
-                    northArrow.parentNode.removeChild(northArrow);
-                } 
-            }
+              if (searchType === "Object") {
+                if (northCheckbox.checked ) {
+                    userKnowsNorth = "Knows where North is";
+                    container.append(northArrow);
+                } else {
+                    userKnowsNorth = "Does not know where North is";
+                    if (northArrow){
+                        northArrow.parentNode.removeChild(northArrow);
+                    } 
+                }
+              } else { //if (searchType === "Location")
+                if (northCheckbox.checked) {
+                    userKnowsNorth = "Knows where North is";
+                    container.append(northArrow);
+                } else {
+                    userKnowsNorth = "Knows where North is";
+                    alert("North must be known in order to run the location-centric search.");
+                    northCheckbox.checked = true;
+                }
+              }
             });
+			
+			
+			// Add the region menu to the document
+		    var regions = ["Swan Valley, Australia", "Washington D.C."];
+            var selectedRegion = document.createElement('select');
+            selectedRegion.name = 'regionChoice';
+            for (var i = 0; i < regions.length; i++) {
+                var region = document.createElement('option');
+                region.value = regions[i];
+                region.text = regions[i];
+                selectedRegion.appendChild(region);
+            }
+            document.body.appendChild(selectedRegion);
+			
+			// Add region button
+			var regionButton = document.createElement('button');
+            regionButton.innerText = 'Set Region';
+            regionButton.addEventListener('click', addRegion);
+            document.body.appendChild(regionButton);
+			
+			
+			
+			
+			
     
-
+			// Add box button
             var addButton = document.createElement('button');
             addButton.innerText = 'Add Selected Object to Search';
             addButton.addEventListener('click', addBox);
@@ -272,7 +427,7 @@
             submitButton.addEventListener('click', submitQuery);
             document.body.appendChild(submitButton);
             submitButton.style.position = "absolute";
-            submitButton.style.top = "350px";
+            submitButton.style.top = "250px";
             submitButton.style.left = "1100px";
             submitButton.style.width = "200px";
             submitButton.style.fontSize = "15px";
@@ -284,7 +439,7 @@
             resetButton.addEventListener('click', refreshPage);
             document.body.appendChild(resetButton);
             resetButton.style.position = "absolute";
-            resetButton.style.top = "500px";
+            resetButton.style.top = "310px";
             resetButton.style.left = "1100px";
             resetButton.style.width = "200px";
             resetButton.style.fontSize = "15px";
@@ -313,6 +468,10 @@
             locationCentricSearchButton.addEventListener('click', function() {
                 searchType = "Location";
 
+                container.append(northArrow);
+                northCheckbox.checked = true;
+                userKnowsNorth = "Knows where North is";
+
                 var compass = document.createElement("div");
                 compass.textContent = "+";
                 compass.style.position = "absolute";
@@ -330,6 +489,22 @@
             locationCentricSearchButton.style.width = "250px";
             locationCentricSearchButton.style.fontSize = "15px";
             locationCentricSearchButton.style.fontFamily = "monaco";
+
+            var resultsDisplay = document.createElement('div');
+            resultsDisplay.style.backgroundColor = "#e7efee";
+            resultsDisplay.style.width = "400px";
+            resultsDisplay.style.height = "200px";
+            resultsDisplay.style.position = "absolute";
+            resultsDisplay.style.top = "400px";
+            resultsDisplay.style.left = "1075px";
+
+            var quitResultsDisplay = document.createElement('button');
+            quitResultsDisplay.innerText = "X";
+            quitResultsDisplay.style.fontSize = "20px";
+            quitResultsDisplay.style.position = "absolute";
+            quitResultsDisplay.style.top = "370px";
+            quitResultsDisplay.style.left = "1480px";
+            quitResultsDisplay.addEventListener('click', refreshPage);
 
         });
 
