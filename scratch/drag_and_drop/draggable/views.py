@@ -18,7 +18,11 @@ from conceptMapping import ConceptMapper
 from search import InvertedIndex
 
 box_data = {}  # List to store the box data
-base_dir = settings.MEDIA_ROOT    
+base_dir = settings.MEDIA_ROOT 
+conceptMaps = None
+invertedIndex = None
+referenceLocations = None
+   
 
 # def index(request):
 #     return render(request, 'draggable/index.html')
@@ -45,6 +49,31 @@ def get_box_data(request):
     return JsonResponse(response_data)
 
 def index(request):
+    print("STARTUP....")
+    dataDirectory = ""
+    for p in sys.path:
+        if p.endswith("media"):
+           dataDirectory = p 
+
+    assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
+    
+    CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+    INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+    UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
+    
+    invertedIndex = InvertedIndex(INVERTED_INDEX)
+    VOCAB = invertedIndex.ii.keys()
+    print('VOCAB is:', VOCAB)
+  
+    with open(CONCEPT_MAPS, "rb") as inFile:
+        global conceptMaps
+        conceptMaps = pickle.load(inFile)
+    CM = ConceptMapper()
+
+    with open(UI_LOCATIONS, "r") as inFile:
+        global referenceLocations
+        referenceLocations = json.load(inFile)
+        
     return render(request, 'draggable/index.html')
 
 def update_coordinates(request):
@@ -65,29 +94,7 @@ def update_coordinates(request):
 def get_search_result(request):
     print("About to search for: ", box_data['0'])
 
-    # TODO do the search with everything in box_data
-    dataDirectory = ""
-    for p in sys.path:
-        if p.endswith("media"):
-           dataDirectory = p 
-
-    assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
-    
-    CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
-    INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
-    UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
-    
-    invertedIndex = InvertedIndex(INVERTED_INDEX)
-    VOCAB = invertedIndex.ii.keys()
-    print('VOCAB is:', VOCAB)
-  
-    with open(CONCEPT_MAPS, "rb") as inFile:
-         conceptMaps = pickle.load(inFile)
-    CM = ConceptMapper()
-
-    with open(UI_LOCATIONS, "r") as inFile:
-        referenceLocations = json.load(inFile)
-         
+    # Do the search with everything in box_data  
     flatDict = {}
     flatDict["name"] = []
     flatDict["longitude"] = []
