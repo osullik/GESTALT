@@ -190,12 +190,15 @@ class DataGenerator():
             #names.append(label)
             #longitudes.append(coord[0])
             #latitudes.append(coord[1]) 
-
+        #print("* * * * * * * * * * ")
+        #print("pointsDICT")
+        #print(pointsDict)
         if queryTerms is not None:
+            #print("INSERTING QUERY TERMS")
             #print("QUERY TERMS", queryTerms)
-            for i in range(1, len(queryTerms['name'])):
+            for i in range(0, len(queryTerms['name'])):
                 #print("(",queryTerms['longitude'][i],",",queryTerms['latitude'][i],")",queryTerms['name'][i])
-                print("Adding Query Term", queryTerms['name'][i])
+                #print("Adding Query Term", queryTerms['name'][i])
                 pointsDict[(queryTerms['longitude'][i],queryTerms['latitude'][i])] = queryTerms['name'][i]
             
         #Add any remaining query terms
@@ -205,6 +208,8 @@ class DataGenerator():
         #        longitudes.append(x)
         #        latitudes.append(y)
 
+        #print("pointsDICT")
+        #print(pointsDict)
 
 
 
@@ -524,33 +529,36 @@ if __name__ == "__main__":
 
         queryTerms = {}
         for j in range(0, flags.numQueryTerms):
-            x = random.randint(0,2*flags.scaleFactor)
-            y = random.randint(0,2*flags.scaleFactor)
+            x = random.uniform(0.0000,float(2*flags.scaleFactor))
+            y = random.uniform(0.00000,float(2*flags.scaleFactor))
             while (x,y) in queryTerms:
-                x = random.randint(0,2*flags.scaleFactor)
-                y = random.randint(0,2*flags.scaleFactor)
-            queryTerms[(x,y)] = str(j)
+                x = random.uniform(0.00000,float(2*flags.scaleFactor))
+                y = random.uniform(0.00000,float(2*flags.scaleFactor))
+            queryTerms[(x,y)] = str(j+1)
 
+        #print("TRYING TO GENERATE", flags.numQueryTerms, "ACTUALLY GENERATED", len(queryTerms))
         for q in queryTerms:
             #print("COORD:", coord)
-            print("Q",q, queryTerms[q])
             q_names.append(queryTerms[q])
             q_longitudes.append(q[0])
             q_latitudes.append(q[1])
+            #print("QUERYTERMS ARE", q, queryTerms[q])
+
        
         #q_names.append(j)
         #q_longitudes.append(random.randint(0,2**flags.scaleFactor))
         #q_latitudes.append(random.randint(0,2**flags.scaleFactor))
         
         originalQueries[i] =    {"name":q_names,
-                        "longitude":q_longitudes,
-                        "latitude":q_latitudes}
+                    "longitude":q_longitudes,
+                    "latitude":q_latitudes}
 
+    
     experiment_metadata["queries"]["num_queries"] = len(originalQueries.keys())
     
     
-    print("QUERIES:")
-    print(originalQueries)
+    #print("ORIGINAL QUERIES:")
+    #print(originalQueries)
 
     #Distort the queries
     print("Applying query distortions & saving to file...")
@@ -564,7 +572,7 @@ if __name__ == "__main__":
         param_vals = []
 
         if "rotation_degrees" in params:
-            param_vals.append(random.randint(0,360))
+            param_vals.append(random.randint(1,360))
         else:
             param_vals.append(0)
         if "expansion" in params:
@@ -582,12 +590,12 @@ if __name__ == "__main__":
 
         #print("Distorting query", i, "With params", param_vals)
         experiment_metadata["queries"]["query"][i] = {}
-        experiment_metadata["queries"]["query"][i]['name'] = originalQueries[i]['name']
+        experiment_metadata["queries"]["query"][i]['name'] = "query"+str(i)
         experiment_metadata["queries"]["query"][i]["num_query_terms"] = len(originalQueries[i]['name']) 
         experiment_metadata["queries"]["query"][i]["distortions"] = {}
         experiment_metadata["queries"]["query"][i]["distortions"]["distortion"] = {}
         experiment_metadata["queries"]["query"][i]["distortions"]["distortion"] = {}
-        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["name"] = originalQueries[i]['name']
+        experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["name"] = "distorted_query"+str(i)
         experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["params"] = {}
         for d, p in zip(param_options, param_vals):
             experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["params"][d] = p
@@ -604,8 +612,8 @@ if __name__ == "__main__":
         #print("Number of queries in file is:", len(distortedQueries[i]['name']))
         #print("Applied distortions", list(zip(param_options, param_vals)))    
     
-    print("DISTORTED_QUERIES")
-    print(distortedQueries)
+    #print("DISTORTED_QUERIES")
+    #print(distortedQueries)
 
     pointLists = []
     density = 0
@@ -619,17 +627,23 @@ if __name__ == "__main__":
         density = G[1]
 
         experiment_metadata["locations"]["location"][i] = {}
-        experiment_metadata["locations"]["location"][i]["name"] = i
+        experiment_metadata["locations"]["location"][i]["name"] = "location"+str(i)
         experiment_metadata["locations"]["location"][i]["density"] = density
             
         try:
             locations[i] = DG.labelNodes(points=pointsList,numClasses=flags.numClasses, random_seed=flags.randomSeed, queryTerms=distortedQueries[i])
            #print("Creating Location", i, "with embedded query", i, "and density", density)
-            experiment_metadata["locations"]["location"][i]["embedded_query"] = i
+            experiment_metadata["locations"]["location"][i]["embedded_query"] =  experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["name"]
+            experiment_metadata["queries"]["query"][i]["true_match"] = experiment_metadata["locations"]["location"][i]["name"]
+            #experiment_metadata["locations"]["location"][i]['true_match'] = [experiment_metadata["queries"]["query"][i]['name'],experiment_metadata["queries"]["query"][i]["distortions"]["distortion"]["name"]]
+
         except KeyError as e:
             locations[i] = DG.labelNodes(points=pointsList,numClasses=flags.numClasses, random_seed=flags.randomSeed, queryTerms=None)
             #print("Creating Location", i, "with no embedded query", "and density", density)
             experiment_metadata["locations"]["location"][i]["embedded_query"] = None
+            #experiment_metadata["queries"]["query"][i]["true_match"] = []
+            #experiment_metadata["locations"]["location"][i]['true_match'] = []
+
 
         experiment_metadata["locations"]["location"][i]["num_objects"] = len(locations[i]['name'])
         #print("NUM OBJECTS IN LOCATION:",len(locations[i]['name']))
