@@ -132,22 +132,28 @@
 			class Region {
                 constructor(name) {
                     this.name = name;
-                    //this.selectRegion();
+                    this.selectRegion();
 					console.log("created Region with name: ");
 					console.log(this.name);
                 }
 				
-				selectRegion() {
-					var self = this;
+				selectRegion() {		
+					var self = this;  // Preserve the reference to the current region
+					
 					$.ajax({
-						type: 'GET',
-						url: '/getobjs/',
-						success: function(response) {
-							OBJECTS = response['objects'];
-							console.log("trying to set self.objects...");
-							console.log(OBJECTS);
-						}
-					});				
+                        type: 'POST',
+                        url: '/setregion/',
+                        data: {'name': self.name},
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                        },
+                        success: function(response) {
+                          //  self.element.innerText = self.name;
+                          //  self.x = response.x;
+                          //  self.y = response.y;
+						  console.log("setregion was successful")
+                        }
+                    });				
 				}
 			}
 			
@@ -249,18 +255,17 @@
 			function addRegion() {
 			    var regionName = document.getElementsByName('regionChoice')[0];
                 var selectedRegion = regionName.value;
+				
+				var newRegion = new Region(selectedRegion);
         
                 pullObjs().then(function(response) {
 				// Run this when region choice is made
 				console.log("GOT RESPONSE");
 				console.log(response)
 				
-				var newRegion = new Region(selectedRegion);	
+					
 				console.log("Objects is now...");
-				console.log(OBJECTS);
-				console.log("Region name is now...");
-				console.log(newRegion.name)
-				
+				console.log(OBJECTS);				
 				
 				// Add the object dropdown menu to the document
 				var options = OBJECTS //["palm_tree", "statue", "bench", "umbrella"];
@@ -444,6 +449,14 @@
                 selectedRegion.appendChild(region);
             }
             document.body.appendChild(selectedRegion);
+			selectedRegion.style.position = "absolute";
+			selectedRegion.style.top = "80px";
+			selectedRegion.style.left = "100px";
+			selectedRegion.style.width = "400px";
+			selectedRegion.style.height = "50px";
+			selectedRegion.style.fontSize = "20px";
+			selectedRegion.style.fontFamily = "monaco";
+			selectedRegion.style.color = "black";
 			
 			// Add region button
 			var regionButton = document.createElement('button');
@@ -452,6 +465,14 @@
             regionButton.addEventListener('click', addRegion);
 			regionButton.addEventListener('click', () => regionButton.disabled = true);
             document.body.appendChild(regionButton);
+			regionButton.style.position = "absolute";
+			regionButton.style.top = "80px";
+			regionButton.style.left = "530px";
+			regionButton.style.width = "120px";
+			regionButton.style.height = "50px";
+			regionButton.style.fontSize = "20px";
+			regionButton.style.fontFamily = "monaco";
+			regionButton.style.color = "black";
 			
 			var searchType = "Object";
 
