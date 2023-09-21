@@ -390,6 +390,7 @@
 						resultsDisplay.innerText = resultsString;
 						document.body.appendChild(resultsDisplay);
                         document.body.appendChild(quitResultsDisplay);
+						
                     }
 					});
             }
@@ -447,7 +448,9 @@
 			// Add region button
 			var regionButton = document.createElement('button');
             regionButton.innerText = 'Set Region';
+			regionButton.name = 'regionButton'
             regionButton.addEventListener('click', addRegion);
+			regionButton.addEventListener('click', () => regionButton.disabled = true);
             document.body.appendChild(regionButton);
 			
 			var searchType = "Object";
