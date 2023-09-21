@@ -151,8 +151,7 @@
 				}
 			}
 			
-			
-			
+
             class Box {
                 constructor(name, x, y) {
                     this.name = name;
@@ -234,7 +233,7 @@
                 boxData.push(newBox);  
             }
 			
-			function pullObjs() { //return new Promise( function(response) {
+			function pullObjs() {
 				return $.ajax({
 						type: 'GET',
 						url: '/getobjs/',
@@ -245,22 +244,18 @@
 						}
 					});
 				}
-				//)
-				//}
+
 				
 			function addRegion() {
 			    var regionName = document.getElementsByName('regionChoice')[0];
                 var selectedRegion = regionName.value;
         
                 pullObjs().then(function(response) {
-				// Run this when your request was successful
+				// Run this when region choice is made
 				console.log("GOT RESPONSE");
 				console.log(response)
 				
-					
-					
 				var newRegion = new Region(selectedRegion);	
-				//OBJECTS = newRegion.objects;
 				console.log("Objects is now...");
 				console.log(OBJECTS);
 				console.log("Region name is now...");
@@ -268,8 +263,6 @@
 				
 				
 				// Add the object dropdown menu to the document
-				console.log("trying to add dropdown with these OBJECTS...");
-				console.log(OBJECTS);
 				var options = OBJECTS //["palm_tree", "statue", "bench", "umbrella"];
 				var selectedOption = document.createElement('select');
 				selectedOption.name = 'boxNames';
@@ -287,14 +280,56 @@
 				selectedOption.style.height = "30px";
 				selectedOption.style.fontSize = "15px";
 				selectedOption.style.fontFamily = "monaco";
-				selectedOption.style.color = "black";
+				selectedOption.style.color = "black";	
 				
-				})
+				// Add box button
+				var addButton = document.createElement('button');
+				addButton.innerText = 'Add Selected Object to Search';
+				addButton.addEventListener('click', addBox);
+				document.body.appendChild(addButton);
+				addButton.style.position = "absolute";
+				addButton.style.top = "190px";
+				addButton.style.left = "1100px";
+				addButton.style.width = "200px";
+				addButton.style.fontSize = "15px";
+				addButton.style.fontFamily = "monaco";
+
+				// Add submit button
+				var submitButton = document.createElement('button');
+				submitButton.innerText = 'Submit Query';
+				submitButton.addEventListener('click', submitQuery);
+				document.body.appendChild(submitButton);
+				submitButton.style.position = "absolute";
+				submitButton.style.top = "250px";
+				submitButton.style.left = "1100px";
+				submitButton.style.width = "200px";
+				submitButton.style.fontSize = "15px";
+				submitButton.style.fontFamily = "monaco";
+				submitButton.style.color = "green";
+
+				// Add reset button
+				var resetButton = document.createElement('button');
+				resetButton.innerText = "RESET";
+				resetButton.addEventListener('click', refreshPage);
+				document.body.appendChild(resetButton);
+				resetButton.style.position = "absolute";
+				resetButton.style.top = "310px";
+				resetButton.style.left = "1100px";
+				resetButton.style.width = "200px";
+				resetButton.style.fontSize = "15px";
+				resetButton.style.fontFamily = "monaco";
+				resetButton.style.color = "red";
+				
+				})  // ............everything above here happens aFTER region choice is made
 				
 				}
-			
+        
 
-            function submitQuery() {
+            function refreshPage() {
+                location.reload();
+            }
+			
+			function submitQuery() {
                 $.ajax({
                     type: 'GET',
                     url: '/boxdata/',
@@ -310,9 +345,6 @@
                                 //the console depending on the user's selection of the checkbox
 						
 						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
-
-                        //The code below appends a pop-up box to the screen once the user hits Run Query:
-                        //Replace the "filler text" with the produced results from the search
                     }
                 });
 				
@@ -335,19 +367,32 @@
 						resultsString = resultsString.concat(locationData[i]);
 						//alert(locationData[i]); 
 						} //alert(locationData)
+						
+						
+						// Results diaply popup
+						var resultsDisplay = document.createElement('div');
+						resultsDisplay.name = 'resultsDisplay'
+						resultsDisplay.style.backgroundColor = "#e7efee";
+						resultsDisplay.style.width = "400px";
+						resultsDisplay.style.height = "200px";
+						resultsDisplay.style.position = "absolute";
+						resultsDisplay.style.top = "400px";
+						resultsDisplay.style.left = "1075px";
+
+						var quitResultsDisplay = document.createElement('button');
+						quitResultsDisplay.innerText = "X";
+						quitResultsDisplay.style.fontSize = "20px";
+						quitResultsDisplay.style.position = "absolute";
+						quitResultsDisplay.style.top = "370px";
+						quitResultsDisplay.style.left = "1480px";
+						quitResultsDisplay.addEventListener('click', refreshPage);
+						
 						resultsDisplay.innerText = resultsString;
 						document.body.appendChild(resultsDisplay);
                         document.body.appendChild(quitResultsDisplay);
                     }
-                });
+					});
             }
-
-            function refreshPage() {
-                location.reload();
-            }
-			
-			
-			
 			
 
             var userKnowsNorth = "Knows where North is";
@@ -405,48 +450,7 @@
             regionButton.addEventListener('click', addRegion);
             document.body.appendChild(regionButton);
 			
-			
-			
-			
-			
-    
-			// Add box button
-            var addButton = document.createElement('button');
-            addButton.innerText = 'Add Selected Object to Search';
-            addButton.addEventListener('click', addBox);
-            document.body.appendChild(addButton);
-            addButton.style.position = "absolute";
-            addButton.style.top = "190px";
-            addButton.style.left = "1100px";
-            addButton.style.width = "200px";
-            addButton.style.fontSize = "15px";
-            addButton.style.fontFamily = "monaco";
-
-            var submitButton = document.createElement('button');
-            submitButton.innerText = 'Submit Query';
-            submitButton.addEventListener('click', submitQuery);
-            document.body.appendChild(submitButton);
-            submitButton.style.position = "absolute";
-            submitButton.style.top = "250px";
-            submitButton.style.left = "1100px";
-            submitButton.style.width = "200px";
-            submitButton.style.fontSize = "15px";
-            submitButton.style.fontFamily = "monaco";
-            submitButton.style.color = "green";
-
-            var resetButton = document.createElement('button');
-            resetButton.innerText = "RESET";
-            resetButton.addEventListener('click', refreshPage);
-            document.body.appendChild(resetButton);
-            resetButton.style.position = "absolute";
-            resetButton.style.top = "310px";
-            resetButton.style.left = "1100px";
-            resetButton.style.width = "200px";
-            resetButton.style.fontSize = "15px";
-            resetButton.style.fontFamily = "monaco";
-            resetButton.style.color = "red";
-
-            var searchType = "Object";
+			var searchType = "Object";
 
             var objectCentricSearchButton = document.createElement('button');
             objectCentricSearchButton.innerText = "Object Centric Search";
@@ -489,23 +493,7 @@
             locationCentricSearchButton.style.width = "250px";
             locationCentricSearchButton.style.fontSize = "15px";
             locationCentricSearchButton.style.fontFamily = "monaco";
-
-            var resultsDisplay = document.createElement('div');
-            resultsDisplay.style.backgroundColor = "#e7efee";
-            resultsDisplay.style.width = "400px";
-            resultsDisplay.style.height = "200px";
-            resultsDisplay.style.position = "absolute";
-            resultsDisplay.style.top = "400px";
-            resultsDisplay.style.left = "1075px";
-
-            var quitResultsDisplay = document.createElement('button');
-            quitResultsDisplay.innerText = "X";
-            quitResultsDisplay.style.fontSize = "20px";
-            quitResultsDisplay.style.position = "absolute";
-            quitResultsDisplay.style.top = "370px";
-            quitResultsDisplay.style.left = "1480px";
-            quitResultsDisplay.addEventListener('click', refreshPage);
-
+			
         });
 
     </script>
