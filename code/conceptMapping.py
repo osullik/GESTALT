@@ -101,7 +101,7 @@ class ConceptMapper():
             return False
 
 
-    def getSearchOrder(self, queryMatrix):
+    def getSearchOrder(self, longSortedList:list, latSortedList:list):
         '''
         NB: This function partially written by ChatGPT in response to the following prompt:
             "write me some python code that will traverse a matrix from the top left corner  
@@ -110,8 +110,7 @@ class ConceptMapper():
 
         getSearchOrder gets the order to search for the query terms in the location grid
         INPUT ARGS: 
-            queryMatrix - list of lists  of form [[0,"A"]["B",0]] for a 2x2 matrix with A in the
-                top right and B in the bottom left. Blank spaces are held by zeroes.
+            longList - list that holds the west to east order
         Process:
             If the matrix only has a single value in it, return that value
             Otherwise step incrementally from the top left corner to the bottom right corner
@@ -120,11 +119,66 @@ class ConceptMapper():
             traversed - list of strings - list of the names of objects to traverse. 
 
         '''
+
+        traversed = []
+        lon = longSortedList.copy()
+        lat = latSortedList.copy()
+
+        #print("LONLIST", longSortedList)
+        #print("LATLIST", latSortedList)
+
+        assert len(lon) == len(lat), 'Latiude and Longitude lists must be of equal size!'
+        #print("SORTING OUT", len(lon), "ITEMS INTO THE CORRECT ORDERT")
+
+        '''
+        for i in range(0, len(latSortedList)):
+            if i %2 == 0:
+                obj = lat.pop(0)
+            else:
+                obj = lon.pop(0)
+            
+            if obj not in traversed:
+                traversed.append(obj)
+        '''
+        #Get the search order
+
+        direction = "N"
+
+        while (len(traversed) < len(longSortedList)):
+
+            try:
+                if direction == "N":
+                    obj = lat.pop(0)
+                    #print("POPPING:", obj)
+                    if obj not in traversed:
+                        traversed.append(obj)
+                        #print("APPENDING N", obj)
+                        direction = 'W'
+            except IndexError as e:
+                pass
+
+            try:
+                if direction == "W":
+                    obj = lon.pop(0)
+                    #print("POPPING:", obj)
+                    if obj not in traversed and direction=="W":
+                        traversed.append(obj)
+                        #print("APPENDING W", obj)
+                        direction = "N"
+            except IndexError as e:
+                pass
+
+
+                
+        #print("\tTRAVERSED ORDER:", traversed)
+        #print("SUCCESSFULLY SORTED", len(traversed), "ITEMS INTO CORRECT")
+        return(traversed)
        
+        '''
         #print("\n\n===========================\n")
         searchList = []
-        print("Query Matrix is:")
-        print(queryMatrix)
+        #print("Query Matrix is:")
+        #print(queryMatrix)
 
         if len(queryMatrix) == 1:
             try:
@@ -136,6 +190,9 @@ class ConceptMapper():
         rows = len(queryMatrix)
         cols = len(queryMatrix[0])
 
+
+
+        
         # Calculate the total number of rounds required to traverse the matrix
         rounds = rows + cols - 1
         traversed = []
@@ -151,9 +208,9 @@ class ConceptMapper():
                     if queryMatrix[i][j] != 0:
                          # Append non-zero elements to the list of order we will search them
                         traversed.append(queryMatrix[i][j])
-
+        
         return traversed
-
+        '''
         
 
         
@@ -206,7 +263,7 @@ class ConceptMapper():
             #print("Base Case")
             for northToSouth in matrix:
                  for westToEast in northToSouth:
-                     if westToEast == toFind[0]:
+                     if str(westToEast) == str(toFind[0]):
                          #print("exhaustive search true, found", toFind[0])
                          return True
             return False
@@ -221,7 +278,9 @@ class ConceptMapper():
                     for j in range(0,len(matrix[i])):
                         try:
                             #print('got to column', j)
-                            if matrix[i][j] == toFind[0]:
+                            #print("TYPES:", type(matrix[i][j]),type(toFind))
+                            if str(matrix[i][j]) == str(toFind[0]):
+                                #print("pruned")
                                 #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j )
                                 found = True
                                 northMostIndex = i
@@ -239,7 +298,8 @@ class ConceptMapper():
                     return False
                 #print(northMostIndex)
                 newMatrix = matrix[northMostIndex:,:].copy()                        #make a copy of the matrix to recurse on
-                
+                #print("NEW MATRIX")
+                #print(newMatrix)
                 toFind.pop(0)                                            #update the list of search terms               
                 #print("RECURSE NS to WE")
 
@@ -261,7 +321,8 @@ class ConceptMapper():
                     for j in range(0, len(matrix)):
                        #print("got to column",j)
                         try:
-                            if matrix[j][i] == toFind[0]:
+                            if str(matrix[j][i]) == str(toFind[0]):
+                                #print("pruned")
                             #print("looking for", toFind[0],"found", matrix[i][j], "at", i,j  )
                                 #print("INDEX EW:", matrix[j][i])
                                 westMostIndex = i
@@ -288,11 +349,12 @@ class ConceptMapper():
                 #else:
                 #    return False
 
-    def createConceptMap(self,inputFile:str=None,input_df=None):
+    def createConceptMap(self,inputFile:str=None,input_df=None,cm_type:str="location"):
         '''
         Function to create the 'concept map' of relative object positions in a grid, for querying by the concept mapper
         INPUT ARGS:
             inputFile - string - the path to a file containing the object assignments to be used to create the grids. 
+            cm_type - string - either 'location' or 'query'. Informs what to return. 
         PROCESS: 
             # Get a data DF? for a location that contains its objects, their names, their lats and their longs
             # sort into two lists, one by long (west to east), one by lat, North to South
@@ -301,6 +363,12 @@ class ConceptMapper():
         OUTPUT:
             toReturn - grid of Matricies (numpy array of numpy object arrays, 
                         with 0s representing empty space and object Names reprsenting their object type)
+                        if it's for a location, just return the concept map, else
+
+            toReturn - a tuple of form (matrix map as described above, ([NorthSouth order], [WestEast order])) 
+                        where NorthSouth order is a list of all points from north to south, and westeast is
+                        a list of all points from west to east. In the case of a query these are used to 
+                        generate the searchOrder for the recursive grid search
         '''
 
         #Read in File
@@ -310,6 +378,9 @@ class ConceptMapper():
             sourceData_df = input_df
         else:
             exit("Unable to find dataframe. Please check your CSV / Dataframe and Try again")
+        
+        #print("DATAFRAME WHEN CREATE CONCEPT MAP FIRST GETS IT")
+        #print(sourceData_df)
         #Prepare vars
         loc_names = sourceData_df['predicted_location'].unique()
         location_dict = dict()
@@ -324,11 +395,13 @@ class ConceptMapper():
 
         for location in locations:
             location_df = location_dict[location]
+            longitude_df = location_df.copy()
+            latitude_df = location_df.copy()
 
             location_df['longitude'] = (location_df['longitude'].astype(float))+180
             location_df['latitude'] = (location_df['latitude'].astype(float))+180
 
-            location_df.sort_values(by=['longitude'], 
+            longitude_df.sort_values(by=['longitude'], 
                                     #ascending=False,
                                     inplace=True)        #Values higher than 0 are further east
             
@@ -338,18 +411,24 @@ class ConceptMapper():
 
             #Case longitude all pos (East Hemisphere)
             longitudeOrder = []
-            for idx, row in location_df.iterrows():
+            for idx, row in longitude_df.iterrows():
                 longitudeOrder.append(idx)
                 #print(location,row['name'],row["longitude"])
 
             #Case latitide all neg (Southern Hemisphere)
-            location_df.sort_values(by=['latitude'], 
+            latitude_df.sort_values(by=['latitude'], 
                                     ascending=False, 
                                     inplace=True)           # The closer to 0, the further North negative latitude is
             latitudeOrder = []
-            for idx, row in location_df.iterrows():   
+            for idx, row in latitude_df.iterrows():   
                 latitudeOrder.append(idx)
                 #print(location,row['name'],row["latitude"])
+
+            #print("LONGITUDE ORDER ON FIRST SORT")
+            #print(longitudeOrder)
+            #print("LATITUDE ORDER ON FIRST SORT")
+            #print(latitudeOrder)
+            
 
             #Create a grid full of zeros of the dimension numObjects x numObjects
             gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
@@ -360,13 +439,31 @@ class ConceptMapper():
                 gridToReturn[j][i] = location_df.loc[int(longitudeOrder[i])]['name']    #J is long, i is lat
                 #print("long:",i,"lat",j)
 
+            #print("GRID TO RETURN ON FIRST CREATION")
+            #print(gridToReturn)
+
             #Show your work
             #print(location)
             #print(location_dict[location])
             #print(gridToReturn)
-
+            labelledLongOrder = []
+            labelledLatOrder = []
             #Add to the dict that will store it all 
-            toReturn[location] = gridToReturn
+
+            for i in range(0, len(longitudeOrder)):
+                labelledLongOrder.append(longitude_df.loc[int(longitudeOrder[i])]['name'])
+            for i in range(0, len(latitudeOrder)):
+                labelledLatOrder.append(latitude_df.loc[int(latitudeOrder[i])]['name'])
+
+            #print("LABELLED LONGITUDE ORDER ON FIRST SORT")
+            #print(labelledLongOrder)
+            #print("LABELLED LATITUDE ORDER ON FIRST SORT")
+            #print(labelledLatOrder)
+
+            if cm_type == "query":
+                toReturn[location] = (gridToReturn, (labelledLongOrder, labelledLatOrder))
+            else:
+                toReturn[location] = gridToReturn
 
         return toReturn
     

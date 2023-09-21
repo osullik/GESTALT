@@ -471,7 +471,6 @@ class test_Compass(unittest.TestCase):
 
 
 
-
 # Main Function
 
 if __name__ == '__main__':
