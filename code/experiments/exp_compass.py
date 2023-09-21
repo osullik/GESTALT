@@ -64,37 +64,19 @@ class CompassExperimentRunner():
 
     def generateQueryMapDict(self, query:pd.DataFrame)->tuple:
         # Generates a concept map (dict of Location:NP Array) and search order (list) for a given set of points. 
-        #print("DF ON BEING PASSED INTO GENERATE_DICT")
-        #print(query)
+
         queriesDict = self.cm.createConceptMap(input_df=query,cm_type='query')
-
-        #print("QUERIESDICT AFTER MAKING THE FIRST CONCEPT MAP")
-        #print(queriesDict)
-
-        #print("QUERIES DICT")
-        #print(queriesDict)
 
         dictWithSortOrders = {}
 
-        #for i in range (1, len(queriesDict.keys())+1):
-        #    cm = queriesDict[i]['']
-
         for key in queriesDict.keys():
-            #print("KEY IS", key)
-            #print(queriesDict[key])
             cm = queriesDict[key][0]
             orderLists = queriesDict[key][1]
             lonList, latList = orderLists
-            #print("QUERY:", key)
-            #print("INPUR TO SEARCHORDER\nLON:\n",lonList, "\nLAT:\n", latList )
             searchOrder = self.cm.getSearchOrder(longSortedList=lonList, latSortedList=latList)
-            #print("OUTPUT FROM SEARCHORDER\n", searchOrder)
             dictWithSortOrders[key] = {}
             dictWithSortOrders[key]['concept_map'] = cm
             dictWithSortOrders[key]['search_order'] = searchOrder
-
-        #print("DICT WITH SORT ORDERS")
-        #print(dictWithSortOrders)
         
         return dictWithSortOrders
 
@@ -186,18 +168,12 @@ class CompassExperimentRunner():
         if query_cm is None:
             searchLocs = self.getConceptMapDict()
             for loc in searchLocs.keys():
-                #print("SEARCHING in Matrix:",loc, "\n", searchLocs[loc])
-                #print("SEARCHING FOR QUERY ORDER:", query_searchOrder)
                 res = self.cm.searchMatrix(matrix=searchLocs[loc], toFind=query_searchOrder.copy())
-                #[print("RES IS"), res, type(res)]
                 if res == True:
                     results.append(loc)
 
         else:
-            #print("SEARCHING FOR PATTERN:\n", query_cm)
-            #print("SEARCHING FOR QUERY ORDER:", query_searchOrder)
             res = self.cm.searchMatrix(matrix=query_cm, toFind=query_searchOrder.copy())
-            #print("RESULT:", res)
             return [res]
         
         return results
@@ -217,26 +193,19 @@ class CompassExperimentRunner():
 
         results = []
         
-        for queryDict in queries:
-            #print("MYSTERY QUERY", queryDict)
-            query = queryDict["PICTORIAL_QUERY"]['concept_map']
-            searchOrder = queryDict["PICTORIAL_QUERY"]['search_order']
-            
-            for loc in self._cm_dict.keys():
+        for loc in self._cm_dict.keys():
+
+            for queryDict in queries:
+                query = queryDict["PICTORIAL_QUERY"]['concept_map']
+                searchOrder = queryDict["PICTORIAL_QUERY"]['search_order']
+                
                 result = self.cm.searchMatrix(self._cm_dict[loc],searchOrder.copy())   #Don't forget to take a copy of the list... 
                 if result == True: 
                     results.append(loc)
                     result = False
-
-                
-        #if len(results) ==0:                                            #Output. TODO: Use Popup window to output
-        #    print('No Results Found')
-        #    return [False]
-        #else:
-        #    print("Found Following Matches to Query:")
-        #    for res in results: 
-        #        print(res)
-        return results
+                    break
+        
+        return (results)
 
 class CompassDataLoader():
     def __init__(self,experiment_name="test") -> None:
@@ -334,9 +303,7 @@ class CompassDataLoader():
         #print(df)
 
         self.ER.loadLocations(df)
-        #print(self.ER.getConceptMapDict())
         cm = self.ER.getConceptMapDict()[name] #BUG workaround - just return whole dict
-        #cm = self.ER.getConceptMapDict()
 
         return(cm)
 
@@ -358,11 +325,8 @@ class CompassDataLoader():
         if "assignment_prob" not in df:
             df['assignment_prob'] = 1
 
-        #print(df)
 
         qm = self.ER.loadQueries(df)[name]
-
-        #cm = self.ER.getConceptMapDict()
 
         return(qm)
 
@@ -390,28 +354,36 @@ if __name__ == "__main__":
 
     flags = argparser.parse_args()
 
+    print("\n\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #")
+    print("Starting Experiment -", flags.experimentName)
+    print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n\n")
+
+
     DL = CompassDataLoader(flags.experimentName)
     ER = CompassExperimentRunner()
 
     location_files, query_files, metadata_file = DL.getExperimentFiles(experimentName=flags.experimentName)
 
+    with open(metadata_file,'r') as infile:
+        metadata = json.load(infile)
+    
+    if metadata['parameters']['numQueryTerms'] >= 1000:
+        sys.setrecursionlimit((metadata['parameters']['numQueryTerms'])+1)
+        print("Query is likely to exceed max recursion depth, setting to ", (metadata['parameters']['numQueryTerms'])+1)
+
+
     locations = []
 
+    print("Loading in location files")
     for location_file in tqdm(location_files):
         DL.loadLocationCSVToConceptMap(location_file) #Loads to the dict in the class
     ER._cm_dict = DL.ER.getConceptMapDict()
     
-    #print(locations)
-    #for loc in ER.getConceptMapDict():
-        #print("LOC", loc)
-        #print(ER.getConceptMapDict()[loc]) 
-        #print("\n")
-
     queries = {}
+    print("Loading in query Files")
     for i in tqdm(range(0,len(query_files))):
         q_path = query_files[i].split("/")
         q_name = q_path[-1].split(".")[0]
-        print("QUERY NAME", q_name)
         
         query_df = DL.loadCSV(query_files[i])
         if "predicted_location" not in query_df:
@@ -421,19 +393,13 @@ if __name__ == "__main__":
         if "assignment_prob" not in query_df:
             query_df['assignment_prob'] = 1
         points = []
-
-        #print("QUERYDF",i+1," on initial load")
-       #print(query_df)
         
         for idx, row in query_df.iterrows():
             points.append(Point(name=row['name'], x_coord=row['longitude'], y_coord=row['latitude']))
 
         queryMapDict = ER.generateQueryMapDict(query=query_df)
-        #print("QUERYMAPDICT ON FIRST LOAD IS:")
-        #print(queryMapDict)
         queryMap = queryMapDict[q_name]["concept_map"].copy()
         searchOrder = queryMapDict[q_name]["search_order"].copy()
-        #print("FOR QUERY:",i+1,"GENERATED:\n", queryMap,"\nORDER:", searchOrder)
         queries[i+1] = {} 
         queries[i+1]['name'] = q_name
         queries[i+1]["queryMap"] = queryMap.copy()
@@ -441,12 +407,6 @@ if __name__ == "__main__":
         queries[i+1]["points"] = points.copy()
         queries[i+1]["dataframe"] = query_df #Allow us to generate the cocnept maps in the timed section of code. 
         
-
-    #print(queries)
-
-
-    with open(metadata_file,'r') as infile:
-        metadata = json.load(infile)
 
     
 
@@ -458,8 +418,7 @@ if __name__ == "__main__":
     times['overall']["start"] = datetime.datetime.now()
 
     if flags.cardinalityInvariant is False:
-
-        for i in range(1,len(queries)+1):
+        for i in tqdm(range(1,len(queries)+1)):
             results['queries'][queries[i]['name']] = {}
             results['queries'][queries[i]['name']]["TP"] = 0
             results['queries'][queries[i]['name']]['FP'] = 0
@@ -469,30 +428,18 @@ if __name__ == "__main__":
             times['queries'][queries[i]['name']] = {}
             times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
             
-            print("Generating Concept Maps")
 
             queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
-            #print("QUERYMAPDICT ON FIRST LOAD IS:")
-            #print(queryMapDict)
             queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
             searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
             times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
-
-            print("Searching...")
-            #print("RUNNING QUERY:", queries[i]['name'])
             res = ER.gridSearchSingleQuery(query_searchOrder=queries[i]['searchOrder'])
-            #print("FOUND LOCATIONS MATCHING QUERIES:", res)
             results['queries'][queries[i]['name']]['matches'] = res
-
             times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
-        
-        #res = ER.gridSearchAllRotations(queries=queries)
-        #res = ER.gridSearchAllRotations(queries=(queries[i]["rotations"]))
-            #print(res)
 
     #Generate All possible rotations
     else:
-        for i in range(1,len(queries)+1):
+        for i in tqdm(range(1,len(queries)+1)):
             results['queries'][queries[i]['name']] = {}
             results['queries'][queries[i]['name']]["TP"] = 0
             results['queries'][queries[i]['name']]['FP'] = 0
@@ -503,18 +450,10 @@ if __name__ == "__main__":
             times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
 
             
-            print("Generating Concept Maps")
-
-            #queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
-            #print("QUERYMAPDICT ON FIRST LOAD IS:")
-            #print(queryMapDict)
-            #queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
-            #searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
             all_rotations = ER.getQueryMapConfigurations(points=queries[i]["points"])
             results['queries'][queries[i]['name']]['num_rotations'] = len(all_rotations)
 
             times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
-            print("Searching...")
 
             res = ER.gridSearchAllRotations(queries=all_rotations)
             results['queries'][queries[i]['name']]['matches'] = res
@@ -527,9 +466,7 @@ if __name__ == "__main__":
 
     #print(results)
 
-    for queryNum in metadata['queries']['query'].keys():
-        #print(metadata['queries']['query'][queryNum]['true_match'])
-        #print(results['queries'][metadata['queries']['query'][queryNum]['name']]['matches'])
+    for queryNum in tqdm(metadata['queries']['query'].keys()):
 
         if metadata['queries']['query'][queryNum]['true_match'] in results['queries'][metadata['queries']['query'][queryNum]['name']]['matches']:
             results['queries'][metadata['queries']['query'][queryNum]['name']]["TP"] += 1
@@ -537,38 +474,13 @@ if __name__ == "__main__":
             results['queries'][metadata['queries']['query'][queryNum]['name']]["FN"] += 1
 
         for found in results['queries'][metadata['queries']['query'][queryNum]['name']]['matches']:
-            #print("FOUND", found)
             if found != metadata['queries']['query'][queryNum]['true_match']:
                 results['queries'][metadata['queries']['query'][queryNum]['name']]["FP"] += 1
             
-            #print("num_locations is ", metadata['locations']['num_locations'])
             results['queries'][metadata['queries']['query'][queryNum]['name']]["TN"] = (metadata['locations']['num_locations'] - (results['queries'][metadata['queries']['query'][queryNum]['name']]["TP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FN"]))
         
         if len(results['queries'][metadata['queries']['query'][queryNum]['name']]['matches']) == 0:
             results['queries'][metadata['queries']['query'][queryNum]['name']]["TN"] = (metadata['locations']['num_locations'] - (results['queries'][metadata['queries']['query'][queryNum]['name']]["TP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FN"]))
-
-        #results['queries'][metadata['queries']['query'][queryNum]['name']]["accuracy"] = 
-
-        '''
-        for res in results['queries'][queries[i]['name']]['matches']:
-            for i in range(1,len(metadata["locations"])):
-                print("CHECK:")
-                print("IS THIS:", res)
-                print("IN HERE", metadata["locations"]["location"][str(i)]['true_match'])
-                if res in metadata["locations"]["location"][str(i)]['true_match']:
-                    results['queries'][queries[i]['name']]["TP"] += 1
-                else:
-                    results['queries'][queries[i]['name']]["FP"] += 1
-        
-        for i in range (1,len(metadata['locations'])):
-            for opt in metadata["locations"]["location"][str(i)]['true_match']:
-                if opt not in res:
-                    results['queries'][queries[q]['name']]["FN"] += 1
-                else:
-                    results['queries'][queries[q]['name']]["TN"] = (len(metadata["locations"])-(results['queries'][queries[i]['name']]["TP"]+results['queries'][queries[i]['name']]["FP"]+results['queries'][queries[i]['name']]["FN"]))
-        '''
-
-
 
 
     print("Finished Experiments")
@@ -596,7 +508,7 @@ if __name__ == "__main__":
     print("# EXPERIMENT:", flags.experimentName)
     print("#-------------------------------------------------------------")
     for query in results['queries']:
-        print(results['queries'][query])
+        print(query,results['queries'][query])
     print("#-------------------------------------------------------------")
     
     print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n\n")
@@ -624,5 +536,10 @@ if __name__ == "__main__":
     
     assert  os.path.exists(experimentDirectoryPath),"'data/experiments/'"+flags.experimentName+" does not exist." 
 
-    with open(os.path.join(experimentDirectoryPath,flags.experimentName)+"_results.json", "wb") as outfile:
+    if flags.cardinalityInvariant == True:
+        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)+"cardinality_invariant_results.pkl"
+    else:
+        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)+"results.pkl"
+
+    with open(savePath, "wb") as outfile:
         pickle.dump(experiment_results,outfile)
