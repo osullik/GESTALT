@@ -6,6 +6,7 @@ import sys
 import os
 import argparse
 import json
+import pickle
 import datetime
 
 # Library Imports
@@ -224,17 +225,18 @@ class CompassExperimentRunner():
             for loc in self._cm_dict.keys():
                 result = self.cm.searchMatrix(self._cm_dict[loc],searchOrder.copy())   #Don't forget to take a copy of the list... 
                 if result == True: 
-                    results.append(self._cm_dict[loc])
+                    results.append(loc)
                     result = False
+
                 
-        if len(results) ==0:                                            #Output. TODO: Use Popup window to output
-            print('No Results Found')
-            return False
-        else:
-            print("Found Following Matches to Query:")
-            for res in results: 
-                print(res)
-            return True
+        #if len(results) ==0:                                            #Output. TODO: Use Popup window to output
+        #    print('No Results Found')
+        #    return [False]
+        #else:
+        #    print("Found Following Matches to Query:")
+        #    for res in results: 
+        #        print(res)
+        return results
 
 class CompassDataLoader():
     def __init__(self,experiment_name="test") -> None:
@@ -437,6 +439,7 @@ if __name__ == "__main__":
         queries[i+1]["queryMap"] = queryMap.copy()
         queries[i+1]["searchOrder"] = searchOrder.copy()
         queries[i+1]["points"] = points.copy()
+        queries[i+1]["dataframe"] = query_df #Allow us to generate the cocnept maps in the timed section of code. 
         
 
     #print(queries)
@@ -462,9 +465,19 @@ if __name__ == "__main__":
             results['queries'][queries[i]['name']]['FP'] = 0
             results['queries'][queries[i]['name']]['TN'] = 0
             results['queries'][queries[i]['name']]['FN'] = 0
+            results['queries'][queries[i]['name']]['num_rotations'] = 1
             times['queries'][queries[i]['name']] = {}
             times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
             
+            print("Generating Concept Maps")
+
+            queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
+            #print("QUERYMAPDICT ON FIRST LOAD IS:")
+            #print(queryMapDict)
+            queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
+            searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
+            times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
+
             print("Searching...")
             #print("RUNNING QUERY:", queries[i]['name'])
             res = ER.gridSearchSingleQuery(query_searchOrder=queries[i]['searchOrder'])
@@ -477,7 +490,35 @@ if __name__ == "__main__":
         #res = ER.gridSearchAllRotations(queries=(queries[i]["rotations"]))
             #print(res)
 
-            #Generate All possible rotations
+    #Generate All possible rotations
+    else:
+        for i in range(1,len(queries)+1):
+            results['queries'][queries[i]['name']] = {}
+            results['queries'][queries[i]['name']]["TP"] = 0
+            results['queries'][queries[i]['name']]['FP'] = 0
+            results['queries'][queries[i]['name']]['TN'] = 0
+            results['queries'][queries[i]['name']]['FN'] = 0
+            
+            times['queries'][queries[i]['name']] = {}
+            times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
+
+            
+            print("Generating Concept Maps")
+
+            #queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
+            #print("QUERYMAPDICT ON FIRST LOAD IS:")
+            #print(queryMapDict)
+            #queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
+            #searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
+            all_rotations = ER.getQueryMapConfigurations(points=queries[i]["points"])
+            results['queries'][queries[i]['name']]['num_rotations'] = len(all_rotations)
+
+            times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
+            print("Searching...")
+
+            res = ER.gridSearchAllRotations(queries=all_rotations)
+            results['queries'][queries[i]['name']]['matches'] = res
+            times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
 
     times['overall']["end  "] = datetime.datetime.now()
     times['overall']["total"] = times['overall']["end  "]-times['overall']["start"]
@@ -541,8 +582,12 @@ if __name__ == "__main__":
         print("#",k,"\t",v)
     print("#-------------------------------------------------------------")
     for query in times['queries'].keys():
+        times['queries'][query]['make_cm'] = times['queries'][query]["cm_complete"]-times['queries'][query]["start"]
+        times['queries'][query]['search'] = times['queries'][query]["end  "]-times['queries'][query]["cm_complete"]
         times['queries'][query]['total'] = times['queries'][query]["end  "]-times['queries'][query]["start"]
-        print("#",query,"\t",times['queries'][query]['total'])
+        print("#",query,"Concept Mapping","\t",times['queries'][query]['make_cm'])
+        print("#",query,"Searching      ","\t",times['queries'][query]['search'])
+        print("#",query,"Total          ","\t",times['queries'][query]['total'])
     print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n")
 
     print("\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #")
@@ -556,6 +601,28 @@ if __name__ == "__main__":
     
     print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n\n")
 
-    #json_formatted_str = json.dumps(metadata, indent=2)
+    experiment_results = {}
+    experiment_results['times'] = times
+    experiment_results['results'] = results
 
-    #print(json_formatted_str)
+    #print(experiment_results)
+
+    dataDirectory = ""
+    for p in sys.path:
+        if p.endswith("data"):
+            dataDirectory = p
+    
+    assert dataDirectory in sys.path,"Unable to find the 'GESTALT/data' directory - does it exist?"
+
+    experimentsDirectoryPath = os.path.join(dataDirectory, "experiments")
+    assert  os.path.exists(experimentsDirectoryPath),"'data/experiments' does not exist." 
+
+    experimentDirectoryPath = os.path.join(experimentsDirectoryPath, flags.experimentName)
+    
+    if os.path.exists(experimentDirectoryPath) == False:
+        os.mkdir(experimentDirectoryPath)
+    
+    assert  os.path.exists(experimentDirectoryPath),"'data/experiments/'"+flags.experimentName+" does not exist." 
+
+    with open(os.path.join(experimentDirectoryPath,flags.experimentName)+"_results.json", "wb") as outfile:
+        pickle.dump(experiment_results,outfile)
