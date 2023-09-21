@@ -19,8 +19,10 @@ from search import InvertedIndex
 
 box_data = {}  # List to store the box data
 base_dir = settings.MEDIA_ROOT 
+region = None
 conceptMaps = None
 invertedIndex = None
+VOCAB = None
 referenceLocations = None
    
 
@@ -50,9 +52,9 @@ def get_box_data(request):
     
 def get_objects(request):
     response_data = {
-        'objects': ['pond','testnm']
+        'objects': list(VOCAB) #['pond','tree']
     }
-    print("VIEWS SAYS: ", response_data)
+    print("VIEWS SAYS: ", list(VOCAB))
     return JsonResponse(response_data)
 
 def index(request):
@@ -69,6 +71,7 @@ def index(request):
     UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
     
     invertedIndex = InvertedIndex(INVERTED_INDEX)
+    global VOCAB
     VOCAB = invertedIndex.ii.keys()
     print('VOCAB is:', VOCAB)
   
@@ -94,6 +97,17 @@ def update_coordinates(request):
             'index': index,
             'x': x,
             'y': y
+        }
+        return JsonResponse(response_data)
+        
+def set_region(request):
+    if request.method == 'POST':
+        global region
+        region = request.POST.get('name')
+        print("got region ", region)
+        
+        response_data = {
+            'success': True
         }
         return JsonResponse(response_data)
         
