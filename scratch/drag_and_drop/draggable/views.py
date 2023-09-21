@@ -123,7 +123,6 @@ def get_search_result(request):
     flatDict["latitude"] = []
     flatDict["predicted_location"] = []
     for key in box_data.keys():
-        print("KEY: ", box_data[key]["name"], box_data[key]["x"], box_data[key]["y"])
         flatDict["name"].append(box_data[key]["name"])
         flatDict["longitude"].append(box_data[key]["x"])
         flatDict["latitude"].append(box_data[key]["y"])
@@ -134,9 +133,11 @@ def get_search_result(request):
     
     print("\n\n= = = = = = = = =  OBJECT CENTRIC SEARCH = = = = = = = = = \n")
     CM = ConceptMapper()
-    queryMap = CM.createConceptMap(input_df=query_df, inputFile=None)
-    searchOrder = CM.getSearchOrder(queryMap['PICTORIAL_QUERY'])
-    print(searchOrder)
+    queriesDict = CM.createConceptMap(input_df=query_df, inputFile=None, cm_type='query')
+    for key in queriesDict.keys():
+        lonOrder, latOrder = queriesDict[key][1]
+        searchOrder = CM.getSearchOrder(lonOrder, latOrder)
+        print(searchOrder)
     
     results = []
     for locationCM in conceptMaps.keys():
