@@ -54,36 +54,9 @@ def get_objects(request):
     response_data = {
         'objects': list(VOCAB) #['pond','tree']
     }
-    print("VIEWS SAYS: ", list(VOCAB))
     return JsonResponse(response_data)
 
 def index(request):
-    print("STARTUP....")
-    dataDirectory = ""
-    for p in sys.path:
-        if p.endswith("media"):
-           dataDirectory = p 
-
-    assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory - does it exist?"
-    
-    CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
-    INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
-    UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
-    
-    invertedIndex = InvertedIndex(INVERTED_INDEX)
-    global VOCAB
-    VOCAB = invertedIndex.ii.keys()
-    print('VOCAB is:', VOCAB)
-  
-    with open(CONCEPT_MAPS, "rb") as inFile:
-        global conceptMaps
-        conceptMaps = pickle.load(inFile)
-    CM = ConceptMapper()
-
-    with open(UI_LOCATIONS, "r") as inFile:
-        global referenceLocations
-        referenceLocations = json.load(inFile)
-        
     return render(request, 'draggable/index.html')
 
 def update_coordinates(request):
@@ -104,11 +77,39 @@ def set_region(request):
     if request.method == 'POST':
         global region
         region = request.POST.get('name')
-        print("got region ", region)
         
-        response_data = {
-            'success': True
-        }
+        dataDirectory = ""
+        for p in sys.path:
+            if p.endswith("media"):
+               dataDirectory = p 
+
+        assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory"
+        
+        if region == "Swan Valley, Australia":
+            print("GOT SV.............")
+            CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+            INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+            UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
+        elif region == "Washington D.C.":
+            print("GOT DC.............")
+
+        
+        invertedIndex = InvertedIndex(INVERTED_INDEX)
+        global VOCAB
+        VOCAB = invertedIndex.ii.keys()
+        print('VOCAB is:', VOCAB)
+      
+        with open(CONCEPT_MAPS, "rb") as inFile:
+            global conceptMaps
+            conceptMaps = pickle.load(inFile)
+        CM = ConceptMapper()
+
+        with open(UI_LOCATIONS, "r") as inFile:
+            global referenceLocations
+            referenceLocations = json.load(inFile)
+        
+        
+        response_data = {'success': True}
         return JsonResponse(response_data)
         
 @csrf_exempt         
@@ -123,7 +124,7 @@ def get_search_result(request):
     flatDict["predicted_location"] = []
     for key in box_data.keys():
         print("KEY: ", box_data[key]["name"], box_data[key]["x"], box_data[key]["y"])
-        flatDict["name"].append("palm_tree")#box_data[key]["name"])
+        flatDict["name"].append(box_data[key]["name"])
         flatDict["longitude"].append(box_data[key]["x"])
         flatDict["latitude"].append(box_data[key]["y"])
         flatDict["predicted_location"].append("PICTORIAL_QUERY")
