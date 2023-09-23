@@ -23,7 +23,7 @@ from compass import Compass
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
 from exp_compass import CompassExperimentRunner, CompassDataLoader
-from dataGenerator import DataGenerator
+from dataGenerator import DataGenerator, QuadrantMapConverter
 
 #Classes
 
@@ -204,6 +204,33 @@ class test_compass_experiments(unittest.TestCase):
         self.assertDictEqual(labelledPoints,new_loc)
 
 
+class test_quadrant_converter(unittest.TestCase):
+    
+    def setUp(self) -> None:
+        self.compass = Compass()
+        self.QMC = QuadrantMapConverter()
+        self.DG = DataGenerator()
+        return super().setUp()
+    
+    def tearDown(self) -> None:
+        return super().tearDown()
+
+    def test_quadrantMapConverter(self):
+
+        locDict = {}
+        locDict['name'] = ["M","E","x","M","E","E","i",1,2,3,4]
+        locDict['longitude'] = [0.0,0.0,0.0,1.0,1.0,2.0,2.0,0.9518585083675655,1.479820666192317,2.502881216432216,0.05267196621949655]
+        locDict['latitude'] =  [0.0,1.0,2.0,0.0,2.0,0.0,1.0,2.1769169011838074,2.415680154384778,0.26211543695925243,3.34987632838584]
+
+        quad_loc_df = pd.DataFrame(data=locDict)
+
+        quad_dict_ans = {"northwest":["x","E",1,4],
+                         "northeast":[2],
+                         "southwest":["M","E","M"],
+                         'southeast':["E","i",3]
+                         }
+
+        self.assertDictEqual(self.QMC.generateQuadrantMap(quad_loc_df),quad_dict_ans)
 
 # Main Function
 

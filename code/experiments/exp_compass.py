@@ -8,6 +8,7 @@ import argparse
 import json
 import pickle
 import datetime
+import gc
 
 # Library Imports
 import pandas as pd
@@ -26,6 +27,7 @@ from compass import Point
 from compass import Compass
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
+from quadrantMapConverter import QuadrantMapConverter
 
 #Main Function
 
@@ -348,14 +350,24 @@ if __name__ == "__main__":
                             action="store_true",
                             required = False)
     
+    argparser.add_argument("--searchMode",
+                            help="Specify either object_object or location_object",
+                            default="object_object",
+                            required = False)
+    
     times = {} #Dict to hold timing data for experiments
     results = {} #Dict to hold results for experiments
 
 
     flags = argparser.parse_args()
 
+    if flags.cardinalityInvariant == True:
+        expName = flags.experimentName+" cardinality_invariant"
+    else:
+        expName = flags.experimentName
+
     print("\n\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #")
-    print("Starting Experiment -", flags.experimentName)
+    print("Starting Experiment -", expName)
     print("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #\n\n")
 
 
@@ -368,8 +380,9 @@ if __name__ == "__main__":
         metadata = json.load(infile)
     
     if metadata['parameters']['numQueryTerms'] >= 1000:
-        sys.setrecursionlimit((metadata['parameters']['numQueryTerms'])+1)
-        print("Query is likely to exceed max recursion depth, setting to ", (metadata['parameters']['numQueryTerms'])+1)
+        recursionDepth = ((metadata['parameters']['numQueryTerms'])*2)
+        sys.setrecursionlimit(recursionDepth)
+        print("Query is likely to exceed max recursion depth, setting to ", recursionDepth)
 
 
     locations = []
@@ -417,47 +430,120 @@ if __name__ == "__main__":
 
     times['overall']["start"] = datetime.datetime.now()
 
-    if flags.cardinalityInvariant is False:
-        for i in tqdm(range(1,len(queries)+1)):
-            results['queries'][queries[i]['name']] = {}
-            results['queries'][queries[i]['name']]["TP"] = 0
-            results['queries'][queries[i]['name']]['FP'] = 0
-            results['queries'][queries[i]['name']]['TN'] = 0
-            results['queries'][queries[i]['name']]['FN'] = 0
-            results['queries'][queries[i]['name']]['num_rotations'] = 1
-            times['queries'][queries[i]['name']] = {}
-            times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
+    if flags.searchMode == "object_object":
+
+        if flags.cardinalityInvariant is False:
+            for i in tqdm(range(1,len(queries)+1)):
+                results['queries'][queries[i]['name']] = {}
+                results['queries'][queries[i]['name']]["TP"] = 0
+                results['queries'][queries[i]['name']]['FP'] = 0
+                results['queries'][queries[i]['name']]['TN'] = 0
+                results['queries'][queries[i]['name']]['FN'] = 0
+                results['queries'][queries[i]['name']]['num_rotations'] = 1
+                times['queries'][queries[i]['name']] = {}
+                times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
+                
+
+                queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
+                queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
+                searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
+                times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
+                res = ER.gridSearchSingleQuery(query_searchOrder=queries[i]['searchOrder'])
+                results['queries'][queries[i]['name']]['matches'] = res
+                times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
+
+        #Generate All possible rotations
+        else:
+            for i in tqdm(range(1,len(queries)+1)):
+                results['queries'][queries[i]['name']] = {}
+                results['queries'][queries[i]['name']]["TP"] = 0
+                results['queries'][queries[i]['name']]['FP'] = 0
+                results['queries'][queries[i]['name']]['TN'] = 0
+                results['queries'][queries[i]['name']]['FN'] = 0
+                
+                times['queries'][queries[i]['name']] = {}
+                times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
+
+                
+                all_rotations = ER.getQueryMapConfigurations(points=queries[i]["points"])
+                results['queries'][queries[i]['name']]['num_rotations'] = len(all_rotations)
+
+                times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
+
+                res = ER.gridSearchAllRotations(queries=all_rotations)
+                results['queries'][queries[i]['name']]['matches'] = res
+                times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
+
+
+    elif flags.searchMode == "location_object":
+
+        print("Deleting Concept Maps")  #Workaround until refactoring (saves double memory alloc)
+        del locations
+        gc.collect()
+
+        print("Building location quadrant maps...")
+        QCM = QuadrantMapConverter()
+
+        loc_quadrants = {}
+
+        for location_file in tqdm(location_files):
+            loc_path = location_file.split("/")
+            loc_name = loc_path[-1].split(".")[0]
+            df = pd.read_csv(location_file, sep=",")
+            loc_quadrants[loc_name] = QCM.generateQuadrantMap(input_df=df)
             
 
-            queryMapDict = ER.generateQueryMapDict(query=queries[i]["dataframe"])
-            queryMap = queryMapDict[queries[i]['name']]["concept_map"].copy()
-            searchOrder = queryMapDict[queries[i]['name']]["search_order"].copy()
-            times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
-            res = ER.gridSearchSingleQuery(query_searchOrder=queries[i]['searchOrder'])
-            results['queries'][queries[i]['name']]['matches'] = res
-            times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
+        
+        if flags.cardinalityInvariant is False:
+            print("Running Queries...")
+            for i in tqdm(range(1,len(queries)+1)):
+                results['queries'][queries[i]['name']] = {}
+                results['queries'][queries[i]['name']]["TP"] = 0
+                results['queries'][queries[i]['name']]['FP'] = 0
+                results['queries'][queries[i]['name']]['TN'] = 0
+                results['queries'][queries[i]['name']]['FN'] = 0
+                results['queries'][queries[i]['name']]['num_rotations'] = 1
+                
+                times['queries'][queries[i]['name']] = {}
+                times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
 
-    #Generate All possible rotations
+                query_quadrant_dict = QCM.generateQuadrantMap(queries[i]['dataframe'])
+                times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
+
+                locationHitCounter = {}
+
+                #print("\n##########")
+                #print("REFS", loc_quadrants)
+                #print("QUERY", query_quadrant_dict)
+                #print("##########\n")
+
+                for loc in loc_quadrants:
+                    for quadrant in ['northwest', 'northeast','southwest','southeast']:
+                        for item in query_quadrant_dict[quadrant]:
+                            if str(item) in loc_quadrants[loc][quadrant]:
+                                try:
+                                    locationHitCounter[loc] +=1
+                                except KeyError:
+                                    locationHitCounter[loc] = 1
+                                #print(loc,"True")
+                            else:
+                                pass
+                                #print(loc,"False")
+                            try: 
+                                locationHitCounter[loc]
+                            except KeyError:
+                                locationHitCounter[loc] = 0
+                res = []
+                for l in locationHitCounter.keys():
+                    if locationHitCounter[l] == metadata['parameters']['numQueryTerms']:
+                        res.append(l)
+                
+                results['queries'][queries[i]['name']]['matches'] = res
+                times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
+
+
     else:
-        for i in tqdm(range(1,len(queries)+1)):
-            results['queries'][queries[i]['name']] = {}
-            results['queries'][queries[i]['name']]["TP"] = 0
-            results['queries'][queries[i]['name']]['FP'] = 0
-            results['queries'][queries[i]['name']]['TN'] = 0
-            results['queries'][queries[i]['name']]['FN'] = 0
-            
-            times['queries'][queries[i]['name']] = {}
-            times['queries'][queries[i]['name']]['start'] = datetime.datetime.now()
-
-            
-            all_rotations = ER.getQueryMapConfigurations(points=queries[i]["points"])
-            results['queries'][queries[i]['name']]['num_rotations'] = len(all_rotations)
-
-            times['queries'][queries[i]['name']]['cm_complete'] = datetime.datetime.now()
-
-            res = ER.gridSearchAllRotations(queries=all_rotations)
-            results['queries'][queries[i]['name']]['matches'] = res
-            times['queries'][queries[i]['name']]["end  "] = datetime.datetime.now()
+        exit("NO SEARCH MODE SELECTED")
 
     times['overall']["end  "] = datetime.datetime.now()
     times['overall']["total"] = times['overall']["end  "]-times['overall']["start"]
@@ -465,7 +551,6 @@ if __name__ == "__main__":
     print('Generating Accuracy Report...')
 
     #print(results)
-
     for queryNum in tqdm(metadata['queries']['query'].keys()):
 
         if metadata['queries']['query'][queryNum]['true_match'] in results['queries'][metadata['queries']['query'][queryNum]['name']]['matches']:
@@ -482,13 +567,16 @@ if __name__ == "__main__":
         if len(results['queries'][metadata['queries']['query'][queryNum]['name']]['matches']) == 0:
             results['queries'][metadata['queries']['query'][queryNum]['name']]["TN"] = (metadata['locations']['num_locations'] - (results['queries'][metadata['queries']['query'][queryNum]['name']]["TP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FP"] + results['queries'][metadata['queries']['query'][queryNum]['name']]["FN"]))
 
+    
 
     print("Finished Experiments")
+
+
 
     print("\n\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #")
     print("# Printing Timing Report:")
     print("#-------------------------------------------------------------")
-    print("# EXPERIMENT:", flags.experimentName)
+    print("# EXPERIMENT:", expName)
     print("#-------------------------------------------------------------")
     for k,v in times['overall'].items():
         print("#",k,"\t",v)
@@ -505,7 +593,7 @@ if __name__ == "__main__":
     print("\n# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #")
     print("# Printing Accuracy Report:")
     print("#-------------------------------------------------------------")
-    print("# EXPERIMENT:", flags.experimentName)
+    print("# EXPERIMENT:", expName)
     print("#-------------------------------------------------------------")
     for query in results['queries']:
         print(query,results['queries'][query])
@@ -536,10 +624,15 @@ if __name__ == "__main__":
     
     assert  os.path.exists(experimentDirectoryPath),"'data/experiments/'"+flags.experimentName+" does not exist." 
 
-    if flags.cardinalityInvariant == True:
-        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)+"cardinality_invariant_results.pkl"
+    if flags.searchMode == 'location_object':
+        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)+"location_"
     else:
-        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)+"results.pkl"
+        savePath = os.path.join(experimentDirectoryPath,flags.experimentName)
+
+    if flags.cardinalityInvariant == True:
+        savePath += "cardinality_invariant_results.pkl"
+    else:
+        savePath += "results.pkl"
 
     with open(savePath, "wb") as outfile:
         pickle.dump(experiment_results,outfile)
