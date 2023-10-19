@@ -392,7 +392,7 @@ color:red</description>
 			</Placemark>
 			<Placemark>
 				<name>planter</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>116.0009956654884</longitude>
 					<latitude>-31.82398335968791</latitude>
@@ -410,7 +410,7 @@ color:red</description>
 			</Placemark>
 			<Placemark>
 				<name>planter</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>116.0009956654884</longitude>
 					<latitude>-31.82398335968791</latitude>
@@ -1962,7 +1962,7 @@ roof:green</description>
 				</Point>
 			</Placemark>
 			<Placemark>
-				<name>solar_panels</name>
+				<name>solar_panel</name>
 				<LookAt>
 					<longitude>116.0068394483112</longitude>
 					<latitude>-31.84532410472441</latitude>
@@ -1979,7 +1979,7 @@ roof:green</description>
 				</Point>
 			</Placemark>
 			<Placemark>
-				<name>solar_panels</name>
+				<name>solar_panel</name>
 				<LookAt>
 					<longitude>116.0068394483112</longitude>
 					<latitude>-31.84532410472441</latitude>
@@ -2360,7 +2360,7 @@ surface:vines</description>
 			</Placemark>
 			<Placemark>
 				<name>table</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>115.9903385937982</longitude>
 					<latitude>-31.85213554188421</latitude>
@@ -2378,7 +2378,7 @@ surface:vines</description>
 			</Placemark>
 			<Placemark>
 				<name>table</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>115.9903385937982</longitude>
 					<latitude>-31.85213554188421</latitude>
@@ -2396,7 +2396,7 @@ surface:vines</description>
 			</Placemark>
 			<Placemark>
 				<name>table</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>115.9903385937982</longitude>
 					<latitude>-31.85213554188421</latitude>
@@ -2414,7 +2414,7 @@ surface:vines</description>
 			</Placemark>
 			<Placemark>
 				<name>table</name>
-				<description>material:wine_barrell</description>
+				<description>material:wine_barrel</description>
 				<LookAt>
 					<longitude>115.9903385937982</longitude>
 					<latitude>-31.85213554188421</latitude>
@@ -2431,7 +2431,7 @@ surface:vines</description>
 				</Point>
 			</Placemark>
 			<Placemark>
-				<name>wine_barrell</name>
+				<name>wine_barrel</name>
 				<LookAt>
 					<longitude>115.9904351759042</longitude>
 					<latitude>-31.8519656395144</latitude>
@@ -2484,7 +2484,7 @@ surface:vines</description>
 			</Placemark>
 			<Placemark>
 				<name>fence</name>
-				<description>material:wine_barrell
+				<description>material:wine_barrel
 material:rope</description>
 				<LookAt>
 					<longitude>115.9904351759042</longitude>
