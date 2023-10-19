@@ -496,7 +496,7 @@ color:red</description>
 				</Point>
 			</Placemark>
 			<Placemark>
-				<name>air_conitioner</name>
+				<name>air_conditioner</name>
 				<description>color:gray</description>
 				<LookAt>
 					<longitude>116.0009045804621</longitude>
