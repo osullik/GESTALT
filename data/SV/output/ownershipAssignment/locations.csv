@@ -1,0 +1,312 @@
+name,longitude,latitude,date,origin,source,class_confidence,ground_truth_location
+Guildford,115.970229,-31.898506,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/32519003,0.7,None
+Midland,116.002453,-31.88901,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/32519004,0.7,None
+Woodbridge Hotel,115.982142,-31.897517,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/324627460,0.7,None
+Coolamon Cafe,115.973442,-31.777971,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/571848319,0.7,None
+Middle Swan Reserve,116.005944,-31.863876,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/663492639,0.7,None
+Dear Friends,115.964018,-31.875382,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/679716933,0.7,None
+Subway,116.041983,-31.885446,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/773667279,0.7,None
+Terry White Chemist,115.973728,-31.791676,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/778166581,0.7,None
+Woodlake Shopping Centre,115.973728,-31.79153,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/778166987,0.7,None
+Woodlake IGA,115.97375,-31.792013,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/778167277,0.7,None
+Red Rooster,115.977998,-31.795999,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/778168913,0.7,None
+Hungry Jack's,115.979547,-31.795012,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/778168983,0.7,None
+Old Pa's,116.03941,-31.885568,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/793851283,0.7,None
+Stirling Arms,116.032001,-31.895588,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798440311,0.7,None
+Midland,116.001658,-31.891755,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798461358,0.7,None
+Midland AustPost DC,116.009288,-31.886516,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798462701,0.7,None
+Midland Workshops Museum,116.003574,-31.893396,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798464210,0.7,None
+Guildford Grammar Preparatory School,115.985641,-31.891781,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798469907,0.7,None
+Chapel of St Mary & St George,115.98123,-31.894789,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798470854,0.7,None
+Toilets,115.970997,-31.898658,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/798475777,0.7,None
+IGA Swan View,116.042263,-31.88548,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/822127155,0.7,None
+Pizza Hut,116.039587,-31.885568,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/822162665,0.7,None
+Pig & Whistle Bar & Bistro,116.04087,-31.885424,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/884827684,0.7,None
+Stratton Supa IGA,116.034976,-31.869238,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/888701481,0.7,None
+Chicken Treat Stratton,116.034401,-31.868881,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/888701486,0.7,None
+Better Choice Stratton,116.034396,-31.869698,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/888701494,0.7,None
+Georges Fish Shop,116.033762,-31.895962,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/948115238,0.7,None
+Midland Police Station,116.002351,-31.886766,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/948144435,0.7,None
+The Eastern,116.003176,-31.89012,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/948148612,0.7,None
+Ace Midland Gate Cinemas,116.008718,-31.889306,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/948149797,0.7,None
+Oliver Court,116.023884,-31.87023,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/972249226,0.7,None
+Subway Aveley,115.980555,-31.795266,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009798103,0.7,None
+Pizza Hut Ellenbrook,115.980551,-31.795195,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009798158,0.7,None
+Romano's Pizzeria,115.973458,-31.791176,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950273,0.7,None
+Ellenbrook Fish and Chips,115.973522,-31.791178,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950278,0.7,None
+Woodlake Chinese Restaurant,115.973597,-31.791176,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950283,0.7,None
+curry Lovers,115.973954,-31.791321,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950285,0.7,None
+Domino's,115.967489,-31.781142,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950312,0.7,None
+Noodle Bar,115.967421,-31.781203,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950317,0.7,None
+Harry and the Boys,115.967358,-31.78126,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950321,0.7,None
+Dôme,115.966691,-31.781826,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950327,0.7,None
+The Slippery Eel,115.967314,-31.782566,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950385,0.7,None
+Chicken Treat,115.967603,-31.782492,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950388,0.7,None
+Ellenbrook Police Station,115.966675,-31.780396,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950424,0.7,None
+Thirsty Camel Bottle Shop,115.980013,-31.794829,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950430,0.7,None
+Amaretto's,115.967377,-31.782476,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1009950443,0.7,None
+Savage Suzuki,116.028784,-31.894077,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1022272161,0.7,None
+Darling Range Pub,116.032386,-31.895511,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1022272171,0.7,None
+Bayleaf Indian Restaurant,116.032464,-31.895456,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1022272190,0.7,None
+Polaris,116.034604,-31.895249,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1022273567,0.7,None
+Cavvy Store,115.974716,-31.879701,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1056070102,0.7,None
+Sandalford Winery,115.992759,-31.868701,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069253580,0.7,None
+Middle Swan Liquor Store & Deli,116.020217,-31.868198,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069297015,0.7,None
+Armies Fish and Chips,116.020362,-31.868154,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069297231,0.7,None
+Indigenous artwork display,116.020464,-31.868155,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069299063,0.7,None
+Waldecks,116.016018,-31.849314,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069302845,0.7,None
+Nikola Estate,115.997995,-31.854112,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069306958,0.7,None
+Artra Art Studio,115.99029,-31.839689,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1069321828,0.7,None
+Ellenbrook Fruit and Veg,115.973965,-31.790929,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1227323933,0.7,None
+All Saints Church,116.004163,-31.795872,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1227326142,0.7,None
+Edgecombe Brothers,115.998571,-31.795187,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1227333254,0.7,None
+Swan Valley Sisters,115.99746,-31.79543,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1231954436,0.7,None
+Woodlake Ampitheatre,115.975356,-31.790488,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1231958443,0.7,None
+Middle Swan Liquor Store,116.020218,-31.868266,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1270412763,0.7,None
+The Principal,116.007159,-31.889603,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1301835708,0.7,None
+Swan Valley Oasis Resort,116.0011,-31.808923,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1354575366,0.7,None
+LazerCorps,116.001407,-31.808941,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1361075630,0.7,None
+Mash Brewery,116.001087,-31.808826,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1361076725,0.7,None
+Yeltrah Gallery,116.0347,-31.835971,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1378522526,0.7,None
+Yagan Memorial Park,116.018903,-31.780373,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1379548745,0.7,None
+Yagan Memorial,116.016948,-31.780415,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1379548746,0.7,None
+Little River Winery and Café,116.000888,-31.824124,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1415592708,0.7,None
+Black Swan Winery and Restaurant,116.00085,-31.823404,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1415592711,0.7,None
+Midland Public Library,116.004166,-31.887785,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1463847325,0.7,None
+Midland Courthouse,116.002322,-31.887401,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1465060472,0.7,None
+Ellenbrook,115.966562,-31.782739,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1468352790,0.7,None
+Woolworths,115.968499,-31.783121,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1473222546,0.7,None
+Coles,115.970274,-31.781925,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1473222548,0.7,None
+Big W,115.96982,-31.783192,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1473222969,0.7,None
+Mineworks Group Workshop,116.035762,-31.895139,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1491152937,0.7,None
+Guildford Old Courthouse,115.971988,-31.898423,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1504407683,0.7,None
+Aveley,115.986226,-31.787069,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1546255534,0.7,None
+Swan View,116.047118,-31.88002,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1546259484,0.7,None
+Midvale,116.026851,-31.886383,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1546259489,0.7,None
+Stratton,116.040477,-31.867155,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1546259494,0.7,None
+Bikeforce Ellenbrook,115.968583,-31.778021,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1557971661,0.7,None
+Feral Brewing Company,116.036584,-31.797927,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1575142525,0.7,None
+Toodyay Road after Roe Highway,116.026145,-31.868314,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1705017624,0.7,None
+Toodyay Road after Brown Street,116.024657,-31.86877,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1705017634,0.7,None
+The Crescent after Keane Street,116.00653,-31.888889,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1705017788,0.7,None
+Moorditj Noongar Community College,116.025978,-31.878289,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1705084933,0.7,None
+Dome Café,116.007147,-31.889829,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1708115490,0.7,None
+Supa IGA,116.004008,-31.89094,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1708116703,0.7,None
+Heritage Trail,116.040801,-31.89401,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1723839255,0.7,None
+Heritage Trail,116.040613,-31.894098,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1723839274,0.7,None
+Heritage Trail,116.040861,-31.894369,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1723839275,0.7,None
+Heritage Trail,116.031588,-31.899647,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1728787161,0.7,None
+Heritage Trail,116.031669,-31.899721,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1728787167,0.7,None
+Bikeforce Midland,116.022826,-31.893001,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1784667378,0.7,None
+Midland Cycles,116.015643,-31.891835,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1784667382,0.7,None
+Skyway Bicycles,116.018964,-31.892322,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1784667385,0.7,None
+East Guildford,115.979991,-31.896448,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1875097937,0.7,None
+Guildford,115.965793,-31.898949,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1875097938,0.7,None
+Woodbridge,115.992868,-31.891518,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/1875097947,0.7,None
+Police Operations Support Centre,116.006863,-31.895601,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2152827855,0.7,None
+GP Superclinic,116.005754,-31.894108,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2154034465,0.7,None
+Swan Park Leisure Centre,116.024148,-31.883321,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2431830277,0.7,None
+Midvale Speed Dome,116.026563,-31.878829,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2432038107,0.7,None
+Ellenbrook Chinese Restaurant,115.967286,-31.781324,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2444465928,0.7,None
+ANZ,115.967903,-31.782758,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2530407914,0.7,None
+Caversham Airfield,115.9734,-31.836342,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2707254458,0.7,None
+Thirsty Camel,115.971453,-31.89968,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/2799026554,0.7,None
+KFC,115.978513,-31.796571,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3331341423,0.7,None
+BP,115.978438,-31.796061,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3331341424,0.7,None
+Nando's,115.980551,-31.79532,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3527590748,0.7,None
+DB Dental,115.980477,-31.794849,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3527590749,0.7,None
+Mobil Fuel,116.032686,-31.885587,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3611937227,0.7,None
+7-Eleven,116.032692,-31.885367,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3611943472,0.7,None
+BP Service Station,116.031064,-31.886499,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3612031598,0.7,None
+Liquorland,116.042675,-31.885499,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3612031599,0.7,None
+Fauntleroy Park,115.979795,-31.899016,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3699857725,0.7,None
+Guildford Garden Centre,115.972617,-31.899152,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3699874927,0.7,None
+Guildford War Memorial,115.971239,-31.898478,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3699879549,0.7,None
+The Honda Shop Midland,116.009886,-31.886465,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3810772457,0.7,None
+Harvey Norman,116.013222,-31.896022,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846791022,0.7,None
+Woolworths,116.008303,-31.889259,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846802315,0.7,None
+Big W,116.008346,-31.889787,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846802316,0.7,None
+Target Midland,116.009687,-31.890242,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846818141,0.7,None
+Subway,116.010299,-31.889117,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846818142,0.7,None
+Coles,116.012229,-31.889056,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/3846824556,0.7,None
+Lancaster Wines,115.988887,-31.85226,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4271565992,0.7,None
+Mondo Nougat,116.016989,-31.837367,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4271579193,0.7,None
+Windarra Honey,115.991488,-31.842224,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4271700489,0.7,None
+The House of Honey,116.017467,-31.81759,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4271700689,0.7,None
+The Cheesecake Shop,115.997727,-31.890002,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4330922299,0.7,None
+St Leonard Display Village,115.968453,-31.854516,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4353648621,0.7,None
+Mash Brewery,116.016031,-31.808305,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4422268895,0.7,None
+The Henley Brook,116.001908,-31.81298,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4422320889,0.7,None
+Swan Valley Whistler's Chocolate,116.015651,-31.849449,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4545893189,0.7,None
+Mazparts,116.031277,-31.893334,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4550211104,0.7,None
+Liviis Playground,115.965825,-31.82038,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4567582243,0.7,None
+Washworks Midvale,116.031582,-31.886684,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623225862,0.7,None
+Caltex Midvale,116.031838,-31.886344,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623225863,0.7,None
+Hungry Jack's,116.032973,-31.886344,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623225864,0.7,None
+Caltex Swan View,116.04213,-31.885671,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623231232,0.7,None
+Dominos Swan View,116.04237,-31.885485,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623231233,0.7,None
+Brumby's Swan View,116.04245,-31.885485,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4623231234,0.7,None
+Touched By Olivia Playground,115.966165,-31.820968,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4636747289,0.7,None
+Muzz Buzz,115.964264,-31.777341,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4636766747,0.7,None
+Zambrero,115.980541,-31.795076,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4700890287,0.7,None
+VetWest Animal Hospital Ellenbrook,115.972809,-31.781883,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4702940666,0.7,None
+PetStock Ellenbrook,115.97263,-31.781882,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4702940667,0.7,None
+FirstChoice Liquor,115.973282,-31.781851,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4702940668,0.7,None
+BWS,115.967111,-31.782521,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4702940669,0.7,None
+Ellenbrook Kebabs,115.967481,-31.782543,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4702940670,0.7,None
+Caltex Woolworths,115.987326,-31.777517,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398360,0.7,None
+BWS Aveley,115.987665,-31.777552,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398361,0.7,None
+Maharani,115.987749,-31.77757,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398362,0.7,None
+Jesters,115.987835,-31.77759,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398363,0.7,None
+LJ Hooker,115.987925,-31.777607,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398364,0.7,None
+Barbertown,115.988031,-31.77763,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398365,0.7,None
+Aveley News,115.988219,-31.77767,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398366,0.7,None
+Woolworths Aveley,115.988035,-31.777945,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398367,0.7,None
+Krusty Kob,115.988529,-31.777743,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398368,0.7,None
+Lot Six Zero,115.988698,-31.777738,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4703398369,0.7,None
+Mandoon Estate,115.994991,-31.868266,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725282049,0.7,None
+Homestead Brewery,115.994935,-31.868062,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725282050,0.7,None
+Mandoon Vineyard,115.995494,-31.867594,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725282053,0.7,None
+Mandoon Outdoor Cinema,115.994474,-31.868648,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725282054,0.7,None
+Mandoon Beer Garden,115.994406,-31.868477,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725282055,0.7,None
+Homestead Brewery,115.995062,-31.868073,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725357781,0.7,None
+Homestead bar,115.994852,-31.868069,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725358878,0.7,None
+Mandoon Cellar Door,115.994627,-31.868103,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725358890,0.7,None
+Lynton & Kay Art Gallery,115.994413,-31.869037,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725359056,0.7,None
+Mandoon Carpark,115.995606,-31.868023,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725359966,0.7,None
+Mandoon Car park,115.994155,-31.865208,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725360820,0.7,None
+Mandoon Helipad,115.997248,-31.865861,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725361283,0.7,None
+Mandoon Jetty,115.995104,-31.869705,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4725364589,0.7,None
+Woodbridge,115.991438,-31.891144,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895667,0.7,None
+Middle Swan,116.018067,-31.859939,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895671,0.7,None
+Caversham,115.974819,-31.87501,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895672,0.7,None
+Dayton,115.974066,-31.855774,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895673,0.7,None
+West Swan,115.988588,-31.845607,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895675,0.7,None
+Herne Hill,116.018726,-31.827304,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895676,0.7,None
+Brabham,115.976415,-31.828358,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895677,0.7,None
+Henley Brook,115.983996,-31.806735,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895678,0.7,None
+Belhus,116.007925,-31.783589,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895679,0.7,None
+Millendon,116.037708,-31.807462,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895680,0.7,None
+Baskerville,116.046978,-31.796922,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4928895681,0.7,None
+MAX Employment Midland,116.005689,-31.889651,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/4978086721,0.7,None
+Mobil,115.974638,-31.875524,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5317835917,0.7,None
+7-Eleven,115.974557,-31.875532,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5317835981,0.7,None
+Katich’s The Grape Place,115.973701,-31.88541,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5555477321,0.7,None
+Sandalford Wines Jetty,115.994615,-31.869958,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5584221070,0.7,None
+Elmar's in the Valley,115.999824,-31.822223,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5793371208,0.7,None
+Herne Hill General Store,116.016651,-31.825017,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5793398614,0.7,None
+The Coffee Hut,116.016591,-31.825165,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5793400427,0.7,None
+Shell,116.025901,-31.774613,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5855587685,0.7,None
+8DoW (Centre for Youth Health and Wellbeing Ltd.),115.96641,-31.782054,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/5936844210,0.7,None
+Millendon Junction,116.027859,-31.81267,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6040715026,0.7,None
+Oakover,116.019044,-31.853959,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6040715027,0.7,None
+Oakover,116.018113,-31.854246,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6040715028,0.7,None
+Bellvue,116.027063,-31.89842,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6040715049,0.7,None
+Midland Workshops,116.00725,-31.893353,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6040715051,0.7,None
+Upper Swan,116.025627,-31.773837,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6105741344,0.7,None
+Upper Swan Standard Gauge Storage Depot,116.032954,-31.793174,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6105741354,0.7,None
+Herne Hill,116.024065,-31.825075,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6105767711,0.7,None
+Middle Swan,116.018071,-31.860468,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6105791034,0.7,None
+Helena Vale Racecourse,116.037711,-31.895433,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6209889810,0.7,None
+Caversham Motor Racing Circuit,115.980833,-31.839401,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6223396381,0.7,None
+Ellenbrook Ambulance Station,115.968406,-31.777808,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6271957293,0.7,None
+Diamond Beauty Lounge,115.969159,-31.782694,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6683380755,0.7,None
+Maison Saint Honoré,115.963883,-31.875322,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6761327586,0.7,None
+Sandalford Estate Restaurant,115.990016,-31.870429,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6852993685,0.7,None
+Crooked Spire Coffeehouse,116.003603,-31.891457,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/6901592257,0.7,None
+Oakover Grounds,116.007327,-31.84508,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7094173106,0.7,None
+Heritage,115.96825,-31.785697,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7238982965,0.7,None
+The Pines,115.96285,-31.792764,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7238982966,0.7,None
+Brabham Jungle Park,115.968797,-31.828319,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7652724980,0.7,None
+Midland,116.001828,-31.891915,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7658371195,0.7,None
+Vibe West Swan,115.990624,-31.839,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7660622838,0.7,None
+Swan Valley Vet Centre,115.992553,-31.831622,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7660650336,0.7,None
+Dog's Breakfast Cafe,115.992665,-31.831436,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7660650337,0.7,None
+Spudshed Midland,116.016768,-31.896666,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7676055787,0.7,None
+Spotlight Midland,116.017924,-31.896939,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7676055788,0.7,None
+GTS Gauges Transmitters Switches,116.031477,-31.894289,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7678756576,0.7,None
+Savage Motorcycles,116.028635,-31.893824,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7700021908,0.7,None
+Highway Harley-Davidson Perth,116.028522,-31.893766,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7899356269,0.7,None
+Ellenbrook,115.96283,-31.781537,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7967971112,0.7,None
+Whiteman Park,115.964442,-31.835809,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/7967971113,0.7,None
+Midland,116.000996,-31.891564,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8380095256,0.7,None
+Syd and Phylis,116.003121,-31.893816,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8465084623,0.7,None
+Railway Square Cafe,116.002997,-31.893707,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8465113911,0.7,None
+The Lounge Room on James,115.967045,-31.899526,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8474590630,0.7,None
+Refreshments,116.001627,-31.891684,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8482311586,0.7,None
+KFC Midvale,116.032243,-31.886341,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8498870583,0.7,None
+F45 Training Midvale,116.031956,-31.893574,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8498870584,0.7,None
+Kmart,115.971531,-31.781896,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8893826333,0.7,None
+Kmart,116.011061,-31.889334,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8893826334,0.7,None
+Spud Shed Ellenbrook,115.963946,-31.778257,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8897219933,0.7,None
+Spotlight,115.964381,-31.778885,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8897219934,0.7,None
+Coles,115.969035,-31.830413,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8901294282,0.7,None
+Hungry Jack's,115.968686,-31.850623,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/8915545503,0.7,None
+Duckstein Brewery,116.001584,-31.81346,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9007419473,0.7,None
+Midland COVID-19 Vaccination Community Clinic,116.002125,-31.89031,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9139246940,0.7,None
+Blackboy Hill War Memorial,116.045557,-31.896938,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9171217542,0.7,None
+Bellevue Train Park,116.032684,-31.899986,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9217795675,0.7,None
+Midland COVID Vaccination Clinic,116.002265,-31.88997,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9274044200,0.7,None
+Shell NightOwl,116.032775,-31.895572,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9409191156,0.7,None
+Old Young's,115.999901,-31.806271,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9494461347,0.7,None
+Whiteman Edge Medical Centre,115.969053,-31.830866,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9662539432,0.7,None
+Grill'd,116.007593,-31.889802,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9708638250,0.7,None
+Morrina Australia Pty Ltd,115.968322,-31.82086,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9752078063,0.7,None
+Sonas Early Learning & Care Dayton,115.968808,-31.849739,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/9998609464,0.7,None
+Guildford,115.966127,-31.898885,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089381713,0.7,None
+Guildford,115.965295,-31.899019,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089381714,0.7,None
+Midland,116.000195,-31.891397,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089381715,0.7,None
+East Guildford,115.980312,-31.89621,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089381716,0.7,None
+East Guildford,115.979665,-31.8967,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089399917,0.7,None
+Woodbridge,115.993036,-31.891436,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089399918,0.7,None
+Woodbridge,115.992205,-31.891689,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10089399919,0.7,None
+Pannage,115.980557,-31.816137,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10160945448,0.7,None
+Marri,115.987172,-31.812864,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10163840697,0.7,None
+Happy Homes and Gifts,115.968467,-31.782303,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10229623626,0.7,None
+Options Optometrists Midland Gate,116.009751,-31.889656,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10672545663,0.7,None
+Woolworths,116.030873,-31.885145,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10744607128,0.7,None
+Henley Park Winery,116.001641,-31.797776,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087666,0.7,None
+Upper Reach Winery,116.008634,-31.795033,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087667,0.7,None
+Mann Winery,116.012546,-31.793688,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087668,0.7,None
+Harris Organic Wines and Spirits,116.02083,-31.794595,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087669,0.7,None
+John Kosovich Wines,116.02076,-31.795346,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087670,0.7,None
+Twin Hill Wines,116.020781,-31.796729,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087671,0.7,None
+Swan Valley Gin Company,116.02236,-31.800667,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087672,0.7,None
+Bailey Brewing co.,116.000233,-31.812672,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861087673,0.7,None
+Olive Farm Wines,116.022232,-31.811995,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358869,0.7,None
+Ali's Vineyard,116.01822,-31.814194,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358870,0.7,None
+Limeburners and Ginversity in the Valley,116.021047,-31.816599,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358871,0.7,None
+Talijancich,116.020341,-31.818507,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358872,0.7,None
+Tyler's Vineyard,116.040805,-31.812921,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358873,0.7,None
+Fig Tree Estate Winery,116.04003,-31.804387,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358874,0.7,None
+Lamont's Winery,116.037443,-31.80323,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358875,0.7,None
+Faber Vineyard,116.045655,-31.796771,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358876,0.7,None
+Txoko Brewing,116.046614,-31.796613,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358877,0.7,None
+Swan Valley Wines,116.048836,-31.796915,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358878,0.7,None
+Windy Creek Estate,116.03056,-31.830487,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358879,0.7,None
+Holy Mary Cellars,116.021676,-31.835658,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358880,0.7,None
+Jarrah Ridge Wines,116.015532,-31.836499,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358881,0.7,None
+Katgully Wines Cellar Door,116.021235,-31.835449,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358882,0.7,None
+Sin Gin Distillery,116.021641,-31.835859,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358883,0.7,None
+Sittella,116.006851,-31.830083,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358884,0.7,None
+Ugly Duckling Wines,115.997425,-31.830502,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358885,0.7,None
+Heafod Glen Winery,115.996817,-31.822945,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358886,0.7,None
+The Great Northern Distillery,116.016083,-31.850198,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358887,0.7,None
+Kimberley Rum C,116.015793,-31.850195,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358888,0.7,None
+Swan Valley Brewery,116.015597,-31.848014,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358889,0.7,None
+Ambrook Wines,115.981779,-31.871998,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10861358890,0.7,None
+Helena River Steiner School,116.00124,-31.897988,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10904781231,0.7,None
+7-Eleven,115.968259,-31.83277,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935469151,0.7,None
+Mobil,115.968216,-31.832576,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935469152,0.7,None
+Autobahn,115.96799,-31.832583,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534135,0.7,None
+Brabham Pizza,115.968629,-31.83028,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534136,0.7,None
+Caffeinate Coffee Co,115.968646,-31.830157,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534137,0.7,None
+Brabham Kebabs and Turkish Bakery,115.968748,-31.830137,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534138,0.7,None
+7 Day Pharmacy,115.968788,-31.830869,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534139,0.7,None
+XO Fit Brabham 2.0,115.9697,-31.832425,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534140,0.7,None
+Brabham Indian Groceries,115.968666,-31.830432,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534141,0.7,None
+Nido Early School,115.968065,-31.83026,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10935534142,0.7,None
+Brabham Smiles,115.969558,-31.832156,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10938716689,0.7,None
+Sapphire Nails & Waxing,115.969571,-31.832236,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10938716690,0.7,None
+Jude Taylor,116.015771,-31.848852,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10950836196,0.7,None
+Jude Taylor,116.015858,-31.848852,19-10-23 14:45:23,osm,https://www.openstreetmap.org/node/10950836197,0.7,None

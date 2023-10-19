@@ -1,0 +1,703 @@
+{
+    "Chapel of St Mary & St George": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "level_crossing",
+            "level_crossing",
+            "crossing",
+            "crossing"
+        ]
+    },
+    "The Cheesecake Shop": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "crossing",
+            "crossing",
+            "crossing",
+            "crossing"
+        ],
+        "southeast": []
+    },
+    "Woodbridge": {
+        "northwest": [
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "northeast": [],
+        "southwest": [
+            "level_crossing",
+            "level_crossing",
+            "level_crossing"
+        ],
+        "southeast": [
+            "tower",
+            "bus_stop",
+            "bus_stop"
+        ]
+    },
+    "Bellvue": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "traffic_signals",
+            "crossing",
+            "crossing"
+        ],
+        "southeast": [
+            "crossing",
+            "crossing",
+            "train",
+            "train",
+            "train"
+        ]
+    },
+    "Hungry Jack's": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "level_crossing",
+            "level_crossing",
+            "crossing",
+            "crossing"
+        ]
+    },
+    "Midland": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "level_crossing",
+            "crossing",
+            "crossing",
+            "crossing"
+        ]
+    },
+    "Railway Square Cafe": {
+        "northwest": [
+            "level_crossing",
+            "level_crossing",
+            "level_crossing"
+        ],
+        "northeast": [],
+        "southwest": [],
+        "southeast": []
+    },
+    "GP Superclinic": {
+        "northwest": [],
+        "northeast": [
+            "traffic_signals",
+            "traffic_signals",
+            "traffic_signals",
+            "traffic_signals"
+        ],
+        "southwest": [
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "chair",
+            "suitcase",
+            "bench",
+            "airplane",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "truck",
+            "person",
+            "person",
+            "chair",
+            "person"
+        ],
+        "southeast": []
+    },
+    "Guildford": {
+        "northwest": [],
+        "northeast": [
+            "station",
+            "car",
+            "person",
+            "car",
+            "car",
+            "car",
+            "car",
+            "car",
+            "person",
+            "car",
+            "car",
+            "car",
+            "car",
+            "traffic light",
+            "remote",
+            "person",
+            "person",
+            "person",
+            "person",
+            "cup",
+            "clock",
+            "clock",
+            "car",
+            "car",
+            "car",
+            "car",
+            "car"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Guildford Garden Centre": {
+        "northwest": [
+            "tree"
+        ],
+        "northeast": [
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "East Guildford": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "southeast": []
+    },
+    "Guildford Old Courthouse": {
+        "northwest": [
+            "tree",
+            "tree",
+            "tree",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane",
+            "airplane"
+        ],
+        "northeast": [
+            "tree",
+            "chair",
+            "potted plant"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Fauntleroy Park": {
+        "northwest": [
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "northeast": [],
+        "southwest": [],
+        "southeast": []
+    },
+    "Nando's": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "picnic_table",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table"
+        ]
+    },
+    "Domino's": {
+        "northwest": [],
+        "northeast": [
+            "bus_stop",
+            "traffic_signals",
+            "crossing",
+            "crossing",
+            "crossing",
+            "crossing",
+            "crossing"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Caversham Motor Racing Circuit": {
+        "northwest": [
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "northeast": [],
+        "southwest": [],
+        "southeast": []
+    },
+    "Barbertown": {
+        "northwest": [],
+        "northeast": [
+            "traffic_signals",
+            "crossing",
+            "crossing"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "LJ Hooker": {
+        "northwest": [],
+        "northeast": [
+            "traffic_signals",
+            "crossing",
+            "crossing"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "St Leonard Display Village": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "southeast": []
+    },
+    "Spotlight Midland": {
+        "northwest": [],
+        "northeast": [
+            "level_crossing",
+            "level_crossing",
+            "level_crossing"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Coolamon Cafe": {
+        "northwest": [],
+        "northeast": [
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "southwest": [],
+        "southeast": [
+            "tree",
+            "tree",
+            "tree"
+        ]
+    },
+    "Caversham": {
+        "northwest": [
+            "crossing",
+            "crossing",
+            "crossing"
+        ],
+        "northeast": [],
+        "southwest": [],
+        "southeast": []
+    },
+    "Ali's Vineyard": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "pizza_oven"
+        ],
+        "southeast": [
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree",
+            "palm_tree"
+        ]
+    },
+    "Little River Winery and Caf\u00e9": {
+        "northwest": [],
+        "northeast": [
+            "picnic_bench",
+            "picnic_bench",
+            "planter",
+            "planter"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Faber Vineyard": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "retaining_wall",
+            "retaining_wall",
+            "sign",
+            "sign",
+            "sign",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ]
+    },
+    "Ugly Duckling Wines": {
+        "northwest": [
+            "picnic_table",
+            "picnic_table",
+            "picnic_umbrella",
+            "picnic_umbrella",
+            "picnic_table"
+        ],
+        "northeast": [
+            "shed",
+            "sculpture"
+        ],
+        "southwest": [
+            "picnic_umbrella",
+            "picnic_umbrella",
+            "shed",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree",
+            "tree"
+        ],
+        "southeast": [
+            "patio"
+        ]
+    },
+    "Oakover Grounds": {
+        "northwest": [
+            "vat",
+            "shipping_container",
+            "shipping_container",
+            "shipping_container"
+        ],
+        "northeast": [],
+        "southwest": [
+            "vat",
+            "vat",
+            "vat"
+        ],
+        "southeast": [
+            "jetty",
+            "picnic_table",
+            "picnic_table"
+        ]
+    },
+    "Lancaster Wines": {
+        "northwest": [],
+        "northeast": [
+            "table",
+            "table",
+            "table",
+            "table",
+            "wine_barrel",
+            "counter",
+            "shed",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table",
+            "picnic_table"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Windy Creek Estate": {
+        "northwest": [],
+        "northeast": [
+            "handbag",
+            "bench",
+            "handbag",
+            "bench"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Twin Hill Wines": {
+        "northwest": [
+            "potted plant",
+            "person",
+            "potted plant",
+            "person"
+        ],
+        "northeast": [],
+        "southwest": [
+            "truck",
+            "truck",
+            "truck",
+            "truck",
+            "truck"
+        ],
+        "southeast": []
+    },
+    "Midvale": {
+        "northwest": [],
+        "northeast": [
+            "kite",
+            "airplane",
+            "bird",
+            "bird",
+            "kite"
+        ],
+        "southwest": [],
+        "southeast": []
+    },
+    "Katich\u2019s The Grape Place": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [
+            "cat",
+            "cat",
+            "chair"
+        ],
+        "southeast": []
+    },
+    "Midland Cycles": {
+        "northwest": [
+            "cow",
+            "cow",
+            "cow",
+            "refrigerator",
+            "boat",
+            "boat",
+            "potted plant",
+            "car",
+            "dog",
+            "car",
+            "car",
+            "surfboard",
+            "stop sign",
+            "stop sign",
+            "stop sign",
+            "stop sign",
+            "car",
+            "car",
+            "stop sign",
+            "stop sign",
+            "car",
+            "car",
+            "car",
+            "car",
+            "refrigerator",
+            "car",
+            "stop sign",
+            "sports ball",
+            "refrigerator",
+            "dog",
+            "car",
+            "car",
+            "car",
+            "person",
+            "car",
+            "car"
+        ],
+        "northeast": [],
+        "southwest": [
+            "person",
+            "person",
+            "person",
+            "person"
+        ],
+        "southeast": []
+    },
+    "The Lounge Room on James": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "truck",
+            "toilet",
+            "truck",
+            "truck",
+            "bench",
+            "car",
+            "train"
+        ]
+    },
+    "Syd and Phylis": {
+        "northwest": [],
+        "northeast": [],
+        "southwest": [],
+        "southeast": [
+            "suitcase",
+            "suitcase",
+            "suitcase",
+            "cell phone",
+            "handbag",
+            "suitcase",
+            "bench",
+            "handbag",
+            "person",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "person",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "handbag",
+            "person"
+        ]
+    }
+}
