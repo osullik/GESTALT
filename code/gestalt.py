@@ -419,7 +419,10 @@ if flags.gestaltSearch == True:
 	results = ii.search(searchterms)
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
-	print("RETURNED STANDARD SEARCH RESULTS:",len(results[0]), "FOR QUERY:", searchterms)	
+	print("SEARCH TERMS:", searchterms)
+	if results:
+		print("RETURNED STANDARD SEARCH RESULTS:", len(results[0]))	
+	print("STANDARD II RESULTS ARE: ", results)
 	print("\nPROCESSOR TIME FOR STANDARD QUERY:",end_proc_time-start_proc_time)
 	print("WALL TIME TAKEN FOR STANDARD QUERY:", end_wall_time-start_wall_time,"\n")
 
@@ -428,8 +431,11 @@ if flags.gestaltSearch == True:
 	fuzzy_results = ii.fuzzy_search(searchterms)
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
+	
 	print("SEARCH TERMS:", searchterms)
-	print("RETURNED FUZZY SEARCH RESULTS:",len(fuzzy_results[0]), "FOR QUERY:", searchterms)	
+	if fuzzy_results[0]:
+		print("RETURNED FUZZY SEARCH RESULTS:", len(fuzzy_results[0]))	
+	print("FUZZY RESULTS ARE: ", fuzzy_results)
 	print("\nPROCESSOR TIME FOR FUZZY QUERY:",end_proc_time-start_proc_time)
 	print("WALL TIME TAKEN FOR FUZZY QUERY:", end_wall_time-start_wall_time,"\n")
 
@@ -441,7 +447,9 @@ if flags.gestaltSearch == True:
 	end_proc_time=time.process_time()
 	end_wall_time = time.time()
 	print("SEARCH TERMS:", searchterms)
-	print("RETURNED RANKED SEARCH RESULTS:",len(rankedResults[0]), "FOR QUERY:", searchterms)	
+	if rankedResults:
+		print("RETURNED RANKED SEARCH RESULTS:", len(rankedResults[0]))	
+	print("RANKED RESULTS ARE: ", rankedResults)
 	print("\nPROCESSOR TIME FOR RANKED QUERY:",end_proc_time-start_proc_time)
 	print("WALL TIME TAKEN FOR RANKED QUERY:", end_wall_time-start_wall_time,"\n")
 

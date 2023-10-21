@@ -86,6 +86,8 @@ class InvertedIndex:
     def fuzzy_search(self, query_terms : list):
         # Assume inverted index of object_class -> {Locations} exists
         s = self.__search__(query_terms)
+        if not s:
+            return s, query_terms
         if len(s) == 0:
             q = []
             while True:  # TODO make this cleaner and check end conditions
