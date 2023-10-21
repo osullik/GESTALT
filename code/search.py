@@ -62,8 +62,11 @@ class InvertedIndex:
         return sorted(loc_ranks, key=loc_ranks.get, reverse=True)
 
     def __search__(self, query_terms : list):
-        set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
-        return set.intersection(*set_list)
+        try:
+            set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
+            return set.intersection(*set_list)
+        except KeyError:
+            print("Not found in the database")
 
     def search(self, query_terms : list):
         try:
@@ -74,8 +77,11 @@ class InvertedIndex:
         
 
     def ranked_search(self, query_terms : list):
-        set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
-        return self.rank(set.intersection(*set_list), query_terms), query_terms
+        try:
+            set_list = [self.ii[normalize_object_term(x)] for x in query_terms]
+            return self.rank(set.intersection(*set_list), query_terms), query_terms
+        except KeyError:
+            print("Not found in the database")
 
     def fuzzy_search(self, query_terms : list):
         # Assume inverted index of object_class -> {Locations} exists
