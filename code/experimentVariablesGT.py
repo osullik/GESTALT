@@ -220,28 +220,24 @@ class Experimenter():
         if len(expected_results) == 0:
             return 1.0
         return correct/len(expected_results)
+    
+    def compareLocStructures(self, a, b):
+        matches = 0
+        for quadrant in a:
+            matches += len(set(a[quadrant]).intersection(set(b[quadrant])))
+        return matches
 
     def runLoExperiments(self):
         running_precision = 0
         running_recall = 0
         for i, experiment in enumerate(self.LO_experimentsDict.keys()):
-            locationHitTracker = {}
             start_wall_time = time.time()
             start_proc_time=time.process_time()
-            for quadrant in self.LO_experimentsDict[experiment].keys():
-                for loc in self.referenceLocations:
-                    for item in self.LO_experimentsDict[experiment][quadrant]:
-                        if item in self.referenceLocations[loc][quadrant]:
-                            try:
-                                locationHitTracker[loc].add(item)
-                            except KeyError:
-                                locationHitTracker[loc] = {item}
-                        else:
-                            pass
-
             locationHitCounter = {}
-            for loc in locationHitTracker:
-                locationHitCounter[loc] = len(locationHitTracker[loc])
+            for loc in self.referenceLocations:
+                matches = self.compareLocStructures(self.referenceLocations[loc], self.LO_experimentsDict[experiment])
+                if matches > 0:
+                    locationHitCounter[loc] = matches
 
             end_proc_time=time.process_time()
             end_wall_time = time.time()
@@ -249,7 +245,6 @@ class Experimenter():
 
             querylist = [self.LO_experimentsDict[experiment][x] for x in self.LO_experimentsDict[experiment]]
             num_query_terms = len(querylist[0]) + len(querylist[1]) + len(querylist[2]) + len(querylist[3])
-
             actual_results = []
             for loc in locationHitCounter:
                 if locationHitCounter[loc] == num_query_terms:
@@ -267,8 +262,7 @@ class Experimenter():
             print("RECALL: ", recall)
             print("PROCESSOR TIME TO EXECUTE PICTORIAL LO QUERY #:", experiment, "was", end_proc_time-start_proc_time)
             print("WALL TIME TAKEN TO EXECUTE PICTORIAL LO QUERY #:", "was",end_wall_time-start_wall_time,"\n")
-            #for loc in locationHitCounter.keys():
-            #   print(loc,locationHitCounter[loc])
+
         print("OVERALL PRECISION: ", running_precision/len(self.LO_experimentsDict.keys()))
         print("OVERALL RECALL: ", running_recall/len(self.LO_experimentsDict.keys()))
 
