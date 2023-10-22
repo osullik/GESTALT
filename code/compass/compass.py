@@ -149,7 +149,12 @@ class Compass():
         except ZeroDivisionError as e:
             return 0 ### Unsure if this is the best way to handle it. 
 
-        cos_inverse_of_x = math.degrees(math.acos(x))                   #Convert from radians to degrees readability 
+        try:
+            cos_inverse_of_x = math.degrees(math.acos(x))                   #Convert from radians to degrees readability 
+        except ValueError as ve:  # -1.0000000002 case
+            x = round(x,4)
+            cos_inverse_of_x = math.degrees(math.acos(x))
+            
 
         if point.getCoordinates()[0] < centroid.getCoordinates()[0]:
             cos_inverse_of_x = 360 - cos_inverse_of_x
