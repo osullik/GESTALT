@@ -1,18 +1,12 @@
-#VARIABLES
-
 import argparse, pickle, json, time, sys, os
-
 import pandas as pd
-# User file imports
 
 sys.path.insert(1, os.getcwd()+"/../")
 sys.path.insert(1, os.getcwd()+"/../compass")
 sys.path.insert(1, os.getcwd()+"/../gestalt")
 sys.path.insert(1, os.getcwd()+"/../utils")
 sys.path.insert(1, os.getcwd()+"/../experiments")
-
 sys.path.insert(1, os.getcwd()+"/../../data")
-
 sys.path.insert(1, os.getcwd()+"/../code")
 sys.path.insert(1, os.getcwd()+"/../code/compass")
 sys.path.insert(1, os.getcwd()+"/../code/gestalt")
@@ -27,16 +21,12 @@ from search import InvertedIndex
 from conceptMapping import ConceptMapper
 from exp_compass import CompassExperimentRunner
 
-
-
-
-
 class Experimenter():
     def __init__(self, invertedIndexFile, referenceLocations, conceptMapFile, cardinality_invariant=False):
-        
         self.invertedIndex = InvertedIndex(invertedIndexFile)
         self.cardinality_invariant = cardinality_invariant
         self.ER = CompassExperimentRunner()
+        self.CM = ConceptMapper()
 
         with open(referenceLocations, "r") as inFile:
                 self.referenceLocations = json.load(inFile)
@@ -44,171 +34,25 @@ class Experimenter():
         with open(conceptMapFile, "rb") as inFile:
                 self.conceptMaps = pickle.load(inFile)
 
-        self.CM = ConceptMapper()
-
-        '''
-        Query Input:
-                    name longitude latitude predicted_location
-        0         crossing       259      105     PICTORAL_QUERY
-        1  traffic_signals       179      201     PICTORAL_QUERY
-        2             stop       196      114     PICTORAL_QUERY
-        3             tree       225      121     PICTORAL_QUERY
-        4             kerb       270      164     PICTORAL_QUERY
-        5      street_lamp       346      187     PICTORAL_QUERY
-        6           person       333      108     PICTORAL_QUERY
-        7         bus_stop       223      122     PICTORAL_QUERY
-        8             gate       336      103     PICTORAL_QUERY
-        9          bollard       223      147     PICTORAL_QUERY
-        '''
         self.LO_experimentsDict = {}
         with open('../data/SV/ground_truth_queries/Location-Centric_ground_truth_queries.json') as f:
             self.LO_experimentsDict = json.load(f)
-
         with open('../data/SV/ground_truth_queries/Location-Centric_ground_truth_results.json') as f:    
-            self.LO_experimentsResultsDict = json.load(f)
-
-        # self.LO_experimentsDict = { "1":{"northwest":["crossing"],
-        #                                 "northeast":[],
-        #                                 "southwest":[],
-        #                                 "southeast":[]},
-
-        #                             "2":{"northwest":["crossing"],
-        #                                 "northeast":["traffic_signals"],
-        #                                 "southwest":[],
-        #                                 "southeast":[]},
-
-        #                             "3":{"northwest":["crossing"],
-        #                                 "northeast":["traffic_signals"],
-        #                                 "southwest":["stop"],
-        #                                 "southeast":[]},
-
-        #                             "4":{"northwest":["crossing"],
-        #                                 "northeast":["traffic_signals"],
-        #                                 "southwest":["stop"],
-        #                                 "southeast":["tree"]},
-
-        #                             "5":{"northwest":["crossing","kerb"],
-        #                                 "northeast":["traffic_signals"],
-        #                                 "southwest":["stop"],
-        #                                 "southeast":["tree"]},
-
-        #                             "6":{"northwest":["crossing","kerb"],
-        #                                 "northeast":["traffic_signals", "street_lamp"],
-        #                                 "southwest":["stop"],
-        #                                 "southeast":["tree"]},
-
-        #                             "7":{"northwest":["crossing","kerb"],
-        #                                 "northeast":["traffic_signals", "street_lamp"],
-        #                                 "southwest":["stop","person"],
-        #                                 "southeast":["tree"]},
-
-        #                             "8":{"northwest":["crossing","kerb"],
-        #                                 "northeast":["traffic_signals", "street_lamp"],
-        #                                 "southwest":["stop","person"],
-        #                                 "southeast":["tree", "bus_stop"]},
-
-        #                             "9":{"northwest":["crossing","kerb", "gate"],
-        #                                 "northeast":["traffic_signals", "street_lamp"],
-        #                                 "southwest":["stop","person"],
-        #                                 "southeast":["tree", "bus_stop"]},
-
-        #                             "10":{"northwest":["crossing","kerb", "gate"],
-        #                                 "northeast":["traffic_signals", "street_lamp", "bollard"],
-        #                                 "southwest":["stop","person"],
-        #                                 "southeast":["tree", "bus_stop"]
-        #                                 }
-        #                         }     
+            self.LO_experimentsResultsDict = json.load(f)        
 
         self.OO_experimentsDict = {}
+        with open('../data/SV/ground_truth_queries/Object-Centric_ground_truth_queries.json') as f:
+            self.OO_experimentsDict = json.load(f)
+        with open('../data/SV/ground_truth_queries/Object-Centric_ground_truth_results.json') as f:    
+            self.OO_experimentsResultsDict = json.load(f)
 
-        '''
-        Query Input:
-                    name longitude latitude predicted_location
-        0         crossing       259      105     PICTORAL_QUERY
-        1  traffic_signals       179      201     PICTORAL_QUERY
-        2             stop       196      114     PICTORAL_QUERY
-        3             tree       225      121     PICTORAL_QUERY
-        4             kerb       270      164     PICTORAL_QUERY
-        5      street_lamp       346      187     PICTORAL_QUERY
-        6           person       333      108     PICTORAL_QUERY
-        7         bus_stop       223      122     PICTORAL_QUERY
-        8             gate       336      103     PICTORAL_QUERY
-        9          bollard       223      147     PICTORAL_QUERY
-        '''
+        self.OOI_experimentsDict = {}
+        with open('../data/SV/ground_truth_queries/Object-Centric-Inv_ground_truth_queries.json') as f:
+            self.OOI_experimentsDict = json.load(f)
+        with open('../data/SV/ground_truth_queries/Object-Centric-Inv_ground_truth_results.json') as f:    
+            self.OOI_experimentsResultsDict = json.load(f)
 
-        self.OO_experimentsDict =   {0:{
-                                        "name":"crossing",
-                                        "longitude":259,
-                                        "latitude":105,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    1:{
-                                        "name":"traffic_signals",
-                                        "longitude":179,
-                                        "latitude":201,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    2:{
-                                        "name":"stop",
-                                        "longitude":196,
-                                        "latitude":114,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    3:{
-                                        "name":"tree",
-                                        "longitude":225,
-                                        "latitude":121,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    4:{
-                                        "name":"kerb",
-                                        "longitude":270,
-                                        "latitude":164,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    5:{
-                                        "name":"street_lamp",
-                                        "longitude":346,
-                                        "latitude":187,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    6:{
-                                        "name":"person",
-                                        "longitude":333,
-                                        "latitude":108,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    7:{
-                                        "name":"bus_stop",
-                                        "longitude":223,
-                                        "latitude":122,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    8:{
-                                        "name":"gate",
-                                        "longitude":336,
-                                        "latitude":103,
-                                        "predicted_location": "PICTORAL_QUERY"},
-                                    9:{
-                                        "name":"bollard",
-                                        "longitude":223,
-                                        "latitude":147,
-                                        "predicted_location": "PICTORAL_QUERY"},  
-                                        }
-
-        '''self.OO_experimentsDict = { "1":["crossing"],
-
-                                    "2":["crossing","traffic_signals"],
-
-                                    "3":["crossing","traffic_signals","stop"],
-
-                                    "4":["crossing","traffic_signals","stop","tree"],
-
-                                    "5":["crossing","traffic_signals","stop","tree","kerb"],
-
-                                    "6":["crossing","traffic_signals","stop","tree","kerb","street_lamp"],
-
-                                    "7":["crossing","traffic_signals","stop","tree","kerb","street_lamp","person"],
-
-                                    "8":["crossing","traffic_signals","stop","tree","kerb","street_lamp","person","bus_stop"],
-
-                                    "9":["crossing","traffic_signals","stop","tree","kerb","street_lamp","person","bus_stop","gate"],
-
-                                    "10":["crossing","traffic_signals","stop","tree","kerb","street_lamp","person","bus_stop","gate","bollard"]
-                                } '''                      
-
+   
     def precision(self, expected_results:set, actual_results:set):
         correct = len(expected_results.intersection(actual_results))
         if len(actual_results) == 0:
@@ -267,91 +111,118 @@ class Experimenter():
         print("OVERALL RECALL: ", running_recall/len(self.LO_experimentsDict.keys()))
 
     def runOoExperiments(self):
+        running_precision = 0
+        running_recall = 0
+        for i, experiment in enumerate(self.OO_experimentsDict):
+            if i == 7:  # skip duplicate obejct query until fixed, check lines 266,267 if removing this
+                continue
+            print(self.OO_experimentsDict[experiment])
+            names = self.OO_experimentsDict[experiment]['names']
+            lats = self.OO_experimentsDict[experiment]['lats']
+            longs = self.OO_experimentsDict[experiment]['longs']
+            points = []
+            preLocs = []
+            for j in range(len(names)):
+                pt = Point(name=names[j],
+                        x_coord=longs[j],
+                        y_coord=lats[j])
+                points.append(pt)
+                preLocs.append("PICTORIAL_QUERY")
+            self.OO_experimentsDict[experiment]['point'] = points
+            self.OO_experimentsDict[experiment]['preLocs'] = preLocs
 
-        for i in range(0, len(self.OO_experimentsDict.keys())):
-                pt = Point(name=self.OO_experimentsDict[i]['name'],
-                            x_coord=self.OO_experimentsDict[i]['longitude'],
-                            y_coord=self.OO_experimentsDict[i]['latitude'])
-                self.OO_experimentsDict[i]['point'] = pt
-
-        #Format for the cardinality dependent queries
-        names = []
-        lats = []
-        longs = []
-        preLocs = []
-        pts = []
-        for i in range(0, len(self.OO_experimentsDict.keys())):
-            names.append(self.OO_experimentsDict[i]['name'])
-            longs.append(self.OO_experimentsDict[i]['longitude'])
-            lats.append(self.OO_experimentsDict[i]['latitude'])
-            preLocs.append("PICTORIAL_QUERY")
-            pts.append(self.OO_experimentsDict[i]['point'])
-
-        query_dict =    {
-                        "name":names, 
-                        "longitude":longs, 
-                        "latitude":lats,
-                        "predicted_location":preLocs
+            query_dict = {
+                        "name":self.OO_experimentsDict[experiment]['names'], 
+                        "longitude":self.OO_experimentsDict[experiment]['longs'], 
+                        "latitude":self.OO_experimentsDict[experiment]['lats'],
+                        "predicted_location":self.OO_experimentsDict[experiment]['preLocs']
                         }
 
-        query_df = pd.DataFrame(data=query_dict)
+            query_df = pd.DataFrame(data=query_dict)
+            actual_results = []
 
-        numQueryObjects = [1,2,3,4,5,6,7,8,9,10] 
+            #Cardinality Assumed to be north
+            print("Querying experiment", i)
+            for locationCM in self.conceptMaps.keys():
+                cm_dict = self.ER.generateQueryMapDict(query=query_df)
+                #print("CM_DICT", cm_dict)
+                ##queryMap = cm_dict["PICTORIAL_QUERY"]["concept_map"].copy()
+                searchOrder = cm_dict["PICTORIAL_QUERY"]["search_order"].copy()
+                #print("SEARCHORDER", searchOrder)
+                result = self.CM.searchMatrix(self.conceptMaps[locationCM],searchOrder.copy())
+                if result == True: 
+                    actual_results.append(locationCM)
+                    result = False
+            print("GESTALT said: ", actual_results)
+            print("GT says: ", list(self.OO_experimentsResultsDict[experiment]))
+            precision = self.precision(actual_results=set(actual_results), expected_results=set(self.OO_experimentsResultsDict[experiment]))
+            running_precision += precision
+            print("PRECISION: ", precision)
+            recall = self.recall(actual_results=set(actual_results), expected_results=set(self.OO_experimentsResultsDict[experiment]))
+            running_recall += recall
+            print("RECALL: ", recall)
+        
+        print("OVERALL PRECISION: ", running_precision/(len(self.OO_experimentsDict.keys()) -1))  #minus 1 since skipping query 7
+        print("OVERALL RECALL: ", running_recall/(len(self.OO_experimentsDict.keys()) -1)) #minus 1 since skipping query 7
 
-        for i in range(len(numQueryObjects)): #build up the number of query terms over time. 
-            
-            expToRun = []
+    def runOoInvExperiments(self):
+        running_precision = 0
+        running_recall = 0
+        for i, experiment in enumerate(self.OOI_experimentsDict):
+            if i == 7:  # skip duplicate obejct query until fixed
+                continue
+            print(self.OOI_experimentsDict[experiment])
+            names = self.OOI_experimentsDict[experiment]['names']
+            lats = self.OOI_experimentsDict[experiment]['lats']
+            longs = self.OOI_experimentsDict[experiment]['longs']
             points = []
+            preLocs = []
+            for j in range(len(names)):
+                pt = Point(name=names[j],
+                        x_coord=longs[j],
+                        y_coord=lats[j])
+                points.append(pt)
+                preLocs.append("PICTORIAL_QUERY")
+            self.OOI_experimentsDict[experiment]['point'] = points
+            self.OOI_experimentsDict[experiment]['preLocs'] = preLocs
 
-            for j in range(0,numQueryObjects[i]):
-                expToRun.append(self.OO_experimentsDict[j])
-                points.append(self.OO_experimentsDict[j]['point'])  #Grow the number of points to rotate by one each experiment (invariant search only)
-                exp_df = query_df.head(numQueryObjects[i])          #Grow the dataframe by one additional point each experiment (cardinal search only)
-            #print("RUNNING", expToRun)
+            query_dict = {
+                        "name":self.OOI_experimentsDict[experiment]['names'], 
+                        "longitude":self.OOI_experimentsDict[experiment]['longs'], 
+                        "latitude":self.OOI_experimentsDict[experiment]['lats'],
+                        "predicted_location":self.OOI_experimentsDict[experiment]['preLocs']
+                        }
 
-            results = []
+            query_df = pd.DataFrame(data=query_dict)
+            actual_results = []
 
-            start_wall_time = time.time()
-            start_proc_time=time.process_time()
+            print("Querying experiment", i)
+            all_rotations = self.ER.getQueryMapConfigurations(points=self.OOI_experimentsDict[experiment]['point'])
+            print("GOT", len(all_rotations), "ROTATIONS")
 
-            if self.cardinality_invariant == True:
-
-                all_rotations = self.ER.getQueryMapConfigurations(points=points)
-                print("GOT", len(all_rotations), "ROTATIONS")
-
-                for rotation in all_rotations:
-                    for locationCM in self.conceptMaps.keys():
-                        result = self.CM.searchMatrix(self.conceptMaps[locationCM],rotation['PICTORIAL_QUERY']['search_order'].copy())   #Don't forget to take a copy of the list... 
-                        if result == True: 
-                            results.append(locationCM)
-                            result = False
-
-            else:
-                #Cardinality Assumed to be north
-                print("Querying experiment", i)
+            for rotation in all_rotations:
                 for locationCM in self.conceptMaps.keys():
-                    cm_dict = self.ER.generateQueryMapDict(query=exp_df)
-                    #print("CM_DICT", cm_dict)
-                    queryMap = cm_dict["PICTORIAL_QUERY"]["concept_map"].copy()
-                    searchOrder = cm_dict["PICTORIAL_QUERY"]["search_order"].copy()
-                    #print("SEARCHORDER", searchOrder)
-                    result = self.CM.searchMatrix(self.conceptMaps[locationCM],searchOrder.copy())   #Don't forget to take a copy of the list... 
+                    result = self.CM.searchMatrix(self.conceptMaps[locationCM],rotation['PICTORIAL_QUERY']['search_order'].copy())
                     if result == True: 
-                        results.append(locationCM)
+                        actual_results.append(locationCM)
                         result = False
-            
 
-            end_proc_time=time.process_time()
-            end_wall_time = time.time()
-            print("\nReturned", len(results), "candicate locations for query:" )
-            print("PROCESSOR TIME TO EXECUTE PICTORIAL OO QUERY #:", i, "was", end_proc_time-start_proc_time)
-            print("WALL TIME TAKEN TO EXECUTE PICTORIAL OO QUERY #:", "was",end_wall_time-start_wall_time,"\n")
+            print("GESTALT said: ", actual_results)
+            print("GT says: ", list(self.OOI_experimentsResultsDict[experiment]))
+            precision = self.precision(actual_results=set(actual_results), expected_results=set(self.OOI_experimentsResultsDict[experiment]))
+            running_precision += precision
+            print("PRECISION: ", precision)
+            recall = self.recall(actual_results=set(actual_results), expected_results=set(self.OOI_experimentsResultsDict[experiment]))
+            running_recall += recall
+            print("RECALL: ", recall)
+        
+        print("OVERALL PRECISION: ", running_precision/(len(self.OOI_experimentsDict.keys()) -1))  #minus 1 since skipping query 7
+        print("OVERALL RECALL: ", running_recall/(len(self.OOI_experimentsDict.keys()) -1)) #minus 1 since skipping query 7
+
 
 
 if __name__=="__main__":
-
     argparser = argparse.ArgumentParser()									# initialize the argParser
-    
     argparser.add_argument(	"-if", "--inputFile", 							
                             help="The file used to buid an inverted index, should be a CSV with location predictions",
                             type=str,
@@ -399,5 +270,8 @@ if __name__=="__main__":
     if flags.locationCentric:
         madScientist.runLoExperiments()
 
-    if flags.objectCentric:
+    if flags.objectCentric and not flags.cardinalityInvariant:
         madScientist.runOoExperiments()
+
+    if flags.objectCentric and flags.cardinalityInvariant:
+        madScientist.runOoInvExperiments()
