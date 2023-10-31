@@ -1,0 +1,3112 @@
+{
+    "osm_32519003": {
+        "name": "Guildford",
+        "longitude": 115.970229,
+        "latitude": -31.898506,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/32519003",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_32519004": {
+        "name": "Midland",
+        "longitude": 116.002453,
+        "latitude": -31.88901,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/32519004",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_324627460": {
+        "name": "Woodbridge Hotel",
+        "longitude": 115.982142,
+        "latitude": -31.897517,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/324627460",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_571848319": {
+        "name": "Coolamon Cafe",
+        "longitude": 115.973442,
+        "latitude": -31.777971,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/571848319",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_663492639": {
+        "name": "Middle Swan Reserve",
+        "longitude": 116.005944,
+        "latitude": -31.863876,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/663492639",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_679716933": {
+        "name": "Dear Friends",
+        "longitude": 115.964018,
+        "latitude": -31.875382,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/679716933",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_773667279": {
+        "name": "Subway",
+        "longitude": 116.041983,
+        "latitude": -31.885446,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/773667279",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_778166581": {
+        "name": "Terry White Chemist",
+        "longitude": 115.973728,
+        "latitude": -31.791676,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/778166581",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_778166987": {
+        "name": "Woodlake Shopping Centre",
+        "longitude": 115.973728,
+        "latitude": -31.79153,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/778166987",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_778167277": {
+        "name": "Woodlake IGA",
+        "longitude": 115.97375,
+        "latitude": -31.792013,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/778167277",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_778168913": {
+        "name": "Red Rooster",
+        "longitude": 115.977998,
+        "latitude": -31.795999,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/778168913",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_778168983": {
+        "name": "Hungry Jack's",
+        "longitude": 115.979547,
+        "latitude": -31.795012,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/778168983",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_793851283": {
+        "name": "Old Pa's",
+        "longitude": 116.03941,
+        "latitude": -31.885568,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/793851283",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798440311": {
+        "name": "Stirling Arms",
+        "longitude": 116.032001,
+        "latitude": -31.895588,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798440311",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798461358": {
+        "name": "Midland",
+        "longitude": 116.001658,
+        "latitude": -31.891755,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798461358",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798462701": {
+        "name": "Midland AustPost DC",
+        "longitude": 116.009288,
+        "latitude": -31.886516,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798462701",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798464210": {
+        "name": "Midland Workshops Museum",
+        "longitude": 116.003574,
+        "latitude": -31.893396,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798464210",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798469907": {
+        "name": "Guildford Grammar Preparatory School",
+        "longitude": 115.985641,
+        "latitude": -31.891781,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798469907",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798470854": {
+        "name": "Chapel of St Mary & St George",
+        "longitude": 115.98123,
+        "latitude": -31.894789,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798470854",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_798475777": {
+        "name": "Toilets",
+        "longitude": 115.970997,
+        "latitude": -31.898658,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/798475777",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_822127155": {
+        "name": "IGA Swan View",
+        "longitude": 116.042263,
+        "latitude": -31.88548,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/822127155",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_822162665": {
+        "name": "Pizza Hut",
+        "longitude": 116.039587,
+        "latitude": -31.885568,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/822162665",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_884827684": {
+        "name": "Pig & Whistle Bar & Bistro",
+        "longitude": 116.04087,
+        "latitude": -31.885424,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/884827684",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_888701481": {
+        "name": "Stratton Supa IGA",
+        "longitude": 116.034976,
+        "latitude": -31.869238,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/888701481",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_888701486": {
+        "name": "Chicken Treat Stratton",
+        "longitude": 116.034401,
+        "latitude": -31.868881,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/888701486",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_888701494": {
+        "name": "Better Choice Stratton",
+        "longitude": 116.034396,
+        "latitude": -31.869698,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/888701494",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_948115238": {
+        "name": "Georges Fish Shop",
+        "longitude": 116.033762,
+        "latitude": -31.895962,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/948115238",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_948144435": {
+        "name": "Midland Police Station",
+        "longitude": 116.002351,
+        "latitude": -31.886766,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/948144435",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_948148612": {
+        "name": "The Eastern",
+        "longitude": 116.003176,
+        "latitude": -31.89012,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/948148612",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_948149797": {
+        "name": "Ace Midland Gate Cinemas",
+        "longitude": 116.008718,
+        "latitude": -31.889306,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/948149797",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_972249226": {
+        "name": "Oliver Court",
+        "longitude": 116.023884,
+        "latitude": -31.87023,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/972249226",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009798103": {
+        "name": "Subway Aveley",
+        "longitude": 115.980555,
+        "latitude": -31.795266,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009798103",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009798158": {
+        "name": "Pizza Hut Ellenbrook",
+        "longitude": 115.980551,
+        "latitude": -31.795195,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009798158",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950273": {
+        "name": "Romano's Pizzeria",
+        "longitude": 115.973458,
+        "latitude": -31.791176,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950273",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950278": {
+        "name": "Ellenbrook Fish and Chips",
+        "longitude": 115.973522,
+        "latitude": -31.791178,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950278",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950283": {
+        "name": "Woodlake Chinese Restaurant",
+        "longitude": 115.973597,
+        "latitude": -31.791176,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950283",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950285": {
+        "name": "curry Lovers",
+        "longitude": 115.973954,
+        "latitude": -31.791321,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950285",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950312": {
+        "name": "Domino's",
+        "longitude": 115.967489,
+        "latitude": -31.781142,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950312",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950317": {
+        "name": "Noodle Bar",
+        "longitude": 115.967421,
+        "latitude": -31.781203,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950317",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950321": {
+        "name": "Harry and the Boys",
+        "longitude": 115.967358,
+        "latitude": -31.78126,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950321",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950327": {
+        "name": "D\u00f4me",
+        "longitude": 115.966691,
+        "latitude": -31.781826,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950327",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950385": {
+        "name": "The Slippery Eel",
+        "longitude": 115.967314,
+        "latitude": -31.782566,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950385",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950388": {
+        "name": "Chicken Treat",
+        "longitude": 115.967603,
+        "latitude": -31.782492,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950388",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950424": {
+        "name": "Ellenbrook Police Station",
+        "longitude": 115.966675,
+        "latitude": -31.780396,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950424",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950430": {
+        "name": "Thirsty Camel Bottle Shop",
+        "longitude": 115.980013,
+        "latitude": -31.794829,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950430",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1009950443": {
+        "name": "Amaretto's",
+        "longitude": 115.967377,
+        "latitude": -31.782476,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1009950443",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1022272161": {
+        "name": "Savage Suzuki",
+        "longitude": 116.028784,
+        "latitude": -31.894077,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1022272161",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1022272171": {
+        "name": "Darling Range Pub",
+        "longitude": 116.032386,
+        "latitude": -31.895511,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1022272171",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1022272190": {
+        "name": "Bayleaf Indian Restaurant",
+        "longitude": 116.032464,
+        "latitude": -31.895456,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1022272190",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1022273567": {
+        "name": "Polaris",
+        "longitude": 116.034604,
+        "latitude": -31.895249,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1022273567",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1056070102": {
+        "name": "Cavvy Store",
+        "longitude": 115.974716,
+        "latitude": -31.879701,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1056070102",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069253580": {
+        "name": "Sandalford Winery",
+        "longitude": 115.992759,
+        "latitude": -31.868701,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069253580",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069297015": {
+        "name": "Middle Swan Liquor Store & Deli",
+        "longitude": 116.020217,
+        "latitude": -31.868198,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069297015",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069297231": {
+        "name": "Armies Fish and Chips",
+        "longitude": 116.020362,
+        "latitude": -31.868154,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069297231",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069299063": {
+        "name": "Indigenous artwork display",
+        "longitude": 116.020464,
+        "latitude": -31.868155,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069299063",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069302845": {
+        "name": "Waldecks",
+        "longitude": 116.016018,
+        "latitude": -31.849314,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069302845",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069306958": {
+        "name": "Nikola Estate",
+        "longitude": 115.997995,
+        "latitude": -31.854112,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069306958",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1069321828": {
+        "name": "Artra Art Studio",
+        "longitude": 115.99029,
+        "latitude": -31.839689,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1069321828",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1227323933": {
+        "name": "Ellenbrook Fruit and Veg",
+        "longitude": 115.973965,
+        "latitude": -31.790929,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1227323933",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1227326142": {
+        "name": "All Saints Church",
+        "longitude": 116.004163,
+        "latitude": -31.795872,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1227326142",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1227333254": {
+        "name": "Edgecombe Brothers",
+        "longitude": 115.998571,
+        "latitude": -31.795187,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1227333254",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1231954436": {
+        "name": "Swan Valley Sisters",
+        "longitude": 115.99746,
+        "latitude": -31.79543,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1231954436",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1231958443": {
+        "name": "Woodlake Ampitheatre",
+        "longitude": 115.975356,
+        "latitude": -31.790488,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1231958443",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1270412763": {
+        "name": "Middle Swan Liquor Store",
+        "longitude": 116.020218,
+        "latitude": -31.868266,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1270412763",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1301835708": {
+        "name": "The Principal",
+        "longitude": 116.007159,
+        "latitude": -31.889603,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1301835708",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1354575366": {
+        "name": "Swan Valley Oasis Resort",
+        "longitude": 116.0011,
+        "latitude": -31.808923,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1354575366",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1361075630": {
+        "name": "LazerCorps",
+        "longitude": 116.001407,
+        "latitude": -31.808941,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1361075630",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1361076725": {
+        "name": "Mash Brewery",
+        "longitude": 116.001087,
+        "latitude": -31.808826,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1361076725",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1378522526": {
+        "name": "Yeltrah Gallery",
+        "longitude": 116.0347,
+        "latitude": -31.835971,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1378522526",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1379548745": {
+        "name": "Yagan Memorial Park",
+        "longitude": 116.018903,
+        "latitude": -31.780373,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1379548745",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1379548746": {
+        "name": "Yagan Memorial",
+        "longitude": 116.016948,
+        "latitude": -31.780415,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1379548746",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1415592708": {
+        "name": "Little River Winery and Caf\u00e9",
+        "longitude": 116.000888,
+        "latitude": -31.824124,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1415592708",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1415592711": {
+        "name": "Black Swan Winery and Restaurant",
+        "longitude": 116.00085,
+        "latitude": -31.823404,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1415592711",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1463847325": {
+        "name": "Midland Public Library",
+        "longitude": 116.004166,
+        "latitude": -31.887785,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1463847325",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1465060472": {
+        "name": "Midland Courthouse",
+        "longitude": 116.002322,
+        "latitude": -31.887401,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1465060472",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1468352790": {
+        "name": "Ellenbrook",
+        "longitude": 115.966562,
+        "latitude": -31.782739,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1468352790",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1473222546": {
+        "name": "Woolworths",
+        "longitude": 115.968499,
+        "latitude": -31.783121,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1473222546",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1473222548": {
+        "name": "Coles",
+        "longitude": 115.970274,
+        "latitude": -31.781925,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1473222548",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1473222969": {
+        "name": "Big W",
+        "longitude": 115.96982,
+        "latitude": -31.783192,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1473222969",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1491152937": {
+        "name": "Mineworks Group Workshop",
+        "longitude": 116.035762,
+        "latitude": -31.895139,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1491152937",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1504407683": {
+        "name": "Guildford Old Courthouse",
+        "longitude": 115.971988,
+        "latitude": -31.898423,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1504407683",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1546255534": {
+        "name": "Aveley",
+        "longitude": 115.986226,
+        "latitude": -31.787069,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1546255534",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1546259484": {
+        "name": "Swan View",
+        "longitude": 116.047118,
+        "latitude": -31.88002,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1546259484",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1546259489": {
+        "name": "Midvale",
+        "longitude": 116.026851,
+        "latitude": -31.886383,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1546259489",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1546259494": {
+        "name": "Stratton",
+        "longitude": 116.040477,
+        "latitude": -31.867155,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1546259494",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1557971661": {
+        "name": "Bikeforce Ellenbrook",
+        "longitude": 115.968583,
+        "latitude": -31.778021,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1557971661",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1575142525": {
+        "name": "Feral Brewing Company",
+        "longitude": 116.036584,
+        "latitude": -31.797927,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1575142525",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1705017624": {
+        "name": "Toodyay Road after Roe Highway",
+        "longitude": 116.026145,
+        "latitude": -31.868314,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1705017624",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1705017634": {
+        "name": "Toodyay Road after Brown Street",
+        "longitude": 116.024657,
+        "latitude": -31.86877,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1705017634",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1705017788": {
+        "name": "The Crescent after Keane Street",
+        "longitude": 116.00653,
+        "latitude": -31.888889,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1705017788",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1705084933": {
+        "name": "Moorditj Noongar Community College",
+        "longitude": 116.025978,
+        "latitude": -31.878289,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1705084933",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1708115490": {
+        "name": "Dome Caf\u00e9",
+        "longitude": 116.007147,
+        "latitude": -31.889829,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1708115490",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1708116703": {
+        "name": "Supa IGA",
+        "longitude": 116.004008,
+        "latitude": -31.89094,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1708116703",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1723839255": {
+        "name": "Heritage Trail",
+        "longitude": 116.040801,
+        "latitude": -31.89401,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1723839255",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1723839274": {
+        "name": "Heritage Trail",
+        "longitude": 116.040613,
+        "latitude": -31.894098,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1723839274",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1723839275": {
+        "name": "Heritage Trail",
+        "longitude": 116.040861,
+        "latitude": -31.894369,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1723839275",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1728787161": {
+        "name": "Heritage Trail",
+        "longitude": 116.031588,
+        "latitude": -31.899647,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1728787161",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1728787167": {
+        "name": "Heritage Trail",
+        "longitude": 116.031669,
+        "latitude": -31.899721,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1728787167",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1784667378": {
+        "name": "Bikeforce Midland",
+        "longitude": 116.022826,
+        "latitude": -31.893001,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1784667378",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1784667382": {
+        "name": "Midland Cycles",
+        "longitude": 116.015643,
+        "latitude": -31.891835,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1784667382",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1784667385": {
+        "name": "Skyway Bicycles",
+        "longitude": 116.018964,
+        "latitude": -31.892322,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1784667385",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1875097937": {
+        "name": "East Guildford",
+        "longitude": 115.979991,
+        "latitude": -31.896448,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1875097937",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1875097938": {
+        "name": "Guildford",
+        "longitude": 115.965793,
+        "latitude": -31.898949,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1875097938",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_1875097947": {
+        "name": "Woodbridge",
+        "longitude": 115.992868,
+        "latitude": -31.891518,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/1875097947",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2152827855": {
+        "name": "Police Operations Support Centre",
+        "longitude": 116.006863,
+        "latitude": -31.895601,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2152827855",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2154034465": {
+        "name": "GP Superclinic",
+        "longitude": 116.005754,
+        "latitude": -31.894108,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2154034465",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2431830277": {
+        "name": "Swan Park Leisure Centre",
+        "longitude": 116.024148,
+        "latitude": -31.883321,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2431830277",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2432038107": {
+        "name": "Midvale Speed Dome",
+        "longitude": 116.026563,
+        "latitude": -31.878829,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2432038107",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2444465928": {
+        "name": "Ellenbrook Chinese Restaurant",
+        "longitude": 115.967286,
+        "latitude": -31.781324,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2444465928",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2530407914": {
+        "name": "ANZ",
+        "longitude": 115.967903,
+        "latitude": -31.782758,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2530407914",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2707254458": {
+        "name": "Caversham Airfield",
+        "longitude": 115.9734,
+        "latitude": -31.836342,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2707254458",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_2799026554": {
+        "name": "Thirsty Camel",
+        "longitude": 115.971453,
+        "latitude": -31.89968,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/2799026554",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3331341423": {
+        "name": "KFC",
+        "longitude": 115.978513,
+        "latitude": -31.796571,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3331341423",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3331341424": {
+        "name": "BP",
+        "longitude": 115.978438,
+        "latitude": -31.796061,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3331341424",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3527590748": {
+        "name": "Nando's",
+        "longitude": 115.980551,
+        "latitude": -31.79532,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3527590748",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3527590749": {
+        "name": "DB Dental",
+        "longitude": 115.980477,
+        "latitude": -31.794849,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3527590749",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3611937227": {
+        "name": "Mobil Fuel",
+        "longitude": 116.032686,
+        "latitude": -31.885587,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3611937227",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3611943472": {
+        "name": "7-Eleven",
+        "longitude": 116.032692,
+        "latitude": -31.885367,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3611943472",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3612031598": {
+        "name": "BP Service Station",
+        "longitude": 116.031064,
+        "latitude": -31.886499,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3612031598",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3612031599": {
+        "name": "Liquorland",
+        "longitude": 116.042675,
+        "latitude": -31.885499,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3612031599",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3699857725": {
+        "name": "Fauntleroy Park",
+        "longitude": 115.979795,
+        "latitude": -31.899016,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3699857725",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3699874927": {
+        "name": "Guildford Garden Centre",
+        "longitude": 115.972617,
+        "latitude": -31.899152,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3699874927",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3699879549": {
+        "name": "Guildford War Memorial",
+        "longitude": 115.971239,
+        "latitude": -31.898478,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3699879549",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3810772457": {
+        "name": "The Honda Shop Midland",
+        "longitude": 116.009886,
+        "latitude": -31.886465,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3810772457",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846791022": {
+        "name": "Harvey Norman",
+        "longitude": 116.013222,
+        "latitude": -31.896022,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846791022",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846802315": {
+        "name": "Woolworths",
+        "longitude": 116.008303,
+        "latitude": -31.889259,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846802315",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846802316": {
+        "name": "Big W",
+        "longitude": 116.008346,
+        "latitude": -31.889787,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846802316",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846818141": {
+        "name": "Target Midland",
+        "longitude": 116.009687,
+        "latitude": -31.890242,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846818141",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846818142": {
+        "name": "Subway",
+        "longitude": 116.010299,
+        "latitude": -31.889117,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846818142",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_3846824556": {
+        "name": "Coles",
+        "longitude": 116.012229,
+        "latitude": -31.889056,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/3846824556",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4271565992": {
+        "name": "Lancaster Wines",
+        "longitude": 115.988887,
+        "latitude": -31.85226,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4271565992",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4271579193": {
+        "name": "Mondo Nougat",
+        "longitude": 116.016989,
+        "latitude": -31.837367,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4271579193",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4271700489": {
+        "name": "Windarra Honey",
+        "longitude": 115.991488,
+        "latitude": -31.842224,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4271700489",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4271700689": {
+        "name": "The House of Honey",
+        "longitude": 116.017467,
+        "latitude": -31.81759,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4271700689",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4330922299": {
+        "name": "The Cheesecake Shop",
+        "longitude": 115.997727,
+        "latitude": -31.890002,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4330922299",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4353648621": {
+        "name": "St Leonard Display Village",
+        "longitude": 115.968453,
+        "latitude": -31.854516,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4353648621",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4422268895": {
+        "name": "Mash Brewery",
+        "longitude": 116.016031,
+        "latitude": -31.808305,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4422268895",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4422320889": {
+        "name": "The Henley Brook",
+        "longitude": 116.001908,
+        "latitude": -31.81298,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4422320889",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4545893189": {
+        "name": "Swan Valley Whistler's Chocolate",
+        "longitude": 116.015651,
+        "latitude": -31.849449,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4545893189",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4550211104": {
+        "name": "Mazparts",
+        "longitude": 116.031277,
+        "latitude": -31.893334,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4550211104",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4567582243": {
+        "name": "Liviis Playground",
+        "longitude": 115.965825,
+        "latitude": -31.82038,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4567582243",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623225862": {
+        "name": "Washworks Midvale",
+        "longitude": 116.031582,
+        "latitude": -31.886684,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623225862",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623225863": {
+        "name": "Caltex Midvale",
+        "longitude": 116.031838,
+        "latitude": -31.886344,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623225863",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623225864": {
+        "name": "Hungry Jack's",
+        "longitude": 116.032973,
+        "latitude": -31.886344,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623225864",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623231232": {
+        "name": "Caltex Swan View",
+        "longitude": 116.04213,
+        "latitude": -31.885671,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623231232",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623231233": {
+        "name": "Dominos Swan View",
+        "longitude": 116.04237,
+        "latitude": -31.885485,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623231233",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4623231234": {
+        "name": "Brumby's Swan View",
+        "longitude": 116.04245,
+        "latitude": -31.885485,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4623231234",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4636747289": {
+        "name": "Touched By Olivia Playground",
+        "longitude": 115.966165,
+        "latitude": -31.820968,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4636747289",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4636766747": {
+        "name": "Muzz Buzz",
+        "longitude": 115.964264,
+        "latitude": -31.777341,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4636766747",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4700890287": {
+        "name": "Zambrero",
+        "longitude": 115.980541,
+        "latitude": -31.795076,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4700890287",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4702940666": {
+        "name": "VetWest Animal Hospital Ellenbrook",
+        "longitude": 115.972809,
+        "latitude": -31.781883,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4702940666",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4702940667": {
+        "name": "PetStock Ellenbrook",
+        "longitude": 115.97263,
+        "latitude": -31.781882,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4702940667",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4702940668": {
+        "name": "FirstChoice Liquor",
+        "longitude": 115.973282,
+        "latitude": -31.781851,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4702940668",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4702940669": {
+        "name": "BWS",
+        "longitude": 115.967111,
+        "latitude": -31.782521,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4702940669",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4702940670": {
+        "name": "Ellenbrook Kebabs",
+        "longitude": 115.967481,
+        "latitude": -31.782543,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4702940670",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398360": {
+        "name": "Caltex Woolworths",
+        "longitude": 115.987326,
+        "latitude": -31.777517,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398360",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398361": {
+        "name": "BWS Aveley",
+        "longitude": 115.987665,
+        "latitude": -31.777552,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398361",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398362": {
+        "name": "Maharani",
+        "longitude": 115.987749,
+        "latitude": -31.77757,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398362",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398363": {
+        "name": "Jesters",
+        "longitude": 115.987835,
+        "latitude": -31.77759,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398363",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398364": {
+        "name": "LJ Hooker",
+        "longitude": 115.987925,
+        "latitude": -31.777607,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398364",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398365": {
+        "name": "Barbertown",
+        "longitude": 115.988031,
+        "latitude": -31.77763,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398365",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398366": {
+        "name": "Aveley News",
+        "longitude": 115.988219,
+        "latitude": -31.77767,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398366",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398367": {
+        "name": "Woolworths Aveley",
+        "longitude": 115.988035,
+        "latitude": -31.777945,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398367",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398368": {
+        "name": "Krusty Kob",
+        "longitude": 115.988529,
+        "latitude": -31.777743,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398368",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4703398369": {
+        "name": "Lot Six Zero",
+        "longitude": 115.988698,
+        "latitude": -31.777738,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4703398369",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725282049": {
+        "name": "Mandoon Estate",
+        "longitude": 115.994991,
+        "latitude": -31.868266,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725282049",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725282050": {
+        "name": "Homestead Brewery",
+        "longitude": 115.994935,
+        "latitude": -31.868062,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725282050",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725282053": {
+        "name": "Mandoon Vineyard",
+        "longitude": 115.995494,
+        "latitude": -31.867594,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725282053",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725282054": {
+        "name": "Mandoon Outdoor Cinema",
+        "longitude": 115.994474,
+        "latitude": -31.868648,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725282054",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725282055": {
+        "name": "Mandoon Beer Garden",
+        "longitude": 115.994406,
+        "latitude": -31.868477,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725282055",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725357781": {
+        "name": "Homestead Brewery",
+        "longitude": 115.995062,
+        "latitude": -31.868073,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725357781",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725358878": {
+        "name": "Homestead bar",
+        "longitude": 115.994852,
+        "latitude": -31.868069,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725358878",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725358890": {
+        "name": "Mandoon Cellar Door",
+        "longitude": 115.994627,
+        "latitude": -31.868103,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725358890",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725359056": {
+        "name": "Lynton & Kay Art Gallery",
+        "longitude": 115.994413,
+        "latitude": -31.869037,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725359056",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725359966": {
+        "name": "Mandoon Carpark",
+        "longitude": 115.995606,
+        "latitude": -31.868023,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725359966",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725360820": {
+        "name": "Mandoon Car park",
+        "longitude": 115.994155,
+        "latitude": -31.865208,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725360820",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725361283": {
+        "name": "Mandoon Helipad",
+        "longitude": 115.997248,
+        "latitude": -31.865861,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725361283",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4725364589": {
+        "name": "Mandoon Jetty",
+        "longitude": 115.995104,
+        "latitude": -31.869705,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4725364589",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895667": {
+        "name": "Woodbridge",
+        "longitude": 115.991438,
+        "latitude": -31.891144,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895667",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895671": {
+        "name": "Middle Swan",
+        "longitude": 116.018067,
+        "latitude": -31.859939,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895671",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895672": {
+        "name": "Caversham",
+        "longitude": 115.974819,
+        "latitude": -31.87501,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895672",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895673": {
+        "name": "Dayton",
+        "longitude": 115.974066,
+        "latitude": -31.855774,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895673",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895675": {
+        "name": "West Swan",
+        "longitude": 115.988588,
+        "latitude": -31.845607,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895675",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895676": {
+        "name": "Herne Hill",
+        "longitude": 116.018726,
+        "latitude": -31.827304,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895676",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895677": {
+        "name": "Brabham",
+        "longitude": 115.976415,
+        "latitude": -31.828358,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895677",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895678": {
+        "name": "Henley Brook",
+        "longitude": 115.983996,
+        "latitude": -31.806735,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895678",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895679": {
+        "name": "Belhus",
+        "longitude": 116.007925,
+        "latitude": -31.783589,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895679",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895680": {
+        "name": "Millendon",
+        "longitude": 116.037708,
+        "latitude": -31.807462,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895680",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4928895681": {
+        "name": "Baskerville",
+        "longitude": 116.046978,
+        "latitude": -31.796922,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4928895681",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_4978086721": {
+        "name": "MAX Employment Midland",
+        "longitude": 116.005689,
+        "latitude": -31.889651,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/4978086721",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5317835917": {
+        "name": "Mobil",
+        "longitude": 115.974638,
+        "latitude": -31.875524,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5317835917",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5317835981": {
+        "name": "7-Eleven",
+        "longitude": 115.974557,
+        "latitude": -31.875532,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5317835981",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5555477321": {
+        "name": "Katich\u2019s The Grape Place",
+        "longitude": 115.973701,
+        "latitude": -31.88541,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5555477321",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5584221070": {
+        "name": "Sandalford Wines Jetty",
+        "longitude": 115.994615,
+        "latitude": -31.869958,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5584221070",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5793371208": {
+        "name": "Elmar's in the Valley",
+        "longitude": 115.999824,
+        "latitude": -31.822223,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5793371208",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5793398614": {
+        "name": "Herne Hill General Store",
+        "longitude": 116.016651,
+        "latitude": -31.825017,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5793398614",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5793400427": {
+        "name": "The Coffee Hut",
+        "longitude": 116.016591,
+        "latitude": -31.825165,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5793400427",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5855587685": {
+        "name": "Shell",
+        "longitude": 116.025901,
+        "latitude": -31.774613,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5855587685",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_5936844210": {
+        "name": "8DoW (Centre for Youth Health and Wellbeing Ltd.)",
+        "longitude": 115.96641,
+        "latitude": -31.782054,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/5936844210",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6040715026": {
+        "name": "Millendon Junction",
+        "longitude": 116.027859,
+        "latitude": -31.81267,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6040715026",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6040715027": {
+        "name": "Oakover",
+        "longitude": 116.019044,
+        "latitude": -31.853959,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6040715027",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6040715028": {
+        "name": "Oakover",
+        "longitude": 116.018113,
+        "latitude": -31.854246,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6040715028",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6040715049": {
+        "name": "Bellvue",
+        "longitude": 116.027063,
+        "latitude": -31.89842,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6040715049",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6040715051": {
+        "name": "Midland Workshops",
+        "longitude": 116.00725,
+        "latitude": -31.893353,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6040715051",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6105741344": {
+        "name": "Upper Swan",
+        "longitude": 116.025627,
+        "latitude": -31.773837,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6105741344",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6105741354": {
+        "name": "Upper Swan Standard Gauge Storage Depot",
+        "longitude": 116.032954,
+        "latitude": -31.793174,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6105741354",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6105767711": {
+        "name": "Herne Hill",
+        "longitude": 116.024065,
+        "latitude": -31.825075,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6105767711",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6105791034": {
+        "name": "Middle Swan",
+        "longitude": 116.018071,
+        "latitude": -31.860468,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6105791034",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6209889810": {
+        "name": "Helena Vale Racecourse",
+        "longitude": 116.037711,
+        "latitude": -31.895433,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6209889810",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6223396381": {
+        "name": "Caversham Motor Racing Circuit",
+        "longitude": 115.980833,
+        "latitude": -31.839401,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6223396381",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6271957293": {
+        "name": "Ellenbrook Ambulance Station",
+        "longitude": 115.968406,
+        "latitude": -31.777808,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6271957293",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6683380755": {
+        "name": "Diamond Beauty Lounge",
+        "longitude": 115.969159,
+        "latitude": -31.782694,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6683380755",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6761327586": {
+        "name": "Maison Saint Honor\u00e9",
+        "longitude": 115.963883,
+        "latitude": -31.875322,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6761327586",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6852993685": {
+        "name": "Sandalford Estate Restaurant",
+        "longitude": 115.990016,
+        "latitude": -31.870429,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6852993685",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_6901592257": {
+        "name": "Crooked Spire Coffeehouse",
+        "longitude": 116.003603,
+        "latitude": -31.891457,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/6901592257",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7094173106": {
+        "name": "Oakover Grounds",
+        "longitude": 116.007327,
+        "latitude": -31.84508,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7094173106",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7238982965": {
+        "name": "Heritage",
+        "longitude": 115.96825,
+        "latitude": -31.785697,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7238982965",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7238982966": {
+        "name": "The Pines",
+        "longitude": 115.96285,
+        "latitude": -31.792764,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7238982966",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7652724980": {
+        "name": "Brabham Jungle Park",
+        "longitude": 115.968797,
+        "latitude": -31.828319,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7652724980",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7658371195": {
+        "name": "Midland",
+        "longitude": 116.001828,
+        "latitude": -31.891915,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7658371195",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7660622838": {
+        "name": "Vibe West Swan",
+        "longitude": 115.990624,
+        "latitude": -31.839,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7660622838",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7660650336": {
+        "name": "Swan Valley Vet Centre",
+        "longitude": 115.992553,
+        "latitude": -31.831622,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7660650336",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7660650337": {
+        "name": "Dog's Breakfast Cafe",
+        "longitude": 115.992665,
+        "latitude": -31.831436,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7660650337",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7676055787": {
+        "name": "Spudshed Midland",
+        "longitude": 116.016768,
+        "latitude": -31.896666,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7676055787",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7676055788": {
+        "name": "Spotlight Midland",
+        "longitude": 116.017924,
+        "latitude": -31.896939,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7676055788",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7678756576": {
+        "name": "GTS Gauges Transmitters Switches",
+        "longitude": 116.031477,
+        "latitude": -31.894289,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7678756576",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7700021908": {
+        "name": "Savage Motorcycles",
+        "longitude": 116.028635,
+        "latitude": -31.893824,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7700021908",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7899356269": {
+        "name": "Highway Harley-Davidson Perth",
+        "longitude": 116.028522,
+        "latitude": -31.893766,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7899356269",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7967971112": {
+        "name": "Ellenbrook",
+        "longitude": 115.96283,
+        "latitude": -31.781537,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7967971112",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_7967971113": {
+        "name": "Whiteman Park",
+        "longitude": 115.964442,
+        "latitude": -31.835809,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/7967971113",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8380095256": {
+        "name": "Midland",
+        "longitude": 116.000996,
+        "latitude": -31.891564,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8380095256",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8465084623": {
+        "name": "Syd and Phylis",
+        "longitude": 116.003121,
+        "latitude": -31.893816,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8465084623",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8465113911": {
+        "name": "Railway Square Cafe",
+        "longitude": 116.002997,
+        "latitude": -31.893707,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8465113911",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8474590630": {
+        "name": "The Lounge Room on James",
+        "longitude": 115.967045,
+        "latitude": -31.899526,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8474590630",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8482311586": {
+        "name": "Refreshments",
+        "longitude": 116.001627,
+        "latitude": -31.891684,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8482311586",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8498870583": {
+        "name": "KFC Midvale",
+        "longitude": 116.032243,
+        "latitude": -31.886341,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8498870583",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8498870584": {
+        "name": "F45 Training Midvale",
+        "longitude": 116.031956,
+        "latitude": -31.893574,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8498870584",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8893826333": {
+        "name": "Kmart",
+        "longitude": 115.971531,
+        "latitude": -31.781896,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8893826333",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8893826334": {
+        "name": "Kmart",
+        "longitude": 116.011061,
+        "latitude": -31.889334,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8893826334",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8897219933": {
+        "name": "Spud Shed Ellenbrook",
+        "longitude": 115.963946,
+        "latitude": -31.778257,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8897219933",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8897219934": {
+        "name": "Spotlight",
+        "longitude": 115.964381,
+        "latitude": -31.778885,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8897219934",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8901294282": {
+        "name": "Coles",
+        "longitude": 115.969035,
+        "latitude": -31.830413,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8901294282",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_8915545503": {
+        "name": "Hungry Jack's",
+        "longitude": 115.968686,
+        "latitude": -31.850623,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/8915545503",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9007419473": {
+        "name": "Duckstein Brewery",
+        "longitude": 116.001584,
+        "latitude": -31.81346,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9007419473",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9139246940": {
+        "name": "Midland COVID-19 Vaccination Community Clinic",
+        "longitude": 116.002125,
+        "latitude": -31.89031,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9139246940",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9171217542": {
+        "name": "Blackboy Hill War Memorial",
+        "longitude": 116.045557,
+        "latitude": -31.896938,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9171217542",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9217795675": {
+        "name": "Bellevue Train Park",
+        "longitude": 116.032684,
+        "latitude": -31.899986,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9217795675",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9274044200": {
+        "name": "Midland COVID Vaccination Clinic",
+        "longitude": 116.002265,
+        "latitude": -31.88997,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9274044200",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9409191156": {
+        "name": "Shell NightOwl",
+        "longitude": 116.032775,
+        "latitude": -31.895572,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9409191156",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9494461347": {
+        "name": "Old Young's",
+        "longitude": 115.999901,
+        "latitude": -31.806271,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9494461347",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9662539432": {
+        "name": "Whiteman Edge Medical Centre",
+        "longitude": 115.969053,
+        "latitude": -31.830866,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9662539432",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9708638250": {
+        "name": "Grill'd",
+        "longitude": 116.007593,
+        "latitude": -31.889802,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9708638250",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9752078063": {
+        "name": "Morrina Australia Pty Ltd",
+        "longitude": 115.968322,
+        "latitude": -31.82086,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9752078063",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_9998609464": {
+        "name": "Sonas Early Learning & Care Dayton",
+        "longitude": 115.968808,
+        "latitude": -31.849739,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/9998609464",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089381713": {
+        "name": "Guildford",
+        "longitude": 115.966127,
+        "latitude": -31.898885,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089381713",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089381714": {
+        "name": "Guildford",
+        "longitude": 115.965295,
+        "latitude": -31.899019,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089381714",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089381715": {
+        "name": "Midland",
+        "longitude": 116.000195,
+        "latitude": -31.891397,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089381715",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089381716": {
+        "name": "East Guildford",
+        "longitude": 115.980312,
+        "latitude": -31.89621,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089381716",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089399917": {
+        "name": "East Guildford",
+        "longitude": 115.979665,
+        "latitude": -31.8967,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089399917",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089399918": {
+        "name": "Woodbridge",
+        "longitude": 115.993036,
+        "latitude": -31.891436,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089399918",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10089399919": {
+        "name": "Woodbridge",
+        "longitude": 115.992205,
+        "latitude": -31.891689,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10089399919",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10160945448": {
+        "name": "Pannage",
+        "longitude": 115.980557,
+        "latitude": -31.816137,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10160945448",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10163840697": {
+        "name": "Marri",
+        "longitude": 115.987172,
+        "latitude": -31.812864,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10163840697",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10229623626": {
+        "name": "Happy Homes and Gifts",
+        "longitude": 115.968467,
+        "latitude": -31.782303,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10229623626",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10672545663": {
+        "name": "Options Optometrists Midland Gate",
+        "longitude": 116.009751,
+        "latitude": -31.889656,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10672545663",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10744607128": {
+        "name": "Woolworths",
+        "longitude": 116.030873,
+        "latitude": -31.885145,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10744607128",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087666": {
+        "name": "Henley Park Winery",
+        "longitude": 116.001641,
+        "latitude": -31.797776,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087666",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087667": {
+        "name": "Upper Reach Winery",
+        "longitude": 116.008634,
+        "latitude": -31.795033,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087667",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087668": {
+        "name": "Mann Winery",
+        "longitude": 116.012546,
+        "latitude": -31.793688,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087668",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087669": {
+        "name": "Harris Organic Wines and Spirits",
+        "longitude": 116.02083,
+        "latitude": -31.794595,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087669",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087670": {
+        "name": "John Kosovich Wines",
+        "longitude": 116.02076,
+        "latitude": -31.795346,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087670",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087671": {
+        "name": "Twin Hill Wines",
+        "longitude": 116.020781,
+        "latitude": -31.796729,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087671",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087672": {
+        "name": "Swan Valley Gin Company",
+        "longitude": 116.02236,
+        "latitude": -31.800667,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087672",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861087673": {
+        "name": "Bailey Brewing co.",
+        "longitude": 116.000233,
+        "latitude": -31.812672,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861087673",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358869": {
+        "name": "Olive Farm Wines",
+        "longitude": 116.022232,
+        "latitude": -31.811995,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358869",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358870": {
+        "name": "Ali's Vineyard",
+        "longitude": 116.01822,
+        "latitude": -31.814194,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358870",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358871": {
+        "name": "Limeburners and Ginversity in the Valley",
+        "longitude": 116.021047,
+        "latitude": -31.816599,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358871",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358872": {
+        "name": "Talijancich",
+        "longitude": 116.020341,
+        "latitude": -31.818507,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358872",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358873": {
+        "name": "Tyler's Vineyard",
+        "longitude": 116.040805,
+        "latitude": -31.812921,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358873",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358874": {
+        "name": "Fig Tree Estate Winery",
+        "longitude": 116.04003,
+        "latitude": -31.804387,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358874",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358875": {
+        "name": "Lamont's Winery",
+        "longitude": 116.037443,
+        "latitude": -31.80323,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358875",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358876": {
+        "name": "Faber Vineyard",
+        "longitude": 116.045655,
+        "latitude": -31.796771,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358876",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358877": {
+        "name": "Txoko Brewing",
+        "longitude": 116.046614,
+        "latitude": -31.796613,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358877",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358878": {
+        "name": "Swan Valley Wines",
+        "longitude": 116.048836,
+        "latitude": -31.796915,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358878",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358879": {
+        "name": "Windy Creek Estate",
+        "longitude": 116.03056,
+        "latitude": -31.830487,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358879",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358880": {
+        "name": "Holy Mary Cellars",
+        "longitude": 116.021676,
+        "latitude": -31.835658,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358880",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358881": {
+        "name": "Jarrah Ridge Wines",
+        "longitude": 116.015532,
+        "latitude": -31.836499,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358881",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358882": {
+        "name": "Katgully Wines Cellar Door",
+        "longitude": 116.021235,
+        "latitude": -31.835449,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358882",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358883": {
+        "name": "Sin Gin Distillery",
+        "longitude": 116.021641,
+        "latitude": -31.835859,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358883",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358884": {
+        "name": "Sittella",
+        "longitude": 116.006851,
+        "latitude": -31.830083,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358884",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358885": {
+        "name": "Ugly Duckling Wines",
+        "longitude": 115.997425,
+        "latitude": -31.830502,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358885",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358886": {
+        "name": "Heafod Glen Winery",
+        "longitude": 115.996817,
+        "latitude": -31.822945,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358886",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358887": {
+        "name": "The Great Northern Distillery",
+        "longitude": 116.016083,
+        "latitude": -31.850198,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358887",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358888": {
+        "name": "Kimberley Rum C",
+        "longitude": 116.015793,
+        "latitude": -31.850195,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358888",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358889": {
+        "name": "Swan Valley Brewery",
+        "longitude": 116.015597,
+        "latitude": -31.848014,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358889",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10861358890": {
+        "name": "Ambrook Wines",
+        "longitude": 115.981779,
+        "latitude": -31.871998,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10861358890",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10904781231": {
+        "name": "Helena River Steiner School",
+        "longitude": 116.00124,
+        "latitude": -31.897988,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10904781231",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935469151": {
+        "name": "7-Eleven",
+        "longitude": 115.968259,
+        "latitude": -31.83277,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935469151",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935469152": {
+        "name": "Mobil",
+        "longitude": 115.968216,
+        "latitude": -31.832576,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935469152",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534135": {
+        "name": "Autobahn",
+        "longitude": 115.96799,
+        "latitude": -31.832583,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534135",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534136": {
+        "name": "Brabham Pizza",
+        "longitude": 115.968629,
+        "latitude": -31.83028,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534136",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534137": {
+        "name": "Caffeinate Coffee Co",
+        "longitude": 115.968646,
+        "latitude": -31.830157,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534137",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534138": {
+        "name": "Brabham Kebabs and Turkish Bakery",
+        "longitude": 115.968748,
+        "latitude": -31.830137,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534138",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534139": {
+        "name": "7 Day Pharmacy",
+        "longitude": 115.968788,
+        "latitude": -31.830869,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534139",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534140": {
+        "name": "XO Fit Brabham 2.0",
+        "longitude": 115.9697,
+        "latitude": -31.832425,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534140",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534141": {
+        "name": "Brabham Indian Groceries",
+        "longitude": 115.968666,
+        "latitude": -31.830432,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534141",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10935534142": {
+        "name": "Nido Early School",
+        "longitude": 115.968065,
+        "latitude": -31.83026,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10935534142",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10938716689": {
+        "name": "Brabham Smiles",
+        "longitude": 115.969558,
+        "latitude": -31.832156,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10938716689",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10938716690": {
+        "name": "Sapphire Nails & Waxing",
+        "longitude": 115.969571,
+        "latitude": -31.832236,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10938716690",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10950836196": {
+        "name": "Jude Taylor",
+        "longitude": 116.015771,
+        "latitude": -31.848852,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10950836196",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    },
+    "osm_10950836197": {
+        "name": "Jude Taylor",
+        "longitude": 116.015858,
+        "latitude": -31.848852,
+        "date": "19-10-23 14:45:23",
+        "origin": "osm",
+        "source": "https://www.openstreetmap.org/node/10950836197",
+        "class_confidence": 0.7,
+        "ground_truth_location": "None"
+    }
+}

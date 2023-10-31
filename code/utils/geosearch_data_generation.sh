@@ -42,7 +42,7 @@ python dataGenerator.py --experimentName obj10000_que10000 --randomSeed 3 --quer
 python dataGenerator.py --experimentName obj100000_que10000 --randomSeed 3 --queryRatio 0.5 --numLocations 10 --numClasses 52 --scaleFactor 13 --edgeFactor 7 --numQueryDistortions 0 --numQueryTerms 10000
 python dataGenerator.py --experimentName obj1000000_que10000 --randomSeed 3 --queryRatio 0.5 --numLocations 10 --numClasses 52 --scaleFactor 16 --edgeFactor 8 --numQueryDistortions 0 --numQueryTerms 10000
 
-### UNMODIFIED QUERIES - EXPECT < 100% RECALL ###
+### DISTORTED LOCATIONS - EXPECT < 100% RECALL ###
 
 # Batch of experiments with 4 Query Terms
 python dataGenerator.py --experimentName dist_obj10_que4 --randomSeed 3 --queryRatio 0.5 --numLocations 10 --numClasses 8 --scaleFactor 2 --edgeFactor 2 --numQueryDistortions 2 --numQueryTerms 4
