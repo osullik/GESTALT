@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-a-sw6&qnop16@o3&o*irul-ky&%(barflbx!2829a10y)&ym0y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gestalt.umiacs.umd.edu','localhost','127.0.0.1', '0.0.0.0']
 
 
 # Application definition
