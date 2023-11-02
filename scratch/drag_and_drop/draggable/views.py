@@ -17,46 +17,26 @@ sys.path.insert(1, os.path.join(os.getcwd(),"media"))
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
 
-box_data = {}  # List to store the box data
 base_dir = settings.MEDIA_ROOT 
-region = None
-conceptMaps = None
-invertedIndex = None
-VOCAB = None
-referenceLocations = None
-   
 
-# def index(request):
-#     return render(request, 'draggable/index.html')
-
-# def update_coordinates(request):
-#     if request.method == 'POST':
-#         index = request.POST.get('index')
-#         name = request.POST.get('name')
-#         x = request.POST.get('x')
-#         y = request.POST.get('y')
-#         box_data[index]={"name":name, "x": int(x), "y": int(y)}  # Store box data as a tuple
-#         response_data = {
-#             'index': index,
-#             'x': x,
-#             'y': y
-#         }
-#         return JsonResponse(response_data)
 
 def get_box_data(request):
     response_data = {
-        'box_data': box_data
+        'box_data': request.session['box_data']
     }
     print(response_data)
     return JsonResponse(response_data)
     
 def get_objects(request):
     response_data = {
-        'objects': list(VOCAB) #['pond','tree']
+        'objects': request.session['VOCAB'] #['pond','tree']
     }
     return JsonResponse(response_data)
 
 def index(request):
+    # Initialize query object data as empty
+    request.session['box_data'] = pickle.dumps({}).hex()
+
     return render(request, 'draggable/index.html')
 
 def update_coordinates(request):
@@ -65,7 +45,12 @@ def update_coordinates(request):
         name = request.POST.get('name')
         x = request.POST.get('x')
         y = request.POST.get('y')
-        box_data[index]={"name":name, "x": int(x), "y": int(y)}  # Store box data as a tuple
+
+        # Load, update, and repickle the box_data dict
+        box_data = pickle.loads(bytes.fromhex(request.session['box_data']))
+        box_data[index] = {"name": name, "x": int(x), "y": int(y)}
+        request.session['box_data'] = pickle.dumps(box_data).hex()
+
         response_data = {
             'index': index,
             'x': x,
@@ -75,8 +60,7 @@ def update_coordinates(request):
         
 def set_region(request):
     if request.method == 'POST':
-        global region
-        region = request.POST.get('name')
+        request.session['region'] = request.POST.get('name')
         
         dataDirectory = ""
         for p in sys.path:
@@ -85,36 +69,28 @@ def set_region(request):
 
         assert (dataDirectory in sys.path),"Unable to find the 'GESTALT/data' directory"
         
-        if region == "Swan Valley, Australia":
+        # Set data file paths based on region choice
+        if request.session['region'] == "Swan Valley, Australia":
             print("GOT SV.............")
-            CONCEPT_MAPS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
-            INVERTED_INDEX = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
-            UI_LOCATIONS = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
-        elif region == "Washington D.C.":
+            request.session['CONCEPT_MAPS_PATH'] = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+            request.session['INVERTED_INDEX'] = os.path.join(dataDirectory,'data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+            request.session['LOCATION_STRUCTURE_PATH'] = os.path.join(dataDirectory,'data', 'SV', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
+        elif request.session['region'] == "Washington D.C.":
             print("GOT DC.............")
+            print("DC functionality not implemented yet......")
 
-        
-        invertedIndex = InvertedIndex(INVERTED_INDEX)
-        global VOCAB
-        VOCAB = invertedIndex.ii.keys()
-        print('VOCAB is:', VOCAB)
-      
-        with open(CONCEPT_MAPS, "rb") as inFile:
-            global conceptMaps
-            conceptMaps = pickle.load(inFile)
-        CM = ConceptMapper()
-
-        with open(UI_LOCATIONS, "r") as inFile:
-            global referenceLocations
-            referenceLocations = json.load(inFile)
-        
-        
+        # Load data structures using file paths set above
+        invertedIndex = InvertedIndex(request.session['INVERTED_INDEX'])
+        request.session['VOCAB'] = list(invertedIndex.ii.keys())
+        print('VOCAB is:', request.session['VOCAB'])
+  
         response_data = {'success': True}
         return JsonResponse(response_data)
         
 @csrf_exempt         
 def get_search_result(request):
-    print("About to search for: ", box_data['0'])
+    box_data = box_data = pickle.loads(bytes.fromhex(request.session['box_data']))
+    print("About to search for: ", box_data)
 
     # Do the search with everything in box_data  
     flatDict = {}
@@ -137,11 +113,17 @@ def get_search_result(request):
     for key in queriesDict.keys():
         lonOrder, latOrder = queriesDict[key][1]
         searchOrder = CM.getSearchOrder(lonOrder, latOrder)
-        print(searchOrder)
+        print("SEARCHING FOR THIS searchOrder: ", searchOrder)
+
+        with open(request.session['CONCEPT_MAPS_PATH'], "rb") as inFile:
+            conceptMaps = pickle.load(inFile)
+
+        with open(request.session['LOCATION_STRUCTURE_PATH'], "r") as inFile:
+            referenceLocations = json.load(inFile)
     
     results = []
     for locationCM in conceptMaps.keys():
-        result = CM.searchMatrix(conceptMaps[locationCM],searchOrder.copy())
+        result = CM.searchMatrix(conceptMaps[locationCM], searchOrder.copy())
         if result == True: 
             results.append(locationCM)
             result = False
@@ -161,28 +143,3 @@ def get_search_result(request):
     print(response_data)
     
     return JsonResponse(response_data)
-
-#  Was originally using this code to access the separate html file:
-# def get_box_data2(request):
-#     response_data = {
-#         'box_data': box_data
-#     }
-#     print(response_data)
-#     return JsonResponse(response_data)
-
-# def index2(request):
-#     return render(request, 'draggable/index2.html')
-
-# def update_coordinates2(request):
-#     if request.method == 'POST':
-#         index2 = request.POST.get('index2')
-#         name = request.POST.get('name')
-#         x = request.POST.get('x')
-#         y = request.POST.get('y')
-#         box_data[index2]={"name":name, "x": int(x), "y": int(y)}  # Store box data as a tuple
-#         response_data = {
-#             'index2': index2,
-#             'x': x,
-#             'y': y
-#         }
-#         return JsonResponse(response_data)
