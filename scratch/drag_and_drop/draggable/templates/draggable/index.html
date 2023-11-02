@@ -325,7 +325,7 @@
 				resetButton.style.fontFamily = "monaco";
 				resetButton.style.color = "red";
 				
-				})  // ............everything above here happens aFTER region choice is made
+				})  // ............everything above here happens AFTER region choice is made
 				
 				}
         
@@ -340,38 +340,38 @@
                     url: '/boxdata/',
                     success: function(response) {
                         var boxData = response.box_data;
-                        console.log(boxData); // Print the box data in the browser console
-                        // Perform further processing with the box data as desired
-                        console.log(searchType);
-                        //Prints either "Location" or "Object" to the console depending on the
-                                //search type the user chooses to use
-                        console.log(userKnowsNorth);
-                        //Prints either "Does not know where North is" or "Knows where North is" to
-                                //the console depending on the user's selection of the checkbox
-						
+                        console.log(boxData); // Print the box data
+                        console.log(searchType); // Either "Location" or "Object" 
+                        console.log("User knows north: ", userKnowsNorth);
 						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
                     }
                 });
+
+                $.ajax({
+                        type: 'POST',
+                        url: '/setsearchparams/',
+                        data: {'search_type': searchType, 'knows_cardinality':userKnowsNorth},
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                        },
+                        success: function(response) {
+						  console.log("setsearchparams was successful")
+                        }
+                    });
 				
 				$.ajax({
                     type: 'GET',
                     url: '/searchresult/',
                     success: function(response) {
                         var locationData = response.locations;
-                        console.log(locationData); // Print the box data in the browser console
-                        // Perform further processing with the box data as desired
-                        console.log(searchType);
-                        //Prints either "Location" or "Object" to the console depending on the
-                                //search type the user chooses to use
-                        console.log(userKnowsNorth);
-                        //Prints either "Does not know where North is" or "Knows where North is" to
-                                //the console depending on the user's selection of the checkbox
-						
+                        console.log(locationData); // Print the box data
+                        console.log(searchType); // Either "Location" or "Object" 
+                        console.log("User knows north: ", userKnowsNorth);
+                        
 						var resultsString = "Locations matching query configuration: \n";
 						for (i in locationData) {
 						resultsString = resultsString.concat(locationData[i]);
-						//alert(locationData[i]); 
-						} //alert(locationData)
+						}
 						
 						
 						// Results diaply popup
@@ -401,7 +401,7 @@
             }
 			
 
-            var userKnowsNorth = "Knows where North is";
+            var userKnowsNorth = true;
             var container = $(".brown_background_div");
             var northArrow = document.createElement('string');
             document.body.appendChild(northArrow);
@@ -417,20 +417,20 @@
             northCheckbox.addEventListener( "change", () => {
               if (searchType === "Object") {
                 if (northCheckbox.checked ) {
-                    userKnowsNorth = "Knows where North is";
+                    userKnowsNorth = true;
                     container.append(northArrow);
                 } else {
-                    userKnowsNorth = "Does not know where North is";
+                    userKnowsNorth = false;
                     if (northArrow){
                         northArrow.parentNode.removeChild(northArrow);
                     } 
                 }
               } else { //if (searchType === "Location")
                 if (northCheckbox.checked) {
-                    userKnowsNorth = "Knows where North is";
+                    userKnowsNorth = true;
                     container.append(northArrow);
                 } else {
-                    userKnowsNorth = "Knows where North is";
+                    userKnowsNorth = true;
                     alert("North must be known in order to run the location-centric search.");
                     northCheckbox.checked = true;
                 }
@@ -498,7 +498,7 @@
 
                 container.append(northArrow);
                 northCheckbox.checked = true;
-                userKnowsNorth = "Knows where North is";
+                userKnowsNorth = true;
 
                 var compass = document.createElement("div");
                 compass.textContent = "+";
