@@ -2,522 +2,257 @@
 
 <!-- HTML & CSS (embedded in the <head>)-->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title></title>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+    
+      <style>
+        html {
+        height: 100%;
+        width: 100%; }
+    
+        h1 {
+        color: white;
+        background-color: black;
+        margin: 0px; 
+        font-size: 28px;
+        font-family: monaco; }
+    
+        .background_container {
+        display: flex; 
+        height: 600px; }
+    
+        .brown_background_div {
+        background-color: #DACD9F;
+        width: 70%; }
+    
+       .green_background_div {
+        background-color: #B2CD9F;
+        width: 30%; }
+    
+        #searchTypeList {
+        width: 300px;
+        height: 30px;
+        font-size: 15px;
+        font-family: monaco;
+        position: absolute; 
+        top: 15px;
+        left: 250px;
+        background-color: grey; }
+    
+        .setSearchTypeButton {
+        width: 100px;
+        height: 30px;
+        font-size: 15px;
+        font-family: monaco;
+        position: absolute; 
+        top: 15px;
+        left: 600px;
+        background-color: grey; }
+    
+        #objectNameList {
+        width: 180px;
+        height: 30px;
+        font-size: 20px;
+        font-family: monaco;
+        position: absolute; 
+        top: 100px;
+        left: 1100px;
+        background-color: grey; }
+    
+        .dragBox {
+        width: 150px;
+        height: 70px;
+        background-color: lightblue;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: bold; }
+    
+        #northButton {
+        position: absolute;
+        top: 20px;
+        left: 1220px;
+        color: white;
+        font-size: 15px;
+        font-family: monaco; }
+    
+        .northButtonLabel {
+        position: absolute;
+        top: 20px;
+        left: 1250px;
+        color: white;
+        font-size: 15px;
+        font-family: monaco; }
 
-  <style>
-    html {
-    height: 100%;
-    width: 100%; }
+        #regionChoice{
+        position: absolute;
+        top: 80px;
+        left: 100px;
+        width: 400px;
+        height: 50px;
+        font-size: 20px;
+        font-family: monaco;
+        color: black; 
+        visibility: hidden;}
 
-    h1 {
-    color: white;
-    background-color: black;
-    margin: 0px; 
-    font-family: monaco; }
+        #regionButton{
+        position: absolute;
+        top: 80px;
+        left: 530px;
+        width: 120px;
+        height: 50px;
+        font-size: 20px;
+        font-family: monaco;
+        color: black; 
+        visibility: hidden;}
 
-    .background_container {
-    display: flex; 
-    height: 600px; }
+        #locationCentricButton{
+        position: absolute;
+        top: 15px;
+        left: 600px;
+        width: 250px;
+        font-size: 15px;
+        font-family: monaco;
+        background-color:: green; 
+        visibility: hidden;}
 
-    .brown_background_div {
-    background-color: #DACD9F;
-    width: 70%; }
+        .cardinality_div{
+        position: absolute;
+        top: 300px;
+        left: 450px;
+        font-size: 40px;
+        font-family: monaco;
+        visibility: hidden;}
 
-   .green_background_div {
-    background-color: #B2CD9F;
-    width: 30%; }
+        
 
-    #searchTypeList {
-    width: 300px;
-    height: 30px;
-    font-size: 15px;
-    font-family: monaco;
-    position: absolute; 
-    top: 15px;
-    left: 250px;
-    background-color: grey; }
 
-    .setSearchTypeButton {
-    width: 100px;
-    height: 30px;
-    font-size: 15px;
-    font-family: monaco;
-    position: absolute; 
-    top: 15px;
-    left: 600px;
-    background-color: grey; }
 
-    #objectNameList {
-    width: 180px;
-    height: 30px;
-    font-size: 20px;
-    font-family: monaco;
-    position: absolute; 
-    top: 100px;
-    left: 1100px;
-    background-color: grey; }
+      </style>
+    
+    </head>
+    
+    <body>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    
+        <h1>GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </h1>
+    
+        <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
+        <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
+    
+        <div class="background_container">
+          
+    
+          <div class="brown_background_div">
+              <select name="regionChoice" id="regionChoice"></select>
+              <button name="regionButton" id="regionButton">Set Region</button>
+              <div class="cardinality_div">+</div>
+          </div> <!-- end brown-background-div -->
+      
+          <div class="green_background_div"> 
+          </div> <!-- end green-background-div -->
+      </div>  <!-- end background-container div -->
+    
+    </body>
+    </html>
+    
+    <!-- JavaScript -->
 
-    .dragBox {
-    width: 150px;
-    height: 70px;
-    background-color: lightblue;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: bold; }
-
-    #northButton {
-    position: absolute;
-    top: 20px;
-    left: 1305px;
-    color: white;
-    font-size: 15px;
-    font-family: monaco; }
-
-    .northButtonLabel {
-    position: absolute;
-    top: 20px;
-    left: 1110px;
-    color: white;
-    font-size: 15px;
-    font-family: monaco; }
-
-  </style>
-
-</head>
-
-<body>
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-    <h1>GESTALT - </h1>
-
-    <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
-    <label for="northButton" class="northButtonLabel">I know where North is</label>
-
-    <div class="background_container">
-
-    <div class="brown_background_div"> 
-
-    </div> <!-- end brown-background-div -->
-
-    <div class="green_background_div"> 
-        <!--<select id="objectNameList" name="objectNameList">
-            <option value="Object1">Object1</option>
-            <option value="Object2">Object2</option>
-            <option value="Object3">Object3</option>
-        </select>-->
-    </div> <!-- end green-background-div -->
- </div>  <!-- end background-container div -->
-
-</body>
-</html>
-
-<!-- JavaScript -->
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            var boxData = [];
-			var OBJECTS = [];
-            var boxCount = 0;  // Initial box count
-            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-			
-			class Region {
-                constructor(name) {
-                    this.name = name;
-                    this.selectRegion();
-					console.log("created Region with name: ");
-					console.log(this.name);
-                }
-				
-				selectRegion() {		
-					var self = this;  // Preserve the reference to the current region
-					
-					$.ajax({
-                        type: 'POST',
-                        url: '/setregion/',
-                        data: {'name': self.name},
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                        },
-                        success: function(response) {
-                          //  self.element.innerText = self.name;
-                          //  self.x = response.x;
-                          //  self.y = response.y;
-						  console.log("setregion was successful")
-                        }
-                    });				
-				}
-			}
-			
+        $(document).ready(function(){
+          var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-            class Box {
-                constructor(name, x, y) {
-                    this.name = name;
-                    this.x = x;
-                    this.y = y;
-                    this.element = this.createBoxElement();
-                    this.attachEventListeners();
-                    this.updateCoordinates();
-                }
-
-                createBoxElement() {
-                    var box = document.createElement('div');
-                    box.classList.add('dragBox');
-                    box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
-                    box.dataset.index = boxCount++;
-                    document.body.appendChild(box);
-                    return box;
-                }
-
-                attachEventListeners() {
-                    var offsetX = 0;
-                    var offsetY = 0;
-                    var isDragging = false;
-
-                    this.element.addEventListener('mousedown', (event) => {
-                        offsetX = event.clientX - this.element.offsetLeft;
-                        offsetY = event.clientY - this.element.offsetTop;
-                        isDragging = true;
-                    });
-
-                    document.addEventListener('mousemove', (event) => {
-                        if (isDragging) {
-                            var x = event.clientX - offsetX;
-                            var y = event.clientY - offsetY;
-                            this.element.style.left = x + 'px';
-                            this.element.style.top = y + 'px';
-
-                            if (this.x === x && this.y === y) {
-                                return;
-                            }
-
-                            this.x = x;
-                            this.y = y;
-                            this.updateCoordinates();
-                        }
-                    });
-
-                    document.addEventListener('mouseup', () => {
-                        isDragging = false;
-                    });
-                }
-
-                updateCoordinates() {
-                    var self = this;  // Preserve the reference to the current box object
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/coordinates/',
-                        data: { 'index': self.element.dataset.index, 'name': self.name, 'x': self.x, 'y': self.y },
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                        },
-                        success: function(response) {
-                            self.element.innerText = self.name;
-                            self.x = response.x;
-                            self.y = response.y;
-                        }
-                    });
-                }
-            }
-
-			
-            function addBox() {
-			    var objectNameList = document.getElementsByName('boxNames')[0];
-                var selectedOption = objectNameList.value;
-                console.log(selectedOption);
-        
-                var newBox = new Box(selectedOption, 0, 0);
-                boxData.push(newBox);  
-            }
-			
-			function pullObjs() {
-				return $.ajax({
-						type: 'GET',
-						url: '/getobjs/',
-						success: function(response) {
-							OBJECTS = response['objects'];
-							console.log("trying to set OBJECTS in promise...");
-							console.log(OBJECTS);
-						}
-					});
-				}
-
-				
-			function addRegion() {
-			    var regionName = document.getElementsByName('regionChoice')[0];
-                var selectedRegion = regionName.value;
-				
-				var newRegion = new Region(selectedRegion);
-        
-                pullObjs().then(function(response) {
-				// Run this when region choice is made
-				console.log("GOT RESPONSE");
-				console.log(response)
-				
-					
-				console.log("Objects is now...");
-				console.log(OBJECTS);				
-				
-				// Add the object dropdown menu to the document
-				var options = OBJECTS //["palm_tree", "statue", "bench", "umbrella"];
-				var selectedOption = document.createElement('select');
-				selectedOption.name = 'boxNames';
-				for (var i = 0; i < options.length; i++) {
-					var option = document.createElement('option');
-					option.value = options[i];
-					option.text = options[i];
-					selectedOption.appendChild(option);
-				}
-				document.body.appendChild(selectedOption);
-				selectedOption.style.position = "absolute";
-				selectedOption.style.top = "110px";
-				selectedOption.style.left = "1100px";
-				selectedOption.style.width = "200px";
-				selectedOption.style.height = "30px";
-				selectedOption.style.fontSize = "15px";
-				selectedOption.style.fontFamily = "monaco";
-				selectedOption.style.color = "black";	
-				
-				// Add box button
-				var addButton = document.createElement('button');
-				addButton.innerText = 'Add Selected Object to Search';
-				addButton.addEventListener('click', addBox);
-				document.body.appendChild(addButton);
-				addButton.style.position = "absolute";
-				addButton.style.top = "190px";
-				addButton.style.left = "1100px";
-				addButton.style.width = "200px";
-				addButton.style.fontSize = "15px";
-				addButton.style.fontFamily = "monaco";
-
-				// Add submit button
-				var submitButton = document.createElement('button');
-				submitButton.innerText = 'Submit Query';
-				submitButton.addEventListener('click', submitQuery);
-				document.body.appendChild(submitButton);
-				submitButton.style.position = "absolute";
-				submitButton.style.top = "250px";
-				submitButton.style.left = "1100px";
-				submitButton.style.width = "200px";
-				submitButton.style.fontSize = "15px";
-				submitButton.style.fontFamily = "monaco";
-				submitButton.style.color = "green";
-
-				// Add reset button
-				var resetButton = document.createElement('button');
-				resetButton.innerText = "RESET";
-				resetButton.addEventListener('click', refreshPage);
-				document.body.appendChild(resetButton);
-				resetButton.style.position = "absolute";
-				resetButton.style.top = "310px";
-				resetButton.style.left = "1100px";
-				resetButton.style.width = "200px";
-				resetButton.style.fontSize = "15px";
-				resetButton.style.fontFamily = "monaco";
-				resetButton.style.color = "red";
-				
-				})  // ............everything above here happens AFTER region choice is made
-				
-				}
-        
-
-            function refreshPage() {
+          function refreshPage() {
                 location.reload();
-            }
-			
-			function submitQuery() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/boxdata/',
-                    success: function(response) {
-                        var boxData = response.box_data;
-                        console.log(boxData); // Print the box data
-                        console.log(searchType); // Either "Location" or "Object" 
-                        console.log("User knows north: ", userKnowsNorth);
-						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
-                    }
-                });
+          }
 
-                $.ajax({
-                        type: 'POST',
-                        url: '/setsearchparams/',
-                        data: {'search_type': searchType, 'knows_cardinality':userKnowsNorth},
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                        },
-                        success: function(response) {
-						  console.log("setsearchparams was successful")
-                        }
-                    });
-				
-				$.ajax({
-                    type: 'GET',
-                    url: '/searchresult/',
-                    success: function(response) {
-                        var locationData = response.locations;
-                        console.log(locationData); // Print the box data
-                        console.log(searchType); // Either "Location" or "Object" 
-                        console.log("User knows north: ", userKnowsNorth);
-                        
-						var resultsString = "Locations matching query configuration: \n";
-						for (i in locationData) {
-						resultsString = resultsString.concat(locationData[i]);
-						}
-						
-						
-						// Results diaply popup
-						var resultsDisplay = document.createElement('div');
-						resultsDisplay.name = 'resultsDisplay'
-						resultsDisplay.style.backgroundColor = "#e7efee";
-						resultsDisplay.style.width = "400px";
-						resultsDisplay.style.height = "200px";
-						resultsDisplay.style.position = "absolute";
-						resultsDisplay.style.top = "400px";
-						resultsDisplay.style.left = "1075px";
-
-						var quitResultsDisplay = document.createElement('button');
-						quitResultsDisplay.innerText = "X";
-						quitResultsDisplay.style.fontSize = "20px";
-						quitResultsDisplay.style.position = "absolute";
-						quitResultsDisplay.style.top = "370px";
-						quitResultsDisplay.style.left = "1480px";
-						quitResultsDisplay.addEventListener('click', refreshPage);
-						
-						resultsDisplay.innerText = resultsString;
-						document.body.appendChild(resultsDisplay);
-                        document.body.appendChild(quitResultsDisplay);
-						
-                    }
-					});
-            }
-			
-
-            var userKnowsNorth = true;
-            var container = $(".brown_background_div");
-            var northArrow = document.createElement('string');
-            document.body.appendChild(northArrow);
-            northArrow.textContent = "North ⇑";
-            northArrow.style.fontSize = "40px";
-            northArrow.style.fontWeight = 'bold';
-            northArrow.style.color = 'black';
-            northArrow.style.position = 'absolute';
-            northArrow.style.left = '900px';
-            northArrow.style.top = "70px";
-
-            let northCheckbox = document.getElementById("northButton");
-            northCheckbox.addEventListener( "change", () => {
-              if (searchType === "Object") {
-                if (northCheckbox.checked ) {
-                    userKnowsNorth = true;
-                    container.append(northArrow);
-                } else {
-                    userKnowsNorth = false;
-                    if (northArrow){
-                        northArrow.parentNode.removeChild(northArrow);
-                    } 
-                }
-              } else { //if (searchType === "Location")
-                if (northCheckbox.checked) {
-                    userKnowsNorth = true;
-                    container.append(northArrow);
-                } else {
-                    userKnowsNorth = true;
-                    alert("North must be known in order to run the location-centric search.");
-                    northCheckbox.checked = true;
-                }
+        function getRegions() {
+          return $.ajax({
+              type: 'GET',
+              url: '/getregions/',
+              success: function(response) {
+                regions = response['regions'];
               }
             });
-			
-			
-			// Add the region menu to the document
-		    var regions = ["Swan Valley, Australia", "Washington D.C."];
-            var selectedRegion = document.createElement('select');
-            selectedRegion.name = 'regionChoice';
-            for (var i = 0; i < regions.length; i++) {
-                var region = document.createElement('option');
-                region.value = regions[i];
-                region.text = regions[i];
-                selectedRegion.appendChild(region);
-            }
-            document.body.appendChild(selectedRegion);
-			selectedRegion.style.position = "absolute";
-			selectedRegion.style.top = "80px";
-			selectedRegion.style.left = "100px";
-			selectedRegion.style.width = "400px";
-			selectedRegion.style.height = "50px";
-			selectedRegion.style.fontSize = "20px";
-			selectedRegion.style.fontFamily = "monaco";
-			selectedRegion.style.color = "black";
-			
-			// Add region button
-			var regionButton = document.createElement('button');
-            regionButton.innerText = 'Set Region';
-			regionButton.name = 'regionButton'
-            regionButton.addEventListener('click', addRegion);
-			regionButton.addEventListener('click', () => regionButton.disabled = true);
-            document.body.appendChild(regionButton);
-			regionButton.style.position = "absolute";
-			regionButton.style.top = "80px";
-			regionButton.style.left = "530px";
-			regionButton.style.width = "120px";
-			regionButton.style.height = "50px";
-			regionButton.style.fontSize = "20px";
-			regionButton.style.fontFamily = "monaco";
-			regionButton.style.color = "black";
-			
-			var searchType = "Object";
+				}
 
-            var objectCentricSearchButton = document.createElement('button');
-            objectCentricSearchButton.innerText = "Object Centric Search";
-            objectCentricSearchButton.addEventListener('click', function() {
-                refreshPage();
-                searchType = "Object";
+        // region dropdown............
+        function makeRegionDropdown() {
+          getRegions().then(function(response) {
+          console.log("Got these regions...");
+          console.log(regions);				
+       
+          // Update the region dropdown menu
+          var regionDropdown = document.getElementById('regionChoice');
+          for (var i = 0; i < regions.length; i++) {
+            var region = document.createElement('option');
+            region.value = regions[i];
+            region.text = regions[i];
+            regionDropdown.add(region);
+          }
+          regionDropdown.style.visibility = "visible";
+          
+          // Add region GO button
+          var regionButton = document.getElementById('regionButton');
+          regionButton.addEventListener('click', 
+            function (){
+              makeQueryCanvas(document.getElementsByName('regionChoice')[0].value);
             });
-            document.body.appendChild(objectCentricSearchButton);
-            objectCentricSearchButton.style.position = "absolute";
-            objectCentricSearchButton.style.top = "15px";
-            objectCentricSearchButton.style.left = "300px";
-            objectCentricSearchButton.style.width = "250px";
-            objectCentricSearchButton.style.fontSize = "15px";
-            objectCentricSearchButton.style.fontFamily = "monaco";
-            objectCentricSearchButton.style.backgroundColor = "green";
+          regionButton.addEventListener('click', () => regionButton.disabled = true);
+          regionButton.style.visibility = "visible";
+          })
+				}  // ............region dropdown
 
-            var locationCentricSearchButton = document.createElement('button');
-            locationCentricSearchButton.innerText = "Location Centric Search";
-            locationCentricSearchButton.addEventListener('click', function() {
-                searchType = "Location";
+        function makeQueryCanvas(regionChoice) {
+          setRegion(displayObjDropdown, regionChoice);
+				}
+        function setRegion(callback, regionChoice) {
+          $.ajax({
+              type: 'POST',
+              url: '/setregion/',
+              data: {'name': regionChoice},
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+              },
+              success: function(response) {
+						  console.log("setregion done, selected...");
+              console.log(regionChoice);
+              callback(); // calls displayObjectDropdown
+              }
+          });
+				}
 
-                container.append(northArrow);
-                northCheckbox.checked = true;
-                userKnowsNorth = true;
-
-                var compass = document.createElement("div");
-                compass.textContent = "+";
-                compass.style.position = "absolute";
-                compass.style.top = "300px";
-                compass.style.left = "450px";
-                compass.style.fontSize = "40px";
-                document.body.appendChild(compass);
-                locationCentricSearchButton.style.backgroundColor = "green";
-                objectCentricSearchButton.style.backgroundColor = "white";
+        function displayObjDropdown() {
+          getObjects(function(){console.log("Done displaying")});
+				}
+        function getObjects(callback) {
+          $.ajax({
+              type: 'GET',
+              url: '/getobjs/',
+              success: function(response) {
+                OBJECTS = response['objects'];
+                console.log(OBJECTS);
+                callback(); // calls print
+              }
             });
-            document.body.appendChild(locationCentricSearchButton);
-            locationCentricSearchButton.style.position = "absolute";
-            locationCentricSearchButton.style.top = "15px";
-            locationCentricSearchButton.style.left = "600px";
-            locationCentricSearchButton.style.width = "250px";
-            locationCentricSearchButton.style.fontSize = "15px";
-            locationCentricSearchButton.style.fontFamily = "monaco";
-			
+				}
+
+        // Main functionality
+        // new Promise (function(fulfill, reject) {
+        //   makeRegionDropdown()
+        // }.then(function(result)){
+
+        // }
+        makeRegionDropdown();
+
+
+
         });
-
     </script>
