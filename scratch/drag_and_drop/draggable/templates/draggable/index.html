@@ -115,7 +115,7 @@
         #objectChoice{
         position: absolute;
         top: 120px;
-        left: 1100px;
+        left: 1000px;
         width: 200px;
         height: 30px;
         font-size: 15px;
@@ -126,7 +126,7 @@
         #objectButton{
         position: absolute;
         top: 120px;
-        left: 1330px;
+        left: 1230px;
         width: 120px;
         height: 30px;
         font-size: 15px;
@@ -137,7 +137,7 @@
         #submitQueryButton{
         position: absolute;
         top: 250px;
-        left: 1100px;
+        left: 1000px;
         width: 200px;
         height: 30px;
         font-size: 15px;
@@ -148,7 +148,7 @@
         #resetButton{
         position: absolute;
         top: 310px;
-        left: 1100px;
+        left: 1000px;
         width: 200px;
         height: 30px;
         font-size: 15px;
@@ -156,26 +156,33 @@
         color: red; 
         visibility: hidden;}
 
-        #locationCentricButton{
+        #objectSearchButton{
         position: absolute;
-        top: 15px;
-        left: 600px;
-        width: 250px;
+        top: 65px;
+        left: 900px;
+        width: 230px;
         font-size: 15px;
         font-family: monaco;
-        background-color:: green; 
+        background-color: green; 
+        visibility: hidden;}
+        
+        #locationSearchButton{
+        position: absolute;
+        top: 65px;
+        left: 1150px;
+        width: 230px;
+        font-size: 15px;
+        font-family: monaco;
+        background-color: white; 
         visibility: hidden;}
 
-        .cardinality_div{
+        .quadrantsDiv{
         position: absolute;
         top: 300px;
         left: 450px;
         font-size: 40px;
         font-family: monaco;
         visibility: hidden;}
-
-        
-
 
 
       </style>
@@ -189,14 +196,13 @@
     
         <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
         <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
-    
+
         <div class="background_container">
-          
-    
           <div class="brown_background_div">
               <select name="regionChoice" id="regionChoice"></select>
               <button name="regionButton" id="regionButton">Set Region</button>
-              <div class="cardinality_div">+</div>
+              
+              <div class="quadrantsDiv" id="quadrantsDiv">+</div>
           </div> <!-- end brown-background-div -->
       
           <div class="green_background_div"> 
@@ -204,6 +210,8 @@
             <button name="objectButton" id="objectButton">Add Object</button>
             <button name="submitQueryButton" id="submitQueryButton">Submit Query</button>
             <button name="resetButton" id="resetButton">Reset Canvas</button>
+            <button name="objectSearchButton" id="objectSearchButton">Object-centric Search</button>
+            <button name="locationSearchButton" id="locationSearchButton">Location-centric Search</button>
           </div> <!-- end green-background-div -->
       </div>  <!-- end background-container div -->
     
@@ -218,6 +226,8 @@
           var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
           var boxData = [];
           var boxCount = 0;
+          var searchType = "Object";
+          var userKnowsNorth = true;
 
           class Box {
                 constructor(name, x, y) {
@@ -307,6 +317,7 @@
               makeQueryCanvas(document.getElementsByName('regionChoice')[0].value);
             });
           regionButton.addEventListener('click', () => regionButton.disabled = true);
+          regionButton.addEventListener('click', enableSearchButtons);
           regionButton.style.visibility = "visible";
           })
 				}  // ............region dropdown
@@ -334,6 +345,7 @@
           getObjects(enableObjectSelect);
           createInvisibleSubmitButton();
           createInvisibleResetButton();
+          createInvisibleSearchButtons();
 				}
         function getObjects(callback) {
           $.ajax({
@@ -396,6 +408,62 @@
           resetButton.style.visibility = "visible";
 				}
 
+        function createInvisibleSearchButtons() {
+          var objectSearchButton = document.getElementById('objectSearchButton');
+          objectSearchButton.addEventListener('click', 
+            function (){
+              selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
+            });
+
+          var locationSearchButton = document.getElementById('locationSearchButton');
+          locationSearchButton.addEventListener('click', 
+            function (){
+              selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
+            });
+				}
+
+        function enableSearchButtons(callback) {
+          var objectSearchButton = document.getElementById('objectSearchButton');
+          var locationSearchButton = document.getElementById('locationSearchButton');
+          objectSearchButton.style.visibility = "visible";
+          locationSearchButton.style.visibility = "visible";
+				}
+
+        function selectObjectSearch(callback) {
+          searchType = "Object";
+
+          // Color buttons to show selection was made
+          var objectSearchButton = document.getElementById('objectSearchButton');
+          var locationSearchButton = document.getElementById('locationSearchButton');
+          objectSearchButton.style.backgroundColor = "green";
+          locationSearchButton.style.backgroundColor = "white";
+
+          // Remove quadrants display
+          var quadrantsDiv = document.getElementById('quadrantsDiv');
+          quadrantsDiv.style.visibility = "hidden";
+          callback();
+        }
+
+        function selectLocationSearch(callback) {
+          searchType = "Location";
+
+          // Color buttons to show selection was made
+          var objectSearchButton = document.getElementById('objectSearchButton');
+          var locationSearchButton = document.getElementById('locationSearchButton');
+          objectSearchButton.style.backgroundColor = "white";
+          locationSearchButton.style.backgroundColor = "green";
+
+          // Display quadrants
+          var quadrantsDiv = document.getElementById('quadrantsDiv');
+          quadrantsDiv.style.visibility = "visible";
+
+          // Force "knows cardinality" checked box to be checked
+          userKnowsNorth = true;
+          var northButton = document.getElementById('northButton')
+          northButton.checked = true;
+          callback();
+        }
+
         function makeObject(callback, objName) {
           console.log(objName);
           var newBox = new Box(objName, 0, 0);
@@ -411,17 +479,9 @@
           console.log("resetting TODO");
           callback();
         }
-        
-
-        // Main functionality
-        // new Promise (function(fulfill, reject) {
-        //   makeRegionDropdown()
-        // }.then(function(result)){
-
-        // }
+     
+        // MAIN functionality
         makeRegionDropdown();
-
-
 
         });
     </script>
