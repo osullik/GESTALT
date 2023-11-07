@@ -349,6 +349,7 @@
         function makeQueryCanvas(regionChoice) {
           setRegion(displayObjDropdown, regionChoice);
 				}
+
         function setRegion(callback, regionChoice) {
           $.ajax({
               type: 'POST',
@@ -358,9 +359,9 @@
                 xhr.setRequestHeader('X-CSRFToken', csrfToken);
               },
               success: function(response) {
-						  console.log("setregion done, selected...");
-              console.log(regionChoice);
-              callback(); // calls displayObjectDropdown
+						    console.log("setregion done, selected...");
+                console.log(regionChoice);
+                callback(); // calls displayObjectDropdown
               }
           });
 				}
@@ -372,6 +373,7 @@
           createInvisibleSearchButtons();
           createInvisibleXButton();
 				}
+
         function getObjects(callback) {
           $.ajax({
               type: 'GET',
@@ -384,7 +386,7 @@
             });
 				}
 
-        function enableObjectSelect(callback) {
+        function enableObjectSelect() {
           // Update the object dropdown menu
           var objectDropdown = document.getElementById('objectChoice');
           for (var i = 0; i < objects.length; i++) {
@@ -415,7 +417,7 @@
             });
 				}
 
-        function enableSubmitButton(callback) {
+        function enableSubmitButton() {
           var submitQueryButton = document.getElementById('submitQueryButton');
           submitQueryButton.style.visibility = "visible";
 				}
@@ -428,7 +430,7 @@
             });
 				}
 
-        function enableResetButton(callback) {
+        function enableResetButton() {
           var resetButton = document.getElementById('resetButton');
           resetButton.style.visibility = "visible";
 				}
@@ -447,7 +449,7 @@
             });
 				}
 
-        function enableSearchButtons(callback) {
+        function enableSearchButtons() {
           var objectSearchButton = document.getElementById('objectSearchButton');
           var locationSearchButton = document.getElementById('locationSearchButton');
           objectSearchButton.style.visibility = "visible";
@@ -497,6 +499,7 @@
           console.log(objName);
           var newBox = new Box(objName, 0, 0);
           boxData.push(newBox);
+          callback();
 				}
 
         function convertQuery(callback) {
@@ -517,7 +520,7 @@
           convertQuery(function (){
             sendQuery(function (){
               getResponse(function (){
-                showResponse(function (){console.log("got response")});
+                showResponse(function (){callback()});
               });
             });
           });
@@ -592,9 +595,6 @@
           callback();
 				}
 
-          
-        
-
         function reset(callback) {
           console.log("resetting....");
           for (var i = 0; i < boxCount; i++) {
@@ -606,6 +606,9 @@
           // Hide submit button since no query objects are on the canvas anymore
           var submitQueryButton = document.getElementById('submitQueryButton');
           submitQueryButton.style.visibility = "hidden";
+
+          var resetButton = document.getElementById('resetButton');
+          resetButton.style.visibility = "hidden";
           callback();
         }
      
