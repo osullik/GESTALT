@@ -225,9 +225,9 @@
         $(document).ready(function(){
           var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
           var boxData = [];
+          var objectQuery = {};
           var boxCount = 0;
           var searchType = "Object";
-          var userKnowsNorth = true;
 
           class Box {
                 constructor(name, x, y) {
@@ -275,9 +275,9 @@
 
                     document.addEventListener('mouseup', () => {
                         isDragging = false;
+                        this.element.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
                     });
                 }
-
               }
 
           function refreshPage() {
@@ -441,6 +441,10 @@
           // Remove quadrants display
           var quadrantsDiv = document.getElementById('quadrantsDiv');
           quadrantsDiv.style.visibility = "hidden";
+
+          // Allow cardinality choice
+          var northButton = document.getElementById('northButton')
+          northButton.disabled = false;
           callback();
         }
 
@@ -458,9 +462,9 @@
           quadrantsDiv.style.visibility = "visible";
 
           // Force "knows cardinality" checked box to be checked
-          userKnowsNorth = true;
           var northButton = document.getElementById('northButton')
           northButton.checked = true;
+          northButton.disabled = true;
           callback();
         }
 
@@ -470,13 +474,56 @@
           boxData.push(newBox);
 				}
 
-        function submitQuery(callback) {
-          console.log("submitting query TODO");
+        function convertQuery(callback) {
+          // Turn query boxData into a dictionary
+          console.log("converting query")
+          objectQuery = {};
+          for (var i = 0; i < boxCount; i++) {
+            objectQuery[i] = {
+              'name':boxData[i].name,
+              'x':boxData[i].x,
+              'y':boxData[i].y
+            };
+				  }
           callback();
+				}
+
+        function submitQuery(callback) {
+          convertQuery(function (){
+            sendQuery(function() {console.log("query posted")});
+          });
         }
+          
+        function sendQuery(callback) { 
+            $.ajax({type: 'POST',
+                    url: '/setsearchparams/',
+                    data: {
+                      'object_query':JSON.stringify(objectQuery), 
+                      'search_type': searchType, 
+                      'knows_cardinality':document.getElementById('northButton').checked},
+                    beforeSend: function(xhr) {
+                      xhr.setRequestHeader('X-CSRFToken', csrfToken);
+                    },
+                    success: function(response) {
+                      console.log("setsearchparams was successful")
+                      console.log(searchType); // Either "Location" or "Object" 
+                      console.log("User knows north setsearchparams: ", document.getElementById('northButton').checked);
+                      console.log(objectQuery)
+                      callback();
+                    }
+            });
+          }
+
+          
+        
 
         function reset(callback) {
-          console.log("resetting TODO");
+          console.log("resetting....");
+          for (var i = 0; i < boxCount; i++) {
+            boxData[i].element.style.visibility = "hidden";
+				  }
+          boxData = []
+          boxCount = 0;
           callback();
         }
      

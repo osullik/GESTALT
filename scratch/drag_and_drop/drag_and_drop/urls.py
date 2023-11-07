@@ -8,6 +8,7 @@ urlpatterns = [
     path('getregions/', views.get_regions, name='get_regions'),
     path('setregion/', views.set_region, name='set_region'),
     path('getobjs/', views.get_objects, name='get_objects'),
+    path('setsearchparams/', views.set_search_params, name='set_search_params'),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 

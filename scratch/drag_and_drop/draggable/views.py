@@ -45,3 +45,12 @@ def get_objects(request):
         'objects': ['tmp']#request.session['VOCAB']
     }
     return JsonResponse(response_data)
+
+def set_search_params(request):
+    if request.method == 'POST':
+        #request.session['object_query'] = request.POST.get('object_query')
+        request.session['search_type'] = request.POST.get('search_type')
+        request.session['cardinality_invariant'] = (request.POST.get('knows_cardinality') == 'false')
+        response_data = {'success': True}
+        print("Query was...", request.POST.get('object_query'))
+        return JsonResponse(response_data)
