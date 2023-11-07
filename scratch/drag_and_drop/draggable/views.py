@@ -48,9 +48,27 @@ def get_objects(request):
 
 def set_search_params(request):
     if request.method == 'POST':
-        #request.session['object_query'] = request.POST.get('object_query')
+        request.session['object_query'] = request.POST.get('object_query')
         request.session['search_type'] = request.POST.get('search_type')
         request.session['cardinality_invariant'] = (request.POST.get('knows_cardinality') == 'false')
         response_data = {'success': True}
-        print("Query was...", request.POST.get('object_query'))
+        print("Query was...", request.session['object_query'])
         return JsonResponse(response_data)
+    
+def get_search_result(request):
+    results = ['temp loc1','tmp loc2']
+
+    # Display results to server terminal for verification
+    if not results or len(results) == 0:
+        print('No Results Found')
+    else:
+        print("Found Following Matches to Query:")
+        for res in results: 
+            print(res)
+
+    # Return respose to UI
+    response_data = {
+            'locations': results,
+    }
+    print(response_data)
+    return JsonResponse(response_data)

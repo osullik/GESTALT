@@ -33,7 +33,7 @@
         background-color: #B2CD9F;
         width: 30%; }
     
-        #searchTypeList {
+        /* #searchTypeList {
         width: 300px;
         height: 30px;
         font-size: 15px;
@@ -51,9 +51,9 @@
         position: absolute; 
         top: 15px;
         left: 600px;
-        background-color: grey; }
+        background-color: grey; } */
     
-        #objectNameList {
+        /* #objectNameList {
         width: 180px;
         height: 30px;
         font-size: 20px;
@@ -61,7 +61,7 @@
         position: absolute; 
         top: 100px;
         left: 1100px;
-        background-color: grey; }
+        background-color: grey; } */
     
         .dragBox {
         width: 150px;
@@ -184,6 +184,27 @@
         font-family: monaco;
         visibility: hidden;}
 
+        .resultsBoxDiv{
+        position: absolute;
+        top: 400px;
+        left: 1075px;
+        width: 400px;
+        height: 200px;
+        font-size: 15px;
+        font-family: monaco;
+        background-color: white;
+        visibility: hidden;}
+
+        #resultsXButton{
+        position: absolute;
+        top: 370px;
+        left: 1480px;
+        width: 20px;
+        font-size: 15px;
+        font-family: monaco;
+        background-color: white; 
+        visibility: hidden;}
+
 
       </style>
     
@@ -212,6 +233,8 @@
             <button name="resetButton" id="resetButton">Reset Canvas</button>
             <button name="objectSearchButton" id="objectSearchButton">Object-centric Search</button>
             <button name="locationSearchButton" id="locationSearchButton">Location-centric Search</button>
+            <div class="resultsBoxDiv" id="resultsBoxDiv">Matching Locations:</div>
+            <button name="resultsXButton" id="resultsXButton">X</button>
           </div> <!-- end green-background-div -->
       </div>  <!-- end background-container div -->
     
@@ -228,6 +251,7 @@
           var objectQuery = {};
           var boxCount = 0;
           var searchType = "Object";
+          var queryResponse = "";
 
           class Box {
                 constructor(name, x, y) {
@@ -346,6 +370,7 @@
           createInvisibleSubmitButton();
           createInvisibleResetButton();
           createInvisibleSearchButtons();
+          createInvisibleXButton();
 				}
         function getObjects(callback) {
           $.ajax({
@@ -490,7 +515,11 @@
 
         function submitQuery(callback) {
           convertQuery(function (){
-            sendQuery(function() {console.log("query posted")});
+            sendQuery(function (){
+              getResponse(function (){
+                showResponse(function (){console.log("got response")});
+              });
+            });
           });
         }
           
@@ -514,6 +543,55 @@
             });
           }
 
+        function getResponse(callback) {
+          console.log("query posted");
+          $.ajax({
+                  type: 'GET',
+                  url: '/searchresult/',
+                  success: function(response) {
+                    queryResponse = response.locations;
+                    console.log("searchresult is")
+                    console.log(queryResponse); // Print the box data
+                    callback();
+                  }
+					});
+        }
+
+        function createInvisibleXButton() {
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.addEventListener('click', 
+            function (){
+              quitResultsDisplay(function() {console.log("results cleared")});
+            }
+          );
+				}
+
+        function quitResultsDisplay(callback) {
+          var resultsBoxDiv = document.getElementById('resultsBoxDiv');
+          resultsBoxDiv.style.visibility = "hidden";
+
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.style.visibility = "hidden";
+          callback();
+        }
+
+        function showResponse(callback) {
+          // Results display panel
+          var resultsBoxDiv = document.getElementById('resultsBoxDiv');
+          var resultsString = "Locations matching query configuration: \n";
+						for (i in queryResponse) {
+						  resultsString = resultsString.concat(queryResponse[i]);
+              resultsString = resultsString.concat("\n");
+						}
+          resultsBoxDiv.innerText = resultsString;
+          resultsBoxDiv.style.visibility = "visible";
+
+          // X to close results display
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.style.visibility = "visible";
+          callback();
+				}
+
           
         
 
@@ -524,6 +602,10 @@
 				  }
           boxData = []
           boxCount = 0;
+
+          // Hide submit button since no query objects are on the canvas anymore
+          var submitQueryButton = document.getElementById('submitQueryButton');
+          submitQueryButton.style.visibility = "hidden";
           callback();
         }
      
