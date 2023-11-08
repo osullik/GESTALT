@@ -34,8 +34,9 @@
         width: 30%; }
     
         .dragBox {
-        width: 150px;
-        height: 70px;
+        top: 120px;
+        left: 120px;
+        height: 30px;
         background-color: lightblue;
         position: absolute;
         display: flex;
@@ -97,7 +98,7 @@
         position: absolute;
         top: 120px;
         left: 1230px;
-        width: 120px;
+        width: 100px;
         height: 30px;
         font-size: 15px;
         font-family: monaco;
@@ -108,7 +109,7 @@
         position: absolute;
         top: 250px;
         left: 1000px;
-        width: 200px;
+        width: 140px;
         height: 30px;
         font-size: 15px;
         font-family: monaco;
@@ -119,7 +120,7 @@
         position: absolute;
         top: 310px;
         left: 1000px;
-        width: 200px;
+        width: 140px;
         height: 30px;
         font-size: 15px;
         font-family: monaco;
@@ -130,7 +131,7 @@
         position: absolute;
         top: 65px;
         left: 900px;
-        width: 230px;
+        width: 180px;
         font-size: 15px;
         font-family: monaco;
         background-color: green; 
@@ -140,7 +141,7 @@
         position: absolute;
         top: 65px;
         left: 1150px;
-        width: 230px;
+        width: 218px;
         font-size: 15px;
         font-family: monaco;
         background-color: white; 
@@ -236,6 +237,8 @@
                   var box = document.createElement('div');
                   box.classList.add('dragBox');
                   box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
+                  box.style.left = this.x + 'px';
+                  box.style.top = this.y + 'px';
                   box.dataset.index = boxCount++;
                   document.body.appendChild(box);
                   return box;
@@ -465,7 +468,7 @@
 
         function makeObject(callback, objName) {
           console.log(objName);
-          var newBox = new Box(objName, 0, 0);
+          var newBox = new Box(objName, 200, 200);
           boxData.push(newBox);
           callback();
 				}
