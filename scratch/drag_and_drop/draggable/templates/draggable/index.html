@@ -36,7 +36,10 @@
         .dragBox {
         top: 120px;
         left: 120px;
-        height: 30px;
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
         background-color: lightblue;
         position: absolute;
         display: flex;
@@ -237,7 +240,8 @@
                 createBoxElement() {
                   var box = document.createElement('div');
                   box.classList.add('dragBox');
-                  box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
+                  box.innerText = this.name.replace("_"," ");
+                  //box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y; //DEBUG MODE
                   box.style.left = this.x + 'px';
                   box.style.top = this.y + 'px';
                   box.dataset.index = boxCount++;
@@ -271,7 +275,8 @@
 
                   document.addEventListener('mouseup', () => {
                     isDragging = false;
-                    this.element.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
+                    this.element.innerText = this.name.replace("_"," ");
+                    //this.element.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y; //DEBUG MODE
                   });
                 }
               }
@@ -364,7 +369,7 @@
           for (var i = 0; i < objects.length; i++) {
             var object = document.createElement('option');
             object.value = objects[i];
-            object.text = objects[i];
+            object.text = objects[i].replace("_"," ");
             objectDropdown.add(object);
           }
           objectDropdown.style.visibility = "visible";
