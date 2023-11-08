@@ -223,6 +223,7 @@
           var boxCount = 0;
           var searchType = "Object";
           var queryResponse = "";
+          var canvasCenter = {'x':370, 'y':1480};
 
           class Box {
                 constructor(name, x, y) {
@@ -501,9 +502,11 @@
             $.ajax({type: 'POST',
               url: '/setsearchparams/',
               data: {
-                'object_query':JSON.stringify(objectQuery), 
+                'object_query': JSON.stringify(objectQuery), 
+                'canvas_center': JSON.stringify(canvasCenter),
                 'search_type': searchType, 
-                'knows_cardinality':document.getElementById('northButton').checked},
+                'knows_cardinality': document.getElementById('northButton').checked,
+              },
               beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-CSRFToken', csrfToken);
               },
