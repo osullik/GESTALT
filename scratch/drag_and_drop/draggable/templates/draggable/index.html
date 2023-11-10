@@ -30,8 +30,9 @@
         background-color: #DACD9F;
         width: 70%; }
     
-       .green_background_div {
+       .green_background_div {       
         background-color: #B2CD9F;
+        left: 70%;
         width: 30%; }
     
         .dragBox {
@@ -67,28 +68,28 @@
 
         #regionChoice{
         position: absolute;
-        top: 80px;
-        left: 100px;
-        width: 400px;
-        height: 50px;
-        font-size: 20px;
+        top: 110px;
+        left: 74%;
+        padding: 6px;
+        font-size: 18px;
         font-family: monaco;
         color: black; 
         visibility: hidden;}
 
         #regionButton{
         position: absolute;
-        top: 80px;
-        left: 530px;
+        top: 110px;
+        left: calc(74% + 220px);
+        padding: 4px;
         font-size: 20px;
         font-family: monaco;
         visibility: hidden;}
 
         #objectChoice{
         position: absolute;
-        top: 120px;
-        left: 1000px;
-        width: 200px;
+        top: 180px;
+        left: 77%;
+        width: 10%;
         height: 30px;
         font-size: 15px;
         font-family: monaco;
@@ -97,29 +98,31 @@
 
         #objectButton{
         position: absolute;
-        top: 120px;
-        left: 1230px;
-        font-size: 20px;
+        top: 180px;
+        left: calc(77% + 170px);
+        padding:7px;
+        font-size: 15px;
+        align-items: center;
         font-family: monaco;
         visibility: hidden;}
 
         #submitQueryButton{
         position: absolute;
-        top: 250px;
-        left: 1000px;
-        font-size: 20px;
+        top: 240px;
+        left: 77%;
+        font-size: 15px;
+        padding: 6px;
         font-family: monaco;
         visibility: hidden;}
 
         #resetButton{
         position: absolute;
-        top: 310px;
-        left: 1000px;
-        font-size: 20px;
+        top: 240px;
+        left: calc(77% + 110px);
+        font-size: 15px;
+        padding: 6px;
         font-family: monaco;
         visibility: hidden;}
-
-
 
         .quadrantsDiv{
         position: absolute;
@@ -129,13 +132,31 @@
         font-family: monaco;
         visibility: hidden;}
 
+        .resultsLabelDiv{
+        position: absolute;
+        top: 350px;
+        left: 71%;
+        width: 400px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 15px;
+        font-family: monaco;
+        background-color: lightgray;
+        font-weight: bold;
+        color: black;
+        visibility: hidden;}
+
         .resultsBoxDiv{
         position: absolute;
-        top: 400px;
-        left: 1075px;
+        top: 378px;
+        left: 71%;
         width: 400px;
         padding-top: 5px;
         padding-bottom: 20px;
+        padding-left: 6px;
+        padding-right: 6px;
         font-size: 15px;
         font-family: monaco;
         background-color: white;
@@ -143,9 +164,9 @@
 
         #resultsXButton{
         position: absolute;
-        top: 370px;
-        left: 1480px;
-        width: 20px;
+        top: 320px;
+        left: calc(71% + 402px);
+        padding: 6px;
         font-size: 15px;
         font-family: monaco;
         background-color: white; 
@@ -166,6 +187,11 @@
         visibility: hidden;
         }
 
+        .btns {
+    float: right;
+}
+
+
 
       </style>
     
@@ -182,26 +208,28 @@
         <div class="container-fluid background_container">
             <div class="brown_background_div">
               <select name="regionChoice" id="regionChoice"></select>
-              <button type="button" class="btn btn-outline-secondary" name="regionButton" id="regionButton">Set Region</button>
+              <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
               
           <div class="quadrantsDiv" id="quadrantsDiv">+</div>
             
         </div> <!-- end brown-background-div -->
       
           <div class="container-fluid green_background_div"> 
-            <select name="objectChoice" id="objectChoice"></select>
-            <button type="button" name="objectButton" class="btn btn-outline-secondary" id="objectButton">Add Object</button>
-            <button type="button" name="submitQueryButton" class="btn btn-success"id="submitQueryButton">Submit Query</button>
-            <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
-            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
-              <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
-              <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
-              <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
-            </div>
-            <div class="resultsBoxDiv" id="resultsBoxDiv">Matching Locations:</div>
-            <button type="button" name="resultsXButton" id="resultsXButton">X</button>
-
+            <div class="btns">
+              <select name="objectChoice" id="objectChoice"></select>
+              <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+              <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
+              <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+                <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
+                <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+                <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+              </div>
+              <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
+              <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+              <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+              </div>
             </div>
           </div> <!-- end green-background-div -->
       </div>  <!-- end background-container div -->
@@ -426,12 +454,6 @@
         function selectObjectSearch(callback) {
           searchType = "Object";
 
-          // Color buttons to show selection was made
-  //        var objectSearchButton = document.getElementById('objectSearchButton');
-  //        var locationSearchButton = document.getElementById('locationSearchButton');
-       //   objectSearchButton.style.backgroundColor = "green";
-       //   locationSearchButton.style.backgroundColor = "white";
-
           // Remove quadrants display
           var quadrantsDiv = document.getElementById('quadrantsDiv');
           quadrantsDiv.style.visibility = "hidden";
@@ -444,12 +466,6 @@
 
         function selectLocationSearch(callback) {
           searchType = "Location";
-
-          // Color buttons to show selection was made
-      //    var objectSearchButton = document.getElementById('objectSearchButton');
-      //    var locationSearchButton = document.getElementById('locationSearchButton');
-
-        //  locationSearchButton.style.backgroundColor = "green";
 
           // Display quadrants
           var quadrantsDiv = document.getElementById('quadrantsDiv');
@@ -542,6 +558,9 @@
           var resultsBoxDiv = document.getElementById('resultsBoxDiv');
           resultsBoxDiv.style.visibility = "hidden";
 
+          var resultsLabelDiv = document.getElementById('resultsLabelDiv');
+          resultsBoxDiv.style.visibility = "hidden";
+
           var resultsXButton = document.getElementById('resultsXButton');
           resultsXButton.style.visibility = "hidden";
           callback();
@@ -550,13 +569,17 @@
         function showResponse(callback) {
           // Results display panel
           var resultsBoxDiv = document.getElementById('resultsBoxDiv');
-          var resultsString = "Locations matching query configuration: \n";
+          var resultsString = "";
 						for (i in queryResponse) {
 						  resultsString = resultsString.concat(queryResponse[i]);
               resultsString = resultsString.concat("\n");
 						}
           resultsBoxDiv.innerText = resultsString;
           resultsBoxDiv.style.visibility = "visible";
+
+          // Label results display
+          var resultsLabelDiv = document.getElementById('resultsLabelDiv');
+          resultsLabelDiv.style.visibility = "visible";
 
           // X to close results display
           var resultsXButton = document.getElementById('resultsXButton');
