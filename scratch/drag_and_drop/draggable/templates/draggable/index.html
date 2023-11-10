@@ -6,15 +6,16 @@
     <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     
       <style>
         html {
         height: 100%;
         width: 100%; }
     
-        h1 {
+        .nav_bar {
         color: white;
         background-color: black;
         margin: 0px; 
@@ -79,11 +80,8 @@
         position: absolute;
         top: 80px;
         left: 530px;
-        width: 120px;
-        height: 50px;
         font-size: 20px;
         font-family: monaco;
-        color: black; 
         visibility: hidden;}
 
         #objectChoice{
@@ -101,54 +99,27 @@
         position: absolute;
         top: 120px;
         left: 1230px;
-        width: 100px;
-        height: 30px;
-        font-size: 15px;
+        font-size: 20px;
         font-family: monaco;
-        color: black; 
         visibility: hidden;}
 
         #submitQueryButton{
         position: absolute;
         top: 250px;
         left: 1000px;
-        width: 140px;
-        height: 30px;
-        font-size: 15px;
+        font-size: 20px;
         font-family: monaco;
-        color: green; 
         visibility: hidden;}
 
         #resetButton{
         position: absolute;
         top: 310px;
         left: 1000px;
-        width: 140px;
-        height: 30px;
-        font-size: 15px;
+        font-size: 20px;
         font-family: monaco;
-        color: red; 
         visibility: hidden;}
 
-        #objectSearchButton{
-        position: absolute;
-        top: 65px;
-        left: 900px;
-        width: 180px;
-        font-size: 15px;
-        font-family: monaco;
-        background-color: green; 
-        visibility: hidden;}
-        
-        #locationSearchButton{
-        position: absolute;
-        top: 65px;
-        left: 1150px;
-        width: 218px;
-        font-size: 15px;
-        font-family: monaco;
-        background-color: white; 
-        visibility: hidden;}
+
 
         .quadrantsDiv{
         position: absolute;
@@ -163,7 +134,8 @@
         top: 400px;
         left: 1075px;
         width: 400px;
-        height: 200px;
+        padding-top: 5px;
+        padding-bottom: 20px;
         font-size: 15px;
         font-family: monaco;
         background-color: white;
@@ -179,6 +151,21 @@
         background-color: white; 
         visibility: hidden;}
 
+        #objectSearchButton{
+        position: absolute;
+        visibility: hidden;}
+        
+        #locationSearchButton{
+        position: absolute;
+        visibility: hidden;}
+
+        .visible {
+        visibility: visible;
+        }
+        .invisible {
+        visibility: hidden;
+        }
+
 
       </style>
     
@@ -187,28 +174,35 @@
     <body>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     
-        <h1>GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </h1>
+        <div class="container-fluid nav_bar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </div>
     
         <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
         <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
 
-        <div class="background_container">
-          <div class="brown_background_div">
+        <div class="container-fluid background_container">
+            <div class="brown_background_div">
               <select name="regionChoice" id="regionChoice"></select>
-              <button name="regionButton" id="regionButton">Set Region</button>
+              <button type="button" class="btn btn-outline-secondary" name="regionButton" id="regionButton">Set Region</button>
               
-              <div class="quadrantsDiv" id="quadrantsDiv">+</div>
-          </div> <!-- end brown-background-div -->
+          <div class="quadrantsDiv" id="quadrantsDiv">+</div>
+            
+        </div> <!-- end brown-background-div -->
       
-          <div class="green_background_div"> 
+          <div class="container-fluid green_background_div"> 
             <select name="objectChoice" id="objectChoice"></select>
-            <button name="objectButton" id="objectButton">Add Object</button>
-            <button name="submitQueryButton" id="submitQueryButton">Submit Query</button>
-            <button name="resetButton" id="resetButton">Reset Canvas</button>
-            <button name="objectSearchButton" id="objectSearchButton">Object-centric Search</button>
-            <button name="locationSearchButton" id="locationSearchButton">Location-centric Search</button>
+            <button type="button" name="objectButton" class="btn btn-outline-secondary" id="objectButton">Add Object</button>
+            <button type="button" name="submitQueryButton" class="btn btn-success"id="submitQueryButton">Submit Query</button>
+            <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+              <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
+              <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+              <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+            </div>
             <div class="resultsBoxDiv" id="resultsBoxDiv">Matching Locations:</div>
-            <button name="resultsXButton" id="resultsXButton">X</button>
+            <button type="button" name="resultsXButton" id="resultsXButton">X</button>
+
+            </div>
           </div> <!-- end green-background-div -->
       </div>  <!-- end background-container div -->
     
@@ -216,7 +210,7 @@
     </html>
     
     <!-- JavaScript -->
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -318,7 +312,7 @@
               makeQueryCanvas(document.getElementsByName('regionChoice')[0].value);
             });
           regionButton.addEventListener('click', () => regionButton.disabled = true);
-          regionButton.addEventListener('click', enableSearchButtons);
+          //regionButton.addEventListener('click', enableSearchButtons);
           regionButton.style.visibility = "visible";
           })
 				}  // ............region dropdown
@@ -414,33 +408,29 @@
 
         function createInvisibleSearchButtons() {
           var objectSearchButton = document.getElementById('objectSearchButton');
+          var locationSearchButton = document.getElementById('locationSearchButton');
+
           objectSearchButton.addEventListener('click', 
             function (){
               selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
             });
 
-          var locationSearchButton = document.getElementById('locationSearchButton');
+          
           locationSearchButton.addEventListener('click', 
             function (){
               selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
             });
 				}
 
-        function enableSearchButtons() {
-          var objectSearchButton = document.getElementById('objectSearchButton');
-          var locationSearchButton = document.getElementById('locationSearchButton');
-          objectSearchButton.style.visibility = "visible";
-          locationSearchButton.style.visibility = "visible";
-				}
 
         function selectObjectSearch(callback) {
           searchType = "Object";
 
           // Color buttons to show selection was made
-          var objectSearchButton = document.getElementById('objectSearchButton');
-          var locationSearchButton = document.getElementById('locationSearchButton');
-          objectSearchButton.style.backgroundColor = "green";
-          locationSearchButton.style.backgroundColor = "white";
+  //        var objectSearchButton = document.getElementById('objectSearchButton');
+  //        var locationSearchButton = document.getElementById('locationSearchButton');
+       //   objectSearchButton.style.backgroundColor = "green";
+       //   locationSearchButton.style.backgroundColor = "white";
 
           // Remove quadrants display
           var quadrantsDiv = document.getElementById('quadrantsDiv');
@@ -456,10 +446,10 @@
           searchType = "Location";
 
           // Color buttons to show selection was made
-          var objectSearchButton = document.getElementById('objectSearchButton');
-          var locationSearchButton = document.getElementById('locationSearchButton');
-          objectSearchButton.style.backgroundColor = "white";
-          locationSearchButton.style.backgroundColor = "green";
+      //    var objectSearchButton = document.getElementById('objectSearchButton');
+      //    var locationSearchButton = document.getElementById('locationSearchButton');
+
+        //  locationSearchButton.style.backgroundColor = "green";
 
           // Display quadrants
           var quadrantsDiv = document.getElementById('quadrantsDiv');
@@ -593,6 +583,8 @@
      
         // MAIN functionality
         makeRegionDropdown();
+        createInvisibleSearchButtons();
+
 
         });
     </script>

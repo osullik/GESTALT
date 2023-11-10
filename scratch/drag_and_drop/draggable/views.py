@@ -111,6 +111,7 @@ def obj_obj_search(request, query_df, card_invariance):
     
     results = []
     for locationCM in conceptMaps.keys():
+        # TODO need to use card_invariance flag in COMPASS search fcn
         result = CM.searchMatrix(conceptMaps[locationCM], searchOrder.copy())
         if result == True: 
             results.append(locationCM)
@@ -118,14 +119,13 @@ def obj_obj_search(request, query_df, card_invariance):
 
     return results
 
-def obj_loc_search(request, query_df, card_invariance):
+def obj_loc_search(request, query_df, card_invariance, canvas_center):
         #with open(request.session['LOCATION_STRUCTURE_PATH'], "r") as inFile:
         #    referenceLocations = json.load(inFile)
-        # TODO
+        # TODO make COMPASS seacrh function and call it here
     return None
 
 def search(request, query_df):
-    # Do the search  
     print("SEARCH TYPE IS: ", request.session['search_type'])
     print("CARDINALITY INVARIANT: ", request.session['cardinality_invariant'])
 
@@ -134,7 +134,11 @@ def search(request, query_df):
         results = obj_obj_search(request, query_df, card_invariance=request.session['cardinality_invariant'])
     elif request.session['search_type'] == "Location":
         print("\n\n= = = = = = = = =  LOCATION CENTRIC SEARCH = = = = = = = = = \n")
-        results = obj_loc_search(request, query_df, card_invariance=request.session['cardinality_invariant'])
+        results = obj_loc_search(request, 
+                                 query_df, 
+                                 card_invariance=request.session['cardinality_invariant'],
+                                 canvas_center=request.session['canvas_center']
+                                 )
     else:
         print("UNRECOGNIZED SEARCH TYPE")
         results = None
@@ -144,12 +148,10 @@ def search(request, query_df):
 def get_search_result(request):
     # Parse search params
     query_dict = json.loads(request.session['object_query'])
-
     query_df = parse_query_from_dict(query_dict)
     print(query_df)
 
     results = search(request, query_df)
-
 
     # Display results to server terminal for verification
     if not results or len(results) == 0:
