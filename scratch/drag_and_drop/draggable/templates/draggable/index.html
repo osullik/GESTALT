@@ -19,8 +19,9 @@
         color: white;
         background-color: black;
         margin: 0px; 
+        padding: 10px;
         font-size: 28px;
-        font-family: monaco; }
+        font-family: helvetica; }
     
         .background_container {
         display: flex; 
@@ -42,68 +43,68 @@
         padding-right: 5px;
         padding-bottom: 5px;
         padding-left: 5px;
-        background-color: lightblue;
+        background-color: white;
         position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 15px;
+        font-family: helvetica;
         font-weight: bold; }
     
         #northButton {
         position: absolute;
         top: 20px;
-        left: 1220px;
+        left: 77%;
         color: white;
         font-size: 15px;
-        font-family: monaco; }
+        font-family: helvetica; }
     
         .northButtonLabel {
         position: absolute;
         top: 20px;
-        left: 1250px;
+        left: calc(77% + 30px);
         color: white;
         font-size: 15px;
-        font-family: monaco; }
+        font-family: helvetica; }
 
         #regionChoice{
         position: absolute;
         top: 110px;
         left: 74%;
-        padding: 6px;
+        width: 240px;
         font-size: 18px;
-        font-family: monaco;
+        font-family: helvetica;
         color: black; 
         visibility: hidden;}
 
         #regionButton{
         position: absolute;
         top: 110px;
-        left: calc(74% + 220px);
+        left: calc(74% + 250px);
         padding: 4px;
         font-size: 20px;
-        font-family: monaco;
+        font-family: helvetica;
         visibility: hidden;}
 
         #objectChoice{
         position: absolute;
         top: 180px;
         left: 77%;
-        width: 10%;
-        height: 30px;
+        width: 150px;
         font-size: 15px;
-        font-family: monaco;
+        font-family: helvetica;
         color: black; 
         visibility: hidden;}
 
         #objectButton{
         position: absolute;
         top: 180px;
-        left: calc(77% + 170px);
+        left: calc(77% + 160px);
         padding:7px;
         font-size: 15px;
         align-items: center;
-        font-family: monaco;
+        font-family: helvetica;
         visibility: hidden;}
 
         #submitQueryButton{
@@ -112,7 +113,7 @@
         left: 77%;
         font-size: 15px;
         padding: 6px;
-        font-family: monaco;
+        font-family: helvetica;
         visibility: hidden;}
 
         #resetButton{
@@ -121,7 +122,7 @@
         left: calc(77% + 110px);
         font-size: 15px;
         padding: 6px;
-        font-family: monaco;
+        font-family: helvetica;
         visibility: hidden;}
 
         .quadrantsDiv{
@@ -129,7 +130,7 @@
         top: 300px;
         left: 450px;
         font-size: 40px;
-        font-family: monaco;
+        font-family: helvetica;
         visibility: hidden;}
 
         .resultsLabelDiv{
@@ -142,7 +143,7 @@
         padding-left: 6px;
         padding-right: 6px;
         font-size: 15px;
-        font-family: monaco;
+        font-family: helvetica;
         background-color: lightgray;
         font-weight: bold;
         color: black;
@@ -158,25 +159,27 @@
         padding-left: 6px;
         padding-right: 6px;
         font-size: 15px;
-        font-family: monaco;
+        font-family: helvetica;
         background-color: white;
         visibility: hidden;}
 
         #resultsXButton{
         position: absolute;
-        top: 320px;
-        left: calc(71% + 402px);
+        top: 350px;
+        left: calc(71% + 372px);
         padding: 6px;
         font-size: 15px;
-        font-family: monaco;
+        font-family: helvetica;
         background-color: white; 
         visibility: hidden;}
 
         #objectSearchButton{
+        top: 5px;
         position: absolute;
         visibility: hidden;}
         
         #locationSearchButton{
+        top: 5px;
         position: absolute;
         visibility: hidden;}
 
@@ -200,14 +203,14 @@
     <body>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     
-        <div class="container-fluid nav_bar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </div>
+        <div class="container-fluid nav_bar helvetica">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </div>
     
         <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
         <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
 
         <div class="container-fluid background_container">
             <div class="brown_background_div">
-              <select name="regionChoice" id="regionChoice"></select>
+              <select name="regionChoice" class="form-select" id="regionChoice"></select>
               <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
               
           <div class="quadrantsDiv" id="quadrantsDiv">+</div>
@@ -216,7 +219,7 @@
       
           <div class="container-fluid green_background_div"> 
             <div class="btns">
-              <select name="objectChoice" id="objectChoice"></select>
+              <select name="objectChoice" class="form-select" id="objectChoice"></select>
               <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
               <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
               <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
@@ -262,6 +265,7 @@
                 createBoxElement() {
                   var box = document.createElement('div');
                   box.classList.add('dragBox');
+                  box.classList.add('rounded');
                   box.innerText = this.name.replace("_"," ");
                   //box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y; //DEBUG MODE
                   box.style.left = this.x + 'px';
