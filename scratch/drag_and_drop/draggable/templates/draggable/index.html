@@ -17,24 +17,35 @@
     
         .nav_bar {
         color: white;
-        background-color: black;
+        background-color: #666666;
         left: 10px;
         margin: 0px; 
         height: 8vh;
         padding: 10px;
         font-size: 22px;
         font-family: helvetica; }
+
+        .info_bar {
+        color: white;
+        background-color: #666666;
+        left: 10px;
+        top: 8vh;
+        margin: 0px; 
+        height: 8vh;
+        padding: 10px;
+        font-size: 16px;
+        font-family: helvetica; }
     
         .brown_background_div {
         background-color: #DACD9F;
-        top: 8vh;
+        top: 16vh;
         left: 10px;
         width: 70vw;
         height: 90vh }
     
        .green_background_div {       
         background-color: #B2CD9F;
-        top: 8vh;
+        top: 16vh;
         left: 70vw;
         width: calc(30vw - 43px); 
         height: 90vh }
@@ -75,7 +86,7 @@
 
         #regionChoice{
         position: absolute;
-        top: 140px;
+        top: calc(16vh + 12vh);
         left: 74%;
         width: 230px;
         font-size: 18px;
@@ -85,7 +96,7 @@
 
         #regionButton{
         position: absolute;
-        top: 140px;
+        top: calc(16vh + 12vh);
         left: calc(74% + 240px);
         padding: 4px;
         font-size: 15px;
@@ -94,7 +105,7 @@
 
         #objectChoice{
         position: absolute;
-        top: 240px;
+        top: calc(16vh + 12vh + 12vh);
         left: 74%;
         width: 160px;
         font-size: 15px;
@@ -104,7 +115,7 @@
 
         #objectButton{
         position: absolute;
-        top: 240px;
+        top: calc(16vh + 12vh + 12vh);
         left: calc(74% + 170px);
         padding:7px;
         font-size: 15px;
@@ -114,7 +125,7 @@
 
         #submitQueryButton{
         position: absolute;
-        top: 340px;
+        top: calc(16vh + 12vh + 12vh + 12vh);
         left: 74%;
         font-size: 15px;
         padding: 6px;
@@ -123,7 +134,7 @@
 
         #resetButton{
         position: absolute;
-        top: 340px;
+        top: calc(16vh + 12vh + 12vh + 12vh);
         left: calc(74% + 110px);
         font-size: 15px;
         padding: 6px;
@@ -140,7 +151,7 @@
 
         .resultsLabelDiv{
         position: absolute;
-        top: 450px;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
         left: 74%;
         width: calc(26vw - 43px);
         padding-top: 5px;
@@ -156,7 +167,7 @@
 
         .resultsBoxDiv{
         position: absolute;
-        top: 478px;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh + 25px);
         left: 74%;
         width: calc(26vw - 43px);
         padding-top: 5px;
@@ -170,7 +181,7 @@
 
         #resultsXButton{
         position: absolute;
-        top: 450px;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
         left: calc(74% + 26vw - 43px - 27px);
         padding: 6px;
         font-size: 15px;
@@ -212,7 +223,10 @@
             <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
             <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
           </div>  <!-- end black background-container div -->
-        
+          
+          <div class="info_bar helvetica" id="infoBar">lorem ipsum
+          </div>  <!-- end black background-container div -->
+
           <div class="grid">
             <div class="row" style="margin: auto">
               <div class="container brown_background_div" id="canvasBackground">
@@ -509,9 +523,8 @@
 
         function makeObject(callback, objName) {
           console.log(objName);
-          var navBar = document.getElementById('blackNavBar');
           var canvasBackground = document.getElementById('canvasBackground');
-          var UL = [Math.round(canvasBackground.getBoundingClientRect().left), Math.round(navBar.getBoundingClientRect().bottom)];
+          var UL = [Math.round(canvasBackground.getBoundingClientRect().left), Math.round(canvasBackground.getBoundingClientRect().top)];
           var LR = [Math.round(canvasBackground.getBoundingClientRect().right), 
                     Math.round(canvasBackground.getBoundingClientRect().bottom)];
           console.log(UL, LR);
