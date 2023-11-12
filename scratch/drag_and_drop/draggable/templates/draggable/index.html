@@ -252,8 +252,8 @@
           <div class="grid">
             <div class="row" style="margin: auto">
               <div class="container brown_background_div" id="canvasBackground">
-                <hr id="quadrantHLine"></hr>
-                <vr class="vr" id="quadrantVLine"></vr>
+                <hr id="quadrantsHLine"></hr>
+                <vr class="vr" id="quadrantsVLine"></vr>
                 
               </div> <!-- end brown-background-div -->
             
@@ -516,8 +516,10 @@
           searchType = "Object";
 
           // Remove quadrants display
-          var quadrantsDiv = document.getElementById('quadrantsDiv');
-          quadrantsDiv.style.visibility = "hidden";
+          var quadrantsVLine = document.getElementById('quadrantsVLine');
+          quadrantsVLine.style.visibility = "hidden";
+          var quadrantsHLine = document.getElementById('quadrantsHLine');
+          quadrantsHLine.style.visibility = "hidden";
 
           // Allow cardinality choice
           var northButton = document.getElementById('northButton')
@@ -529,10 +531,10 @@
           searchType = "Location";
 
           // Display quadrants
-          var quadrantVLine = document.getElementById('quadrantVLine');
-          quadrantVLine.style.visibility = "visible";
-          var quadrantHLine = document.getElementById('quadrantHLine');
-          quadrantHLine.style.visibility = "visible";
+          var quadrantsVLine = document.getElementById('quadrantsVLine');
+          quadrantsVLine.style.visibility = "visible";
+          var quadrantsHLine = document.getElementById('quadrantsHLine');
+          quadrantsHLine.style.visibility = "visible";
           
 
           // Force "knows cardinality" checked box to be checked
