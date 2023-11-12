@@ -75,9 +75,9 @@
 
         #regionChoice{
         position: absolute;
-        top: 110px;
+        top: 140px;
         left: 74%;
-        width: 240px;
+        width: 230px;
         font-size: 18px;
         font-family: helvetica;
         color: black; 
@@ -85,18 +85,18 @@
 
         #regionButton{
         position: absolute;
-        top: 110px;
-        left: calc(74% + 250px);
+        top: 140px;
+        left: calc(74% + 240px);
         padding: 4px;
-        font-size: 20px;
+        font-size: 15px;
         font-family: helvetica;
         visibility: hidden;}
 
         #objectChoice{
         position: absolute;
-        top: 180px;
-        left: 77%;
-        width: 150px;
+        top: 240px;
+        left: 74%;
+        width: 160px;
         font-size: 15px;
         font-family: helvetica;
         color: black; 
@@ -104,8 +104,8 @@
 
         #objectButton{
         position: absolute;
-        top: 180px;
-        left: calc(77% + 160px);
+        top: 240px;
+        left: calc(74% + 170px);
         padding:7px;
         font-size: 15px;
         align-items: center;
@@ -114,8 +114,8 @@
 
         #submitQueryButton{
         position: absolute;
-        top: 240px;
-        left: 77%;
+        top: 340px;
+        left: 74%;
         font-size: 15px;
         padding: 6px;
         font-family: helvetica;
@@ -123,8 +123,8 @@
 
         #resetButton{
         position: absolute;
-        top: 240px;
-        left: calc(77% + 110px);
+        top: 340px;
+        left: calc(74% + 110px);
         font-size: 15px;
         padding: 6px;
         font-family: helvetica;
@@ -132,17 +132,17 @@
 
         .quadrantsDiv{
         position: absolute;
-        top: 300px;
-        left: 450px;
+        top: 54%;
+        left: 35%;
         font-size: 40px;
         font-family: helvetica;
         visibility: hidden;}
 
         .resultsLabelDiv{
         position: absolute;
-        top: 350px;
-        left: 71%;
-        width: 400px;
+        top: 450px;
+        left: 74%;
+        width: calc(26vw - 43px);
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 6px;
@@ -156,9 +156,9 @@
 
         .resultsBoxDiv{
         position: absolute;
-        top: 378px;
-        left: 71%;
-        width: 400px;
+        top: 478px;
+        left: 74%;
+        width: calc(26vw - 43px);
         padding-top: 5px;
         padding-bottom: 20px;
         padding-left: 6px;
@@ -170,8 +170,8 @@
 
         #resultsXButton{
         position: absolute;
-        top: 350px;
-        left: calc(71% + 372px);
+        top: 450px;
+        left: calc(74% + 26vw - 43px - 27px);
         padding: 6px;
         font-size: 15px;
         font-family: helvetica;
@@ -215,29 +215,30 @@
         
           <div class="grid">
             <div class="row" style="margin: auto">
-              <div class=" brown_background_div" id="canvasBackground">
+              <div class="container brown_background_div" id="canvasBackground">
                 <div class="quadrantsDiv" id="quadrantsDiv">+</div>
               </div> <!-- end brown-background-div -->
             
               <div class="green_background_div" id="controlPanelBackgound">
-                <select name="regionChoice" class="form-select" id="regionChoice"></select>
-                <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
-                <div class="btns">
-                  <select name="objectChoice" class="form-select" id="objectChoice"></select>
-                  <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
-                  <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
-                  <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
-                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
-                    <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
-                    <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
-                    <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+                <div class="column" style="margin: auto"></div>
+                  <select name="regionChoice" class="form-select" id="regionChoice"></select>
+                  <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
+                  <div class="btns">
+                    <select name="objectChoice" class="form-select" id="objectChoice"></select>
+                    <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+                    <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
+                    <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+                      <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
+                      <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+                      <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+                    </div>
                   </div>
-                  <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:
-                    <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
-                    <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
-                  </div>
-                </div>
+                  <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
+                  <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+                  <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+              </div>
               </div> <!-- end green-background-div -->
             </div>
           </div>
@@ -504,7 +505,7 @@
                     Math.round(canvasBackground.getBoundingClientRect().bottom)];
           console.log(UL, LR);
           BUFFER_H = 100; // approx max width of box
-          BUFFER_V = 20;  // approx height of box
+          BUFFER_V = 25;  // approx height of box
           var newBox = new Box(objName, randomNumber(UL[0], LR[0]-BUFFER_H), randomNumber(UL[1], LR[1]-BUFFER_V));
           boxData.push(newBox);
           callback();
