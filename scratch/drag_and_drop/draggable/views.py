@@ -20,7 +20,7 @@ from search import InvertedIndex
 def index(request):
     # Initialize query object data as empty
     request.session['box_data'] = pickle.dumps({}).hex()
-    request.session['REGIONS'] = ["Swan Valley, Australia", "Washington D.C., USA"]
+    request.session['REGIONS'] = ["Swan Valley, Australia", "Washington D.C., USA", "Hamburg, Germany"]
 
     return render(request, 'draggable/index.html')
 
@@ -49,6 +49,11 @@ def set_data_structure_paths(request):
         request.session['CONCEPT_MAPS_PATH'] = os.path.join(dataDirectory,'data', 'DC', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
         request.session['INVERTED_INDEX'] = os.path.join(dataDirectory,'data', 'DC', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
         request.session['LOCATION_STRUCTURE_PATH'] = os.path.join(dataDirectory,'data', 'DC', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
+    elif request.session['region'] == "Hamburg, Germany":
+        print("Region set to Hamburg.............")
+        request.session['CONCEPT_MAPS_PATH'] = os.path.join(dataDirectory,'data', 'HAM', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+        request.session['INVERTED_INDEX'] = os.path.join(dataDirectory,'data', 'HAM', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+        request.session['LOCATION_STRUCTURE_PATH'] = os.path.join(dataDirectory,'data', 'HAM', 'output', 'concept_mapping', 'RelativeLocations_DBSCAN_PredictedLocations_FT=0.0.JSON')
     else:
         print("UNRECOGNIZED REGION SELECTED")
 

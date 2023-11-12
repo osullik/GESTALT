@@ -1,6 +1,7 @@
 <!-- GESTALT-- _____ CENTRIC SEARCH-->
 
 <!-- HTML & CSS (embedded in the <head>)-->
+  {% load static %}
 
     <!DOCTYPE html>
     <html>
@@ -32,8 +33,8 @@
         top: 8vh;
         margin: 0px; 
         height: 8vh;
-        padding: 10px;
-        font-size: 16px;
+        padding: 5px;
+        font-size: 14px;
         font-family: helvetica; }
     
         .brown_background_div {
@@ -150,6 +151,18 @@
         font-family: helvetica;
         visibility: hidden;}
 
+        .cardinalityImage{
+        position: absolute;
+        top: 16vh;
+        left: calc(10px + 70vw - 10vw);
+        visibility: hidden;}
+
+        .locationImage{
+        position: absolute;
+        top: calc(50% - 44px);
+        left: calc(32vw - 8px);
+        visibility: hidden;}
+
         hr {
         position: absolute;
         top: 54%;
@@ -244,7 +257,13 @@
             <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
           </div>  <!-- end black background-container div -->
           
-          <div class="info_bar helvetica" id="infoBar">lorem ipsum
+          <div class="info_bar helvetica" id="infoBar">Select a region to search, 
+            then add objects to the query canvas using the dropdown menu to the right.
+            Toggle between "Object-centric" or "Location-centric" search mode, and specify 
+            whether your query is aligned with the cardinal directions. 
+            Arrange the objects on the canvas for GESTALT to search.
+            A successful query will return a list of locations in the region matching 
+            the spatial configuration of objects on the query canvas.
           </div>  <!-- end black background-container div -->
 
           
@@ -254,7 +273,12 @@
               <div class="container brown_background_div" id="canvasBackground">
                 <hr id="quadrantsHLine"></hr>
                 <vr class="vr" id="quadrantsVLine"></vr>
-                
+                <div class="cardinalityImage" id="cardinalityImage">
+                  <img src="{% static 'compass_graphic_transparent.png' %}" style="width:10vw;">
+                </div>
+                <div class="locationImage" id="locationImage">
+                  <img src="{% static 'location_marker.png' %}" style="width:7vw;">
+                </div>
               </div> <!-- end brown-background-div -->
             
               <div class="green_background_div" id="controlPanelBackgound">
@@ -521,9 +545,18 @@
           var quadrantsHLine = document.getElementById('quadrantsHLine');
           quadrantsHLine.style.visibility = "hidden";
 
+          // Remove cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "hidden"
+          
+          // Remove location marker image
+          var locationImage = document.getElementById('locationImage');
+          locationImage.style.visibility = "hidden"
+
           // Allow cardinality choice
           var northButton = document.getElementById('northButton')
           northButton.disabled = false;
+
           callback();
         }
 
@@ -535,6 +568,14 @@
           quadrantsVLine.style.visibility = "visible";
           var quadrantsHLine = document.getElementById('quadrantsHLine');
           quadrantsHLine.style.visibility = "visible";
+
+          // Display cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "visible";
+
+          // Display location marker
+          var locationImage = document.getElementById('locationImage');
+          locationImage.style.visibility = "visible";
           
 
           // Force "knows cardinality" checked box to be checked
@@ -649,6 +690,7 @@
           // Results display panel
           var resultsBoxDiv = document.getElementById('resultsBoxDiv');
           var resultsString = "";
+          queryResponse = queryResponse.sort()
 						for (i in queryResponse) {
 						  resultsString = resultsString.concat(queryResponse[i]);
               resultsString = resultsString.concat("\n");
