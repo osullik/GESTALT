@@ -373,7 +373,7 @@
             success: function(response) {
 						  console.log("setregion done, selected...");
               console.log(regionChoice);
-              callback(); // calls displayObjectDropdown
+              reset(callback) // resets and then calls displayObjectDropdown
             }
           });
 				}
