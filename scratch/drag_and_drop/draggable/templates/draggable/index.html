@@ -18,23 +18,26 @@
         .nav_bar {
         color: white;
         background-color: black;
+        left: 10px;
         margin: 0px; 
+        height: 8vh;
         padding: 10px;
-        font-size: 28px;
+        font-size: 22px;
         font-family: helvetica; }
-    
-        .background_container {
-        display: flex; 
-        height: 600px; }
     
         .brown_background_div {
         background-color: #DACD9F;
-        width: 70%; }
+        top: 8vh;
+        left: 10px;
+        width: 70vw;
+        height: 90vh }
     
        .green_background_div {       
         background-color: #B2CD9F;
-        left: 70%;
-        width: 30%; }
+        top: 8vh;
+        left: 70vw;
+        width: calc(30vw - 43px); 
+        height: 90vh }
     
         .dragBox {
         top: 120px;
@@ -62,9 +65,11 @@
     
         .northButtonLabel {
         position: absolute;
-        top: 20px;
+        top: 0px;
         left: calc(77% + 30px);
+        padding: 10px;
         color: white;
+        text-align: center;
         font-size: 15px;
         font-family: helvetica; }
 
@@ -202,40 +207,42 @@
     
     <body>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    
-        <div class="container-fluid nav_bar helvetica">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting </div>
-    
-        <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
-        <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
-
-        <div class="container-fluid background_container">
-            <div class="brown_background_div">
-              <select name="regionChoice" class="form-select" id="regionChoice"></select>
-              <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
-              
-          <div class="quadrantsDiv" id="quadrantsDiv">+</div>
+        <div class="container-fluid">
+          <div class="nav_bar helvetica" id="blackNavBar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting
+            <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
+            <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
+          </div>  <!-- end black background-container div -->
+        
+          <div class="grid">
+            <div class="row" style="margin: auto">
+              <div class=" brown_background_div" id="canvasBackground">
+                <div class="quadrantsDiv" id="quadrantsDiv">+</div>
+              </div> <!-- end brown-background-div -->
             
-        </div> <!-- end brown-background-div -->
-      
-          <div class="container-fluid green_background_div"> 
-            <div class="btns">
-              <select name="objectChoice" class="form-select" id="objectChoice"></select>
-              <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
-              <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
-              <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
-                <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
-                <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
-                <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
-              </div>
-              <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
-              <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
-              <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
-              </div>
+              <div class="green_background_div" id="controlPanelBackgound">
+                <select name="regionChoice" class="form-select" id="regionChoice"></select>
+                <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
+                <div class="btns">
+                  <select name="objectChoice" class="form-select" id="objectChoice"></select>
+                  <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+                  <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
+                  <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+                    <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+                    <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+                  </div>
+                  <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:
+                    <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+                    <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+                  </div>
+                </div>
+              </div> <!-- end green-background-div -->
             </div>
-          </div> <!-- end green-background-div -->
-      </div>  <!-- end background-container div -->
+          </div>
+        </div> 
+      
     
     </body>
     </html>
@@ -482,9 +489,23 @@
           callback();
         }
 
+        function randomNumber(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         function makeObject(callback, objName) {
           console.log(objName);
-          var newBox = new Box(objName, 200, 200);
+          var navBar = document.getElementById('blackNavBar');
+          var canvasBackground = document.getElementById('canvasBackground');
+          var UL = [Math.round(canvasBackground.getBoundingClientRect().left), Math.round(navBar.getBoundingClientRect().bottom)];
+          var LR = [Math.round(canvasBackground.getBoundingClientRect().right), 
+                    Math.round(canvasBackground.getBoundingClientRect().bottom)];
+          console.log(UL, LR);
+          BUFFER_H = 100; // approx max width of box
+          BUFFER_V = 20;  // approx height of box
+          var newBox = new Box(objName, randomNumber(UL[0], LR[0]-BUFFER_H), randomNumber(UL[1], LR[1]-BUFFER_V));
           boxData.push(newBox);
           callback();
 				}
