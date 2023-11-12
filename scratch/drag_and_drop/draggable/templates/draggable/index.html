@@ -460,21 +460,17 @@
           var objectSearchButton = document.getElementById('objectSearchButton');
           var locationSearchButton = document.getElementById('locationSearchButton');
 
-          if (objectSearchButton.live != true) {
-            objectSearchButton.addEventListener('click', 
-              function (){
-                selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
-              });
-            objectSearchButton.live = true;
-          }
+          objectSearchButton.addEventListener('click', 
+            function (){
+              selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
+            });
+          objectSearchButton.live = true;
 
-          if (objectSearchButton.live != true) {
-            locationSearchButton.addEventListener('click', 
-              function (){
-                selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
-              });
-            locationSearchButton.live = true;
-          }
+          locationSearchButton.addEventListener('click', 
+            function (){
+              selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
+            });
+
 				}
 
 
@@ -643,7 +639,7 @@
           var resetButton = document.getElementById('resetButton');
           resetButton.style.visibility = "hidden";
 
-          quitResultsDisplay();
+          quitResultsDisplay(function() {console.log("qutting results display")});
           
           callback();
         }
