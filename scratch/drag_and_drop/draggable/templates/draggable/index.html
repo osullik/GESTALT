@@ -351,7 +351,8 @@
             function (){
               makeQueryCanvas(document.getElementsByName('regionChoice')[0].value);
             });
-          regionButton.addEventListener('click', () => regionButton.disabled = true);
+          regionButton.addEventListener('click', () => refreshPage);
+          //regionButton.addEventListener('click', () => regionButton.disabled = true);
           //regionButton.addEventListener('click', enableSearchButtons);
           regionButton.style.visibility = "visible";
           })
@@ -410,22 +411,28 @@
 
           // Add object GO button
           var objectButton = document.getElementById('objectButton');
-          objectButton.addEventListener('click', 
-            function (){
-              makeObject(function() {console.log("added")}, document.getElementsByName('objectChoice')[0].value);
-            });
-            objectButton.addEventListener('click', () => console.log("obj added"));
-            objectButton.addEventListener('click', enableSubmitButton);
-            objectButton.addEventListener('click', enableResetButton);
-          objectButton.style.visibility = "visible";
+          if (objectButton.live != true) {
+            objectButton.addEventListener('click', 
+              function (){
+                makeObject(function() {console.log("added")}, document.getElementsByName('objectChoice')[0].value);
+              });
+              objectButton.addEventListener('click', () => console.log("obj added"));
+              objectButton.addEventListener('click', enableSubmitButton);
+              objectButton.addEventListener('click', enableResetButton);
+            objectButton.style.visibility = "visible";
+            objectButton.live = true;
+          }
 				}
 
         function createInvisibleSubmitButton() {
           var submitQueryButton = document.getElementById('submitQueryButton');
-          submitQueryButton.addEventListener('click', 
-            function (){
-              submitQuery(function() {console.log("query submit finished")});
-            });
+          if (submitQueryButton.live != true) {
+            submitQueryButton.addEventListener('click', 
+              function (){
+                submitQuery(function() {console.log("query submit finished")});
+              });
+              submitQueryButton.live = true;
+          }
 				}
 
         function enableSubmitButton() {
@@ -435,10 +442,13 @@
 
         function createInvisibleResetButton() {
           var resetButton = document.getElementById('resetButton');
-          resetButton.addEventListener('click', 
-            function (){
-              reset(function() {console.log("reset finished")});
-            });
+          if (resetButton.live != true) {
+            resetButton.addEventListener('click', 
+              function (){
+                reset(function() {console.log("reset finished")});
+              })
+            resetButton.live = true;
+          }
 				}
 
         function enableResetButton() {
@@ -450,16 +460,21 @@
           var objectSearchButton = document.getElementById('objectSearchButton');
           var locationSearchButton = document.getElementById('locationSearchButton');
 
-          objectSearchButton.addEventListener('click', 
-            function (){
-              selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
-            });
+          if (objectSearchButton.live != true) {
+            objectSearchButton.addEventListener('click', 
+              function (){
+                selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
+              });
+            objectSearchButton.live = true;
+          }
 
-          
-          locationSearchButton.addEventListener('click', 
-            function (){
-              selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
-            });
+          if (objectSearchButton.live != true) {
+            locationSearchButton.addEventListener('click', 
+              function (){
+                selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
+              });
+            locationSearchButton.live = true;
+          }
 				}
 
 
@@ -585,7 +600,7 @@
           resultsBoxDiv.style.visibility = "hidden";
 
           var resultsLabelDiv = document.getElementById('resultsLabelDiv');
-          resultsBoxDiv.style.visibility = "hidden";
+          resultsLabelDiv.style.visibility = "hidden";
 
           var resultsXButton = document.getElementById('resultsXButton');
           resultsXButton.style.visibility = "hidden";
@@ -627,6 +642,9 @@
 
           var resetButton = document.getElementById('resetButton');
           resetButton.style.visibility = "hidden";
+
+          quitResultsDisplay();
+          
           callback();
         }
      
