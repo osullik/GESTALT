@@ -17,7 +17,7 @@
     
         .nav_bar {
         color: white;
-        background-color: #666666;
+        background-color: #595959;
         left: 10px;
         margin: 0px; 
         height: 8vh;
@@ -27,7 +27,7 @@
 
         .info_bar {
         color: white;
-        background-color: #666666;
+        background-color: #595959;
         left: 10px;
         top: 8vh;
         margin: 0px; 
@@ -41,7 +41,8 @@
         top: 16vh;
         left: 10px;
         width: 70vw;
-        height: 90vh }
+        height: 90vh;
+        visibility: visible; }
     
        .green_background_div {       
         background-color: #B2CD9F;
@@ -89,7 +90,7 @@
         top: calc(16vh + 12vh);
         left: 74%;
         width: 230px;
-        font-size: 18px;
+        font-size: 15px;
         font-family: helvetica;
         color: black; 
         visibility: hidden;}
@@ -147,6 +148,24 @@
         left: 35%;
         font-size: 40px;
         font-family: helvetica;
+        visibility: hidden;}
+
+        hr {
+        position: absolute;
+        top: 54%;
+        height: 10px;
+        left: 1px;
+        width: 70vw;
+        color: #000000;
+        visibility: hidden;}
+
+        vr {
+        position: absolute;
+        top: 16vh;
+        height: 90vh;
+        left: 35vw;
+        width: 1px; 
+        color: #000000;
         visibility: hidden;}
 
         .resultsLabelDiv{
@@ -218,6 +237,7 @@
     
     <body>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
         <div class="container-fluid">
           <div class="nav_bar helvetica" id="blackNavBar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting
             <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
@@ -227,10 +247,14 @@
           <div class="info_bar helvetica" id="infoBar">lorem ipsum
           </div>  <!-- end black background-container div -->
 
+          
+
           <div class="grid">
             <div class="row" style="margin: auto">
               <div class="container brown_background_div" id="canvasBackground">
-                <div class="quadrantsDiv" id="quadrantsDiv">+</div>
+                <hr id="quadrantHLine"></hr>
+                <vr class="vr" id="quadrantVLine"></vr>
+                
               </div> <!-- end brown-background-div -->
             
               <div class="green_background_div" id="controlPanelBackgound">
@@ -505,8 +529,11 @@
           searchType = "Location";
 
           // Display quadrants
-          var quadrantsDiv = document.getElementById('quadrantsDiv');
-          quadrantsDiv.style.visibility = "visible";
+          var quadrantVLine = document.getElementById('quadrantVLine');
+          quadrantVLine.style.visibility = "visible";
+          var quadrantHLine = document.getElementById('quadrantHLine');
+          quadrantHLine.style.visibility = "visible";
+          
 
           // Force "knows cardinality" checked box to be checked
           var northButton = document.getElementById('northButton')
