@@ -1,523 +1,737 @@
 <!-- GESTALT-- _____ CENTRIC SEARCH-->
 
 <!-- HTML & CSS (embedded in the <head>)-->
+  {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title></title>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+      <style>
+        html {
+        height: 100%;
+        width: 100%; }
+    
+        .nav_bar {
+        color: white;
+        background-color: #595959;
+        left: 10px;
+        margin: 0px; 
+        height: 8vh;
+        padding: 10px;
+        font-size: 22px;
+        font-family: helvetica; }
 
-  <style>
-    html {
-    height: 100%;
-    width: 100%; }
+        .info_bar {
+        color: white;
+        background-color: #595959;
+        left: 10px;
+        top: 8vh;
+        margin: 0px; 
+        height: 8vh;
+        padding: 5px;
+        font-size: 14px;
+        font-family: helvetica; }
+    
+        .brown_background_div {
+        background-color: #DACD9F;
+        top: 16vh;
+        left: 10px;
+        width: 70vw;
+        height: 90vh;
+        visibility: visible; }
+    
+       .green_background_div {       
+        background-color: #B2CD9F;
+        top: 16vh;
+        left: 70vw;
+        width: calc(30vw - 43px); 
+        height: 90vh }
+    
+        .dragBox {
+        top: 120px;
+        left: 120px;
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+        background-color: white;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-family: helvetica;
+        font-weight: bold; }
+    
+        #northButton {
+        position: absolute;
+        top: 20px;
+        left: 77%;
+        color: white;
+        font-size: 15px;
+        font-family: helvetica; }
+    
+        .northButtonLabel {
+        position: absolute;
+        top: 0px;
+        left: calc(77% + 30px);
+        padding: 10px;
+        color: white;
+        text-align: center;
+        font-size: 15px;
+        font-family: helvetica; }
 
-    h1 {
-    color: white;
-    background-color: black;
-    margin: 0px; 
-    font-family: monaco; }
+        #regionChoice{
+        position: absolute;
+        top: calc(16vh + 12vh);
+        left: 74%;
+        width: 230px;
+        font-size: 15px;
+        font-family: helvetica;
+        color: black; 
+        visibility: hidden;}
 
-    .background_container {
-    display: flex; 
-    height: 600px; }
+        #regionButton{
+        position: absolute;
+        top: calc(16vh + 12vh);
+        left: calc(74% + 240px);
+        padding: 4px;
+        font-size: 15px;
+        font-family: helvetica;
+        visibility: hidden;}
 
-    .brown_background_div {
-    background-color: #DACD9F;
-    width: 70%; }
+        #objectChoice{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh);
+        left: 74%;
+        width: 160px;
+        font-size: 15px;
+        font-family: helvetica;
+        color: black; 
+        visibility: hidden;}
 
-   .green_background_div {
-    background-color: #B2CD9F;
-    width: 30%; }
+        #objectButton{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh);
+        left: calc(74% + 170px);
+        padding:7px;
+        font-size: 15px;
+        align-items: center;
+        font-family: helvetica;
+        visibility: hidden;}
 
-    #searchTypeList {
-    width: 300px;
-    height: 30px;
-    font-size: 15px;
-    font-family: monaco;
-    position: absolute; 
-    top: 15px;
-    left: 250px;
-    background-color: grey; }
+        #submitQueryButton{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh + 12vh);
+        left: 74%;
+        font-size: 15px;
+        padding: 6px;
+        font-family: helvetica;
+        visibility: hidden;}
 
-    .setSearchTypeButton {
-    width: 100px;
-    height: 30px;
-    font-size: 15px;
-    font-family: monaco;
-    position: absolute; 
-    top: 15px;
-    left: 600px;
-    background-color: grey; }
+        #resetButton{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh + 12vh);
+        left: calc(74% + 110px);
+        font-size: 15px;
+        padding: 6px;
+        font-family: helvetica;
+        visibility: hidden;}
 
-    #objectNameList {
-    width: 180px;
-    height: 30px;
-    font-size: 20px;
-    font-family: monaco;
-    position: absolute; 
-    top: 100px;
-    left: 1100px;
-    background-color: grey; }
+        .quadrantsDiv{
+        position: absolute;
+        top: 54%;
+        left: 35%;
+        font-size: 40px;
+        font-family: helvetica;
+        visibility: hidden;}
 
-    .dragBox {
-    width: 150px;
-    height: 70px;
-    background-color: lightblue;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: bold; }
+        .cardinalityImage{
+        position: absolute;
+        top: 16vh;
+        left: calc(10px + 70vw - 10vw);
+        visibility: hidden;}
 
-    #northButton {
-    position: absolute;
-    top: 20px;
-    left: 1305px;
-    color: white;
-    font-size: 15px;
-    font-family: monaco; }
+        .locationImage{
+        position: absolute;
+        top: calc(50% - 44px);
+        left: calc(32vw - 8px);
+        visibility: hidden;}
 
-    .northButtonLabel {
-    position: absolute;
-    top: 20px;
-    left: 1110px;
-    color: white;
-    font-size: 15px;
-    font-family: monaco; }
+        hr {
+        position: absolute;
+        top: 54%;
+        height: 10px;
+        left: 1px;
+        width: 70vw;
+        color: #000000;
+        visibility: hidden;}
 
-  </style>
+        vr {
+        position: absolute;
+        top: 16vh;
+        height: 90vh;
+        left: 35vw;
+        width: 1px; 
+        color: #000000;
+        visibility: hidden;}
 
-</head>
+        .resultsLabelDiv{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
+        left: 74%;
+        width: calc(26vw - 43px);
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 15px;
+        font-family: helvetica;
+        background-color: lightgray;
+        font-weight: bold;
+        color: black;
+        visibility: hidden;}
 
-<body>
-    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        .resultsBoxDiv{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh + 25px);
+        left: 74%;
+        width: calc(26vw - 43px);
+        padding-top: 5px;
+        padding-bottom: 20px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 15px;
+        font-family: helvetica;
+        background-color: white;
+        visibility: hidden;}
 
-    <h1>GESTALT - </h1>
+        #resultsXButton{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
+        left: calc(74% + 26vw - 43px - 27px);
+        padding: 6px;
+        font-size: 15px;
+        font-family: helvetica;
+        background-color: white; 
+        visibility: hidden;}
 
-    <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
-    <label for="northButton" class="northButtonLabel">I know where North is</label>
+        #objectSearchButton{
+        top: 5px;
+        position: absolute;
+        visibility: hidden;}
+        
+        #locationSearchButton{
+        top: 5px;
+        position: absolute;
+        visibility: hidden;}
 
-    <div class="background_container">
+        .visible {
+        visibility: visible;
+        }
+        .invisible {
+        visibility: hidden;
+        }
 
-    <div class="brown_background_div"> 
+        .btns {
+    float: right;
+}
 
-    </div> <!-- end brown-background-div -->
 
-    <div class="green_background_div"> 
-        <!--<select id="objectNameList" name="objectNameList">
-            <option value="Object1">Object1</option>
-            <option value="Object2">Object2</option>
-            <option value="Object3">Object3</option>
-        </select>-->
-    </div> <!-- end green-background-div -->
- </div>  <!-- end background-container div -->
 
-</body>
-</html>
+      </style>
+    
+    </head>
+    
+    <body>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+        <div class="container-fluid">
+          <div class="nav_bar helvetica" id="blackNavBar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting
+            <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
+            <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
+          </div>  <!-- end black background-container div -->
+          
+          <div class="info_bar helvetica" id="infoBar">Select a region to search, 
+            then add objects to the query canvas using the dropdown menu to the right.
+            Toggle between "Object-centric" or "Location-centric" search mode, and specify 
+            whether your query is aligned with the cardinal directions. 
+            Arrange the objects on the canvas for GESTALT to search.
+            A successful query will return a list of locations in the region matching 
+            the spatial configuration of objects on the query canvas.
+          </div>  <!-- end black background-container div -->
 
-<!-- JavaScript -->
+          
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          <div class="grid">
+            <div class="row" style="margin: auto">
+              <div class="container brown_background_div" id="canvasBackground">
+                <hr id="quadrantsHLine"></hr>
+                <vr class="vr" id="quadrantsVLine"></vr>
+                <div class="cardinalityImage" id="cardinalityImage">
+                  <img src="{% static 'compass_graphic_transparent.png' %}" style="width:10vw;">
+                </div>
+                <div class="locationImage" id="locationImage">
+                  <img src="{% static 'location_marker.png' %}" style="width:7vw;">
+                </div>
+              </div> <!-- end brown-background-div -->
+            
+              <div class="green_background_div" id="controlPanelBackgound">
+                <div class="column" style="margin: auto"></div>
+                  <select name="regionChoice" class="form-select" id="regionChoice"></select>
+                  <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
+                  <div class="btns">
+                    <select name="objectChoice" class="form-select" id="objectChoice"></select>
+                    <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+                    <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
+                    <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                      <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+                      <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
+                      <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+                      <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
+                    </div>
+                  </div>
+                  <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
+                  <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+                  <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+              </div>
+              </div> <!-- end green-background-div -->
+            </div>
+          </div>
+        </div> 
+      
+    
+    </body>
+    </html>
+    
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            var boxData = [];
-			var OBJECTS = [];
-            var boxCount = 0;  // Initial box count
-            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-			
-			class Region {
-                constructor(name) {
-                    this.name = name;
-                    this.selectRegion();
-					console.log("created Region with name: ");
-					console.log(this.name);
-                }
-				
-				selectRegion() {		
-					var self = this;  // Preserve the reference to the current region
-					
-					$.ajax({
-                        type: 'POST',
-                        url: '/setregion/',
-                        data: {'name': self.name},
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                        },
-                        success: function(response) {
-                          //  self.element.innerText = self.name;
-                          //  self.x = response.x;
-                          //  self.y = response.y;
-						  console.log("setregion was successful")
-                        }
-                    });				
-				}
-			}
-			
+        $(document).ready(function(){
+          var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+          var boxData = [];
+          var objectQuery = {};
+          var boxCount = 0;
+          var searchType = "Object";
+          var queryResponse = "";
+          var canvasCenter = {'x':370, 'y':1480};
 
-            class Box {
+          class Box {
                 constructor(name, x, y) {
-                    this.name = name;
-                    this.x = x;
-                    this.y = y;
-                    this.element = this.createBoxElement();
-                    this.attachEventListeners();
-                    this.updateCoordinates();
+                  this.name = name;
+                  this.x = x;
+                  this.y = y;
+                  this.element = this.createBoxElement();
+                  this.attachEventListeners();
                 }
 
                 createBoxElement() {
-                    var box = document.createElement('div');
-                    box.classList.add('dragBox');
-                    box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y;
-                    box.dataset.index = boxCount++;
-                    document.body.appendChild(box);
-                    return box;
+                  var box = document.createElement('div');
+                  box.classList.add('dragBox');
+                  box.classList.add('rounded');
+                  box.innerText = this.name.replace("_"," ");
+                  //box.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y; //DEBUG MODE
+                  box.style.left = this.x + 'px';
+                  box.style.top = this.y + 'px';
+                  box.dataset.index = boxCount++;
+                  document.body.appendChild(box);
+                  return box;
                 }
 
                 attachEventListeners() {
-                    var offsetX = 0;
-                    var offsetY = 0;
-                    var isDragging = false;
+                  var offsetX = 0;
+                  var offsetY = 0;
+                  var isDragging = false;
 
-                    this.element.addEventListener('mousedown', (event) => {
-                        offsetX = event.clientX - this.element.offsetLeft;
-                        offsetY = event.clientY - this.element.offsetTop;
-                        isDragging = true;
-                    });
+                  this.element.addEventListener('mousedown', (event) => {
+                    offsetX = event.clientX - this.element.offsetLeft;
+                    offsetY = event.clientY - this.element.offsetTop;
+                    isDragging = true;
+                  });
 
-                    document.addEventListener('mousemove', (event) => {
-                        if (isDragging) {
-                            var x = event.clientX - offsetX;
-                            var y = event.clientY - offsetY;
-                            this.element.style.left = x + 'px';
-                            this.element.style.top = y + 'px';
+                  document.addEventListener('mousemove', (event) => {
+                    if (isDragging) {
+                      var x = event.clientX - offsetX;
+                      var y = event.clientY - offsetY;
+                      this.element.style.left = x + 'px';
+                      this.element.style.top = y + 'px';
 
-                            if (this.x === x && this.y === y) {
-                                return;
-                            }
-
-                            this.x = x;
-                            this.y = y;
-                            this.updateCoordinates();
-                        }
-                    });
-
-                    document.addEventListener('mouseup', () => {
-                        isDragging = false;
-                    });
-                }
-
-                updateCoordinates() {
-                    var self = this;  // Preserve the reference to the current box object
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/coordinates/',
-                        data: { 'index': self.element.dataset.index, 'name': self.name, 'x': self.x, 'y': self.y },
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader('X-CSRFToken', csrfToken);
-                        },
-                        success: function(response) {
-                            self.element.innerText = self.name;
-                            self.x = response.x;
-                            self.y = response.y;
-                        }
-                    });
-                }
-            }
-
-			
-            function addBox() {
-			    var objectNameList = document.getElementsByName('boxNames')[0];
-                var selectedOption = objectNameList.value;
-                console.log(selectedOption);
-        
-                var newBox = new Box(selectedOption, 0, 0);
-                boxData.push(newBox);  
-            }
-			
-			function pullObjs() {
-				return $.ajax({
-						type: 'GET',
-						url: '/getobjs/',
-						success: function(response) {
-							OBJECTS = response['objects'];
-							console.log("trying to set OBJECTS in promise...");
-							console.log(OBJECTS);
-						}
-					});
-				}
-
-				
-			function addRegion() {
-			    var regionName = document.getElementsByName('regionChoice')[0];
-                var selectedRegion = regionName.value;
-				
-				var newRegion = new Region(selectedRegion);
-        
-                pullObjs().then(function(response) {
-				// Run this when region choice is made
-				console.log("GOT RESPONSE");
-				console.log(response)
-				
-					
-				console.log("Objects is now...");
-				console.log(OBJECTS);				
-				
-				// Add the object dropdown menu to the document
-				var options = OBJECTS //["palm_tree", "statue", "bench", "umbrella"];
-				var selectedOption = document.createElement('select');
-				selectedOption.name = 'boxNames';
-				for (var i = 0; i < options.length; i++) {
-					var option = document.createElement('option');
-					option.value = options[i];
-					option.text = options[i];
-					selectedOption.appendChild(option);
-				}
-				document.body.appendChild(selectedOption);
-				selectedOption.style.position = "absolute";
-				selectedOption.style.top = "110px";
-				selectedOption.style.left = "1100px";
-				selectedOption.style.width = "200px";
-				selectedOption.style.height = "30px";
-				selectedOption.style.fontSize = "15px";
-				selectedOption.style.fontFamily = "monaco";
-				selectedOption.style.color = "black";	
-				
-				// Add box button
-				var addButton = document.createElement('button');
-				addButton.innerText = 'Add Selected Object to Search';
-				addButton.addEventListener('click', addBox);
-				document.body.appendChild(addButton);
-				addButton.style.position = "absolute";
-				addButton.style.top = "190px";
-				addButton.style.left = "1100px";
-				addButton.style.width = "200px";
-				addButton.style.fontSize = "15px";
-				addButton.style.fontFamily = "monaco";
-
-				// Add submit button
-				var submitButton = document.createElement('button');
-				submitButton.innerText = 'Submit Query';
-				submitButton.addEventListener('click', submitQuery);
-				document.body.appendChild(submitButton);
-				submitButton.style.position = "absolute";
-				submitButton.style.top = "250px";
-				submitButton.style.left = "1100px";
-				submitButton.style.width = "200px";
-				submitButton.style.fontSize = "15px";
-				submitButton.style.fontFamily = "monaco";
-				submitButton.style.color = "green";
-
-				// Add reset button
-				var resetButton = document.createElement('button');
-				resetButton.innerText = "RESET";
-				resetButton.addEventListener('click', refreshPage);
-				document.body.appendChild(resetButton);
-				resetButton.style.position = "absolute";
-				resetButton.style.top = "310px";
-				resetButton.style.left = "1100px";
-				resetButton.style.width = "200px";
-				resetButton.style.fontSize = "15px";
-				resetButton.style.fontFamily = "monaco";
-				resetButton.style.color = "red";
-				
-				})  // ............everything above here happens aFTER region choice is made
-				
-				}
-        
-
-            function refreshPage() {
-                location.reload();
-            }
-			
-			function submitQuery() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/boxdata/',
-                    success: function(response) {
-                        var boxData = response.box_data;
-                        console.log(boxData); // Print the box data in the browser console
-                        // Perform further processing with the box data as desired
-                        console.log(searchType);
-                        //Prints either "Location" or "Object" to the console depending on the
-                                //search type the user chooses to use
-                        console.log(userKnowsNorth);
-                        //Prints either "Does not know where North is" or "Knows where North is" to
-                                //the console depending on the user's selection of the checkbox
-						
-						// for (i in boxData) { alert(boxData[i].name); }  THIS DISPLAYS the objs
+                      if (this.x === x && this.y === y) {return;}
+                      this.x = x;
+                      this.y = y;
                     }
-                });
-				
-				$.ajax({
-                    type: 'GET',
-                    url: '/searchresult/',
-                    success: function(response) {
-                        var locationData = response.locations;
-                        console.log(locationData); // Print the box data in the browser console
-                        // Perform further processing with the box data as desired
-                        console.log(searchType);
-                        //Prints either "Location" or "Object" to the console depending on the
-                                //search type the user chooses to use
-                        console.log(userKnowsNorth);
-                        //Prints either "Does not know where North is" or "Knows where North is" to
-                                //the console depending on the user's selection of the checkbox
-						
-						var resultsString = "Locations matching query configuration: \n";
-						for (i in locationData) {
-						resultsString = resultsString.concat(locationData[i]);
-						//alert(locationData[i]); 
-						} //alert(locationData)
-						
-						
-						// Results diaply popup
-						var resultsDisplay = document.createElement('div');
-						resultsDisplay.name = 'resultsDisplay'
-						resultsDisplay.style.backgroundColor = "#e7efee";
-						resultsDisplay.style.width = "400px";
-						resultsDisplay.style.height = "200px";
-						resultsDisplay.style.position = "absolute";
-						resultsDisplay.style.top = "400px";
-						resultsDisplay.style.left = "1075px";
+                  });
 
-						var quitResultsDisplay = document.createElement('button');
-						quitResultsDisplay.innerText = "X";
-						quitResultsDisplay.style.fontSize = "20px";
-						quitResultsDisplay.style.position = "absolute";
-						quitResultsDisplay.style.top = "370px";
-						quitResultsDisplay.style.left = "1480px";
-						quitResultsDisplay.addEventListener('click', refreshPage);
-						
-						resultsDisplay.innerText = resultsString;
-						document.body.appendChild(resultsDisplay);
-                        document.body.appendChild(quitResultsDisplay);
-						
-                    }
-					});
-            }
-			
-
-            var userKnowsNorth = "Knows where North is";
-            var container = $(".brown_background_div");
-            var northArrow = document.createElement('string');
-            document.body.appendChild(northArrow);
-            northArrow.textContent = "North ⇑";
-            northArrow.style.fontSize = "40px";
-            northArrow.style.fontWeight = 'bold';
-            northArrow.style.color = 'black';
-            northArrow.style.position = 'absolute';
-            northArrow.style.left = '900px';
-            northArrow.style.top = "70px";
-
-            let northCheckbox = document.getElementById("northButton");
-            northCheckbox.addEventListener( "change", () => {
-              if (searchType === "Object") {
-                if (northCheckbox.checked ) {
-                    userKnowsNorth = "Knows where North is";
-                    container.append(northArrow);
-                } else {
-                    userKnowsNorth = "Does not know where North is";
-                    if (northArrow){
-                        northArrow.parentNode.removeChild(northArrow);
-                    } 
-                }
-              } else { //if (searchType === "Location")
-                if (northCheckbox.checked) {
-                    userKnowsNorth = "Knows where North is";
-                    container.append(northArrow);
-                } else {
-                    userKnowsNorth = "Knows where North is";
-                    alert("North must be known in order to run the location-centric search.");
-                    northCheckbox.checked = true;
+                  document.addEventListener('mouseup', () => {
+                    isDragging = false;
+                    this.element.innerText = this.name.replace("_"," ");
+                    //this.element.innerText = this.name + ': X: ' + this.x + ' Y: ' + this.y; //DEBUG MODE
+                  });
                 }
               }
-            });
-			
-			
-			// Add the region menu to the document
-		    var regions = ["Swan Valley, Australia", "Washington D.C."];
-            var selectedRegion = document.createElement('select');
-            selectedRegion.name = 'regionChoice';
-            for (var i = 0; i < regions.length; i++) {
-                var region = document.createElement('option');
-                region.value = regions[i];
-                region.text = regions[i];
-                selectedRegion.appendChild(region);
+
+          function refreshPage() {
+            location.reload();
+          }
+
+        function getRegions() {
+          return $.ajax({
+            type: 'GET',
+            url: '/getregions/',
+            success: function(response) {
+              regions = response['regions'];
             }
-            document.body.appendChild(selectedRegion);
-			selectedRegion.style.position = "absolute";
-			selectedRegion.style.top = "80px";
-			selectedRegion.style.left = "100px";
-			selectedRegion.style.width = "400px";
-			selectedRegion.style.height = "50px";
-			selectedRegion.style.fontSize = "20px";
-			selectedRegion.style.fontFamily = "monaco";
-			selectedRegion.style.color = "black";
-			
-			// Add region button
-			var regionButton = document.createElement('button');
-            regionButton.innerText = 'Set Region';
-			regionButton.name = 'regionButton'
-            regionButton.addEventListener('click', addRegion);
-			regionButton.addEventListener('click', () => regionButton.disabled = true);
-            document.body.appendChild(regionButton);
-			regionButton.style.position = "absolute";
-			regionButton.style.top = "80px";
-			regionButton.style.left = "530px";
-			regionButton.style.width = "120px";
-			regionButton.style.height = "50px";
-			regionButton.style.fontSize = "20px";
-			regionButton.style.fontFamily = "monaco";
-			regionButton.style.color = "black";
-			
-			var searchType = "Object";
+          });
+				}
 
-            var objectCentricSearchButton = document.createElement('button');
-            objectCentricSearchButton.innerText = "Object Centric Search";
-            objectCentricSearchButton.addEventListener('click', function() {
-                refreshPage();
-                searchType = "Object";
+        // region dropdown............
+        function makeRegionDropdown() {
+          getRegions().then(function(response) {
+          console.log("Got these regions...");
+          console.log(regions);				
+       
+          // Update the region dropdown menu
+          var regionDropdown = document.getElementById('regionChoice');
+          for (var i = 0; i < regions.length; i++) {
+            var region = document.createElement('option');
+            region.value = regions[i];
+            region.text = regions[i];
+            regionDropdown.add(region);
+          }
+          regionDropdown.style.visibility = "visible";
+          
+          // Add region GO button
+          var regionButton = document.getElementById('regionButton');
+          regionButton.addEventListener('click', 
+            function (){
+              makeQueryCanvas(document.getElementsByName('regionChoice')[0].value);
             });
-            document.body.appendChild(objectCentricSearchButton);
-            objectCentricSearchButton.style.position = "absolute";
-            objectCentricSearchButton.style.top = "15px";
-            objectCentricSearchButton.style.left = "300px";
-            objectCentricSearchButton.style.width = "250px";
-            objectCentricSearchButton.style.fontSize = "15px";
-            objectCentricSearchButton.style.fontFamily = "monaco";
-            objectCentricSearchButton.style.backgroundColor = "green";
+          regionButton.addEventListener('click', () => refreshPage);
+          //regionButton.addEventListener('click', () => regionButton.disabled = true);
+          //regionButton.addEventListener('click', enableSearchButtons);
+          regionButton.style.visibility = "visible";
+          })
+				}  // ............region dropdown
 
-            var locationCentricSearchButton = document.createElement('button');
-            locationCentricSearchButton.innerText = "Location Centric Search";
-            locationCentricSearchButton.addEventListener('click', function() {
-                searchType = "Location";
+        function makeQueryCanvas(regionChoice) {
+          setRegion(displayObjDropdown, regionChoice);
+				}
 
-                container.append(northArrow);
-                northCheckbox.checked = true;
-                userKnowsNorth = "Knows where North is";
+        function setRegion(callback, regionChoice) {
+          $.ajax({
+            type: 'POST',
+            url: '/setregion/',
+            data: {'name': regionChoice},
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            success: function(response) {
+						  console.log("setregion done, selected...");
+              console.log(regionChoice);
+              reset(callback) // resets and then calls displayObjectDropdown
+            }
+          });
+				}
 
-                var compass = document.createElement("div");
-                compass.textContent = "+";
-                compass.style.position = "absolute";
-                compass.style.top = "300px";
-                compass.style.left = "450px";
-                compass.style.fontSize = "40px";
-                document.body.appendChild(compass);
-                locationCentricSearchButton.style.backgroundColor = "green";
-                objectCentricSearchButton.style.backgroundColor = "white";
+        function displayObjDropdown() {
+          getObjects(enableObjectSelect);
+          createInvisibleSubmitButton();
+          createInvisibleResetButton();
+          createInvisibleSearchButtons();
+          createInvisibleXButton();
+				}
+
+        function getObjects(callback) {
+          $.ajax({
+            type: 'GET',
+            url: '/getobjs/',
+            success: function(response) {
+              objects = response['objects'];
+              console.log(objects);
+              callback(); // calls enableObjectSelect
+            }
+          });
+				}
+
+        function enableObjectSelect() {
+          // Update the object dropdown menu
+          var objectDropdown = document.getElementById('objectChoice');
+          for (var i = 0; i < objects.length; i++) {
+            var object = document.createElement('option');
+            object.value = objects[i];
+            object.text = objects[i].replace("_"," ");
+            objectDropdown.add(object);
+          }
+          objectDropdown.style.visibility = "visible";
+
+          // Add object GO button
+          var objectButton = document.getElementById('objectButton');
+          if (objectButton.live != true) {
+            objectButton.addEventListener('click', 
+              function (){
+                makeObject(function() {console.log("added")}, document.getElementsByName('objectChoice')[0].value);
+              });
+              objectButton.addEventListener('click', () => console.log("obj added"));
+              objectButton.addEventListener('click', enableSubmitButton);
+              objectButton.addEventListener('click', enableResetButton);
+            objectButton.style.visibility = "visible";
+            objectButton.live = true;
+          }
+				}
+
+        function createInvisibleSubmitButton() {
+          var submitQueryButton = document.getElementById('submitQueryButton');
+          if (submitQueryButton.live != true) {
+            submitQueryButton.addEventListener('click', 
+              function (){
+                submitQuery(function() {console.log("query submit finished")});
+              });
+              submitQueryButton.live = true;
+          }
+				}
+
+        function enableSubmitButton() {
+          var submitQueryButton = document.getElementById('submitQueryButton');
+          submitQueryButton.style.visibility = "visible";
+				}
+
+        function createInvisibleResetButton() {
+          var resetButton = document.getElementById('resetButton');
+          if (resetButton.live != true) {
+            resetButton.addEventListener('click', 
+              function (){
+                reset(function() {console.log("reset finished")});
+              })
+            resetButton.live = true;
+          }
+				}
+
+        function enableResetButton() {
+          var resetButton = document.getElementById('resetButton');
+          resetButton.style.visibility = "visible";
+				}
+
+        function createInvisibleSearchButtons() {
+          var objectSearchButton = document.getElementById('objectSearchButton');
+          var locationSearchButton = document.getElementById('locationSearchButton');
+
+          objectSearchButton.addEventListener('click', 
+            function (){
+              selectObjectSearch(function() {console.log("search type selection changed to OBJECT")});
             });
-            document.body.appendChild(locationCentricSearchButton);
-            locationCentricSearchButton.style.position = "absolute";
-            locationCentricSearchButton.style.top = "15px";
-            locationCentricSearchButton.style.left = "600px";
-            locationCentricSearchButton.style.width = "250px";
-            locationCentricSearchButton.style.fontSize = "15px";
-            locationCentricSearchButton.style.fontFamily = "monaco";
-			
+          objectSearchButton.live = true;
+
+          locationSearchButton.addEventListener('click', 
+            function (){
+              selectLocationSearch(function() {console.log("search type selection changed to LOCATION")});
+            });
+
+				}
+
+
+        function selectObjectSearch(callback) {
+          searchType = "Object";
+
+          // Remove quadrants display
+          var quadrantsVLine = document.getElementById('quadrantsVLine');
+          quadrantsVLine.style.visibility = "hidden";
+          var quadrantsHLine = document.getElementById('quadrantsHLine');
+          quadrantsHLine.style.visibility = "hidden";
+
+          // Remove cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "hidden"
+          
+          // Remove location marker image
+          var locationImage = document.getElementById('locationImage');
+          locationImage.style.visibility = "hidden"
+
+          // Allow cardinality choice
+          var northButton = document.getElementById('northButton')
+          northButton.disabled = false;
+
+          callback();
+        }
+
+        function selectLocationSearch(callback) {
+          searchType = "Location";
+
+          // Display quadrants
+          var quadrantsVLine = document.getElementById('quadrantsVLine');
+          quadrantsVLine.style.visibility = "visible";
+          var quadrantsHLine = document.getElementById('quadrantsHLine');
+          quadrantsHLine.style.visibility = "visible";
+
+          // Display cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "visible";
+
+          // Display location marker
+          var locationImage = document.getElementById('locationImage');
+          locationImage.style.visibility = "visible";
+          
+
+          // Force "knows cardinality" checked box to be checked
+          var northButton = document.getElementById('northButton')
+          northButton.checked = true;
+          northButton.disabled = true;
+          callback();
+        }
+
+        function randomNumber(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function makeObject(callback, objName) {
+          console.log(objName);
+          var canvasBackground = document.getElementById('canvasBackground');
+          var UL = [Math.round(canvasBackground.getBoundingClientRect().left), Math.round(canvasBackground.getBoundingClientRect().top)];
+          var LR = [Math.round(canvasBackground.getBoundingClientRect().right), 
+                    Math.round(canvasBackground.getBoundingClientRect().bottom)];
+          console.log(UL, LR);
+          BUFFER_H = 100; // approx max width of box
+          BUFFER_V = 25;  // approx height of box
+          var newBox = new Box(objName, randomNumber(UL[0], LR[0]-BUFFER_H), randomNumber(UL[1], LR[1]-BUFFER_V));
+          boxData.push(newBox);
+          callback();
+				}
+
+        function convertQuery(callback) {
+          // Turn query boxData into a dictionary
+          console.log("converting query")
+          objectQuery = {};
+          for (var i = 0; i < boxCount; i++) {
+            objectQuery[i] = {
+              'name':boxData[i].name,
+              'x':boxData[i].x,
+              'y':boxData[i].y
+            };
+				  }
+          callback();
+				}
+
+        function submitQuery(callback) {
+          convertQuery(function (){
+            sendQuery(function (){
+              getResponse(function (){
+                showResponse(function (){callback()});
+              });
+            });
+          });
+        }
+          
+        function sendQuery(callback) { 
+            $.ajax({type: 'POST',
+              url: '/setsearchparams/',
+              data: {
+                'object_query': JSON.stringify(objectQuery), 
+                'canvas_center': JSON.stringify(canvasCenter),
+                'search_type': searchType, 
+                'knows_cardinality': document.getElementById('northButton').checked,
+              },
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+              },
+              success: function(response) {
+                console.log("setsearchparams was successful")
+                console.log(searchType); // Either "Location" or "Object" 
+                console.log("User knows north setsearchparams: ", document.getElementById('northButton').checked);
+                console.log(objectQuery)
+                callback();
+              }
+            });
+          }
+
+        function getResponse(callback) {
+          console.log("query posted");
+          $.ajax({
+            type: 'GET',
+            url: '/searchresult/',
+            success: function(response) {
+              queryResponse = response.locations;
+              console.log("searchresult is")
+              console.log(queryResponse); // Print the box data
+              callback();
+            }
+					});
+        }
+
+        function createInvisibleXButton() {
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.addEventListener('click', 
+            function (){
+              quitResultsDisplay(function() {console.log("results cleared")});
+            }
+          );
+				}
+
+        function quitResultsDisplay(callback) {
+          var resultsBoxDiv = document.getElementById('resultsBoxDiv');
+          resultsBoxDiv.style.visibility = "hidden";
+
+          var resultsLabelDiv = document.getElementById('resultsLabelDiv');
+          resultsLabelDiv.style.visibility = "hidden";
+
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.style.visibility = "hidden";
+          callback();
+        }
+
+        function showResponse(callback) {
+          // Results display panel
+          var resultsBoxDiv = document.getElementById('resultsBoxDiv');
+          var resultsString = "";
+          queryResponse = queryResponse.sort()
+						for (i in queryResponse) {
+						  resultsString = resultsString.concat(queryResponse[i]);
+              resultsString = resultsString.concat("\n");
+						}
+          resultsBoxDiv.innerText = resultsString;
+          resultsBoxDiv.style.visibility = "visible";
+
+          // Label results display
+          var resultsLabelDiv = document.getElementById('resultsLabelDiv');
+          resultsLabelDiv.style.visibility = "visible";
+
+          // X to close results display
+          var resultsXButton = document.getElementById('resultsXButton');
+          resultsXButton.style.visibility = "visible";
+          callback();
+				}
+
+        function reset(callback) {
+          console.log("resetting....");
+          for (var i = 0; i < boxCount; i++) {
+            boxData[i].element.style.visibility = "hidden";
+				  }
+          boxData = []
+          boxCount = 0;
+
+          // Hide submit button since no query objects are on the canvas anymore
+          var submitQueryButton = document.getElementById('submitQueryButton');
+          submitQueryButton.style.visibility = "hidden";
+
+          var resetButton = document.getElementById('resetButton');
+          resetButton.style.visibility = "hidden";
+
+          quitResultsDisplay(function() {console.log("qutting results display")});
+          
+          callback();
+        }
+     
+        // MAIN functionality
+        makeRegionDropdown();
+        createInvisibleSearchButtons();
+
+
         });
-
     </script>
