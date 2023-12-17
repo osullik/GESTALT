@@ -1,0 +1,9 @@
+name,longitude,latitude
+M,0,1
+E,0,2
+x,0,3
+M,1,0
+E,2,0
+E,2,3
+i,3,0
+i,3,2

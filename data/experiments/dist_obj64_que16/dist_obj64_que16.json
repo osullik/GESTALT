@@ -1,0 +1,163 @@
+{
+    "parameters": {
+        "experimentName": "dist_obj64_que16",
+        "randomSeed": 3,
+        "numLocations": 10,
+        "scaleFactor": 5,
+        "edgeFactor": 1,
+        "numClasses": 8,
+        "numQueryTerms": 16,
+        "queryRatio": 0.5,
+        "numQueryDistortions": 4,
+        "centerQueriesOnLocs": true
+    },
+    "queries": {
+        "query": {
+            "1": {
+                "name": "query1",
+                "num_query_terms": 16,
+                "distortions": {
+                    "distortion": {
+                        "name": "distorted_query1",
+                        "params": {
+                            "rotation_degrees": 272,
+                            "expansion": 0.9575810297638461,
+                            "shift_vertical": 0,
+                            "shift_horizontal": -0.36971821178827846
+                        }
+                    }
+                },
+                "true_match": "location1"
+            },
+            "2": {
+                "name": "query2",
+                "num_query_terms": 16,
+                "distortions": {
+                    "distortion": {
+                        "name": "distorted_query2",
+                        "params": {
+                            "rotation_degrees": 0,
+                            "expansion": 0.8279464441682194,
+                            "shift_vertical": -0.8289319454691138,
+                            "shift_horizontal": 0.2386640808773457
+                        }
+                    }
+                },
+                "true_match": "location2"
+            },
+            "3": {
+                "name": "query3",
+                "num_query_terms": 16,
+                "distortions": {
+                    "distortion": {
+                        "name": "distorted_query3",
+                        "params": {
+                            "rotation_degrees": 0,
+                            "expansion": 0.4647207956489494,
+                            "shift_vertical": 0.2683588179484857,
+                            "shift_horizontal": -0.4192024853859666
+                        }
+                    }
+                },
+                "true_match": "location3"
+            },
+            "4": {
+                "name": "query4",
+                "num_query_terms": 16,
+                "distortions": {
+                    "distortion": {
+                        "name": "distorted_query4",
+                        "params": {
+                            "rotation_degrees": 245,
+                            "expansion": 0.9432678359191088,
+                            "shift_vertical": 0.7599565032520961,
+                            "shift_horizontal": 0
+                        }
+                    }
+                },
+                "true_match": "location4"
+            },
+            "5": {
+                "name": "query5",
+                "num_query_terms": 16,
+                "distortions": {
+                    "distortion": {
+                        "name": "distorted_query5",
+                        "params": {
+                            "rotation_degrees": 0,
+                            "expansion": 0.22209073627232123,
+                            "shift_vertical": 0,
+                            "shift_horizontal": 0.4910460182528382
+                        }
+                    }
+                },
+                "true_match": "location5"
+            }
+        }
+    },
+    "locations": {
+        "location": {
+            "1": {
+                "name": "location1",
+                "density": 0.06451612903225806,
+                "embedded_query": "distorted_query1",
+                "num_objects": 75
+            },
+            "2": {
+                "name": "location2",
+                "density": 0.06451612903225806,
+                "embedded_query": "distorted_query2",
+                "num_objects": 79
+            },
+            "3": {
+                "name": "location3",
+                "density": 0.06451612903225806,
+                "embedded_query": "distorted_query3",
+                "num_objects": 76
+            },
+            "4": {
+                "name": "location4",
+                "density": 0.06451612903225806,
+                "embedded_query": "distorted_query4",
+                "num_objects": 75
+            },
+            "5": {
+                "name": "location5",
+                "density": 0.06451612903225806,
+                "embedded_query": "distorted_query5",
+                "num_objects": 78
+            },
+            "6": {
+                "name": "location6",
+                "density": 0.06451612903225806,
+                "embedded_query": null,
+                "num_objects": 62
+            },
+            "7": {
+                "name": "location7",
+                "density": 0.06451612903225806,
+                "embedded_query": null,
+                "num_objects": 62
+            },
+            "8": {
+                "name": "location8",
+                "density": 0.06451612903225806,
+                "embedded_query": null,
+                "num_objects": 61
+            },
+            "9": {
+                "name": "location9",
+                "density": 0.06451612903225806,
+                "embedded_query": null,
+                "num_objects": 63
+            },
+            "10": {
+                "name": "location10",
+                "density": 0.06451612903225806,
+                "embedded_query": null,
+                "num_objects": 61
+            }
+        },
+        "num_locations": 10
+    }
+}
