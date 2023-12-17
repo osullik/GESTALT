@@ -8,6 +8,7 @@ import math
 
 from compass import Compass
 from compass import Point
+from compass import Canvas
 
 # Global Vars
 
@@ -34,6 +35,67 @@ class test_Points(unittest.TestCase):
 
     def test_dumpTuple(self):
         tuple = ("testPoint", (0,0))
+
+class test_Canvas(unittest.TestCase):
+    def setUp(self) -> None:
+        self.canvas_name = "test_canvas"
+        self.test_canvas = Canvas(canvas_name=self.canvas_name)
+        self.test_point_00 = Point(name="test_point_00", x_coord=5, y_coord=10)
+        self.test_point_01 = Point(name="test_point_01", x_coord=10, y_coord=15)
+        return super().setUp()
+    
+    def tearDown(self) -> None:
+        return super().tearDown()
+    
+    def test_canvas_exists(self):
+        self.assertTrue(self.test_canvas)
+    
+    def test_canvas_has_name(self):
+        self.assertEqual(self.test_canvas.get_name(), self.canvas_name)
+    
+    def test_update_canvas_name(self):
+        self.assertEqual(self.test_canvas.get_name(), self.canvas_name)
+        
+        new_name = "new_test_canvas"
+        self.test_canvas.update_name(canvas_name=new_name)
+        self.assertEqual(self.test_canvas.get_name(), new_name)
+    
+    def test_get_canvas_boundaries(self):
+        BL = Point("test_canvas_BL", 0, 0)
+        TL = Point("test_canvas_TL", 0, 100)
+        TR = Point("test_canvas_TR", 100, 100)
+        BR = Point("test_canvas_BR", 100, 0)
+        
+        test_BL, test_TL, test_TR, test_BR = self.test_canvas.get_canvas_boundaries()
+
+        reference_points = [BL, TL, TR, BR]
+        test_points = [test_BL, test_TL, test_TR, test_BR]
+
+        for i, point in enumerate(reference_points):
+            self.assertTupleEqual(point.dumpTuple(), test_points[i].dumpTuple())
+
+    def test_add_point_to_canvas(self):
+        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.test_canvas.add_member_point(member_point=self.test_point_00)
+        self.assertEqual(len(self.test_canvas._member_points), 1)
+
+    def test_get_points_from_canvas(self):
+        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.test_canvas.add_member_point(member_point=self.test_point_00)
+        self.assertEqual(len(self.test_canvas._member_points), 1)
+        member_points = self.test_canvas.get_member_points()
+        self.assertEqual(len(member_points), 1)
+        self.assertTupleEqual(member_points[0].dumpTuple(), self.test_point_00.dumpTuple())
+
+    def test_get_member_points_using_name(self):
+        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.test_canvas.add_member_point(member_point=self.test_point_00)
+        self.test_canvas.add_member_point(member_point=self.test_point_01)
+        self.assertEqual(len(self.test_canvas._member_points), 2)
+        self.assertEqual(self.test_canvas.get_member_points_using_name(name='test_point_01')[0].dumpTuple(), 
+                         self.test_point_01.dumpTuple())
+        #Next TODO: Return multiple points with same name; return points based on coordinates. 
+    
 
 
 class test_Compass(unittest.TestCase):
@@ -64,10 +126,8 @@ class test_Compass(unittest.TestCase):
         self.singlePointCentrid = Point("centroid",5,5)
         self.singlePointAngle = 90
 
-        
-
-    def tearDown(self):
-        pass
+    def tearDown(self) -> None:
+        return super().tearDown()
 
     #Get Centroid
     def test_Centroids(self):

@@ -6,6 +6,8 @@ import math
 # User Defined Class Imports
 
 # Global Vars
+INFINITY = float('inf')
+NEG_INFINITY = float('-inf')
 
 # Classes
 
@@ -28,8 +30,58 @@ class Point():
         self._x = x
         self._y = y
 
+class Canvas():
+    def __init__(self,canvas_name:str) -> None:
+        self._name = canvas_name
+        self._BL, self._TL, self._TR, self._BR = self.set_canvas_boundaries()
+        self._member_points = []
+        pass
+
+    def get_name(self)->str:
+        return self._name
+
+    def update_name(self, canvas_name:str)->None:
+        self._name = canvas_name
+    
+    def set_canvas_boundaries(self, bottom_left_corner:tuple[int]=(0,0), top_right_corner:tuple[int]=(100,100))->tuple:
+        bottom_left_point = Point(name=self.get_name()+"_BL", 
+                                 x_coord=bottom_left_corner[0],
+                                 y_coord=bottom_left_corner[1])
+        top_left_point = Point(name=self.get_name()+"_TL", 
+                                 x_coord=bottom_left_corner[0],
+                                 y_coord=top_right_corner[1])
+        top_right_point = Point(name=self.get_name()+"_TR", 
+                                 x_coord=top_right_corner[0],
+                                 y_coord=top_right_corner[1])
+        bottom_right_point = Point(name=self.get_name()+"_BR", 
+                                 x_coord=top_right_corner[0],
+                                 y_coord=bottom_left_corner[1])
+        
+        return(bottom_left_point, top_left_point, top_right_point, bottom_right_point)
+        
+    def get_canvas_boundaries(self):
+        return (self._BL, self._TL, self._TR, self._BR)
+    
+    def add_member_point(self, member_point:Point)->None:
+        self._member_points.append(member_point)
+
+    def get_member_points(self)->list:
+        return self._member_points.copy()
+    
+    def get_member_points_using_name(self, name:str):
+        found_points = []
+        for point in self.get_member_points():
+            if point.getName() == name:
+                found_points.append(point)
+
+        return found_points
+                
+    
+
+
 class Compass():
     def __init__(self):
+        
         pass
 
     def getCentroid(self, pointList):
@@ -49,8 +101,8 @@ class Compass():
                     Point("TR", pointList[0].getCoordinates()[0], pointList[0].getCoordinates()[1]),
                     Point("centroid", pointList[0].getCoordinates()[0], pointList[0].getCoordinates()[1]))
 
-        min_x = 3*10**8; max_x = 0
-        min_y = 3*10**8; max_y = 0
+        min_x = INFINITY; max_x = NEG_INFINITY
+        min_y = INFINITY; max_y = NEG_INFINITY
 
         for point in pointList:
             x,y = point.getCoordinates()
