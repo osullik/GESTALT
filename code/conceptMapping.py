@@ -43,13 +43,17 @@ class ConceptMapper():
             if float(locationDict[obj]['latitude']) < midpoint[1]:              #NW is top left cnr
                 if float(locationDict[obj]['longitude']) <= midpoint[0]:
                     quadrantDict["southwest"].append(locationDict[obj]['name'])
+                    continue
                 else:
                     quadrantDict["southeast"].append(locationDict[obj]['name'])
+                    continue
             else:
                 if float(locationDict[obj]['longitude']) <= midpoint[0]:
                     quadrantDict["northwest"].append(locationDict[obj]['name'])
+                    continue
                 else:
                     quadrantDict["northeast"].append(locationDict[obj]['name'])
+                    continue
 
         return quadrantDict
 

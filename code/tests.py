@@ -335,7 +335,10 @@ class test_recursive_grid_search(unittest.TestCase):
                                 ["C","D","E"]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
+        longList = ["B","C","D","F","E"]
+        latList = ["B","F","C", "D", "E"]
+        
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
 
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
@@ -354,7 +357,10 @@ class test_recursive_grid_search(unittest.TestCase):
                                 [ 0, "D", 0]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
+        longList = ["B","C","D","F","E"]
+        latList = ["B","F","C", "E", "D"]
+        
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
 
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
@@ -375,7 +381,10 @@ class test_recursive_grid_search(unittest.TestCase):
                                 [ 0 , 0, 0, 0, 0 ]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
+        longList = ["B","C","D","F","E"]
+        latList = ["B","F","C", "D", "E"]
+
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
 
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
@@ -397,7 +406,11 @@ class test_recursive_grid_search(unittest.TestCase):
                                 [ 0 , 0, 0, 0, 0 ]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
+        
+        longList = ["B","C","D","F","E"]
+        latList = ["B","F","C", "D", "E"]
+
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
 
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
@@ -419,7 +432,11 @@ class test_recursive_grid_search(unittest.TestCase):
                                 [ 0 , 0, 0, 0, 0 ]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
+
+        longList = ["D","D","F"]
+        latList = ["F","D","D"]
+
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
 
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
@@ -438,8 +455,11 @@ class test_recursive_grid_search(unittest.TestCase):
                                 ["D", 0 ]],
                                 dtype=object)
         
-        queryList = self.CM.getSearchOrder(queryMatrix)
 
+        longList = ["B","D","E"]
+        latList = ["B","E","D"]
+
+        queryList = self.CM.getSearchOrder(longSortedList=longList, latSortedList=latList)
         result = self.CM.searchMatrix(self.nonMonotonic,queryList)
 
         self.assertFalse(result)
@@ -541,14 +561,25 @@ class test_get_grid(unittest.TestCase):
     def tearDown(self) -> None:
         del self.CM
 
-    def test_run_debug(self):
-        inputFile = "../data/output/ownershipAssignment/DBSCAN_PredictedLocations.csv"
-        self.CM.createConceptMap(inputFile)
+    def test_get_location_cm(self):
+        inputFile = "../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
+        cmDict = self.CM.createConceptMap(inputFile)
+        self.assertTrue(type(cmDict) is dict)
+        cm = cmDict['Railway Square Cafe']
+        self.assertTrue(type(cm) is np.ndarray)
 
-
-
-
-
+    def test_get_query_cm(self):
+        inputFile = "../data/SV/output/ownershipAssignment/DBSCAN_PredictedLocations_FT=0.0.csv"
+        cmDict = self.CM.createConceptMap(inputFile, cm_type='query')
+        self.assertTrue(type(cmDict) is dict)
+        cmTuple = cmDict['Railway Square Cafe']
+        self.assertTrue(type(cmTuple) is tuple)
+        cm, latLongLists = cmTuple
+        self.assertTrue(type(cm) is np.ndarray)
+        self.assertTrue(type(latLongLists) is tuple)
+        longs, lats = latLongLists
+        self.assertTrue(type(longs) is list)
+        self.assertTrue(type(lats) is list)
 
 def suite_direction_locations():
     print("\n\n===== Testing Single Direction Relations =====\n")
@@ -593,7 +624,8 @@ def suite_get_terms():
 def suite_get_grid():
     print("\n\n===== Testing Assigning locations to grids =====\n")
     suite = unittest.TestSuite()
-    suite.addTest(test_get_grid('test_run_debug'))
+    suite.addTest(test_get_grid('test_get_location_cm'))
+    suite.addTest(test_get_grid('test_get_query_cm'))
 
 
     return suite
