@@ -94,7 +94,6 @@ class test_Canvas(unittest.TestCase):
         self.test_canvas.add_member_point(member_point=self.test_point_00)
         self.assertEqual(len(self.test_canvas._member_points_by_id), 1)
         member_points = self.test_canvas.get_member_points()
-        print("MEMBR POINTS\n", member_points)
         self.assertEqual(len(member_points), 1)
         self.assertTupleEqual(member_points[0].dumpTuple(), self.test_point_00.dumpTuple())
 
@@ -117,6 +116,31 @@ class test_Canvas(unittest.TestCase):
         self.test_canvas.add_member_point(member_point=self.test_point_01)
         self.assertEqual(len(self.test_canvas._member_points_by_id), 2)
         self.assertEqual(self.test_canvas.get_member_point_using_id(id=1).dumpTuple(), self.test_point_01.dumpTuple())
+
+    def test_remove_point_from_canvas_by_id(self):
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 0)
+        self.test_canvas.add_member_point(member_point=self.test_point_00)
+        self.test_canvas.add_member_point(member_point=self.test_point_01)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 2)
+        
+        self.test_canvas.remove_member_point_from_canvas_by_id(member_point_id=0)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_name), 1)
+        
+        test_point_01a = Point(name="test_point_01", x_coord=12, y_coord=17)
+        self.test_canvas.add_member_point(member_point=test_point_01a)
+        self.assertEqual(len(self.test_canvas._member_points_by_name), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_name['test_point_01']), 2)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 2)
+       
+        self.test_canvas.remove_member_point_from_canvas_by_id(member_point_id=2)
+        self.assertEqual(len(self.test_canvas._member_points_by_name), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_name['test_point_01']), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 1)
+        
+
+        
+
 
 
 

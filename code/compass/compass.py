@@ -106,6 +106,25 @@ class Canvas():
         except KeyError:
             print(f"Key: '{id}' not found")
             return None
+        
+    def remove_member_point_from_canvas_by_id(self, member_point_id:int)->None:
+        num_deleted = 0
+        if self.get_member_point_using_id(member_point_id) == None:
+            print(f"Deleted {num_deleted} points")
+            return
+        else:
+            point_name = self._member_points_by_id[member_point_id].getName()
+            print(self._member_points_by_name[point_name]) 
+            if len(self._member_points_by_name[point_name]) == 1:
+                del(self._member_points_by_name[point_name])
+            else:
+                self._member_points_by_name[point_name].remove(member_point_id)
+            del(self._member_points_by_id[member_point_id])
+            num_deleted +=1
+            print(f"Deleted {num_deleted} points")
+            return
+    #TODO: Add removal of member points by name --> Get the ids from the name list, delete the name dict entry and then delete each id dict entry
+
                 
     
 
