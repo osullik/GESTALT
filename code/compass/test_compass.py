@@ -35,6 +35,16 @@ class test_Points(unittest.TestCase):
 
     def test_dumpTuple(self):
         tuple = ("testPoint", (0,0))
+    
+    def test_get_point_id(self):
+        test_point_00 = Point(name="test_point_00", x_coord=5, y_coord=10)
+        test_point_01 = Point(name="test_point_01", x_coord=10, y_coord=15)
+        self.assertTrue(test_point_00.get_point_id() == float('inf'))
+        self.assertTrue(test_point_00.get_point_id() == float('inf'))
+        test_point_00._set_point_id(id=0)
+        test_point_01._set_point_id(id=1)
+        self.assertTrue(test_point_00.get_point_id() == 0)
+        self.assertTrue(test_point_01.get_point_id() == 1)
 
 class test_Canvas(unittest.TestCase):
     def setUp(self) -> None:
@@ -75,27 +85,39 @@ class test_Canvas(unittest.TestCase):
             self.assertTupleEqual(point.dumpTuple(), test_points[i].dumpTuple())
 
     def test_add_point_to_canvas(self):
-        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 0)
         self.test_canvas.add_member_point(member_point=self.test_point_00)
-        self.assertEqual(len(self.test_canvas._member_points), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 1)
 
     def test_get_points_from_canvas(self):
-        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 0)
         self.test_canvas.add_member_point(member_point=self.test_point_00)
-        self.assertEqual(len(self.test_canvas._member_points), 1)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 1)
         member_points = self.test_canvas.get_member_points()
+        print("MEMBR POINTS\n", member_points)
         self.assertEqual(len(member_points), 1)
         self.assertTupleEqual(member_points[0].dumpTuple(), self.test_point_00.dumpTuple())
 
     def test_get_member_points_using_name(self):
-        self.assertEqual(len(self.test_canvas._member_points), 0)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 0)
         self.test_canvas.add_member_point(member_point=self.test_point_00)
         self.test_canvas.add_member_point(member_point=self.test_point_01)
-        self.assertEqual(len(self.test_canvas._member_points), 2)
-        self.assertEqual(self.test_canvas.get_member_points_using_name(name='test_point_01')[0].dumpTuple(), 
-                         self.test_point_01.dumpTuple())
-        #Next TODO: Return multiple points with same name; return points based on coordinates. 
-    
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 2)
+        self.assertEqual(self.test_canvas.get_member_points_using_name(name='test_point_01')[0].dumpTuple(), self.test_point_01.dumpTuple())
+        #Test that multiple points of the same name are returned
+        test_point_01a = Point(name="test_point_01", x_coord=12, y_coord=17)
+        self.test_canvas.add_member_point(member_point=test_point_01a)
+        point_list = self.test_canvas.get_member_points_using_name(name='test_point_01')
+        self.assertTrue(len(point_list)==2)
+        self.assertListEqual([point_list[0].dumpTuple(), point_list[1].dumpTuple()],[self.test_point_01.dumpTuple(), test_point_01a.dumpTuple()])
+
+    def test_get_member_point_using_id(self):
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 0)
+        self.test_canvas.add_member_point(member_point=self.test_point_00)
+        self.test_canvas.add_member_point(member_point=self.test_point_01)
+        self.assertEqual(len(self.test_canvas._member_points_by_id), 2)
+        self.assertEqual(self.test_canvas.get_member_point_using_id(id=1).dumpTuple(), self.test_point_01.dumpTuple())
+
 
 
 class test_Compass(unittest.TestCase):

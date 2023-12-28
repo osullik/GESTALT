@@ -12,10 +12,11 @@ NEG_INFINITY = float('-inf')
 # Classes
 
 class Point():
-    def __init__(self, name:str, x_coord:int, y_coord:int):
+    def __init__(self, name:str, x_coord:int, y_coord:int, id:int=INFINITY):
         self._x = x_coord
         self._y = y_coord
         self._name = name
+        self._id=id
 
     def getCoordinates(self) ->tuple:
         return(self._x, self._y)
@@ -30,12 +31,19 @@ class Point():
         self._x = x
         self._y = y
 
+    def get_point_id(self)->int:
+        return self._id
+    
+    def _set_point_id(self, id:int)->None:
+        self._id = id
+
 class Canvas():
     def __init__(self,canvas_name:str) -> None:
         self._name = canvas_name
         self._BL, self._TL, self._TR, self._BR = self.set_canvas_boundaries()
-        self._member_points = []
-        pass
+        self._member_points_by_id = {}
+        self._member_points_by_name = {}
+        self._id_counter = 0
 
     def get_name(self)->str:
         return self._name
@@ -62,19 +70,42 @@ class Canvas():
     def get_canvas_boundaries(self):
         return (self._BL, self._TL, self._TR, self._BR)
     
+    def generate_point_id(self)->int:
+        next_id = self._id_counter
+        self._id_counter +=1
+        return next_id
+    
     def add_member_point(self, member_point:Point)->None:
-        self._member_points.append(member_point)
+        if member_point.get_point_id() == INFINITY:
+            id = self.generate_point_id()
+            member_point._set_point_id(id)
+            self._member_points_by_id[id] = member_point
+            try:
+                self._member_points_by_name[member_point.getName()].append(member_point.get_point_id())
+            except KeyError:
+                self._member_points_by_name[member_point.getName()] = [(member_point.get_point_id())]
 
     def get_member_points(self)->list:
-        return self._member_points.copy()
+        return self._member_points_by_id
+    
+    def get_member_point_name_list(self)->list[str]:
+        return list(self._member_points_by_name.keys())
     
     def get_member_points_using_name(self, name:str):
         found_points = []
-        for point in self.get_member_points():
-            if point.getName() == name:
-                found_points.append(point)
+        for point_name in self.get_member_point_name_list():
+            if point_name == name:
+                for id in self._member_points_by_name[name]:
+                    found_points.append(self._member_points_by_id[id])
 
         return found_points
+    
+    def get_member_point_using_id(self, id:int)->Point:
+        try:
+            return self._member_points_by_id[id]
+        except KeyError:
+            print(f"Key: '{id}' not found")
+            return None
                 
     
 
