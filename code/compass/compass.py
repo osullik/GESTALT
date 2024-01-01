@@ -1,5 +1,6 @@
 # Python Core Imports
 import math
+import gc
 
 # Library Imports
 
@@ -93,10 +94,14 @@ class Canvas():
     
     def get_member_points_using_name(self, name:str):
         found_points = []
-        for point_name in self.get_member_point_name_list():
-            if point_name == name:
-                for id in self._member_points_by_name[name]:
-                    found_points.append(self._member_points_by_id[id])
+        try:
+            for point_name in self.get_member_point_name_list():
+                if point_name == name:
+                    for id in self._member_points_by_name[name]:
+                        found_points.append(self._member_points_by_id[id])
+        except KeyError:
+            print(f"Key: '{name}' not found")
+            return None
 
         return found_points
     
@@ -114,7 +119,6 @@ class Canvas():
             return
         else:
             point_name = self._member_points_by_id[member_point_id].getName()
-            print(self._member_points_by_name[point_name]) 
             if len(self._member_points_by_name[point_name]) == 1:
                 del(self._member_points_by_name[point_name])
             else:
@@ -122,11 +126,20 @@ class Canvas():
             del(self._member_points_by_id[member_point_id])
             num_deleted +=1
             print(f"Deleted {num_deleted} points")
+        gc.collect()
+        return
+        
+    def remove_member_point_from_canvas_by_name(self, member_point_name:str)->None:
+        num_deleted=0
+        if self.get_member_points_using_name(member_point_name) == None:
+            print(f"Deleted {num_deleted} points")
             return
-    #TODO: Add removal of member points by name --> Get the ids from the name list, delete the name dict entry and then delete each id dict entry
-
-                
-    
+        else:
+            for pt in self.get_member_points_using_name(member_point_name):
+                del(self._member_points_by_id[pt.get_point_id()])
+            del(self._member_points_by_name[member_point_name])
+        gc.collect()
+        
 
 
 class Compass():
