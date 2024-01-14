@@ -19,7 +19,7 @@ class Point():
         self._name = name
         self._id=id
 
-    def getCoordinates(self) ->tuple:
+    def get_coordinates(self) ->tuple:
         return(self._x, self._y)
     
     def getName(self)->str:
@@ -38,13 +38,28 @@ class Point():
     def _set_point_id(self, id:int)->None:
         self._id = id
 
+    def check_point_equality(self, comparison_point)->bool:
+        if self._x == comparison_point._x and self._y == comparison_point._y:
+            return True
+        else:
+            return False
+
+
 class Canvas():
+    '''
+    The Canvas Object is the parent object to store the Points used by compass
+    and is the target of the COMPASS operations.
+    A single canvas represents a single location. 
+    A canvas can have many points, each with a unique ID.
+    No other attributes must be unique. 
+    '''
     def __init__(self,canvas_name:str) -> None:
         self._name = canvas_name
-        self._BL, self._TL, self._TR, self._BR = self.set_canvas_boundaries()
+        self._BL, self._TL, self._TR, self._BR, self._canvas_centroid = self.generate_canvas_boundaries()
+        self.north_ref, self.west_ref, self.north_west_ref = self.generate_canvas_reference_points()
         self._member_points_by_id = {}
         self._member_points_by_name = {}
-        self._id_counter = 0
+        self._id_counter = 0             #Counter always increases, no re-use of IDs.
 
     def get_name(self)->str:
         return self._name
@@ -52,7 +67,10 @@ class Canvas():
     def update_name(self, canvas_name:str)->None:
         self._name = canvas_name
     
-    def set_canvas_boundaries(self, bottom_left_corner:tuple[int]=(0,0), top_right_corner:tuple[int]=(100,100))->tuple:
+    def set_canvas_boundaries(self, bottom_left_corner:tuple[int], top_right_corner:tuple[int])->None:
+        self._BL, self._TL, self._TR, self._BR, self._canvas_centroid = self.generate_canvas_boundaries(bottom_left_corner, top_right_corner)
+
+    def generate_canvas_boundaries(self, bottom_left_corner:tuple[int]=(0,0), top_right_corner:tuple[int]=(100,100))->tuple:
         bottom_left_point = Point(name=self.get_name()+"_BL", 
                                  x_coord=bottom_left_corner[0],
                                  y_coord=bottom_left_corner[1])
@@ -66,7 +84,29 @@ class Canvas():
                                  x_coord=top_right_corner[0],
                                  y_coord=bottom_left_corner[1])
         
-        return(bottom_left_point, top_left_point, top_right_point, bottom_right_point)
+        canvas_centroid = Point("centroid",((bottom_left_corner[0]+top_right_corner[0])/2),
+                                ((bottom_left_corner[1]+top_right_corner[1])/2))
+        
+        return(bottom_left_point, top_left_point, top_right_point, bottom_right_point, canvas_centroid)
+    
+    def generate_canvas_reference_points(self):
+        N = Point("north",self.get_canvas_centroid().get_coordinates()[0], self._TR.get_coordinates()[1])
+        W = Point("west", self._BL.get_coordinates()[0], self.get_canvas_centroid().get_coordinates()[1])
+        NW = Point("northwest", self._TL.get_coordinates()[0], self._TL.get_coordinates()[1])
+
+        return(N,W,NW)
+    
+    def set_canvas_reference_points(self):
+        N,W,NW = self.generate_canvas_reference_points()
+        self.north_ref = N
+        self.west_ref = W
+        self.north_west_ref = NW
+
+    def get_canvas_reference_points(self):
+        return(self.north_ref, self.west_ref, self.north_west_ref)
+    
+    def get_canvas_centroid(self):
+        return self._canvas_centroid
         
     def get_canvas_boundaries(self):
         return (self._BL, self._TL, self._TR, self._BR)
@@ -139,36 +179,64 @@ class Canvas():
                 del(self._member_points_by_id[pt.get_point_id()])
             del(self._member_points_by_name[member_point_name])
         gc.collect()
+    
+    def get_points_bounding_box(self)->list[tuple]:
         
+        points_dict = self.get_member_points()
+        if len(points_dict.keys()) == 0:
+            return([(0,0), (0,0)])
+        
+        min_x = INFINITY
+        max_x = NEG_INFINITY
+        min_y = INFINITY
+        max_y = NEG_INFINITY
+
+        for point in points_dict.keys():
+            x,y = points_dict[point].get_coordinates()
+            if x < min_x:
+                min_x = x 
+            if x > max_x:
+                max_x = x
+
+            if y < min_y:
+                min_y = y 
+            if y > max_y:
+                max_y = y 
+
+        #Ensure points not on bounding box boundary.
+        min_x = min_x-1
+        max_x = max_x+1
+        min_y = min_y-1
+        max_y = max_y+1
+
+        return([(min_x,min_y),(max_x,max_y)])
 
 
 class Compass():
     def __init__(self):
-        
         pass
 
-    def getCentroid(self, pointList):
+    def get_points_centroid(self, canvas:Canvas):
         '''
             PURPOSE: 
                 Gets the centroid of the bounding box that contains a cluster of objects
                     nb - bounding box used to get geometric centre, and reduce impact of centroids in skewed distribution.
             INPUT ARGS:
-                pointsList - list of Point Objects
+                canvas - a canvas object containing the points
             OUTPUT:
                 Tuple of Point objects of form ((LowerLeftPoint),(TopRightPoint),(centroid))
         '''
 
-        if len(pointList) == 1:
+        points_dict = canvas.get_member_points()
+        if len(points_dict) == 1:
 
-            return (Point("LL", pointList[0].getCoordinates()[0], pointList[0].getCoordinates()[1]),
-                    Point("TR", pointList[0].getCoordinates()[0], pointList[0].getCoordinates()[1]),
-                    Point("centroid", pointList[0].getCoordinates()[0], pointList[0].getCoordinates()[1]))
+            return (Point("centroid", points_dict[0].get_coordinates()[0], points_dict[0].get_coordinates()[1]))
 
         min_x = INFINITY; max_x = NEG_INFINITY
         min_y = INFINITY; max_y = NEG_INFINITY
 
-        for point in pointList:
-            x,y = point.getCoordinates()
+        for point in points_dict.keys():
+            x,y = points_dict[point].get_coordinates()
             if x < min_x:
                 min_x = x 
             elif x > max_x:
@@ -183,53 +251,25 @@ class Compass():
             else:
                 pass 
 
-        return ((Point("LL",min_x, min_y)), 
-                (Point("TR",max_x,max_y)), 
-                (Point("centroid",((min_x+max_x)/2),((min_y+max_y)/2))))
+        return (Point("centroid",((min_x+max_x)/2),((min_y+max_y)/2)))
 
     
     def getSideLength(self, point1, point2):
         #Gets the euclidian distance between two points
 
-        return math.dist(point1.getCoordinates(), point2.getCoordinates())
+        return math.dist(point1.get_coordinates(), point2.get_coordinates())
     
-    def getReferencePoints(self, boundingBox:list[Point], centroid:Point):
-        '''
-        PURPOSE:
-            Get the three reference points required to calculate angles for rotations. 
-        INPUT ARGS:
-            boundingBox - list of Points, specifically the bottom Left and Top Right corners of a bounding Box
-            centroid - point object - centre of a bounding box
-        PROCESS:
-            North is the x of the centroid and y of top of bounding box
-            West is the X of the left of the bounding box and y of centroid
-            NorthWest is the Top Left of the Bounding Box.
-        OUTPUT:
-            list of points objects
-        '''
-
-        N = Point("north",centroid.getCoordinates()[0], boundingBox[1].getCoordinates()[1])
-        W = Point("west", boundingBox[0].getCoordinates()[0], centroid.getCoordinates()[1])
-        NW = Point("northwest",boundingBox[0].getCoordinates()[0], boundingBox[1].getCoordinates()[1])
+    def getReferencePoints(self, canvas:Canvas):
+        #Reference points are the North, West, and NorthWest boundaries of the Canvas used to calculate the rotation angles
+        N = Point("north",canvas.get_canvas_centroid().get_coordinates()[0], canvas._TR.get_coordinates()[1])
+        W = Point("west", canvas._BL.get_coordinates()[0], canvas.get_canvas_centroid().get_coordinates()[1])
+        NW = canvas._TL
 
         return([N,W,NW])
 
-
-    
-    def getAngle(self, reference:Point, centroid:Point, point:Point):
-        '''
-            PURPOSE:
-                Gets the angle between a 'true north' reference point, the centroid of the object cluster and a specific point
-            INPUT ARGS:
-                reference - point object - includes the (x,y) includes coordinates of a reference point that will be used to derive a rotation angle
-                centroid - point object - includes the (x,y) includes coordinates of the centroid of the bounding box containing of objects in the query term. 
-                point - point object - includes the (x,y) coordinates of the point we are finding the angle too
-            PROCESS:
-                Create a triangle from reference to centroid to point. 
-                Use cosine rule to determine angle [clockwise] from reference to centroid to point
-            OUTPUT:
-                cos_inverse_of_x - Int - the Angle of Reference, Centroid, Point 
-        '''
+    def getAngle(self, canvas:Canvas, reference:str, point:Point):
+        # Gets the angle between a 'true north' reference point, the centroid of the object cluster and a specific point
+            
         #Gets the angle between a "True North" reference point
 
         # Cosine Rule ->  a^2 = b^2 + c^2 - 2bc cos(x)
@@ -250,14 +290,18 @@ class Compass():
         #n = side opposite the reference
         #x = angel we are trying to find 
 
-        c = self.getSideLength(point1=point, point2=reference)
-        p = self.getSideLength(point1=centroid, point2=reference)
-        n = self.getSideLength(point1=centroid, point2=point)
-        #print("##########")
-        #print("Name", point.getName(), "C", c, "P", p, "N", n)
-        #print("CENTROID", centroid.getCoordinates())
-        #print("POINT", point.getCoordinates())
-        #print("REFERENCE", reference.getCoordinates())
+        if reference == 'north':
+            ref = canvas.north_ref
+        elif reference == 'west':
+            ref = canvas.west_ref
+        elif reference == 'northwest':
+            ref = canvas.north_west_ref
+        else:
+            exit("invalid reference, choose from 'north', 'west' or 'northwest'") 
+
+        c = self.getSideLength(point1=point, point2=ref)
+        p = self.getSideLength(point1=canvas.get_canvas_centroid(), point2=ref)
+        n = self.getSideLength(point1=canvas.get_canvas_centroid(), point2=point)
         
         try:
             x = (((pow(p,2)) + (pow(n,2)) - (pow(c,2)))/(2*(p)*(n)))
@@ -271,52 +315,34 @@ class Compass():
             cos_inverse_of_x = math.degrees(math.acos(x))
             
 
-        if point.getCoordinates()[0] < centroid.getCoordinates()[0]:
+        if point.get_coordinates()[0] < canvas.get_canvas_centroid().get_coordinates()[0]:
             cos_inverse_of_x = 360 - cos_inverse_of_x
 
-        #print(point.getName(), centroid.getName(), reference.getName(), cos_inverse_of_x)
-        #print(point.getCoordinates(), centroid.getCoordinates(), reference.getCoordinates(), cos_inverse_of_x)
-        #print("ANGLE:", cos_inverse_of_x)
         return cos_inverse_of_x
     
-    def getAllAngles(self, reference:Point, centroid:Point, points:list[Point]):
-        '''
-        PURPOSE:
-            Gets the angles from of every point from the line of reference point - centroid
-        INPUT ARGS:
-            reference - point object - point on the edge of the bounding box we will use to generate rotation angles
-            centroid - point object - centre of the bounding box that we will rotate around
-            points - list of point objects - each point we want to measure the angle to relative to the line centroid-reference
-        METHOD:
-            Feed each list item into the getAngle function in turn & append to list of angles
-        OUTPUT:
-            angles - list of ints, the angle associated with each list item in points from the given reference point - centroid line.
-        '''
-        
+    def getAllAngles(self, canvas:Canvas, reference:str):
         angles = []
+        points = canvas.get_member_points()
 
-        for point in points: 
-            angles.append(self.getAngle(reference=reference, centroid=centroid, point=point))
+        for point in points.keys(): 
+            angles.append(self.getAngle(canvas=canvas, reference=reference, point=points[point]))
 
         return angles
     
     def getAnglesAllRefs(self, centroid:Point, references:list[Point], point:Point):
         angles = []
         for reference in references:
-            #print("REFERENCE_POINT", reference.getName())
             angles.append(self.getAngle(reference=reference, centroid=centroid, point=point))
 
         return angles
     
-    def getAnglesAllRefsAllPoints(self, centroid:Point, references:list[Point], points:list[Point]):
+    def getAnglesAllRefsAllPoints(self, centroid:Point, references:list[Point], points:dict):
         angles = []
 
-        #print("ANGLES ARE:")
         for point in points:
             pointAngles = self.getAnglesAllRefs(centroid=centroid, references=references, point=point)
             angles.extend(pointAngles)
             
-        
         return angles
     
     def rotatePoint(self, centroid:Point, point:Point, angle:int, alignToIntegerGrid:bool=False):
@@ -338,8 +364,8 @@ class Compass():
 
         angle_rad = math.radians(angle)
 
-        ox, oy = centroid.getCoordinates()
-        px, py = point.getCoordinates()
+        ox, oy = centroid.get_coordinates()
+        px, py = point.get_coordinates()
 
         qx = ox + math.cos(angle_rad) * (px - ox) - math.sin(angle_rad) * (py - oy)
         qy = oy + math.sin(angle_rad) * (px - ox) + math.cos(angle_rad) * (py - oy)
@@ -350,21 +376,9 @@ class Compass():
 
         return Point(point.getName(),qx, qy)
 
-    def rotateAllPoints(self, centroid:Point, points:list[Point], angle:int, alignToIntegerGrid:bool=False):
-        '''
-        PURPOSE:
-            apply a rotation to all points on a canvas
-        INPUT ARGS:
-            centroid - point object - the pivot point
-            points - list of point objects - the points on the 'canvas' to move around the pivot
-            angle - int - angle in degrees to rotate all the points arounf the pivot by
-            alignToIntegerGrid - boolean - tells the function whether or not to force alignment to discrete integer positions.
-        METHOD:
-            feed each point in turn to the rotatePoint method and save the whole canvasState to a list
-        OUTPUT:
-            rotatedPoints - list of point objects - the new state of the canvas after rotatations have been applied
-        '''
-        
+    def rotateAllPoints(self, centroid:Point, points:dict, angle:int, alignToIntegerGrid:bool=False):
+        #apply a rotation to all points on a canvas
+ 
         rotatedPoints = []
 
         for point in points:
@@ -373,7 +387,7 @@ class Compass():
 
         return(rotatedPoints.copy())
     
-    def multiRotatePoints(self, centroid:Point, points:list[Point], angles:list[int],rotateFromBlank:bool=True, aligntoIntegerGrid:bool=False):
+    def multiRotatePoints(self, centroid:Point, points:dict, angles:list[int],rotateFromBlank:bool=True, aligntoIntegerGrid:bool=False):
         '''
         PURPOSE:
             apply a whole canvas rotation multiple times, updating the canvas state each time
@@ -427,12 +441,12 @@ class Compass():
         return uniqueStates    
     
 
-    def generateRotations(self,points:list[Point], alignToIntegerGrid:bool=False):
+    def generateRotations(self,canvas:Canvas, alignToIntegerGrid:bool=False):
 
-        LL, TR, centroid = self.getCentroid(points)
-        referencePoints = self.getReferencePoints(boundingBox=[LL,TR], centroid=centroid)
-        angles = self.getAnglesAllRefsAllPoints(centroid=centroid, references=referencePoints, points=points)
-        states = self.multiRotatePoints(centroid=centroid, points=points, angles=angles, rotateFromBlank=True, aligntoIntegerGrid=alignToIntegerGrid)
+        centroid = self.getCentroid(canvas=canvas)
+        referencePoints = self.getReferencePoints(canvas)
+        angles = self.getAnglesAllRefsAllPoints(centroid=centroid, references=referencePoints, points=canvas.get_member_points())
+        states = self.multiRotatePoints(centroid=centroid, points=canvas.get_member_points(), angles=angles, rotateFromBlank=True, aligntoIntegerGrid=alignToIntegerGrid)
         uniqueStates = self.getUniqueStates(states=states)
 
         return uniqueStates
