@@ -436,17 +436,26 @@
 						  console.log("setregion done, selected...");
               console.log(regionChoice);
               reset(callback) // resets and then calls displayObjectDropdown
+              enableObjectSelect()
             }
           });
 				}
 
         function displayObjDropdown() {
+          console.log("displayObjectDropdown called...");
           getObjects(enableObjectSelect);
           createInvisibleSubmitButton();
           createInvisibleResetButton();
           createInvisibleSearchButtons();
           createInvisibleXButton();
 				}
+
+        function removeOptions(selectElement) {
+          var i, L = selectElement.options.length - 1;
+          for(i = L; i >= 0; i--) {
+            selectElement.remove(i);
+          }
+        }
 
         function getObjects(callback) {
           $.ajax({
@@ -462,7 +471,10 @@
 
         function enableObjectSelect() {
           // Update the object dropdown menu
+          console.log("enableObjectSelect called...");
           var objectDropdown = document.getElementById('objectChoice');
+          removeOptions(objectDropdown);
+
           for (var i = 0; i < objects.length; i++) {
             var object = document.createElement('option');
             object.value = objects[i];
