@@ -108,7 +108,7 @@ class Canvas():
         return isinstance(other, Canvas) and \
                self.get_points() == other.get_points() and \
                self.get_center() == other.get_center() and \
-               self.get_centroid(), other.get_centroid()
+               self.get_centroid() == other.get_centroid()
                # TODO: also check ref points and boudns
 
     def __iter__(self):
@@ -122,7 +122,7 @@ class Canvas():
         return tuple(self._center)
 
     def get_points(self):
-        return self._points
+        return [tuple(p) for p in self._points]
 
     def get_reference_points(self):
         return {'T':tuple(self._ref_T), 'L':tuple(self._ref_L), 'TL':tuple(self._ref_TL)}
@@ -131,7 +131,6 @@ class Canvas():
         C_x = np.mean([p.get_x() for p in self._points])
         C_y = np.mean([p.get_y() for p in self._points])
         self._centroid = Point("centroid", x=C_x, y=C_y)
-
 
     def update_reference_points(self):
         self._ref_T = Point("north", self._center.get_x(), self._TL.get_y())
