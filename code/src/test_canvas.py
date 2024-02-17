@@ -19,6 +19,11 @@ class TestCanvas:
     def test_center(self, setup_canvas):
         assert setup_canvas.get_center() == (5,5)
 
+    def test_reference_points(self, setup_canvas):
+        assert setup_canvas.get_reference_points()['T'] == (5,10)
+        assert setup_canvas.get_reference_points()['L'] == (0,5)
+        assert setup_canvas.get_reference_points()['TL'] == (0,10)
+
     def test_add_point(self, setup_canvas):
         pts_list = [{'name':'a','x':0,'y':0}, {'name':'b','x':0,'y':5}]
         new_pt = {'name':'c','x':4,'y':6}
@@ -33,7 +38,7 @@ class TestCanvas:
         assert setup_canvas == Canvas(name='testCanvas', center=(5,5), points=pts_list, BL=(0,0), BR=(10,0), TL=(0,10), TR=(10,10))
     
 
-    def test_rotate(Self, setup_canvas):
+    def test_rotate(self, setup_canvas):
         pass
 
 
