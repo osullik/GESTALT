@@ -85,7 +85,7 @@ class Canvas():
         self._TL = Point("TL", TL[0], TL[1])
         self._TR = Point("TR", TR[0], TR[1])
         self._BR = Point("BR", BR[0], BR[1])
-        self._center = Point("center", center[0], center[1])
+        self._center = Point("center", center[0], center[1])  # TODO error check center is actually center
 
         self._centroid = None
         self._ref_T = None
@@ -95,15 +95,25 @@ class Canvas():
         self.update_centroid()
         self.update_reference_points()
 
+    def __repr__(self)->str:
+        pts = ', '.join(f'{c!s}' for c in self._points)
+        return f'{self.__class__.__name__}({pts})'
+
+    def __eq__(self, other)->bool:
+        return isinstance(other, Canvas) and \
+               self._points == other.get_points() and \
+               self._center == other.get_center() and \
+               self._centroid, other.get_centroid()
+               # TODO: also check ref points and boudns
+
     def get_centroid(self):
         return self._centroid
 
     def get_center(self):
         return self._center
 
-    def __repr__(self)->str:
-        pts = ', '.join(f'{c!s}' for c in self._points)
-        return f'{self.__class__.__name__}({pts})'
+    def get_points(self):
+        return self._points
 
     def update_centroid(self):
         C_x = np.mean([p.get_x() for p in self._points])
@@ -116,5 +126,11 @@ class Canvas():
         self._ref_L = Point("west", self._TL.get_x(), self._center.get_y())
         self._ref_TL = Point("northwest", self._TL.get_x(), self._TL.get_y())
 
+    def add_point(self, name, x, y):
+        self._points += [Point(name, x, y, id=next(self._id_iter))]
+        self.update_centroid()
 
-
+    def remove_point(self, name, x, y):
+        # Keep only points that have diff coord or diff name from args
+        self._points = [p for p in self._points if (p != Point(name, x, y) or p.get_name() != name)]
+        self.update_centroid()
