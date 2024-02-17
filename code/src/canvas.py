@@ -4,9 +4,9 @@ import copy
 import numpy as np
 
 class Point():
-    def __init__(self, name:str, x_coord:int, y_coord:int, id:int=None):
-        self._x = x_coord
-        self._y = y_coord
+    def __init__(self, name:str, x:int, y:int, id:int=None):
+        self._x = x
+        self._y = y
         self._name = name
         self._id = id
 
@@ -65,4 +65,28 @@ class Point():
 
 
 
+
+class Canvas():
+    '''
+    The Canvas Object is the parent object to store the Points used by compass
+    and is the target of the COMPASS operations.
+    A single canvas represents a single location. 
+    A canvas can have many points, each with a unique ID.
+    No other attributes must be unique. 
+
+    points is a collection ocontaining dict entries like {name: "", x:_, y:_}
+    '''
+    def __init__(self, points, center, name:str=None):
+        self._name = name
+        self._id_iter = itertools.count()
+        self._points = [Point(**p, id=next(self._id_iter)) for p in points]
+        self._center = center
+        self._centroid = None
+        self._ref_U, self._ref_L, self.ref_UL = None
+        
+
+
+    def __repr__(self)->str:
+        pts = ', '.join(f'{c!s}' for c in self._points)
+        return f'{self.__class__.__name__}({pts})'
 
