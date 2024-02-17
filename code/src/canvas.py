@@ -146,6 +146,7 @@ class Canvas():
         self._points = [p for p in self._points if p != Point(name, x, y)]
         self.update_centroid()
 
-    
+    # Assume always rotating about centroid of current points
     def rotate(self, angle):
-        pass
+        for p in self._points:
+            p.rotate(self._centroid, angle)
