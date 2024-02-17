@@ -76,17 +76,45 @@ class Canvas():
 
     points is a collection ocontaining dict entries like {name: "", x:_, y:_}
     '''
-    def __init__(self, points, center, name:str=None):
+    def __init__(self, points, center, BL, TL, TR, BR, name:str=None):
         self._name = name
         self._id_iter = itertools.count()
-        self._points = [Point(**p, id=next(self._id_iter)) for p in points]
-        self._center = center
-        self._centroid = None
-        self._ref_U, self._ref_L, self.ref_UL = None
-        
 
+        self._points = [Point(**p, id=next(self._id_iter)) for p in points]
+        self._BL = Point("BL", BL[0], BL[1])
+        self._TL = Point("TL", TL[0], TL[1])
+        self._TR = Point("TR", TR[0], TR[1])
+        self._BR = Point("BR", BR[0], BR[1])
+        self._center = Point("center", center[0], center[1])
+
+        self._centroid = None
+        self._ref_T = None
+        self._ref_L = None
+        self._ref_TL = None
+        
+        self.update_centroid()
+        self.update_reference_points()
+
+    def get_centroid(self):
+        return self._centroid
+
+    def get_center(self):
+        return self._center
 
     def __repr__(self)->str:
         pts = ', '.join(f'{c!s}' for c in self._points)
         return f'{self.__class__.__name__}({pts})'
+
+    def update_centroid(self):
+        C_x = np.mean([p.get_x() for p in self._points])
+        C_y = np.mean([p.get_y() for p in self._points])
+        self._centroid = Point("centroid", x=C_x, y=C_y)
+
+
+    def update_reference_points(self):
+        self._ref_T = Point("north", self._center.get_x(), self._TL.get_y())
+        self._ref_L = Point("west", self._TL.get_x(), self._center.get_y())
+        self._ref_TL = Point("northwest", self._TL.get_x(), self._TL.get_y())
+
+
 
