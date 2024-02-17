@@ -14,7 +14,8 @@ class Point():
         return self._name + "(" + str(self._x) + "," + str(self._y) + ")"
     
     def __eq__(self, other)->bool:
-        return isinstance(other, Point) and self._x == other.get_x() and self._y == other.get_y()
+        return isinstance(other, Point) and self._name == other.get_name() and \
+               self._x == other.get_x() and self._y == other.get_y()
 
     def get_x(self) ->int:
         return self._x
@@ -132,5 +133,9 @@ class Canvas():
 
     def remove_point(self, name, x, y):
         # Keep only points that have diff coord or diff name from args
-        self._points = [p for p in self._points if (p != Point(name, x, y) or p.get_name() != name)]
+        self._points = [p for p in self._points if p != Point(name, x, y)]
         self.update_centroid()
+
+    
+    def rotate(self, angle):
+        pass

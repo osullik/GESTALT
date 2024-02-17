@@ -29,23 +29,23 @@ class TestPoint:
         assert setup_0_0.get_x() == coords[0] and setup_0_0.get_y() == coords[1]
 
     def test_equals(self, setup_0_0):
-        assert setup_0_0 == Point(name="anotherTestPoint", x=0, y=0, id=13)
+        assert setup_0_0 == Point(name="testPoint", x=0, y=0, id=13)
 
     def test_rotate1(self, setup_0_0):
         setup_0_0.rotate(origin=Point('C', x=5, y=5), angle=225)
-        answer = Point("testPointPrime", x=5, y=5+5*math.sqrt(2))
+        answer = Point("testPoint", x=5, y=5+5*math.sqrt(2))
         assert pytest.approx(setup_0_0.get_x(), 0.0001) == answer.get_x()
         assert pytest.approx(setup_0_0.get_y(), 0.0001) == answer.get_y()
 
     def test_rotate2(self, setup_5_10):
         setup_5_10.rotate(origin=Point('C', x=5, y=5), angle=180)
-        answer = Point("testPointPrime", 5, 0)
+        answer = Point("testPoint", 5, 0)
         assert pytest.approx(setup_5_10.get_x(), 0.0001) == answer.get_x()
         assert pytest.approx(setup_5_10.get_y(), 0.0001) == answer.get_y()
 
     def test_translate(self, setup_0_0):
         setup_0_0.translate(20, -15)
-        assert setup_0_0 == Point("shiftedPoint", 20, -15)
+        assert setup_0_0 == Point("testPoint", 20, -15)
 
     def test_angle1(self, setup_5_0):
     #     #
