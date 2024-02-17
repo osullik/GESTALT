@@ -17,6 +17,10 @@ class Point():
         return isinstance(other, Point) and self._name == other.get_name() and \
                self._x == other.get_x() and self._y == other.get_y()
 
+    def __iter__(self):
+        yield self._x 
+        yield self._y
+
     def get_x(self) ->int:
         return self._x
 
@@ -102,16 +106,18 @@ class Canvas():
 
     def __eq__(self, other)->bool:
         return isinstance(other, Canvas) and \
-               self._points == other.get_points() and \
-               self._center == other.get_center() and \
-               self._centroid, other.get_centroid()
+               self.get_points() == other.get_points() and \
+               self.get_center() == other.get_center() and \
+               self.get_centroid(), other.get_centroid()
                # TODO: also check ref points and boudns
 
+        
+
     def get_centroid(self):
-        return self._centroid
+        return tuple(self._centroid)
 
     def get_center(self):
-        return self._center
+        return tuple(self._center)
 
     def get_points(self):
         return self._points

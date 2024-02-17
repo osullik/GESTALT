@@ -14,10 +14,10 @@ class TestCanvas:
         del test_canvas
 
     def test_centroid(self, setup_canvas):
-        assert setup_canvas.get_centroid() == Point("centroid", x=0, y=2.5)
+        assert setup_canvas.get_centroid() == (0,2.5)
 
     def test_center(self, setup_canvas):
-        assert setup_canvas.get_center() == Point("center", x=5, y=5)
+        assert setup_canvas.get_center() == (5,5)
 
     def test_add_point(self, setup_canvas):
         pts_list = [{'name':'a','x':0,'y':0}, {'name':'b','x':0,'y':5}]
