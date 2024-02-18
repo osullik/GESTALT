@@ -4,14 +4,57 @@ import pandas as pd
 from canvas import Canvas
 
 class ConceptMap():
-    def __init__(self, obj_loc_df, cm_type:str="location"):  # TODO: Push the initial steps out a class and have this take points
+    def __init__(self, longitudeOrder, latitudeOrder, location_df, location, query=False):
+        # Create a grid full of zeros of the dimension numObjects x numObjects
+        self.matrix = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
+
+        # Using the lat and long lists, work out what index of the matrix the object belong at & add it
+        for i in range(0,len(longitudeOrder)):
+            j = latitudeOrder.index(longitudeOrder[i])
+            self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
+
+        if query:
+            self.compute_search_order()
+
+    def compute_Search_order(self, longitudeOrder, latitudeOrder, location_df):
+        self.labelledLongOrder = []
+        self.labelledLatOrder = []
+
+        # Add to the dict that will store it all 
+        for i in range(0, len(longitudeOrder)):
+            self.labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
+        for i in range(0, len(latitudeOrder)):
+            self.labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
+
+        # # Old code will be expecting the following format out of create_CM if it's a query, with the NS and WE orderings
+        #     toReturn[location] = (self.matrix, (self.labelledLongOrder, self.labelledLatOrder))
+
+
+    def prune(self, direction):
+        pass
+
+
+
+
+class COMPASS_OO_Search():
+    '''
+    The COMPASS_OO_Search is a matrix based method for resolving directional 
+    spatial patttern matching queriy Canvases against a database of objects.
+    '''
+    def __init__(self):
+        # Make db canvas
+        # Make db CM
+        pass
+
+    def make_db_CM(self, obj_loc_df):
         loc_names = obj_loc_df['predicted_location'].unique()
         location_dict = dict()
         for loc in loc_names:
             location_dict[loc] = obj_loc_df[obj_loc_df['predicted_location'] == loc].copy()
 
         locations = list(location_dict.keys())
-        toReturn = {}                   
+                          
+        self.db_CM_dict = {}
 
         for location in locations:
             location_df = location_dict[location]
@@ -35,48 +78,7 @@ class ConceptMap():
             for idx, row in location_df.iterrows():   
                 latitudeOrder.append(idx)
 
-            # Create a grid full of zeros of the dimension numObjects x numObjects
-            gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
-
-            # Using the lat and long lists, work out what index of the matrix the object belong at & add it
-            for i in range(0,len(longitudeOrder)):
-                j = latitudeOrder.index(longitudeOrder[i])
-                gridToReturn[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
-
-            labelledLongOrder = []
-            labelledLatOrder = []
-
-            # Add to the dict that will store it all 
-            for i in range(0, len(longitudeOrder)):
-                labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
-            for i in range(0, len(latitudeOrder)):
-                labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
-
-            # Return the appropriate shape based on input. If it's a query, we need the NS and WE orderings
-            # To execute the recursive grid search. 
-            if cm_type == "query":
-                toReturn[location] = (gridToReturn, (labelledLongOrder, labelledLatOrder))
-            else:
-                toReturn[location] = gridToReturn
-
-        self.matrix_dict = toReturn
-
-
-    def prune(self, direction):
-        pass
-
-
-
-
-class COMPASS_OO_Search():
-    '''
-    The COMPASS_OO_Search is a matrix based method for resolving directional 
-    spatial patttern matching queriy Canvases against a database of objects.
-    '''
-    def __init__(self, database_points):
-        # Make db canvas
-        # Make db CM
-        pass
+            self.db_CM_dict[location] = ConceptMap(longitudeOrder, latitudeOrder, location_df, location)
 
     def get_search_order(self, longSortedList:list, latSortedList:list)->list:
         '''
@@ -116,6 +118,7 @@ class COMPASS_OO_Search():
                 pass  # Handle case of trying to pop empty list
  
         return(traversed)
+
 
     def search(self, query_points):
         # Make query Canvas

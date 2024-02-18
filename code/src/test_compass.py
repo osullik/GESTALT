@@ -13,10 +13,10 @@ class TestConceptMap:
     def setup_CM(self):
         data_path = os.path.join('..','..','data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
         obj_loc_df = pd.read_csv(data_path, usecols=['name','longitude','latitude','predicted_location'])
-        CM = ConceptMap(obj_loc_df)
-        print(CM.matrix_dict['Faber Vineyard'])
-        yield CM
-        del CM
+        Searcher = COMPASS_OO_Search()
+        Searcher.make_db_CM(obj_loc_df)
+        yield Searcher.db_CM_dict['Faber Vineyard']
+        del Searcher.db_CM_dict['Faber Vineyard']
 
     def test_init(self, setup_CM):
         CM_path = os.path.join('..','..','data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
@@ -24,14 +24,14 @@ class TestConceptMap:
             conceptMaps = pickle.load(inFile)
             old_faber_CM = conceptMaps['Faber Vineyard']
 
-        assert (setup_CM.matrix_dict['Faber Vineyard'] == old_faber_CM).all()
+        assert (setup_CM.matrix == old_faber_CM).all()
 
     
 
 class TestCOMPASS_OO_Search:
     @pytest.fixture
     def setup_COMPASS_OO_Search(self):
-        test_searcher = COMPASS_OO_Search(None)  # TODO: make this an actual data value
+        test_searcher = COMPASS_OO_Search()  # TODO: make this an actual data value
         yield test_searcher
         del test_searcher
 
