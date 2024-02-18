@@ -33,18 +33,10 @@ class TestCOMPASS_OO_Search:
         yield test_searcher
         del test_searcher
 
-    def test_search_order1(self, setup_COMPASS_OO_Search):
-        latlist, longlist = ["A"], ["A"]
-        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == ["A"]
+    @pytest.mark.parametrize("latlist, longlist, expected", [(["A"],["A"],["A"]),(["A","B"],["A","B"],["A","B"])])
+    def test_search_order_simple(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
+        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
 
-    def test_search_order2(self, setup_COMPASS_OO_Search):
-        latlist, longlist = ["A","B"], ["A","B"]
-        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == ["A","B"]
-
-    def test_search_order3(self, setup_COMPASS_OO_Search):
-        latlist, longlist = ["A","B"], ["B","A"]
-        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == ["A","B"]
-
-    def test_search_order4(self, setup_COMPASS_OO_Search):
-        latlist, longlist = ["A","B","C"], ["C","B","A"]
-        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == ["A","C","B"]
+    @pytest.mark.parametrize("latlist, longlist, expected", [(["A","B"],["B","A"],["A","B"]),(["A","B","C"],["C","B","A"],["A","C","B"])])
+    def test_search_order_somplex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
+        assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
