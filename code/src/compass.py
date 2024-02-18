@@ -1,11 +1,66 @@
 import numpy as np
+import pandas as pd
 
 from canvas import Canvas
 
 class ConceptMap():
-    def __init__(self, points):
-        # Create point grid
-        pass
+    def __init__(self, obj_loc_df, cm_type:str="location"):  # TODO: Push the initial steps out a class and have this take points
+        loc_names = obj_loc_df['predicted_location'].unique()
+        location_dict = dict()
+        for loc in loc_names:
+            location_dict[loc] = obj_loc_df[obj_loc_df['predicted_location'] == loc].copy()
+
+        locations = list(location_dict.keys())
+        toReturn = {}                   
+
+        for location in locations:
+            location_df = location_dict[location]
+
+            # Adding 180 is a workaround for crossing hemispheres so we're not dealing with negatives. 
+            location_df['longitude'] = (location_df['longitude'].astype(float))+180
+            location_df['latitude'] = (location_df['latitude'].astype(float))+180
+
+            location_df.sort_values(by=['longitude'], inplace=True)  # Values higher than 0 are further east
+
+            # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
+            # TODO: Remove the triple copying of the dataframes for longitude and latitude below, is unnessecary
+            # Case longitude all pos (East Hemisphere)
+            longitudeOrder = []
+            for idx, row in location_df.iterrows():
+                longitudeOrder.append(idx)
+
+            # Case latitide all neg (Southern Hemisphere)
+            location_df.sort_values(by=['latitude'], ascending=False, inplace=True)  # The closer to 0, the further North negative latitude is
+            latitudeOrder = []
+            for idx, row in location_df.iterrows():   
+                latitudeOrder.append(idx)
+
+            # Create a grid full of zeros of the dimension numObjects x numObjects
+            gridToReturn = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
+
+            # Using the lat and long lists, work out what index of the matrix the object belong at & add it
+            for i in range(0,len(longitudeOrder)):
+                j = latitudeOrder.index(longitudeOrder[i])
+                gridToReturn[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
+
+            labelledLongOrder = []
+            labelledLatOrder = []
+
+            # Add to the dict that will store it all 
+            for i in range(0, len(longitudeOrder)):
+                labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
+            for i in range(0, len(latitudeOrder)):
+                labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
+
+            # Return the appropriate shape based on input. If it's a query, we need the NS and WE orderings
+            # To execute the recursive grid search. 
+            if cm_type == "query":
+                toReturn[location] = (gridToReturn, (labelledLongOrder, labelledLatOrder))
+            else:
+                toReturn[location] = gridToReturn
+
+        self.matrix_dict = toReturn
+
 
     def prune(self, direction):
         pass

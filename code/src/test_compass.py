@@ -3,6 +3,7 @@ import sys
 import os
 import pickle
 import numpy as np
+import pandas as pd
 
 from compass import ConceptMap
 from compass import COMPASS_OO_Search
@@ -11,9 +12,9 @@ class TestConceptMap:
     @pytest.fixture
     def setup_CM(self):
         data_path = os.path.join('..','..','data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
-        with open(data_path, "r") as inFile:
-            print(inFile.readline())
-            CM = ConceptMap(None)  # Needs to get a subset of the input data to make a CM
+        obj_loc_df = pd.read_csv(data_path, usecols=['name','longitude','latitude','predicted_location'])
+        CM = ConceptMap(obj_loc_df)
+        print(CM.matrix_dict['Faber Vineyard'])
         yield CM
         del CM
 
@@ -22,7 +23,8 @@ class TestConceptMap:
         with open(CM_path, "rb") as inFile:
             conceptMaps = pickle.load(inFile)
             old_faber_CM = conceptMaps['Faber Vineyard']
-        # assert setup_CM == old_faber_CM
+
+        assert (setup_CM.matrix_dict['Faber Vineyard'] == old_faber_CM).all()
 
     
 
@@ -33,10 +35,10 @@ class TestCOMPASS_OO_Search:
         yield test_searcher
         del test_searcher
 
-    @pytest.mark.parametrize("latlist, longlist, expected", [(["A"],["A"],["A"]),(["A","B"],["A","B"],["A","B"])])
+    @pytest.mark.parametrize("latlist, longlist, expected", [(["A"],["A"],["A"]), (["A","B"],["A","B"],["A","B"])])
     def test_search_order_simple(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
 
-    @pytest.mark.parametrize("latlist, longlist, expected", [(["A","B"],["B","A"],["A","B"]),(["A","B","C"],["C","B","A"],["A","C","B"])])
+    @pytest.mark.parametrize("latlist, longlist, expected", [(["A","B"],["B","A"],["A","B"]), (["A","B","C"],["C","B","A"],["A","C","B"])])
     def test_search_order_somplex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
