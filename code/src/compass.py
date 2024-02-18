@@ -38,19 +38,13 @@ class ConceptMap():
             True - if there is a match to the query object configuration
             False - if there is no match,. 
         '''
-
         assert direction in ["northToSouth", "westToEast"], f'invalid search direction: {direction}'
 
         if len(toFind) == 1:   # Base Case; exhaustive search of pruned matrix. 
-            for northToSouth in matrix:
-                 for westToEast in northToSouth:
-                     if str(westToEast) == str(toFind[0]):
-                         return True
-            return False
+            return str(toFind[0]) in matrix
         else:
             found = False
-            
-            # Case that we're walking north to south through the matrix
+
             if direction == "northToSouth":  # Prune everything north of the north most query term. 
                 for i in range(0, len(matrix)):  # Walk north to south through the matrix to figure out where to prune from. 
                     for j in range(0,len(matrix[i])):
@@ -59,28 +53,21 @@ class ConceptMap():
                                 found = True
                                 northMostIndex = i
                                 break
-                            else:
-                                pass
                         except IndexError:
                             return False
-                    if found==True:
+                    if found:
                         break
 
-                if found ==False:
+                if not found:
                     return False
+
                 newMatrix = matrix[northMostIndex:,:].copy()  # make a copy of the matrix to recurse on
                 del matrix  # Get rid of old one to preserve memory
                 gc.collect()                
                 toFind.pop(0)  # update the list of search terms               
 
-                recurse_found= self.search_matrix(newMatrix, toFind, "westToEast")
-                if recurse_found == False:
-                    return False
-                else:
-                    return True
-
-            # Case where we're walking west to East through the Matrix
-            else:       
+                return self.search_matrix(newMatrix, toFind, "westToEast")
+            else:  # direction = "westToEast"     
                 found = False
                 for i in range(0,len(matrix)):  # Walk west to East through matrix to prune everything west of the west most query term
                     for j in range(0, len(matrix)):
@@ -91,20 +78,19 @@ class ConceptMap():
                                 break
                         except IndexError:
                             return False
-                    if found==True:
+                    if found:
                         break
 
-                if found == False:
+                if not found:
                     return False
+                    
                 newMatrix = matrix[:,westMostIndex:].copy()  # Make a pruned copy to recurse on
                 del matrix  # Get rid of old one to preserve memory
                 gc.collect()
-                toFind.pop(0)  # Update the search list                
-                recurse_found = self.search_matrix(newMatrix, toFind, "northToSouth")
-                if recurse_found == False:
-                    return False
-                else:
-                    return True
+                toFind.pop(0)  # Update the search list   
+
+                return self.search_matrix(newMatrix, toFind, "northToSouth")
+
 
 
 
@@ -160,7 +146,7 @@ class COMPASS_OO_Search():
         matching_locs = []
 
         for loc in self.db_CM_dict:            
-            if self.db_CM_dict[loc].search(searchlist):
+            if self.db_CM_dict[loc].search(searchlist):  # Call CM search
                 #print(loc, ": ", self.db_CM_dict[loc].matrix)
                 matching_locs.append(loc)
 
