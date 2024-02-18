@@ -5,6 +5,7 @@ import pickle
 import numpy as np
 import pandas as pd
 
+from canvas import Canvas
 from compass import ConceptMap
 from compass import COMPASS_OO_Search
 
@@ -44,6 +45,11 @@ class TestCOMPASS_OO_Search:
     def test_search_order_complex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
 
-    def test_search(self, setup_COMPASS_OO_Search):
-        assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search(['building','retaining_wall'])
+    def test_search_CM(self, setup_COMPASS_OO_Search):
+        assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search_CM(['building','retaining_wall'])
         # TODO: verify results are correct
+
+    def test_search(self, setup_COMPASS_OO_Search):
+        query_canvas = Canvas([{'name':'building','x':1,'y':1}], (5,5), (0,0), (0,10), (10,10), (10,0),)
+        assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search(query_canvas)
+        # TODO: verify results are correct and need more complex queries

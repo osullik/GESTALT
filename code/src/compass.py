@@ -147,10 +147,7 @@ class COMPASS_OO_Search():
             location_df.sort_values(by=['longitude'], inplace=True)  # Values higher than 0 are further east
 
             # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
-            # TODO: Remove the triple copying of the dataframes for longitude and latitude below, is unnessecary
             # Case longitude all pos (East Hemisphere)
-            
-
             for idx, row in location_df.iterrows():
                 self.long_sorted_objs_by_loc[location].append(idx)
 
@@ -201,24 +198,22 @@ class COMPASS_OO_Search():
  
         return(traversed)
 
+    def search(self, query_canvas):
+        # Call get search order
+        search_order = self.get_search_order(query_canvas.get_point_names_x_sorted(), query_canvas.get_point_names_y_sorted())
+        return self.search_CM(search_order)
 
-    def search(self, searchlist):
-        # Make query Canvas
-        # Make query CM
-        # query CM .get_search_order
-        # Call RGS with search order list
-
-        locs = []
+    def search_CM(self, searchlist):
+        mathing_locs = []
 
         for loc in self.db_CM_dict:            
             if self.db_CM_dict[loc].search(searchlist):
-                #print(loc, ": ", self.db_CM_dict[loc].matrix)
-                locs.append(loc)
+                print(loc, ": ", self.db_CM_dict[loc].matrix)
+                mathing_locs.append(loc)
 
-        return locs
+        return mathing_locs
 
         
-
     def search_cardinally_invariant(self, query_points):
         # Make query Canvas [q]
         # Get all angles from query Canvas
@@ -227,8 +222,6 @@ class COMPASS_OO_Search():
         # Call RGS on each CM
         pass
 
-    def recursive_grid_search(self, query_CM, prune_dir):
-        pass
 
 
     
