@@ -14,16 +14,16 @@ class ConceptMap():
             self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
 
         if query:
-            self.compute_search_order()
+            self.compute_search_order(longitudeOrder, latitudeOrder, location_df)
 
-    def compute_Search_order(self, longitudeOrder, latitudeOrder, location_df):
+    def compute_search_order(self, longitudeOrder, latitudeOrder, location_df):
         self.labelledLongOrder = []
         self.labelledLatOrder = []
 
-        # Add to the dict that will store it all 
+        assert len(longitudeOrder) == len(latitudeOrder), 'Lat and Long lists differ in length'
+
         for i in range(0, len(longitudeOrder)):
             self.labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
-        for i in range(0, len(latitudeOrder)):
             self.labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
 
         # # Old code will be expecting the following format out of create_CM if it's a query, with the NS and WE orderings
@@ -78,7 +78,8 @@ class COMPASS_OO_Search():
             for idx, row in location_df.iterrows():   
                 latitudeOrder.append(idx)
 
-            self.db_CM_dict[location] = ConceptMap(longitudeOrder, latitudeOrder, location_df, location)
+            self.db_CM_dict[location] = ConceptMap(longitudeOrder, latitudeOrder, location_df, location, query=True)
+
 
     def get_search_order(self, longSortedList:list, latSortedList:list)->list:
         '''
