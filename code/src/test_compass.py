@@ -1,12 +1,30 @@
 import pytest
+import sys
+import os
+import pickle
 import numpy as np
 
+from compass import ConceptMap
 from compass import COMPASS_OO_Search
 
 class TestConceptMap:
     @pytest.fixture
     def setup_CM(self):
-        pass
+        data_path = os.path.join('..','..','data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+        with open(data_path, "r") as inFile:
+            print(inFile.readline())
+            CM = ConceptMap(None)  # Needs to get a subset of the input data to make a CM
+        yield CM
+        del CM
+
+    def test_init(self, setup_CM):
+        CM_path = os.path.join('..','..','data', 'SV', 'output', 'concept_mapping', 'ConceptMaps_DBSCAN_PredictedLocations_FT=0.0.pkl')
+        with open(CM_path, "rb") as inFile:
+            conceptMaps = pickle.load(inFile)
+            old_faber_CM = conceptMaps['Faber Vineyard']
+        # assert setup_CM == old_faber_CM
+
+    
 
 class TestCOMPASS_OO_Search:
     @pytest.fixture
