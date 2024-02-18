@@ -1,10 +1,12 @@
 import numpy as np
 import pandas as pd
+from collections import defaultdict 
+import gc
 
 from canvas import Canvas
 
 class ConceptMap():
-    def __init__(self, longitudeOrder, latitudeOrder, location_df, location, query=False):
+    def __init__(self, longitudeOrder, latitudeOrder, location_df, query=True):
         # Create a grid full of zeros of the dimension numObjects x numObjects
         self.matrix = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
 
@@ -14,9 +16,9 @@ class ConceptMap():
             self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
 
         if query:
-            self.compute_search_order(longitudeOrder, latitudeOrder, location_df)
+            self.save_search_order(longitudeOrder, latitudeOrder, location_df)
 
-    def compute_search_order(self, longitudeOrder, latitudeOrder, location_df):
+    def save_search_order(self, longitudeOrder, latitudeOrder, location_df):
         self.labelledLongOrder = []
         self.labelledLatOrder = []
 
@@ -26,12 +28,103 @@ class ConceptMap():
             self.labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
             self.labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
 
-        # # Old code will be expecting the following format out of create_CM if it's a query, with the NS and WE orderings
+        # # Old code will be expecting the following format out of create_CM if it's a query, with the NS and WE orderings as tuple
         #     toReturn[location] = (self.matrix, (self.labelledLongOrder, self.labelledLatOrder))
 
 
     def prune(self, direction):
         pass
+
+    def search(self, toFind:list):
+        return self.search_matrix(self.matrix.copy(), toFind)
+
+    def search_matrix(self, matrix, toFind:list, direction:str="northToSouth"):
+        '''
+        searches a location for the relative relationships between its objects; an approximation to return ANY matching cofiguration of objects matching the search query
+        INPUT ARGS:
+            matrix  - a numpy matrix / array of arrays of form [[EW List],[EW List]]. i.e. Outer array is the grid from N to S, inner lists are the objects W to E in each row. Defines the Object locations. 
+            toFind - list of strings - a list of the objects ordered by "Most north, most west, most north, most west etc...
+            direction - string with premissible values "northToSouth" and "westToEast" - defines the orientation of the pruning (northSouth means it prunes Rows, eastWest means it prunes Columns)
+        PROCESS:
+            Recursively prunes the searchSpace of the matrix to determine if a matching collection of objects exists:
+            BASE CASE: 
+                SUCCESS: when there is one object remaining in the search list, and it is in the pruned matrix
+                FAIL: when there is one object remaining in the search list and it is NOT in the pruned matrix
+            ELSE: 
+                Prune all rows >= (north of) the most northern term in our search set & remove it from the list of terms to find
+                Recurse on the matrix and prune all rows <= (west of) the western most term in our search set and remove it from list of terms to find. 
+                Recurse
+        OUTPUTS:
+            True - if there is a match to the query object configuration
+            False - if there is no match,. 
+        '''
+
+        assert direction in ["northToSouth", "westToEast"], f'invalid search direction: {direction}'
+
+        if len(toFind) == 1:   # Base Case; exhaustive search of pruned matrix. 
+            for northToSouth in matrix:
+                 for westToEast in northToSouth:
+                     if str(westToEast) == str(toFind[0]):
+                         return True
+            return False
+        else:
+            found = False
+            
+            # Case that we're walking north to south through the matrix
+            if direction == "northToSouth":  # Prune everything north of the north most query term. 
+                for i in range(0, len(matrix)):  # Walk north to south through the matrix to figure out where to prune from. 
+                    for j in range(0,len(matrix[i])):
+                        try:
+                            if str(matrix[i][j]) == str(toFind[0]):
+                                found = True
+                                northMostIndex = i
+                                break
+                            else:
+                                pass
+                        except IndexError:
+                            return False
+                    if found==True:
+                        break
+
+                if found ==False:
+                    return False
+                newMatrix = matrix[northMostIndex:,:].copy()  # make a copy of the matrix to recurse on
+                del matrix  # Get rid of old one to preserve memory
+                gc.collect()                
+                toFind.pop(0)  # update the list of search terms               
+
+                recurse_found= self.search_matrix(newMatrix, toFind, "westToEast")
+                if recurse_found == False:
+                    return False
+                else:
+                    return True
+
+            # Case where we're walking west to East through the Matrix
+            else:       
+                found = False
+                for i in range(0,len(matrix)):  # Walk west to East through matrix to prune everything west of the west most query term
+                    for j in range(0, len(matrix)):
+                        try:
+                            if str(matrix[j][i]) == str(toFind[0]):
+                                westMostIndex = i
+                                found=True
+                                break
+                        except IndexError:
+                            return False
+                    if found==True:
+                        break
+
+                if found == False:
+                    return False
+                newMatrix = matrix[:,westMostIndex:].copy()  # Make a pruned copy to recurse on
+                del matrix  # Get rid of old one to preserve memory
+                gc.collect()
+                toFind.pop(0)  # Update the search list                
+                recurse_found = self.search_matrix(newMatrix, toFind, "northToSouth")
+                if recurse_found == False:
+                    return False
+                else:
+                    return True
 
 
 
@@ -41,10 +134,16 @@ class COMPASS_OO_Search():
     The COMPASS_OO_Search is a matrix based method for resolving directional 
     spatial patttern matching queriy Canvases against a database of objects.
     '''
-    def __init__(self):
+    def __init__(self, obj_loc_df):
         # Make db canvas
+        
+
         # Make db CM
-        pass
+        self.make_db_CM(obj_loc_df)
+
+        # Make sorted orders
+        
+
 
     def make_db_CM(self, obj_loc_df):
         loc_names = obj_loc_df['predicted_location'].unique()
@@ -55,6 +154,8 @@ class COMPASS_OO_Search():
         locations = list(location_dict.keys())
                           
         self.db_CM_dict = {}
+        self.long_sorted_objs_by_loc = defaultdict(list)
+        self.lat_sorted_objs_by_loc = defaultdict(list)
 
         for location in locations:
             location_df = location_dict[location]
@@ -68,20 +169,20 @@ class COMPASS_OO_Search():
             # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
             # TODO: Remove the triple copying of the dataframes for longitude and latitude below, is unnessecary
             # Case longitude all pos (East Hemisphere)
-            longitudeOrder = []
+            
+
             for idx, row in location_df.iterrows():
-                longitudeOrder.append(idx)
+                self.long_sorted_objs_by_loc[location].append(idx)
 
             # Case latitide all neg (Southern Hemisphere)
             location_df.sort_values(by=['latitude'], ascending=False, inplace=True)  # The closer to 0, the further North negative latitude is
-            latitudeOrder = []
             for idx, row in location_df.iterrows():   
-                latitudeOrder.append(idx)
+                self.lat_sorted_objs_by_loc[location].append(idx)
 
-            self.db_CM_dict[location] = ConceptMap(longitudeOrder, latitudeOrder, location_df, location, query=True)
+            self.db_CM_dict[location] = ConceptMap(self.long_sorted_objs_by_loc[location], self.lat_sorted_objs_by_loc[location], location_df, query=True)
 
 
-    def get_search_order(self, longSortedList:list, latSortedList:list)->list:
+    def get_search_order(self, longSortedList, latSortedList)->list:
         '''
         PURPOSE:
             getSearchOrder gets the order to search for the query terms in the location grid
@@ -121,12 +222,22 @@ class COMPASS_OO_Search():
         return(traversed)
 
 
-    def search(self, query_points):
+    def search(self, searchlist):
         # Make query Canvas
         # Make query CM
-        # Get search order
-        # Call RGS
-        pass
+        # query CM .get_search_order
+        # Call RGS with search order list
+
+        locs = []
+
+        for loc in self.db_CM_dict:            
+            if self.db_CM_dict[loc].search(searchlist):
+                #print(loc, ": ", self.db_CM_dict[loc].matrix)
+                locs.append(loc)
+
+        return locs
+
+        
 
     def search_cardinally_invariant(self, query_points):
         # Make query Canvas [q]
@@ -138,4 +249,7 @@ class COMPASS_OO_Search():
 
     def recursive_grid_search(self, query_CM, prune_dir):
         pass
+
+
+    
 

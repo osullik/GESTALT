@@ -13,9 +13,8 @@ class TestConceptMap:
     def setup_CM(self):
         data_path = os.path.join('..','..','data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
         obj_loc_df = pd.read_csv(data_path, usecols=['name','longitude','latitude','predicted_location'])
-        Searcher = COMPASS_OO_Search()
-        Searcher.make_db_CM(obj_loc_df)
-        yield Searcher.db_CM_dict['Faber Vineyard']
+        Searcher = COMPASS_OO_Search(obj_loc_df)
+        yield Searcher.db_CM_dict['Faber Vineyard']  # This is one CM
         del Searcher.db_CM_dict['Faber Vineyard']
 
     def test_init(self, setup_CM):
@@ -31,7 +30,9 @@ class TestConceptMap:
 class TestCOMPASS_OO_Search:
     @pytest.fixture
     def setup_COMPASS_OO_Search(self):
-        test_searcher = COMPASS_OO_Search()  # TODO: make this an actual data value
+        data_path = os.path.join('..','..','data', 'SV', 'output', 'ownershipAssignment', 'DBSCAN_PredictedLocations_FT=0.0.csv')
+        obj_loc_df = pd.read_csv(data_path, usecols=['name','longitude','latitude','predicted_location'])
+        test_searcher = COMPASS_OO_Search(obj_loc_df)
         yield test_searcher
         del test_searcher
 
@@ -42,3 +43,8 @@ class TestCOMPASS_OO_Search:
     @pytest.mark.parametrize("latlist, longlist, expected", [(["A","B"],["B","A"],["A","B"]), (["A","B","C"],["C","B","A"],["A","C","B"])])
     def test_search_order_somplex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
+
+    def test_search(self, setup_COMPASS_OO_Search):
+        setup_COMPASS_OO_Search.search(['building','retaining_wall'])
+
+        # TODO: verify results are correct
