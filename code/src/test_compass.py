@@ -41,10 +41,9 @@ class TestCOMPASS_OO_Search:
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
 
     @pytest.mark.parametrize("latlist, longlist, expected", [(["A","B"],["B","A"],["A","B"]), (["A","B","C"],["C","B","A"],["A","C","B"])])
-    def test_search_order_somplex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
+    def test_search_order_complex(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
 
     def test_search(self, setup_COMPASS_OO_Search):
-        setup_COMPASS_OO_Search.search(['building','retaining_wall'])
-
+        assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search(['building','retaining_wall'])
         # TODO: verify results are correct

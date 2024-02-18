@@ -6,7 +6,7 @@ import gc
 from canvas import Canvas
 
 class ConceptMap():
-    def __init__(self, longitudeOrder, latitudeOrder, location_df, query=True):
+    def __init__(self, longitudeOrder, latitudeOrder, location_df):
         # Create a grid full of zeros of the dimension numObjects x numObjects
         self.matrix = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
 
@@ -14,22 +14,6 @@ class ConceptMap():
         for i in range(0,len(longitudeOrder)):
             j = latitudeOrder.index(longitudeOrder[i])
             self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
-
-        if query:
-            self.save_search_order(longitudeOrder, latitudeOrder, location_df)
-
-    def save_search_order(self, longitudeOrder, latitudeOrder, location_df):
-        self.labelledLongOrder = []
-        self.labelledLatOrder = []
-
-        assert len(longitudeOrder) == len(latitudeOrder), 'Lat and Long lists differ in length'
-
-        for i in range(0, len(longitudeOrder)):
-            self.labelledLongOrder.append(location_df.loc[int(longitudeOrder[i])]['name'])
-            self.labelledLatOrder.append(location_df.loc[int(latitudeOrder[i])]['name'])
-
-        # # Old code will be expecting the following format out of create_CM if it's a query, with the NS and WE orderings as tuple
-        #     toReturn[location] = (self.matrix, (self.labelledLongOrder, self.labelledLatOrder))
 
 
     def prune(self, direction):
@@ -137,12 +121,8 @@ class COMPASS_OO_Search():
     def __init__(self, obj_loc_df):
         # Make db canvas
         
-
         # Make db CM
         self.make_db_CM(obj_loc_df)
-
-        # Make sorted orders
-        
 
 
     def make_db_CM(self, obj_loc_df):
@@ -179,7 +159,7 @@ class COMPASS_OO_Search():
             for idx, row in location_df.iterrows():   
                 self.lat_sorted_objs_by_loc[location].append(idx)
 
-            self.db_CM_dict[location] = ConceptMap(self.long_sorted_objs_by_loc[location], self.lat_sorted_objs_by_loc[location], location_df, query=True)
+            self.db_CM_dict[location] = ConceptMap(self.long_sorted_objs_by_loc[location], self.lat_sorted_objs_by_loc[location], location_df)
 
 
     def get_search_order(self, longSortedList, latSortedList)->list:
