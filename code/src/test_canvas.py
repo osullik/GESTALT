@@ -38,6 +38,12 @@ class TestCanvas:
         assert setup_canvas.get_reference_points()['L'] == (0,5)
         assert setup_canvas.get_reference_points()['TL'] == (0,10)
 
+    def test_get_points_sorted_x(self, setup_canvas2):
+        assert setup_canvas2.get_point_names_x_sorted() == ['b', 'a', 'c']
+
+    def test_get_points_sorted_y(self, setup_canvas):
+        assert setup_canvas.get_point_names_y_sorted() == ['b', 'a']
+
     def test_add_point(self, setup_canvas):
         pts_list = [{'name':'a','x':0,'y':0}, {'name':'b','x':0,'y':5}]
         new_pt = {'name':'c','x':4,'y':6}

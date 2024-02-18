@@ -124,6 +124,14 @@ class Canvas():
     def get_points(self):
         return [tuple(p) for p in self._points]
 
+    def get_point_names_x_sorted(self):  # TODO: this may not work for cross hemisphere
+        sorted_points = sorted(self._points, key=lambda p: p.get_x(), reverse=True)  # descending order
+        return [p.get_name() for p in sorted_points]
+
+    def get_point_names_y_sorted(self):  # TODO: this may not work for cross hemisphere
+        sorted_points = sorted(self._points, key=lambda p: p.get_y(), reverse=True)  # descending order
+        return [p.get_name() for p in sorted_points]
+
     def get_reference_points(self):
         return {'T':tuple(self._ref_T), 'L':tuple(self._ref_L), 'TL':tuple(self._ref_TL)}
 
