@@ -15,10 +15,6 @@ class ConceptMap():
             j = latitudeOrder.index(longitudeOrder[i])
             self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
 
-
-    def prune(self, direction):
-        pass
-
     def search(self, toFind:list):
         return self.search_matrix(self.matrix.copy(), toFind)
 
@@ -118,10 +114,7 @@ class COMPASS_OO_Search():
     The COMPASS_OO_Search is a matrix based method for resolving directional 
     spatial patttern matching queriy Canvases against a database of objects.
     '''
-    def __init__(self, obj_loc_df):
-        # Make db canvas
-        
-        # Make db CM
+    def __init__(self, obj_loc_df):  # Should take db canvas not df
         self.make_db_CM(obj_loc_df)
 
 
@@ -144,10 +137,9 @@ class COMPASS_OO_Search():
             location_df['longitude'] = (location_df['longitude'].astype(float))+180
             location_df['latitude'] = (location_df['latitude'].astype(float))+180
 
-            location_df.sort_values(by=['longitude'], inplace=True)  # Values higher than 0 are further east
-
             # For the long and Lat, sort from north to south. TODO: Implement checks for hemispheric differences. 
             # Case longitude all pos (East Hemisphere)
+            location_df.sort_values(by=['longitude'], inplace=True)  # Values higher than 0 are further east
             for idx, row in location_df.iterrows():
                 self.long_sorted_objs_by_loc[location].append(idx)
 
@@ -157,6 +149,31 @@ class COMPASS_OO_Search():
                 self.lat_sorted_objs_by_loc[location].append(idx)
 
             self.db_CM_dict[location] = ConceptMap(self.long_sorted_objs_by_loc[location], self.lat_sorted_objs_by_loc[location], location_df)
+
+
+    def search(self, query_canvas):
+        searchlist = self.get_search_order(query_canvas.get_point_names_x_sorted(), query_canvas.get_point_names_y_sorted())
+        return self.search_CM(searchlist)
+
+
+    def search_CM(self, searchlist):
+        matching_locs = []
+
+        for loc in self.db_CM_dict:            
+            if self.db_CM_dict[loc].search(searchlist):
+                #print(loc, ": ", self.db_CM_dict[loc].matrix)
+                matching_locs.append(loc)
+
+        return matching_locs     
+
+
+    def search_cardinally_invariant(self, query_points):
+        # Make query Canvas [q]
+        # Get all angles from query Canvas
+        # Rotate q by each angle and add to list of Canvases
+        # Make a CM per Canvas
+        # Call RGS on each CM
+        pass
 
 
     def get_search_order(self, longSortedList, latSortedList)->list:
@@ -197,30 +214,6 @@ class COMPASS_OO_Search():
                 pass  # Handle case of trying to pop empty list
  
         return(traversed)
-
-    def search(self, query_canvas):
-        # Call get search order
-        search_order = self.get_search_order(query_canvas.get_point_names_x_sorted(), query_canvas.get_point_names_y_sorted())
-        return self.search_CM(search_order)
-
-    def search_CM(self, searchlist):
-        mathing_locs = []
-
-        for loc in self.db_CM_dict:            
-            if self.db_CM_dict[loc].search(searchlist):
-                print(loc, ": ", self.db_CM_dict[loc].matrix)
-                mathing_locs.append(loc)
-
-        return mathing_locs
-
-        
-    def search_cardinally_invariant(self, query_points):
-        # Make query Canvas [q]
-        # Get all angles from query Canvas
-        # Rotate q by each angle and add to list of Canvases
-        # Make a CM per Canvas
-        # Call RGS on each CM
-        pass
 
 
 
