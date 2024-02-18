@@ -2,8 +2,19 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict 
 import gc
+import enum
 
 from canvas import Canvas
+
+class Direction(enum.Enum):
+    North = 1
+    West = 2
+
+    def flip(self):
+        if self is Direction.North:
+            return Direction.West
+        if self is Direction.West:
+            return Direction.North
 
 class ConceptMap():
     def __init__(self, longitudeOrder, latitudeOrder, location_df):
@@ -18,6 +29,7 @@ class ConceptMap():
     def search(self, toFind:list):
         return self.search_matrix(self.matrix.copy(), toFind)
 
+    # TODO: Direction enum with flip fxn; collapse RGS if/elso with aux fxn; prune fxn w/o copy
     def search_matrix(self, matrix, toFind:list, direction:str="northToSouth"):
         '''
         searches a location for the relative relationships between its objects; an approximation to return ANY matching cofiguration of objects matching the search query
@@ -83,7 +95,7 @@ class ConceptMap():
 
                 if not found:
                     return False
-                    
+
                 newMatrix = matrix[:,westMostIndex:].copy()  # Make a pruned copy to recurse on
                 del matrix  # Get rid of old one to preserve memory
                 gc.collect()

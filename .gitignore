@@ -44,6 +44,7 @@ papers/auto_fig
 
 # Random stuff
 .DS_Store
+*.sqlite3
 
 #Image Files
 *.jpg
@@ -51,3 +52,4 @@ papers/auto_fig
 
 # ML Model stuff
 *.pt
+scratch/drag_and_drop/db.sqlite3
