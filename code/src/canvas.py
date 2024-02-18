@@ -150,3 +150,12 @@ class Canvas():
     def rotate(self, angle):
         for p in self._points:
             p.rotate(self._centroid, angle)
+
+    def get_angles_to_T_ref(self):
+        return [p.get_angle(self._centroid, self._ref_T) for p in self._points]
+
+    def get_angles_to_L_ref(self):
+        return [p.get_angle(self._centroid, self._ref_L) for p in self._points]
+
+    def get_angles_to_TL_ref(self):
+        return [p.get_angle(self._centroid, self._ref_TL) for p in self._points]
