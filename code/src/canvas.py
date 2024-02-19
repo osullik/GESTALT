@@ -120,12 +120,13 @@ class Canvas():
             yield {'name':p.get_name(), 'x':p.get_x(), 'y':p.get_y()}   
 
     def make_point_list_from_matrix(self, matrix):
-        nonzero_args_list = np.nonzero(matrix)
-        names_list = matrix[nonzero_args_list]
+        nonzero_args = np.nonzero(matrix)
+        names_list = matrix[nonzero_args]
 
         pts = []
+        nonzero_args_x, nonzero_args_y = nonzero_args
         for p_idx in range(len(names_list)):
-            pts.append(Point(name=names_list[p_idx], x=nonzero_args_list[p_idx][0], y=nonzero_args_list[p_idx][1]))
+            pts.append(Point(name=names_list[p_idx], x=nonzero_args_x[p_idx], y=nonzero_args_y[p_idx]))
         
         return pts
 

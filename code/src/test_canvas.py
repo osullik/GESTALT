@@ -32,7 +32,19 @@ class TestCanvas:
     def setup_canvas_matrix(self):
         matrix = np.array( [[ 0,"A"],
                             ["B",0 ]], dtype=object)
-        test_canvas = Canvas(name="testCanvas3", center=(5,5), matrix=matrix, BL=(0,0), BR=(1,0), TL=(0,1), TR=(1,1))
+        test_canvas = Canvas(name="testCanvas4", center=(5,5), matrix=matrix, BL=(0,0), BR=(1,0), TL=(0,1), TR=(1,1))
+        yield test_canvas
+        del test_canvas
+
+    @pytest.fixture
+    def setup_canvas_matrix2(self):
+        matrix = np.array( [[ 0, "A", 0,  0,  0,  0 ],
+                            [ 0,  0, "F","B","D", 0 ],
+                            [ 0,  0, "B", 0, "E","C"],
+                            [ 0, "C", 0, "D","D", 0 ],
+                            [ 0,  0,  0,  0,  0,  0 ],
+                            ["A", 0,  0,  0,  0,  0 ]], dtype=object)
+        test_canvas = Canvas(name="testCanvas5", center=(2.5,2.5), matrix=matrix, BL=(0,0), BR=(5,0), TL=(0,5), TR=(5,5))
         yield test_canvas
         del test_canvas
 
@@ -52,6 +64,10 @@ class TestCanvas:
         assert (1,0) in setup_canvas_matrix.get_points()
         assert ['B','A'] == setup_canvas_matrix.get_point_names_x_sorted()
         assert ['A','B'] == setup_canvas_matrix.get_point_names_y_sorted()
+    
+    def test_init_matrix(self, setup_canvas_matrix2):
+        for obj in ['A','B','C','D','E','F']:
+            assert obj in setup_canvas_matrix2.get_point_names_x_sorted() 
 
     def test_get_points_sorted_x(self, setup_canvas2):
         assert setup_canvas2.get_point_names_x_sorted() == ['b', 'a', 'c']
