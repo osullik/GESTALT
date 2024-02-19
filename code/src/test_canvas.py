@@ -10,21 +10,21 @@ class TestCanvas:
     @pytest.fixture
     def setup_canvas(self):
         pts_list = [{'name':'a','x':0,'y':0}, {'name':'b','x':0,'y':5}]
-        test_canvas = Canvas(name="testCanvas", center=(5,5), points=pts_list, BL=(0,0), BR=(10,0), TL=(0,10), TR=(10,10))
+        test_canvas = Canvas(name="testCanvas", center=(5,5), points=pts_list, BL=(0,10), BR=(10,10), TL=(0,0), TR=(10,0))
         yield test_canvas
         del test_canvas
 
     @pytest.fixture
     def setup_canvas2(self):
         pts_list = [{'name':'a','x':5,'y':10}, {'name':'b','x':10,'y':10}, {'name':'c','x':1,'y':1}]
-        test_canvas = Canvas(name="testCanvas2", center=(5,5), points=pts_list, BL=(0,0), BR=(10,0), TL=(0,10), TR=(10,10))
+        test_canvas = Canvas(name="testCanvas2", center=(5,5), points=pts_list, BL=(0,10), BR=(10,10), TL=(0,0), TR=(10,0))
         yield test_canvas
         del test_canvas
 
     @pytest.fixture
     def setup_canvas3(self):
         pts_list = [{'name':'a','x':10,'y':0}, {'name':'b','x':10,'y':5}, {'name':'c','x':0,'y':0}]
-        test_canvas = Canvas(name="testCanvas3", center=(5,5), points=pts_list, BL=(0,0), BR=(10,0), TL=(0,10), TR=(10,10))
+        test_canvas = Canvas(name="testCanvas3", center=(5,5), points=pts_list, BL=(0,10), BR=(10,10), TL=(0,0), TR=(10,0))
         yield test_canvas
         del test_canvas
 
@@ -32,7 +32,7 @@ class TestCanvas:
     def setup_canvas_matrix(self):
         matrix = np.array( [[ 0,"A"],
                             ["B",0 ]], dtype=object)
-        test_canvas = Canvas(name="testCanvas4", center=(5,5), matrix=matrix, BL=(0,0), BR=(1,0), TL=(0,1), TR=(1,1))
+        test_canvas = Canvas(name="testCanvas4", center=(0.5,0.5), matrix=matrix, BL=(0,1), BR=(1,1), TL=(0,0), TR=(1,0))
         yield test_canvas
         del test_canvas
 
@@ -44,7 +44,7 @@ class TestCanvas:
                             [ 0, "C", 0, "D","D", 0 ],
                             [ 0,  0,  0,  0,  0,  0 ],
                             ["A", 0,  0,  0,  0,  0 ]], dtype=object)
-        test_canvas = Canvas(name="testCanvas5", center=(2.5,2.5), matrix=matrix, BL=(0,0), BR=(5,0), TL=(0,5), TR=(5,5))
+        test_canvas = Canvas(name="testCanvas5", center=(2.5,2.5), matrix=matrix, BL=(0,5), BR=(5,5), TL=(0,5), TR=(5,0))
         yield test_canvas
         del test_canvas
 
@@ -55,9 +55,9 @@ class TestCanvas:
         assert setup_canvas.get_center() == (5,5)
 
     def test_reference_points(self, setup_canvas):
-        assert setup_canvas.get_reference_points()['T'] == (5,10)
+        assert setup_canvas.get_reference_points()['T'] == (5,0)
         assert setup_canvas.get_reference_points()['L'] == (0,5)
-        assert setup_canvas.get_reference_points()['TL'] == (0,10)
+        assert setup_canvas.get_reference_points()['TL'] == (0,0)
 
     def test_init_matrix(self, setup_canvas_matrix):
         assert (0,1) in setup_canvas_matrix.get_points()
@@ -70,10 +70,10 @@ class TestCanvas:
             assert obj in setup_canvas_matrix2.get_point_names_x_sorted() 
 
     def test_get_points_sorted_x(self, setup_canvas2):
-        assert setup_canvas2.get_point_names_x_sorted() == ['b', 'a', 'c']
+        assert setup_canvas2.get_point_names_x_sorted() == ['c', 'a', 'b']
 
     def test_get_points_sorted_y(self, setup_canvas):
-        assert setup_canvas.get_point_names_y_sorted() == ['b', 'a']
+        assert setup_canvas.get_point_names_y_sorted() == ['a', 'b']
 
     def test_add_point(self, setup_canvas):
         pts_list = [{'name':'a','x':0,'y':0}, {'name':'b','x':0,'y':5}]

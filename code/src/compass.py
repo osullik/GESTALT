@@ -27,6 +27,8 @@ class ConceptMap():
             self.matrix[j][i] = location_df.loc[int(longitudeOrder[i])]['name']  # J is long, i is lat
 
     def search(self, toFind:list):
+        #print("RGS SEARCHING FOR: ", toFind)
+        #print("RGS SEARCHING IN: ", self.matrix)
         return self.search_matrix(self.matrix.copy(), toFind)
 
     # TODO: Direction enum with flip fxn; collapse RGS if/elso with aux fxn; prune fxn w/o copy
@@ -157,11 +159,12 @@ class COMPASS_OO_Search():
     def search_CM(self, searchlist):
         matching_locs = []
 
-        for loc in self.db_CM_dict:            
+        for loc in self.db_CM_dict:   
+            print("LOC: ", loc)         
             if self.db_CM_dict[loc].search(searchlist):  # Call CM search
                 #print(loc, ": ", self.db_CM_dict[loc].matrix)
                 matching_locs.append(loc)
-
+   
         return matching_locs     
 
 

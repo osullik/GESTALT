@@ -46,6 +46,18 @@ class TestCOMPASS_OO_Search:
         yield test_searcher
         del test_searcher
 
+    @pytest.fixture
+    def setup_canvas_query(self):
+        matrix = np.array( [[ 0, "bus_stop", 0,  0,  0,  0 ],
+                            [ 0,  0, 0 ,0, 0, 0 ],
+                            [ 0,  0, "parking_lot", 0, 0, 0],
+                            [ 0, 0, 0, 0, 0, 0 ],
+                            [ 0,  0,  0,  0,  0,  0 ],
+                            [0, 0,  0,  0,  0,  "building" ]], dtype=object)
+        test_canvas = Canvas(name="testCanvas", center=(2.5,2.5), matrix=matrix, BL=(0,5), BR=(5,5), TL=(0,0), TR=(5,0))
+        yield test_canvas
+        del test_canvas
+
     @pytest.mark.parametrize("latlist, longlist, expected", [(["A"],["A"],["A"]), (["A","B"],["A","B"],["A","B"])])
     def test_search_order_simple(self, setup_COMPASS_OO_Search, latlist, longlist, expected):
         assert setup_COMPASS_OO_Search.get_search_order(longlist, latlist) == expected
@@ -59,6 +71,9 @@ class TestCOMPASS_OO_Search:
         # TODO: verify results are correct
 
     def test_search(self, setup_COMPASS_OO_Search):
-        query_canvas = Canvas(points=[{'name':'building','x':1,'y':1}], center=(5,5), BL=(0,0), TL=(0,10), TR=(10,10), BR=(10,0),)
+        query_canvas = Canvas(points=[{'name':'building','x':1,'y':1}], center=(5,5), BL=(0,10), TL=(0,0), TR=(10,0), BR=(10,10),)
         assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search(query_canvas)
         # TODO: verify results are correct and need more complex queries
+
+    def test_search_complex(self, setup_COMPASS_OO_Search, setup_canvas_query):
+        assert "Little River Winery and Café" in setup_COMPASS_OO_Search.search(setup_canvas_query)
