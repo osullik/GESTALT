@@ -81,11 +81,10 @@ class Canvas():
 
     points is a collection ocontaining dict entries like {name: "", x:_, y:_}
     '''
-    def __init__(self, center, BL, TL, TR, BR, points=None, name:str=None):
+    def __init__(self, center, BL, TL, TR, BR, points=None, matrix=None, name:str=None):
         self._name = name
         self._id_iter = itertools.count()
 
-        self._points = [Point(**p, id=next(self._id_iter)) for p in points]
         self._BL = Point("BL", BL[0], BL[1])
         self._TL = Point("TL", TL[0], TL[1])
         self._TR = Point("TR", TR[0], TR[1])
@@ -96,6 +95,11 @@ class Canvas():
         self._ref_T = None
         self._ref_L = None
         self._ref_TL = None
+
+        if points:
+            self._points = [Point(**p, id=next(self._id_iter)) for p in points]
+        else:  # assume matrix instead
+            self._points = self.make_point_list_from_matrix(matrix)
         
         self.update_centroid()
         self.update_reference_points()
@@ -114,6 +118,16 @@ class Canvas():
     def __iter__(self):
         for p in self._points:
             yield {'name':p.get_name(), 'x':p.get_x(), 'y':p.get_y()}   
+
+    def make_point_list_from_matrix(self, matrix):
+        nonzero_args_list = np.nonzero(matrix)
+        names_list = matrix[nonzero_args_list]
+
+        pts = []
+        for p_idx in range(len(names_list)):
+            pts.append(Point(name=names_list[p_idx], x=nonzero_args_list[p_idx][0], y=nonzero_args_list[p_idx][1]))
+        
+        return pts
 
     def get_centroid(self):
         return tuple(self._centroid)

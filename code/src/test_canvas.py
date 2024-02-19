@@ -1,6 +1,7 @@
 import pytest
 import math
 from copy import copy
+import numpy as np
 
 from canvas import Point
 from canvas import Canvas
@@ -27,6 +28,14 @@ class TestCanvas:
         yield test_canvas
         del test_canvas
 
+    @pytest.fixture
+    def setup_canvas_matrix(self):
+        matrix = np.array( [[ 0,"A"],
+                            ["B",0 ]], dtype=object)
+        test_canvas = Canvas(name="testCanvas3", center=(5,5), matrix=matrix, BL=(0,0), BR=(1,0), TL=(0,1), TR=(1,1))
+        yield test_canvas
+        del test_canvas
+
     def test_centroid(self, setup_canvas):
         assert setup_canvas.get_centroid() == (0,2.5)
 
@@ -37,6 +46,12 @@ class TestCanvas:
         assert setup_canvas.get_reference_points()['T'] == (5,10)
         assert setup_canvas.get_reference_points()['L'] == (0,5)
         assert setup_canvas.get_reference_points()['TL'] == (0,10)
+
+    def test_init_matrix(self, setup_canvas_matrix):
+        assert (0,1) in setup_canvas_matrix.get_points()
+        assert (1,0) in setup_canvas_matrix.get_points()
+        assert ['B','A'] == setup_canvas_matrix.get_point_names_x_sorted()
+        assert ['A','B'] == setup_canvas_matrix.get_point_names_y_sorted()
 
     def test_get_points_sorted_x(self, setup_canvas2):
         assert setup_canvas2.get_point_names_x_sorted() == ['b', 'a', 'c']
