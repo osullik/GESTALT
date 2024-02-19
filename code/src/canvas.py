@@ -81,7 +81,7 @@ class Canvas():
 
     points is a collection ocontaining dict entries like {name: "", x:_, y:_}
     '''
-    def __init__(self, points, center, BL, TL, TR, BR, name:str=None):
+    def __init__(self, center, BL, TL, TR, BR, points=None, name:str=None):
         self._name = name
         self._id_iter = itertools.count()
 

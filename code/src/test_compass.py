@@ -6,8 +6,17 @@ import numpy as np
 import pandas as pd
 
 from canvas import Canvas
+from compass import Direction
 from compass import ConceptMap
 from compass import COMPASS_OO_Search
+
+class TestDirection:
+    def test_dir_equality(self):
+        assert Direction.North != Direction.West
+
+    def test_dir_flip(self):
+        assert Direction.North.flip() == Direction.West
+        assert Direction.West.flip() == Direction.North
 
 class TestConceptMap:
     @pytest.fixture
@@ -50,6 +59,6 @@ class TestCOMPASS_OO_Search:
         # TODO: verify results are correct
 
     def test_search(self, setup_COMPASS_OO_Search):
-        query_canvas = Canvas([{'name':'building','x':1,'y':1}], (5,5), (0,0), (0,10), (10,10), (10,0),)
+        query_canvas = Canvas(points=[{'name':'building','x':1,'y':1}], center=(5,5), BL=(0,0), TL=(0,10), TR=(10,10), BR=(10,0),)
         assert 'Faber Vineyard' in setup_COMPASS_OO_Search.search(query_canvas)
         # TODO: verify results are correct and need more complex queries
