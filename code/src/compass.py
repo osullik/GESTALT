@@ -19,7 +19,7 @@ class Direction(enum.Enum):
 class ConceptMap():
     def __init__(self, longitudeOrder, latitudeOrder, location_df):
         # Create a grid full of zeros of the dimension numObjects x numObjects
-        self.matrix = np.zeros((len(longitudeOrder),len(latitudeOrder)),dtype=object)
+        self.matrix = np.zeros((len(longitudeOrder), len(latitudeOrder)), dtype=object)
 
         # Using the lat and long lists, work out what index of the matrix the object belong at & add it
         for i in range(0,len(longitudeOrder)):
@@ -220,3 +220,108 @@ class COMPASS_OO_Search():
 
     
 
+class COMPASS_LO_Search():
+    '''
+    The COMPASS_LO_Search is a set based method for resolving directional 
+    spatial patttern matching queriy Canvases against a database of objects,
+    where each query object is positioned in a quadtrant with respect to the 
+    center point of the Canvas, representing the position of the Location.
+    '''
+    def __init__(self, obj_loc_df):  # Should take db canvas not df
+        self.make_db_sets(obj_loc_df)
+
+
+    def make_db_sets(self, obj_loc_df, locationsDict):
+        '''
+        PURPOSE: 
+            Creates a dictionary of the counts of each type of object in a given location by NW, NW, SW, SE quadrant
+        INPUT ARGS:
+            inputFile - string - filePath to load the objects to process from. Optional, can also pass from memory, just
+                set inputFile to None when invoking. 
+            locationsFile - string - filepath to load the location centroids from. 
+            input_df - pandas DataFrame - alternative to loading from file
+        PROCESS:
+            Get the objects to sort into quadrants
+            Flatten them into the dictionary format that the sorting function is expecting
+            Get the location centroids to sort around from file
+            Pass to the sort & collect the output
+        OUTPUT:
+            relativeLocationsDict, Dict of form {<location_name>:{NW:[obj1,obj2]},{NE:[]},{SW:[]},{SE:[]}}
+            
+        '''
+        #Create a dictionatry to hold the name, lat and long for each object sorted by location.
+        conceptDict = {}
+        for idx, row in sourceData_df.iterrows():
+            try:
+                conceptDict[row['predicted_location']][idx] = {}
+            except KeyError:
+                conceptDict[row['predicted_location']] = {}
+                conceptDict[row['predicted_location']][idx] = {}
+            try:
+                conceptDict[row['predicted_location']][idx]['name'] = row['name']
+            except KeyError:
+                conceptDict[row['predicted_location']][idx] = row['name']
+                conceptDict[row['predicted_location']][idx]['name'] = row['name']
+
+
+            conceptDict[row['predicted_location']][idx]['name'] = row['name']
+            conceptDict[row['predicted_location']][idx]['longitude'] = row['longitude']
+            conceptDict[row['predicted_location']][idx]['latitude'] = row['latitude']
+
+        relativeLocationsDict = {}
+
+        # #Get the locations from file
+        # with open(locationsFile, 'r') as inFile:
+        #     locationsDict = json.load(inFile)
+        
+        flatLocations = self.flattenLocationDict(locationsDict)
+
+        for concept in conceptDict.keys():
+            try:
+                relativeLocationsDict[(concept)] = self.getRelativeLocation(conceptDict[concept],
+                                                                      ((flatLocations[concept]["longitude"]),
+                                                                        (flatLocations[concept]["latitude"])))
+            except KeyError:
+                pass
+
+        return relativeLocationsDict
+        
+
+    def flattenLocationDict(self, locationDict:dict) -> dict:
+        '''
+        PURPOSE:
+            take a nested locationDict and flatten it into a format that can be read by the searching and
+            sorting functions
+        INPUT ARGS:
+            locationDict - dict - A dictionary of locations of the form {<locationID>:{'name':<name>, "longitude":<longitude>. "latitude":<latitude>}}
+        PROCESS:
+            Load the dict and copy it into another dict in a slightly different format. 
+        OUTPUT:
+            flattenedDict - dict - of the form {<location_name>:{}"longitude":<longitude>,"latitude":<latitude>}
+        '''
+        flattenedDict = {}
+        for locID in locationDict:
+
+            try:
+                flattenedDict[locationDict[locID]['name']]["name"] = locationDict[locID]['name']
+            except KeyError:
+                #Create the dictionary entry the first time.
+                flattenedDict[locationDict[locID]['name']] = {}
+                flattenedDict[locationDict[locID]['name']]["name"] = locationDict[locID]['name']
+
+            #Generate the flat representation.
+            flattenedDict[locationDict[locID]['name']]["latitude"] = locationDict[locID]['latitude']
+            flattenedDict[locationDict[locID]['name']]["longitude"] = locationDict[locID]['longitude']
+        return(flattenedDict)
+
+
+    def search(self, query_canvas):
+        pass
+
+    def search_cardinally_invariant(self, query_points):
+        # Make query Canvas [q]
+        # Get all angles from query Canvas
+        # Rotate q by each angle and add to list of Canvases
+        # Make sets per Canvas
+        # Call search on each struct of sets
+        pass
