@@ -14,8 +14,8 @@ sys.path.insert(1, os.getcwd()+"/../../code/")
 sys.path.insert(1, os.getcwd()+"/../../data/")
 sys.path.insert(1, os.path.join(os.getcwd(),"media"))
 
-from conceptMapping import ConceptMapper
-from search import InvertedIndex
+from OLD_conceptMapping import ConceptMapper
+from OLD_search import InvertedIndex
 
 def index(request):
     # Initialize query object data as empty
@@ -66,6 +66,14 @@ def set_region(request):
 
         response_data = {'success': True}
         return JsonResponse(response_data)
+
+def set_query_text(request):
+    if request.method == 'POST':
+        request.session['query_text'] = request.POST.get('text_value')
+        print("Query text has been set to.... ", request.session['query_text'])
+
+        response_data = {'success': True}
+        return JsonResponse(response_data)
     
 
 def get_objects(request):
@@ -104,6 +112,11 @@ def parse_query_from_dict(query_dict):
     
     query_df = pd.DataFrame.from_dict(flatDict, orient='columns')
     return query_df
+
+def construct_query_from_llm():
+    return {"0":{"name":"bus_stop","x":17,"y":433}, 
+            "1":{"name":"shed","x":170,"y":644}, 
+            "2":{"name":"patio","x":200,"y":133}}
 
 def obj_obj_search(request, query_df, card_invariance):
     CM = ConceptMapper()
@@ -151,6 +164,20 @@ def search(request, query_df):
         results = None
 
     return results
+
+
+def get_pictorial_query(request):
+    # Parse search params
+    request.session['object_query'] = construct_query_from_llm()
+    print(request.session['object_query'])
+
+    # Return respose to UI
+    response_data = {
+            'object_query': request.session['object_query'],
+    }
+    print(response_data)
+    return JsonResponse(response_data)
+
     
 def get_search_result(request):
     # Parse search params

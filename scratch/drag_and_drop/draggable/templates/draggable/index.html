@@ -108,7 +108,7 @@
         #objectChoice{
         position: absolute;
         top: calc(16vh + 12vh + 12vh);
-        left: 74%;
+        left: 70%;
         width: 160px;
         font-size: 15px;
         font-family: helvetica;
@@ -118,7 +118,27 @@
         #objectButton{
         position: absolute;
         top: calc(16vh + 12vh + 12vh);
-        left: calc(74% + 170px);
+        left: calc(70% + 170px);
+        padding:7px;
+        font-size: 15px;
+        align-items: center;
+        font-family: helvetica;
+        visibility: hidden;}
+
+        #textInput{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh);
+        left: calc(70% + 270px);
+        padding:7px;
+        font-size: 15px;
+        align-items: center;
+        font-family: helvetica;
+        visibility: hidden;}
+
+        #textButton{
+        position: absolute;
+        top: calc(16vh + 12vh + 12vh);
+        left: calc(70% + 370px);
         padding:7px;
         font-size: 15px;
         align-items: center;
@@ -288,6 +308,8 @@
                   <div class="btns">
                     <select name="objectChoice" class="form-select" id="objectChoice"></select>
                     <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+                    <input type="text" name="textInput" id="textInput" placeholder="Insert text here..." maxlength="100"></input>
+                    <button type="button" name="textButton" class="btn btn-light" id="textButton">Go</button>
                     <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
                     <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -422,6 +444,7 @@
 
         function makeQueryCanvas(regionChoice) {
           setRegion(displayObjDropdown, regionChoice);
+          displayTextInput();
 				}
 
         function setRegion(callback, regionChoice) {
@@ -435,8 +458,9 @@
             success: function(response) {
 						  console.log("setregion done, selected...");
               console.log(regionChoice);
-              reset(callback) // resets and then calls displayObjectDropdown
-              enableObjectSelect()
+              reset(callback); // resets and then calls displayObjectDropdown
+              //enableObjectSelect();
+              //enableTextInput();
             }
           });
 				}
@@ -448,6 +472,11 @@
           createInvisibleResetButton();
           createInvisibleSearchButtons();
           createInvisibleXButton();
+				}
+
+        function displayTextInput() {
+          console.log("displayTextInput called...");
+          enableTextInput();
 				}
 
         function removeOptions(selectElement) {
@@ -495,6 +524,30 @@
               objectButton.addEventListener('click', enableResetButton);
             objectButton.style.visibility = "visible";
             objectButton.live = true;
+          }
+				}
+
+        function enableTextInput() {
+          // Update the text input
+          console.log("enableTextInput called...");
+          var textInput = document.getElementById('textInput');
+         // clear text input like: removeOptions(objectDropdown);
+
+         textInput.style.visibility = "visible";
+
+          // Add text GO button
+          var textButton = document.getElementById('textButton');
+          if (textButton.live != true) {
+            textButton.addEventListener('click', 
+              function (){
+                callLLM(function() {console.log("called LLM")}, document.getElementById('textInput').value);
+              });
+              textButton.addEventListener('click', () => console.log("text submitted"));
+              textButton.addEventListener('click', enableSubmitButton);
+              textButton.addEventListener('click', enableResetButton);
+              textButton.style.visibility = "visible";
+              textButton.live = true;
+              console.log("added event listener to GO");
           }
 				}
 
@@ -607,14 +660,73 @@
           console.log(objName);
           var canvasBackground = document.getElementById('canvasBackground');
           var UL = [Math.round(canvasBackground.getBoundingClientRect().left), Math.round(canvasBackground.getBoundingClientRect().top)];
-          var LR = [Math.round(canvasBackground.getBoundingClientRect().right), 
-                    Math.round(canvasBackground.getBoundingClientRect().bottom)];
+          var LR = [Math.round(canvasBackground.getBoundingClientRect().right), Math.round(canvasBackground.getBoundingClientRect().bottom)];
           console.log(UL, LR);
           BUFFER_H = 100; // approx max width of box
           BUFFER_V = 25;  // approx height of box
           var newBox = new Box(objName, randomNumber(UL[0], LR[0]-BUFFER_H), randomNumber(UL[1], LR[1]-BUFFER_V));
           boxData.push(newBox);
           callback();
+				}
+
+        function makeObjectWithCoords(objName, lat, long) {
+          console.log(objName)
+          var newBox = new Box(objName, lat, long);
+          boxData.push(newBox);
+				}
+
+        function callLLM(callback, textContent) {
+          console.log(textContent);
+          console.log("inside call LLM...");
+
+          $.ajax({
+            type: 'POST',
+            url: '/setquerytext/',
+            data: {'text_value': textContent},
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            success: function(response) {
+						  console.log("setquerytext done, set...");
+              console.log(textContent);
+              getPictorial(callback);
+            }
+          });
+				}
+
+        function getPictorial(callback) {
+          console.log("getting pictorial from llm...");
+          $.ajax({
+            type: 'GET',
+            url: '/getpictorial/',
+            success: function(response) {
+              queryResponse = response.object_query;
+              console.log("pictorial result is")
+              console.log(queryResponse); // Print the box data
+              for(var key in queryResponse) {
+                makeObjectWithCoords(queryResponse[key]['name'], queryResponse[key]['x'], queryResponse[key]['y']);
+              }
+              callback();
+            }
+					});
+        }
+
+        function setRegion(callback, regionChoice) {
+          $.ajax({
+            type: 'POST',
+            url: '/setregion/',
+            data: {'name': regionChoice},
+            beforeSend: function(xhr) {
+              xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            success: function(response) {
+						  console.log("setregion done, selected...");
+              console.log(regionChoice);
+              reset(callback); // resets and then calls displayObjectDropdown
+              //enableObjectSelect();
+              //enableTextInput();
+            }
+          });
 				}
 
         function convertQuery(callback) {
