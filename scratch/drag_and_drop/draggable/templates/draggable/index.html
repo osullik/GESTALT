@@ -14,43 +14,32 @@
       <style>
         html {
         height: 100%;
-        width: 100%; }
-    
-        .nav_bar {
-        color: white;
-        background-color: #595959;
-        left: 10px;
-        margin: 0px; 
-        height: 8vh;
-        padding: 10px;
-        font-size: 22px;
-        font-family: helvetica; }
+        width: 100%; 
+      }
 
-        .info_bar {
-        color: white;
-        background-color: #595959;
-        left: 10px;
-        top: 8vh;
-        margin: 0px; 
-        height: 8vh;
-        padding: 5px;
-        font-size: 14px;
-        font-family: helvetica; }
-    
-        .brown_background_div {
-        background-color: #DACD9F;
-        top: 16vh;
-        left: 10px;
-        width: 70vw;
-        height: 90vh;
-        visibility: visible; }
-    
-       .green_background_div {       
-        background-color: #B2CD9F;
-        top: 16vh;
-        left: 70vw;
-        width: calc(30vw - 43px); 
-        height: 90vh }
+      #regionChoice{
+        visibility: hidden;}
+
+        #regionButton{
+        visibility: hidden;}
+
+        #objectChoice{
+        visibility: hidden;}
+
+        #objectButton{
+        visibility: hidden;}
+
+        #textInput{
+        visibility: hidden;}
+
+        #textButton{
+        visibility: hidden;}
+
+        #submitQueryButton{
+        visibility: hidden;}
+
+        #resetButton{
+        visibility: hidden;}
     
         .dragBox {
         top: 120px;
@@ -68,101 +57,6 @@
         font-family: helvetica;
         font-weight: bold; }
     
-        #northButton {
-        position: absolute;
-        top: 20px;
-        left: 77%;
-        color: white;
-        font-size: 15px;
-        font-family: helvetica; }
-    
-        .northButtonLabel {
-        position: absolute;
-        top: 0px;
-        left: calc(77% + 30px);
-        padding: 10px;
-        color: white;
-        text-align: center;
-        font-size: 15px;
-        font-family: helvetica; }
-
-        #regionChoice{
-        position: absolute;
-        top: calc(16vh + 12vh);
-        left: 74%;
-        width: 230px;
-        font-size: 15px;
-        font-family: helvetica;
-        color: black; 
-        visibility: hidden;}
-
-        #regionButton{
-        position: absolute;
-        top: calc(16vh + 12vh);
-        left: calc(74% + 240px);
-        padding: 4px;
-        font-size: 15px;
-        font-family: helvetica;
-        visibility: hidden;}
-
-        #objectChoice{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh);
-        left: 70%;
-        width: 160px;
-        font-size: 15px;
-        font-family: helvetica;
-        color: black; 
-        visibility: hidden;}
-
-        #objectButton{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh);
-        left: calc(70% + 170px);
-        padding:7px;
-        font-size: 15px;
-        align-items: center;
-        font-family: helvetica;
-        visibility: hidden;}
-
-        #textInput{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh);
-        left: calc(70% + 270px);
-        padding:7px;
-        font-size: 15px;
-        align-items: center;
-        font-family: helvetica;
-        visibility: hidden;}
-
-        #textButton{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh);
-        left: calc(70% + 370px);
-        padding:7px;
-        font-size: 15px;
-        align-items: center;
-        font-family: helvetica;
-        visibility: hidden;}
-
-        #submitQueryButton{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh + 12vh);
-        left: 74%;
-        font-size: 15px;
-        padding: 6px;
-        font-family: helvetica;
-        visibility: hidden;}
-
-        #resetButton{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh + 12vh);
-        left: calc(74% + 110px);
-        font-size: 15px;
-        padding: 6px;
-        font-family: helvetica;
-        visibility: hidden;}
-
         .quadrantsDiv{
         position: absolute;
         top: 54%;
@@ -202,54 +96,25 @@
         visibility: hidden;}
 
         .resultsLabelDiv{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
-        left: 74%;
-        width: calc(26vw - 43px);
-        padding-top: 5px;
-        padding-bottom: 5px;
-        padding-left: 6px;
-        padding-right: 6px;
-        font-size: 15px;
-        font-family: helvetica;
         background-color: lightgray;
         font-weight: bold;
         color: black;
-        visibility: hidden;}
+        padding: 5px;
+        width: 400px;
+        visibility: hidden;
+        }
 
         .resultsBoxDiv{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh + 12vh + 12vh + 25px);
-        left: 74%;
-        width: calc(26vw - 43px);
-        padding-top: 5px;
-        padding-bottom: 20px;
-        padding-left: 6px;
-        padding-right: 6px;
-        font-size: 15px;
-        font-family: helvetica;
         background-color: white;
-        visibility: hidden;}
+        width: 400px;
+        visibility: hidden;
+        }
 
         #resultsXButton{
-        position: absolute;
-        top: calc(16vh + 12vh + 12vh + 12vh + 12vh);
-        left: calc(74% + 26vw - 43px - 27px);
-        padding: 6px;
-        font-size: 15px;
-        font-family: helvetica;
-        background-color: white; 
-        visibility: hidden;}
-
-        #objectSearchButton{
-        top: 5px;
-        position: absolute;
-        visibility: hidden;}
-        
-        #locationSearchButton{
-        top: 5px;
-        position: absolute;
-        visibility: hidden;}
+        background-color: white;
+        padding: 10px;
+        visibility: hidden;
+        }
 
         .visible {
         visibility: visible;
@@ -258,12 +123,62 @@
         visibility: hidden;
         }
 
-        .btns {
-    float: right;
-}
+       
 
+        /* grid container */
+        .right-sidebar-grid {
+            display:grid;
+            grid-template-areas:
+                'header'
+                'canvas'
+                'right-sidebar'
+                'footer';
+        }
 
+        /* general column padding */
+        .right-sidebar-grid > * {
+            padding:1rem;
+        }
 
+        /* assign columns to grid areas */
+        .right-sidebar-grid > .header {
+            grid-area:header;
+            color: white;
+            background:#595959;
+        }
+        .right-sidebar-grid > .canvas {
+            grid-area:canvas;
+            background:#fff;
+            border-style: solid;
+            height:0;
+            width:80%;
+            padding-bottom:80%;
+            background-color:#DACD9F;
+        }
+        .right-sidebar-grid > .right-sidebar {
+            grid-area:right-sidebar;
+            background:#B2CD9F;
+        }
+        .right-sidebar-grid > .footer {
+            grid-area:footer;
+            background:#72c2f1;
+        }
+
+        /* tablet breakpoint */
+        @media (min-width:768px) {
+            .right-sidebar-grid {
+                grid-template-columns:repeat(3, 1fr);
+                grid-template-areas:
+                    'header header header'
+                    'canvas canvas right-sidebar'
+                    'footer footer footer';
+            }
+        }
+
+        .search-type-buttons {
+          width: 50%;
+          border-radius: 0px;
+        }
       </style>
     
     </head>
@@ -271,62 +186,67 @@
     <body>
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
         
-        <div class="container-fluid">
-          <div class="nav_bar helvetica" id="blackNavBar">GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting
-            <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
-            <label for="northButton" class="northButtonLabel">I know the query's cardinal orientation</label>
-          </div>  <!-- end black background-container div -->
-          
-          <div class="info_bar helvetica" id="infoBar">Select a region to search, 
-            then add objects to the query canvas using the dropdown menu to the right.
-            Toggle between "Object-centric" or "Location-centric" search mode, and specify 
-            whether your query is aligned with the cardinal directions. 
-            Arrange the objects on the canvas for GESTALT to search.
-            A successful query will return a list of locations in the region matching 
-            the spatial configuration of objects on the query canvas.
-          </div>  <!-- end black background-container div -->
-
-          
-
-          <div class="grid">
-            <div class="row" style="margin: auto">
-              <div class="container brown_background_div" id="canvasBackground">
-                <hr id="quadrantsHLine"></hr>
-                <vr class="vr" id="quadrantsVLine"></vr>
-                <div class="cardinalityImage" id="cardinalityImage">
-                  <img src="{% static 'compass_graphic_transparent.png' %}" style="width:10vw;">
-                </div>
-                <div class="locationImage" id="locationImage">
-                  <img src="{% static 'location_marker.png' %}" style="width:7vw;">
-                </div>
-              </div> <!-- end brown-background-div -->
-            
-              <div class="green_background_div" id="controlPanelBackgound">
-                <div class="column" style="margin: auto"></div>
-                  <select name="regionChoice" class="form-select" id="regionChoice"></select>
-                  <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
-                  <div class="btns">
-                    <select name="objectChoice" class="form-select" id="objectChoice"></select>
-                    <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
-                    <input type="text" name="textInput" id="textInput" placeholder="Insert text here..." maxlength="100"></input>
-                    <button type="button" name="textButton" class="btn btn-light" id="textButton">Go</button>
-                    <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
-                    <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
-                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                      <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
-                      <label class="btn btn-outline-light" for="objectSearchButton">Object Centric Search</label>
-                      <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
-                      <label class="btn btn-outline-light" for="locationSearchButton">Location Centric Search</label>
-                    </div>
-                  </div>
-                  <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
-                  <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
-                  <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+        <div class="right-sidebar-grid">
+          <header class="header">
+            <h2>GESTALT - Geospatially Enhanced Search with Terrain Augmented Location Targeting
+            </h2>
+            Select a region to search, 
+                  then add objects to the query canvas using the dropdown menu or by typing a query like 
+                  'Show me a bus stop East of a crossing and South of a park.'
+                  A successful query will return a list of locations in the region matching 
+                  the spatial configuration of objects on the query canvas.
+           </header>
+          <main class="canvas" id="canvasBackground">
+            <div style="display: flex;">
+              <hr id="quadrantsHLine"></hr>
+              <vr class="vr" id="quadrantsVLine"></vr>
+              <div class="cardinalityImage" id="cardinalityImage">
+                   <img src="{% static 'compass_graphic_transparent.png' %}" style="width:10vw;">
               </div>
-              </div> <!-- end green-background-div -->
+              <div class="locationImage" id="locationImage">
+                   <img src="{% static 'location_marker.png' %}" style="width:7vw;">
+              </div>
             </div>
-          </div>
-        </div> 
+          </main>
+        
+          <section class="right-sidebar">
+             <div style="display:flex; gap:0px; border-bottom: 5px solid transparent;">
+                <input type="radio" class="btn-check" name="btnradio" id="objectSearchButton" autocomplete="off" checked>
+                <label class="btn btn-outline-light search-type-buttons" for="objectSearchButton">Object Centric Search</label>
+                <input type="radio" class="btn-check" name="btnradio" id="locationSearchButton" autocomplete="off">
+                <label class="btn btn-outline-light search-type-buttons" for="locationSearchButton">Location Centric Search</label>
+             </div>
+             
+             <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
+                <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
+                <label for="northButton">I know the query's cardinal orientation</label>
+             </div>
+             
+             <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
+                <select name="regionChoice" class="form-select" id="regionChoice"></select>
+                <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
+             </div>
+             
+             <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
+                <select name="objectChoice" class="form-select" id="objectChoice" style="width: 200px;"></select>
+                <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
+                <div>                     </div>
+                <input type="text" name="textInput" id="textInput" placeholder="Insert text here..." maxlength="512" style="width: 300px;"></input>
+                <button type="button" name="textButton" class="btn btn-light" id="textButton">Go</button>
+             </div>
+            
+             <div style="display:flex; gap:10px; border-bottom: 50px solid transparent;">
+                <button type="button" name="submitQueryButton" class="btn btn-success" id="submitQueryButton">Submit Query</button>
+                <button type="button" name="resetButton" class="btn btn-danger" id="resetButton">Reset Canvas</button>
+             </div>
+      
+             <div style="display:flex; gap:0px;">
+                <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
+                <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
+             </div>
+             <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+          </section>
+          <footer class="footer">Footer</footer>
       
     
     </body>
