@@ -66,16 +66,12 @@
         visibility: hidden;}
 
         .cardinalityImage{
-        position: absolute;
-        top: 16vh;
-        left: calc(10px + 70vw - 10vw);
-        visibility: hidden;}
+        visibility: hidden;
+      }
 
         .locationImage{
-        position: absolute;
-        top: calc(50% - 44px);
-        left: calc(32vw - 8px);
-        visibility: hidden;}
+          visibility: hidden;
+        }
 
         hr {
         position: absolute;
@@ -87,13 +83,11 @@
         visibility: hidden;}
 
         vr {
-        position: absolute;
-        top: 16vh;
-        height: 90vh;
-        left: 35vw;
         width: 1px; 
+        height: 100%;
         color: #000000;
-        visibility: hidden;}
+        visibility: hidden;
+        }
 
         .resultsLabelDiv{
         background-color: lightgray;
@@ -150,9 +144,8 @@
             grid-area:canvas;
             background:#fff;
             border-style: solid;
-            height:0;
-            width:80%;
-            padding-bottom:80%;
+            aspect-ratio: 1;
+            width:100%;
             background-color:#DACD9F;
         }
         .right-sidebar-grid > .right-sidebar {
@@ -198,14 +191,16 @@
            </header>
           <main class="canvas" id="canvasBackground">
             
-            <div style="display: flex;">
-              <hr id="quadrantsHLine"></hr>
-              <vr class="vr" id="quadrantsVLine"></vr>
+            <div style="display: flex; flex-wrap: wrap; justify-content: flex-end;">
               <div class="cardinalityImage" id="cardinalityImage">
                    <img src="{% static 'compass_graphic_transparent.png' %}" style="width:10vw;">
               </div>
+            </div>
+            <div style="display: grid; place-items: center;">
+              <hr id="quadrantsHLine"></hr>
+              <vr class="vr" id="quadrantsVLine"></vr>
               <div class="locationImage" id="locationImage">
-                   <img src="{% static 'location_marker.png' %}" style="width:7vw;">
+                <img src="{% static 'location_marker.png' %}" style="width:7vw;">
               </div>
             </div>
           </main>
@@ -219,7 +214,7 @@
              </div>
              
              <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
-                <input type="checkbox" id="northButton" name="northButton" value="northButton" checked>
+                <input type="checkbox" id="northButton" name="northButton" value="northButton">
                 <label for="northButton">I know the query's cardinal orientation</label>
              </div>
              
@@ -539,10 +534,6 @@
           quadrantsVLine.style.visibility = "hidden";
           var quadrantsHLine = document.getElementById('quadrantsHLine');
           quadrantsHLine.style.visibility = "hidden";
-
-          // Remove cardinality image
-          var cardinalityImage = document.getElementById('cardinalityImage');
-          cardinalityImage.style.visibility = "hidden"
           
           // Remove location marker image
           var locationImage = document.getElementById('locationImage');
@@ -786,8 +777,28 @@
           
           callback();
         }
+
+        function toggleCompassOn() {
+          // Display cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "visible";
+        }
+
+        function toggleCompassOff() {
+          // Display cardinality image
+          var cardinalityImage = document.getElementById('cardinalityImage');
+          cardinalityImage.style.visibility = "hidden";
+        }
      
         // MAIN functionality
+        document.getElementById("northButton").onclick = function() {
+          if(document.getElementById("northButton").checked) {
+              toggleCompassOn();
+          }
+          else {
+              toggleCompassOff();
+          }
+        }
         makeRegionDropdown();
         createInvisibleSearchButtons();
 
