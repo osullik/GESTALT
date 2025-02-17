@@ -114,9 +114,9 @@ def parse_query_from_dict(query_dict):
     return query_df
 
 def construct_query_from_llm():
-    return {"0":{"name":"bus_stop","x":17,"y":433}, 
-            "1":{"name":"shed","x":170,"y":644}, 
-            "2":{"name":"patio","x":200,"y":133}}
+    return {"0":{"name":"bus_stop","x":353,"y":373}, 
+            "1":{"name":"crossing","x":177,"y":441}, 
+            "2":{"name":"tree","x":562,"y":309}}
 
 def obj_obj_search(request, query_df, card_invariance):
     CM = ConceptMapper()

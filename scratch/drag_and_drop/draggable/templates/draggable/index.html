@@ -197,6 +197,7 @@
                   the spatial configuration of objects on the query canvas.
            </header>
           <main class="canvas" id="canvasBackground">
+            
             <div style="display: flex;">
               <hr id="quadrantsHLine"></hr>
               <vr class="vr" id="quadrantsVLine"></vr>
@@ -222,11 +223,13 @@
                 <label for="northButton">I know the query's cardinal orientation</label>
              </div>
              
+             <span style="color: black">Select a region to search</span>
              <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
                 <select name="regionChoice" class="form-select" id="regionChoice"></select>
                 <button type="button" class="btn btn-light" name="regionButton" id="regionButton">Set Region</button>
              </div>
              
+             <span style="color: black; visibility: hidden;" id="object-instructions">Add objects to the canvas using the dropdown or by typing a description</span>
              <div style="display:flex; gap:10px; border-bottom: 30px solid transparent;">
                 <select name="objectChoice" class="form-select" id="objectChoice" style="width: 200px;"></select>
                 <button type="button" name="objectButton" class="btn btn-light" id="objectButton">Add Object</button>
@@ -244,7 +247,10 @@
                 <div class="resultsLabelDiv rounded" id="resultsLabelDiv">Locations Matching Query:</div>
                 <button type="button" name="resultsXButton" class="btn btn-close" id="resultsXButton"></button>
              </div>
-             <div class="resultsBoxDiv rounded" id="resultsBoxDiv"></div>
+             <div class="resultsBoxDiv rounded" id="resultsBoxDiv">
+                 <ul id="results-list">
+                 </ul>
+             </div>
           </section>
           <footer class="footer">Footer</footer>
       
@@ -421,6 +427,10 @@
         function enableObjectSelect() {
           // Update the object dropdown menu
           console.log("enableObjectSelect called...");
+          
+          var objectInstructions = document.getElementById('object-instructions');
+          objectInstructions.style.visibility = "visible";
+
           var objectDropdown = document.getElementById('objectChoice');
           removeOptions(objectDropdown);
 
@@ -733,13 +743,18 @@
         function showResponse(callback) {
           // Results display panel
           var resultsBoxDiv = document.getElementById('resultsBoxDiv');
-          var resultsString = "";
+          const resultsList = document.querySelector('#results-list');
           queryResponse = queryResponse.sort()
+
 						for (i in queryResponse) {
-						  resultsString = resultsString.concat(queryResponse[i]);
-              resultsString = resultsString.concat("\n");
+              const listItem = document.createElement('li');
+              const link = document.createElement('a');
+              link.setAttribute('href', 'https://www.openstreetmap.org/node/1727229681#map=19/38.805861/-77.052285')
+              link.innerText = queryResponse[i];
+
+              listItem.appendChild(link);
+              resultsList.appendChild(listItem);
 						}
-          resultsBoxDiv.innerText = resultsString;
           resultsBoxDiv.style.visibility = "visible";
 
           // Label results display
