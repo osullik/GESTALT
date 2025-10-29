@@ -4,6 +4,9 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.templatetags.static import static
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 import sys
 import os
 import pickle
@@ -24,11 +27,27 @@ def index(request):
 
     return render(request, 'draggable/index.html')
 
+@api_view(['GET'])
 def get_regions(request):
+    # Initialize regions in session if not present
+    if 'REGIONS' not in request.session:
+        request.session['REGIONS'] = ["Swan Valley, Australia", "Washington D.C., USA", "Hamburg, Germany"]
+    
     response_data = {
         'regions': request.session['REGIONS']
     }
-    return JsonResponse(response_data)
+    return Response(response_data)
+
+def construct_query_from_llm(request):
+    if "crossing" in request.session['query_text']:
+        return {"0":{"name":"bus_stop","x":353,"y":373},
+                "1":{"name":"crossing","x":177,"y":441},
+                "2":{"name":"tree","x":562,"y":309}}
+    else:
+        return {"0":{"name":"bus_stop","x":353,"y":373},
+                "1":{"name":"crossing","x":177,"y":441},
+                "2":{"name":"tree","x":562,"y":309},
+                "3":{"name":"tree","x":512,"y":309}}
 
 def set_data_structure_paths(request):
     dataDirectory = ""
@@ -57,17 +76,18 @@ def set_data_structure_paths(request):
     else:
         print("UNRECOGNIZED REGION SELECTED")
 
+@api_view(['POST'])
 def set_region(request):
-    if request.method == 'POST':
-        request.session['region'] = request.POST.get('name')
-        print("Region selection has been set to.... ", request.session['region'])
+    request.session['region'] = request.data.get('name')
+    print("Region selection has been set to.... ", request.session['region'])
 
-        set_data_structure_paths(request)
+    set_data_structure_paths(request)
 
-        response_data = {'success': True}
-        return JsonResponse(response_data)
+    response_data = {'success': True}
+    return Response(response_data)
     
 
+@api_view(['GET'])
 def get_objects(request):
     # Load data structures using file paths saved in request session
     invertedIndex = InvertedIndex(request.session['INVERTED_INDEX'])
@@ -77,20 +97,20 @@ def get_objects(request):
     response_data = {
         'objects': request.session['VOCAB']
     }
-    return JsonResponse(response_data)
+    return Response(response_data)
 
+@api_view(['POST'])
 def set_search_params(request):
-    if request.method == 'POST':
-        request.session['object_query'] = request.POST.get('object_query')
-        request.session['search_type'] = request.POST.get('search_type')
-        request.session['cardinality_invariant'] = (request.POST.get('knows_cardinality') == 'false')
-        request.session['canvas_center'] = request.POST.get('canvas_center')
+    request.session['object_query'] = request.data.get('object_query')
+    request.session['search_type'] = request.data.get('search_type')
+    request.session['cardinality_invariant'] = (request.data.get('knows_cardinality') == 'false')
+    request.session['canvas_center'] = request.data.get('canvas_center')
 
-        print("Query was...", request.session['object_query'])
-        print("Canvas center is...", request.POST.get('canvas_center'))
+    print("Query was...", request.session['object_query'])
+    print("Canvas center is...", request.data.get('canvas_center'))
 
-        response_data = {'success': True}
-        return JsonResponse(response_data)
+    response_data = {'success': True}
+    return Response(response_data)
     
 def parse_query_from_dict(query_dict):
     # Create query dataframe from everything in box_data  
@@ -152,6 +172,20 @@ def search(request, query_df):
 
     return results
     
+@api_view(['POST'])
+def generate_objects_from_text(request):
+    text_input = request.data.get('text_input', '')
+    request.session['query_text'] = text_input
+    
+    objects_dict = construct_query_from_llm(request)
+    
+    response_data = {
+        'objects': objects_dict,
+        'success': True
+    }
+    return Response(response_data)
+
+@api_view(['GET'])
 def get_search_result(request):
     # Parse search params
     query_dict = json.loads(request.session['object_query'])
@@ -170,7 +204,7 @@ def get_search_result(request):
 
     # Return respose to UI
     response_data = {
-            'locations': results,
+            'locations': results if results else [],
     }
     print(response_data)
-    return JsonResponse(response_data)
+    return Response(response_data)

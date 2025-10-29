@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  font-family: helvetica, Arial, sans-serif;
+  background-color: #000000;
+  color: white;
+}
+
+#root {
+  overflow: hidden;
+}
