@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Mono&family=Oswald:wght@200..700&display=swap');
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import "tailwindcss";
+
+@theme {
+  --font-oswald: "Oswald";
+}
+
+/* Global scrollbar styling */
+@layer utilities {
+  .scrollbar-red::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-red::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  .scrollbar-red::-webkit-scrollbar-thumb {
+    background: #ff0000;
+    border-radius: 3px;
+  }
+
+  .scrollbar-red::-webkit-scrollbar-thumb:hover {
+    background: #cc0000;
+  }
+}
