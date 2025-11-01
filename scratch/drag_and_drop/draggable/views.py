@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import sys
 import os
+import re
 import pickle
 import pandas as pd
 import json
@@ -19,6 +20,15 @@ sys.path.insert(1, os.path.join(os.getcwd(),"media"))
 
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
+from openai import OpenAI
+import json
+
+print(os.environ["OPENAI_API_KEY"])
+
+OAI_CLIENT = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
+                    base_url="https://us.api.openai.com/v1")
+
+import numpy as np
 
 def index(request):
     # Initialize query object data as empty
@@ -39,15 +49,80 @@ def get_regions(request):
     return Response(response_data)
 
 def construct_query_from_llm(request):
-    if "crossing" in request.session['query_text']:
-        return {"0":{"name":"bus_stop","x":353,"y":373},
-                "1":{"name":"crossing","x":177,"y":441},
-                "2":{"name":"tree","x":562,"y":309}}
-    else:
-        return {"0":{"name":"bus_stop","x":353,"y":373},
-                "1":{"name":"crossing","x":177,"y":441},
-                "2":{"name":"tree","x":562,"y":309},
-                "3":{"name":"tree","x":512,"y":309}}
+    query_text = request.session['query_text']
+
+    SYSTEM_PROMPT = "You are tasked with providing coordinates for objects given a textual description of their position. For each object, return coordinates for it where each coordinate ranges from -10 to 10. The objects will be together in a large textual description of all of their positions. Respond in the form id: {{id}}\n\nobject name: {{object name}}\n\ncoordinates: (x, y)."
+    
+    completion = OAI_CLIENT.chat.completions.parse(
+            messages=[
+                        {
+                            "role": "system", 
+                            "content": SYSTEM_PROMPT},
+                        {
+                            "role": "user", 
+                            "content": query_text}
+                    ],
+            model="gpt-5-nano",          #Set the model to use
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "object_locations_schema",
+                    "schema": {
+                    "type": "object",
+                    "properties": {
+                        "object_locations": {
+                        "type": "array",
+                        "description": "List of detected or specified objects with coordinates.",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                            "id": {
+                                "type": "number",
+                                "description": "Unique numeric identifier for the object."
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "Name or label of the object."
+                            },
+                            "x": {
+                                "type": "number",
+                                "description": "X-coordinate of the object location."
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "Y-coordinate of the object location."
+                            }
+                            },
+                            "required": ["id", "name", "x", "y"],
+                            "additionalProperties": False
+                        }
+                        }
+                    },
+                    "required": ["object_locations"],
+                    "additionalProperties": False
+                    }
+                }
+                }
+
+    )
+
+    raw_result = json.loads(completion.choices[0].message.content)
+    print(raw_result)
+
+    # TEST = "To the right, there was a bump gate. It was in front of and right of a waterwell, and in front of an anchor, which was left of another waterwell."
+
+    res_dict = {}
+
+    for res in raw_result['object_locations']:
+        res_dict[str(res['id'])] = {
+            "name": res['name'].lower().strip().replace(" ", "_"),
+            "x": (res['x'] + 10) * 50,
+            "y": (res['y'] + 10) * 50
+        }
+
+    print(res_dict)
+
+    return res_dict
 
 def set_data_structure_paths(request):
     dataDirectory = ""
