@@ -14,11 +14,11 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
     if (!dragRef.current) return;
     e.preventDefault();
     e.stopPropagation();
-    
+
     const rect = dragRef.current.getBoundingClientRect();
     dragOffset.current = {
       x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      y: e.clientY - rect.top,
     };
     setIsDragging(true);
   };
@@ -27,22 +27,21 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
     if (!isDragging) return;
 
     const handleMouseMove = (e) => {
-      if (!dragRef.current) return;
-      const canvas = dragRef.current.parentElement.getBoundingClientRect();
-      
-      let newX = e.clientX - canvas.left - dragOffset.current.x;
-      let newY = e.clientY - canvas.top - dragOffset.current.y;
-      
-      const boxWidth = dragRef.current.offsetWidth;
-      const boxHeight = dragRef.current.offsetHeight;
-      
-      newX = Math.max(0, Math.min(newX, canvas.width - boxWidth));
-      newY = Math.max(0, Math.min(newY, canvas.height - boxHeight));
-      
+      const box = dragRef.current;
+      if (!box) return;
+      const parentRect = box.parentElement.getBoundingClientRect();
+
+      const boxWidth = box.offsetWidth;
+      const boxHeight = box.offsetHeight;
+
+      let newX = e.clientX - parentRect.left - dragOffset.current.x;
+      let newY = e.clientY - parentRect.top - dragOffset.current.y;
+
+      newX = Math.max(0, Math.min(newX, parentRect.width - boxWidth));
+      newY = Math.max(0, Math.min(newY, parentRect.height - boxHeight));
+
       setPosition({ x: newX, y: newY });
-      if (onPositionChange) {
-        onPositionChange(id, newX, newY);
-      }
+      onPositionChange?.(id, newX, newY);
     };
 
     const handleMouseUp = () => setIsDragging(false);
@@ -59,9 +58,15 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
   return (
     <div
       ref={dragRef}
-      className={`absolute inline-block px-3 py-2 bg-emerald-800 text-white font-semibold text-sm rounded border-2 border-emerald-900 shadow-lg cursor-grab select-none relative ${isDragging ? 'cursor-grabbing scale-105 z-50' : 'hover:scale-105'}`}
-      style={{ left: `${position.x}px`, top: `${position.y}px` }}
       onMouseDown={handleMouseDown}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+      className={`absolute inline-block px-3 py-2 bg-emerald-800 text-white font-semibold text-sm rounded border-2 border-emerald-900 shadow-lg select-none transition-transform ${
+        isDragging ? 'scale-105 z-50' : 'hover:scale-105'
+      }`}
     >
       {name.replace(/_/g, ' ')}
       {onDelete && (
@@ -70,8 +75,8 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
             e.stopPropagation();
             onDelete(id);
           }}
-          className="absolute -top-1 -right-1 bg-red-500/50 text-white w-3 h-3 flex items-center justify-center text-xs font-bold hover:bg-red-700 transition-colors"
-          style={{ borderRadius: '50%', fontSize: '8px' }}
+          className="absolute -top-1 -right-1 bg-red-500/50 text-white w-3 h-3 flex items-center justify-center text-xs font-bold hover:bg-red-700 transition-colors rounded-full"
+          style={{ fontSize: '8px' }}
         >
           ×
         </button>

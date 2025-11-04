@@ -51,7 +51,7 @@ def get_regions(request):
 def construct_query_from_llm(request):
     query_text = request.session['query_text']
 
-    SYSTEM_PROMPT = "You are tasked with providing coordinates for objects given a textual description of their position. For each object, return coordinates for it where each coordinate ranges from -10 to 10. The objects will be together in a large textual description of all of their positions. Respond in the form id: {{id}}\n\nobject name: {{object name}}\n\ncoordinates: (x, y)."
+    SYSTEM_PROMPT = "You are tasked with providing coordinates for objects given a textual description of their position. For each object, return coordinates for it where each coordinate ranges from -10 to 10. For orientation, larger y values are North/frontwards. The objects will be together in a large textual description of all of their positions. Respond in the form id: {{id}}\n\nobject name: {{object name}}\n\ncoordinates: (x, y)."
     
     completion = OAI_CLIENT.chat.completions.parse(
             messages=[
@@ -109,7 +109,9 @@ def construct_query_from_llm(request):
     raw_result = json.loads(completion.choices[0].message.content)
     print(raw_result)
 
+    
     # TEST = "To the right, there was a bump gate. It was in front of and right of a waterwell, and in front of an anchor, which was left of another waterwell."
+    # TEST 2  "In the center was a bus stop. Behind me and to the left was a crossing. In front of me and to the right was a tree."
 
     res_dict = {}
 
