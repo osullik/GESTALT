@@ -5,7 +5,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[url(/map.jpg)] flex items-center justify-center p-8">
+    <div className="min-h-screen bg-[url(../public/map.jpg)] flex items-center justify-center p-8">
       <div className="text-center text-emerald-800 max-w-4xl font-mono">
         <p className="text-black font-oswald" style={{ fontSize: '45px' }}>
           <span className="font-bold text-emerald-800 text-shadow-lg/10" style={{ fontSize: '54px' }}>G</span>eospatially

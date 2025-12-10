@@ -54,12 +54,20 @@ export const ControlPanel = ({
     }
   };
 
+  const [modelTypes, setModelTypes] = useState([
+    { id: 1, name: 'gpt-5' },
+    { id: 2, name: 'claude-3-5-sonnet' },
+    { id: 3, name: 'gemini-2.5-pro' },
+    { id: 4, name: 'deepseek-r1' }
+  ]);
+
+
   return (
     <div className="bg-gray-900 w-full h-full p-4 space-y-6 overflow-y-auto font-mono">
-      <h3 className="text-lg font-bold text-emerald-800 text-center uppercase border-b border-emerald-800/30 pb-3 mb-4">Controls</h3>
+      <h3 className="text-lg font-bold text-emerald-800 text-center uppercase border-b border-emerald-800/30 pb-2 mb-2">Controls</h3>
       
       {/* Region Selection */}
-      <div className="space-y-2 pt-2">
+      <div className="space-y-2">
         <label className="text-xs text-gray-300 uppercase font-semibold">Select Region</label>
         <div className="flex gap-2 h-10">
           <select 
@@ -108,12 +116,23 @@ export const ControlPanel = ({
           {/* Object Input */}
           <div className="space-y-2 pt-2">
             <label className="text-xs text-gray-300 uppercase font-semibold">Add Objects</label>
-            
-            <div className="flex gap-2" style={{ height: '38px' }}>
+            {inputMode === 'text' && (
+              <div className="pb-2">
+                <select
+                  className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
+                >
+                  <option value="">Choose Model...</option>
+                  {modelTypes.map(model => (
+                    <option key={model.id} value={model.name}>{model.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <div className="flex gap-2 flex-col">
               <div className="flex-1" style={{ minWidth: 0 }}>
                 {inputMode === 'manual' ? (
                   <select 
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 text-sm focus:outline-none focus:border-emerald-800 h-full"
+                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
                     value={selectedObject}
                     onChange={(e) => setSelectedObject(e.target.value)}
                   >
@@ -123,9 +142,8 @@ export const ControlPanel = ({
                     ))}
                   </select>
                 ) : (
-                  <input
-                    type="text"
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 h-full"
+                  <textarea
+                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 h-11 resize-none"
                     placeholder="Describe your search..."
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
@@ -146,7 +164,7 @@ export const ControlPanel = ({
           {/* Search Type - Show only after objects added */}
           {hasObjects && (
             <>
-              <div className="space-y-2 pt-2">
+              <div className="space-y-2 mt-2">
                 <label className="text-xs text-gray-300 uppercase font-semibold">Search Mode</label>
                 <div className="flex border border-emerald-800 rounded overflow-hidden">
                   <button
@@ -185,8 +203,6 @@ export const ControlPanel = ({
                 </div>
               )}
               
-              <p></p>
-
               {/* Action Buttons */}
               <div className="space-y-2 pt-2">
                 <Button 
@@ -196,7 +212,6 @@ export const ControlPanel = ({
                 >
                   Submit Query
                 </Button>
-                <p></p>
                 <Button 
                   variant="outline-success"
                   className="w-full"
