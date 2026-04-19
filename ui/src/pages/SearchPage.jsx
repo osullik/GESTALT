@@ -72,6 +72,27 @@ export const SearchPage = () => {
     setBoxIdCounter(boxIdCounter + 1);
   };
 
+  const handleImageUpload = (file) => {
+    if (!file) return;
+
+    const dummyObjects = [
+      { name: 'Tree', x: 120, y: 90 },
+      { name: 'Building', x: 280, y: 190 },
+      { name: 'Road', x: 420, y: 110 },
+    ];
+
+    const newBoxes = dummyObjects.map((obj, idx) => ({
+      id: boxIdCounter + idx,
+      name: obj.name,
+      x: obj.x,
+      y: obj.y,
+    }));
+
+    setBoxes(prev => [...prev, ...newBoxes]);
+    setBoxIdCounter(prev => prev + newBoxes.length);
+    setShowResults(false);
+  };
+
   const handleTextInput = async (textInput) => {
     if (!textInput.trim()) return;
     
@@ -176,6 +197,7 @@ export const SearchPage = () => {
             onRegionSelect={handleRegionSelect}
             onObjectAdd={handleObjectAdd}
             onTextInput={handleTextInput}
+            onImageUpload={handleImageUpload}
             onSubmitQuery={handleSubmitQuery}
             onReset={handleReset}
             searchType={searchType}

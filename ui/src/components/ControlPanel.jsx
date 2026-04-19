@@ -7,6 +7,7 @@ export const ControlPanel = ({
   onRegionSelect,
   onObjectAdd,
   onTextInput,
+  onImageUpload,
   onSubmitQuery,
   onReset,
   searchType,
@@ -21,12 +22,18 @@ export const ControlPanel = ({
   const [selectedObject, setSelectedObject] = useState('');
   const [inputMode, setInputMode] = useState('manual');
   const [textInput, setTextInput] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
+  const [apiKey, setApiKey] = useState('');
+  const [imageFile, setImageFile] = useState(null);
   
   // Reset all fields when controls are hidden (region cleared)
   useEffect(() => {
     if (!showControls) {
       setSelectedObject('');
       setTextInput('');
+      setSelectedModel('');
+      setApiKey('');
+      setImageFile(null);
       setInputMode('manual');
     }
   }, [showControls]);
@@ -51,6 +58,9 @@ export const ControlPanel = ({
     } else if (inputMode === 'text' && textInput.trim()) {
       await onTextInput(textInput);
       setTextInput('');
+    } else if (inputMode === 'image' && imageFile) {
+      onImageUpload(imageFile);
+      setImageFile(null);
     }
   };
 
@@ -110,6 +120,12 @@ export const ControlPanel = ({
               >
                 Text
               </button>
+              <button
+                className={`flex-1 py-2 text-sm font-semibold ${inputMode === 'image' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                onClick={() => setInputMode('image')}
+              >
+                Image
+              </button>
             </div>
           </div>
 
@@ -117,16 +133,29 @@ export const ControlPanel = ({
           <div className="space-y-2 pt-2">
             <label className="text-xs text-gray-300 uppercase font-semibold">Add Objects</label>
             {inputMode === 'text' && (
-              <div className="pb-2">
-                <select
-                  className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
-                >
-                  <option value="">Choose Model...</option>
-                  {modelTypes.map(model => (
-                    <option key={model.id} value={model.name}>{model.name}</option>
-                  ))}
-                </select>
-              </div>
+              <>
+                <div className="pb-2">
+                  <select
+                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
+                    value={selectedModel}
+                    onChange={(e) => setSelectedModel(e.target.value)}
+                  >
+                    <option value="">Choose Model...</option>
+                    {modelTypes.map(model => (
+                      <option key={model.id} value={model.name}>{model.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="pb-2">
+                  <input
+                    type="text"
+                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
+                    placeholder="Paste your API key"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                  />
+                </div>
+              </>
             )}
             <div className="flex gap-2 flex-col">
               <div className="flex-1" style={{ minWidth: 0 }}>
@@ -141,22 +170,38 @@ export const ControlPanel = ({
                       <option key={obj} value={obj}>{obj.replace(/_/g, ' ')}</option>
                     ))}
                   </select>
-                ) : (
+                ) : inputMode === 'text' ? (
                   <textarea
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 h-11 resize-none"
+                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 h-24 resize-none"
                     placeholder="Describe your search..."
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
                   />
+                ) : (
+                  <div className="space-y-2">
+                    <label className="text-xs text-gray-400 uppercase">Upload Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="w-full text-sm text-white file:bg-emerald-800 file:text-white file:px-3 file:py-2 file:rounded file:border-none"
+                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                    />
+                  </div>
                 )}
               </div>
               <Button 
                 variant="success"
                 onClick={handleObjectAdd}
-                disabled={inputMode === 'manual' ? !selectedObject : !textInput.trim()}
+                disabled={
+                  inputMode === 'manual'
+                    ? !selectedObject
+                    : inputMode === 'text'
+                    ? !textInput.trim()
+                    : !imageFile
+                }
                 style={{ flexShrink: 0 }}
               >
-                {inputMode === 'text' ? 'Generate' : 'Add'}
+                {inputMode === 'text' ? 'Generate' : inputMode === 'image' ? 'Upload' : 'Add'}
               </Button>
             </div>
           </div>
