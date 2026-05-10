@@ -46,7 +46,15 @@ export const gestaltAPI = {
   getSearchResults: () => api.get('/search/result/'),
   
   // Generate objects from text input
-  generateFromText: (textInput) => api.post('/generate-from-text/', { text_input: textInput }),
+  generateFromText: (textInput, apiKey) => api.post('/generate-from-text/', { text_input: textInput, api_key: apiKey }),
+
+  // Generate objects from uploaded image
+  generateFromImage: (formData) =>
+    api.post('/generate-objects-from-image/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }),
 };
 
 export default api;

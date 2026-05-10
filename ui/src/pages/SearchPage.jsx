@@ -72,32 +72,40 @@ export const SearchPage = () => {
     setBoxIdCounter(boxIdCounter + 1);
   };
 
-  const handleImageUpload = (file) => {
-    if (!file) return;
+  const handleImageUpload = async (file) => {
+  if (!file) return;
 
-    const dummyObjects = [
-      { name: 'Tree', x: 120, y: 90 },
-      { name: 'Building', x: 280, y: 190 },
-      { name: 'Road', x: 420, y: 110 },
-    ];
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
 
-    const newBoxes = dummyObjects.map((obj, idx) => ({
-      id: boxIdCounter + idx,
-      name: obj.name,
-      x: obj.x,
-      y: obj.y,
-    }));
+    const response = await gestaltAPI.generateFromImage(formData);
+    const objectsDict = response.data.objects;
 
-    setBoxes(prev => [...prev, ...newBoxes]);
+    setBoxes([]);
+
+    const newBoxes = Object.keys(objectsDict).map((key, index) => {
+      const obj = objectsDict[key];
+      return {
+        id: boxIdCounter + index,
+        name: obj.name,
+        x: obj.x,
+        y: obj.y,
+      };
+    });
+
+    setBoxes(newBoxes);
     setBoxIdCounter(prev => prev + newBoxes.length);
     setShowResults(false);
+  } catch (error) {
+    console.error('Error generating objects from image:', error);
+  }
   };
 
-  const handleTextInput = async (textInput) => {
-    if (!textInput.trim()) return;
+  const handleTextInput = async (textInput, apiKey) => {
     
     try {
-      const response = await gestaltAPI.generateFromText(textInput);
+      const response = await gestaltAPI.generateFromText(textInput, apiKey);
       const objectsDict = response.data.objects;
       
       // Clear existing boxes
@@ -164,6 +172,8 @@ export const SearchPage = () => {
     setShowControls(false);
     setObjects([]);
   };
+
+  
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-mono">

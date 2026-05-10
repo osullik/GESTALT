@@ -1,4 +1,4 @@
-
+from aiohttp import request
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
@@ -14,27 +14,33 @@ import pickle
 import pandas as pd
 import json
 
+from pathlib import Path
+
 sys.path.insert(1, os.getcwd()+"/../../code/")
 sys.path.insert(1, os.getcwd()+"/../../data/")
 sys.path.insert(1, os.path.join(os.getcwd(),"media"))
 
 from conceptMapping import ConceptMapper
 from search import InvertedIndex
-from openai import OpenAI
+from openai import OpenAI, api_key
 import json
 
-print(os.environ["OPENAI_API_KEY"])
+# print(os.environ["OPENAI_API_KEY"])
 
-OAI_CLIENT = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
-                    base_url="https://us.api.openai.com/v1")
+# OAI_CLIENT = OpenAI(api_key=os.environ["OPENAI_API_KEY"],
+#                     base_url="https://us.api.openai.com/v1")
 
 import numpy as np
+
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+sys.path.insert(0, BASE_DIR)
+from image_search_feature.sample import run_gom_and_build_text
 
 def index(request):
     # Initialize query object data as empty
     request.session['box_data'] = pickle.dumps({}).hex()
     request.session['REGIONS'] = ["Swan Valley, Australia", "Washington D.C., USA", "Hamburg, Germany"]
-
+    request.session['objects_changed'] = False
     return render(request, 'draggable/index.html')
 
 @api_view(['GET'])
@@ -48,12 +54,36 @@ def get_regions(request):
     }
     return Response(response_data)
 
+def normalize_object_name(name):
+    return name.lower().strip().replace(" ", "_")
+
+def prune_invalid_objects(request, objects_dict):
+    valid_objects = set(request.session.get('VOCAB', []))
+
+    pruned = {}
+
+    for key, obj in objects_dict.items():
+        normalized_name = normalize_object_name(obj["name"])
+
+        # Exact match only. This avoids pruning based on just one different letter.
+        if normalized_name in valid_objects:
+            pruned[key] = {
+                **obj,
+                "name": normalized_name
+            }
+        else:
+            print(f"Pruned invalid object: {normalized_name}")
+
+    return pruned
+
 def construct_query_from_llm(request):
+    api_key = request.session.get('api_key')
+    client = OpenAI(api_key=api_key, base_url="https://api.openai.com/v1")
     query_text = request.session['query_text']
 
     SYSTEM_PROMPT = "You are tasked with providing coordinates for objects given a textual description of their position. For each object, return coordinates for it where each coordinate ranges from -10 to 10. For orientation, larger y values are North/frontwards. The objects will be together in a large textual description of all of their positions. Respond in the form id: {{id}}\n\nobject name: {{object name}}\n\ncoordinates: (x, y)."
     
-    completion = OAI_CLIENT.chat.completions.parse(
+    completion = client.chat.completions.parse(
             messages=[
                         {
                             "role": "system", 
@@ -121,6 +151,8 @@ def construct_query_from_llm(request):
             "x": (res['x'] + 10) * 50,
             "y": (res['y'] + 10) * 50
         }
+
+    res_dict = prune_invalid_objects(request, res_dict)
 
     print(res_dict)
 
@@ -251,11 +283,13 @@ def search(request, query_df):
     
 @api_view(['POST'])
 def generate_objects_from_text(request):
+    api_key = request.data.get('api_key', '')
+    request.session['api_key'] = api_key    
     text_input = request.data.get('text_input', '')
     request.session['query_text'] = text_input
     
     objects_dict = construct_query_from_llm(request)
-    
+    request.session['objects_changed'] = True
     response_data = {
         'objects': objects_dict,
         'success': True
@@ -264,6 +298,7 @@ def generate_objects_from_text(request):
 
 @api_view(['GET'])
 def get_search_result(request):
+    request.session['objects_changed'] = False
     # Parse search params
     query_dict = json.loads(request.session['object_query'])
     query_df = parse_query_from_dict(query_dict)
@@ -285,3 +320,40 @@ def get_search_result(request):
     }
     print(response_data)
     return Response(response_data)
+
+@api_view(['POST'])
+def generate_objects_from_image(request):
+    if 'image' not in request.FILES:
+        return Response({'error': 'No image provided'}, status=400)
+
+    image = request.FILES['image']
+
+    # Save temporarily
+    temp_path = Path("temp_image.png")
+    with open(temp_path, "wb+") as f:
+        for chunk in image.chunks():
+            f.write(chunk)
+
+    try:
+        # Run your GoM pipeline
+        llm_text = run_gom_and_build_text(temp_path)
+
+        # Store in session (same as text flow!)
+        request.session['query_text'] = llm_text
+
+        # Reuse existing LLM → object pipeline
+        objects_dict = construct_query_from_llm(request)
+        request.session['objects_changed'] = True
+        return Response({
+            'objects': objects_dict,
+            'llm_text': llm_text,
+            'success': True
+        })
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+    finally:
+        if temp_path.exists():
+            temp_path.unlink()
+

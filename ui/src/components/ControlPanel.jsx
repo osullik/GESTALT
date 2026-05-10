@@ -56,7 +56,7 @@ export const ControlPanel = ({
       onObjectAdd(selectedObject);
       setSelectedObject('');
     } else if (inputMode === 'text' && textInput.trim()) {
-      await onTextInput(textInput);
+      await onTextInput(textInput, apiKey);
       setTextInput('');
     } else if (inputMode === 'image' && imageFile) {
       onImageUpload(imageFile);
@@ -196,7 +196,7 @@ export const ControlPanel = ({
                   inputMode === 'manual'
                     ? !selectedObject
                     : inputMode === 'text'
-                    ? !textInput.trim()
+                    ? !textInput.trim() || !apiKey.trim()
                     : !imageFile
                 }
                 style={{ flexShrink: 0 }}

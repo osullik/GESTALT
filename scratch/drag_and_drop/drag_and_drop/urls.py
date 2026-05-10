@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/search/params/', views.set_search_params, name='api_set_search_params'),
     path('api/search/result/', views.get_search_result, name='api_get_search_result'),
     path('api/generate-from-text/', views.generate_objects_from_text, name='api_generate_from_text'),
+    path('api/generate-objects-from-image/', views.generate_objects_from_image, name='api_generate_objects_from_image'),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
 
