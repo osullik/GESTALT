@@ -1,6 +1,6 @@
 export const Canvas = ({ children, showQuadrants, showCompass, showLocationMarker }) => {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-black">
+    <div className="w-full h-full min-h-0 min-w-0 relative overflow-hidden bg-black">
       {showQuadrants && (
         <>
           <hr className="absolute top-1/2 left-0 w-full h-px bg-emerald-800/50" id="quadrantsHLine" />

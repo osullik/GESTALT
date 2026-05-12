@@ -1,5 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, ProgressBar } from 'react-bootstrap';
+
+const IndeterminateProgress = ({ label }) => (
+  <div className="space-y-1 pt-1">
+    {label ? (
+      <div className="text-[10px] text-gray-400 uppercase tracking-wide">{label}</div>
+    ) : null}
+    <ProgressBar
+      animated
+      striped
+      variant="success"
+      now={100}
+      className="gestalt-progress h-1.5 rounded-sm overflow-hidden bg-gray-800 [&_.progress-bar]:rounded-sm"
+    />
+  </div>
+);
 
 export const ControlPanel = ({ 
   regions = [], 
@@ -17,7 +32,10 @@ export const ControlPanel = ({
   showControls,
   hasObjects = false,
   selectedRegion = '',
-  onRegionChange
+  onRegionChange,
+  loadingImage = false,
+  loadingText = false,
+  loadingSubmit = false,
 }) => {
   const [selectedObject, setSelectedObject] = useState('');
   const [inputMode, setInputMode] = useState('manual');
@@ -25,6 +43,8 @@ export const ControlPanel = ({
   const [selectedModel, setSelectedModel] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  
+  const busy = loadingImage || loadingText || loadingSubmit;
   
   // Reset all fields when controls are hidden (region cleared)
   useEffect(() => {
@@ -38,9 +58,8 @@ export const ControlPanel = ({
     }
   }, [showControls]);
   
-  // Enhanced reset handler
   const handleReset = () => {
-    onReset(); // Call parent reset to clear canvas
+    onReset();
     setSelectedObject('');
     setTextInput('');
   };
@@ -52,6 +71,7 @@ export const ControlPanel = ({
   };
 
   const handleObjectAdd = async () => {
+    if (busy) return;
     if (inputMode === 'manual' && selectedObject) {
       onObjectAdd(selectedObject);
       setSelectedObject('');
@@ -59,12 +79,12 @@ export const ControlPanel = ({
       await onTextInput(textInput, apiKey);
       setTextInput('');
     } else if (inputMode === 'image' && imageFile) {
-      onImageUpload(imageFile);
+      await onImageUpload(imageFile);
       setImageFile(null);
     }
   };
 
-  const [modelTypes, setModelTypes] = useState([
+  const [modelTypes] = useState([
     { id: 1, name: 'gpt-5' },
     { id: 2, name: 'claude-3-5-sonnet' },
     { id: 3, name: 'gemini-2.5-pro' },
@@ -73,15 +93,13 @@ export const ControlPanel = ({
 
 
   return (
-    <div className="bg-gray-900 w-full h-full p-4 space-y-6 overflow-y-auto font-mono">
-      <h3 className="text-lg font-bold text-emerald-800 text-center uppercase border-b border-emerald-800/30 pb-2 mb-2">Controls</h3>
-      
+    <div className="bg-gray-900 w-full flex-1 min-h-0 overflow-y-auto overflow-x-hidden p-3 space-y-3 font-mono">
       {/* Region Selection */}
-      <div className="space-y-2">
+      <div className="space-y-1.5 shrink-0">
         <label className="text-xs text-gray-300 uppercase font-semibold">Select Region</label>
         <div className="flex gap-2 h-10">
           <select 
-            className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 text-sm focus:outline-none focus:border-emerald-800 h-full"
+            className="w-full min-w-0 bg-gray-800 text-white border border-emerald-800/50 rounded px-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
             value={selectedRegion}
             onChange={(e) => onRegionChange(e.target.value)}
           >
@@ -93,7 +111,7 @@ export const ControlPanel = ({
           <Button 
             variant="success"
             onClick={handleRegionClick}
-            disabled={!selectedRegion}
+            disabled={!selectedRegion || busy}
             style={{ flexShrink: 0 }}
           >
             Set
@@ -104,66 +122,70 @@ export const ControlPanel = ({
       {/* Object Selection */}
       {showControls && (
         <>
-          {/* Input Mode Toggle */}
-          <div className="space-y-2 pt-2">
+          <div className="space-y-1.5 pt-1 shrink-0">
             <label className="text-xs text-gray-300 uppercase font-semibold">Input Mode</label>
             <div className="flex border border-emerald-800 rounded overflow-hidden">
               <button
-                className={`flex-1 py-2 text-sm font-semibold border-r border-emerald-800/50 ${inputMode === 'manual' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                type="button"
+                className={`flex-1 py-1.5 text-xs font-semibold border-r border-emerald-800/50 ${inputMode === 'manual' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                 onClick={() => setInputMode('manual')}
+                disabled={busy}
               >
                 Select
               </button>
               <button
-                className={`flex-1 py-2 text-sm font-semibold ${inputMode === 'text' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                type="button"
+                className={`flex-1 py-1.5 text-xs font-semibold border-r border-emerald-800/50 ${inputMode === 'text' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                 onClick={() => setInputMode('text')}
+                disabled={busy}
               >
                 Text
               </button>
               <button
-                className={`flex-1 py-2 text-sm font-semibold ${inputMode === 'image' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                type="button"
+                className={`flex-1 py-1.5 text-xs font-semibold ${inputMode === 'image' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                 onClick={() => setInputMode('image')}
+                disabled={busy}
               >
                 Image
               </button>
             </div>
           </div>
 
-          {/* Object Input */}
-          <div className="space-y-2 pt-2">
+          {/* gap-2 matches space between textarea and Generate */}
+          <div className="flex flex-col gap-2 pt-1 min-h-0">
             <label className="text-xs text-gray-300 uppercase font-semibold">Add Objects</label>
             {inputMode === 'text' && (
               <>
-                <div className="pb-2">
-                  <select
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
-                    value={selectedModel}
-                    onChange={(e) => setSelectedModel(e.target.value)}
-                  >
-                    <option value="">Choose Model...</option>
-                    {modelTypes.map(model => (
-                      <option key={model.id} value={model.name}>{model.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="pb-2">
-                  <input
-                    type="text"
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
-                    placeholder="Paste your API key"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                  />
-                </div>
+                <select
+                  className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  disabled={busy}
+                >
+                  <option value="">Choose Model...</option>
+                  {modelTypes.map(model => (
+                    <option key={model.id} value={model.name}>{model.name}</option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
+                  placeholder="Paste your API key"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  disabled={busy}
+                />
               </>
             )}
-            <div className="flex gap-2 flex-col">
-              <div className="flex-1" style={{ minWidth: 0 }}>
+            <div className="flex gap-2 flex-col min-h-0">
+              <div className="flex-1 min-h-0 min-w-0">
                 {inputMode === 'manual' ? (
                   <select 
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 h-full"
+                    className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
                     value={selectedObject}
                     onChange={(e) => setSelectedObject(e.target.value)}
+                    disabled={busy}
                   >
                     <option value="">Choose object...</option>
                     {objects.map(obj => (
@@ -172,19 +194,22 @@ export const ControlPanel = ({
                   </select>
                 ) : inputMode === 'text' ? (
                   <textarea
-                    className="w-full bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 h-24 resize-none"
+                    className="w-full min-w-0 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800 disabled:opacity-50 resize-y min-h-[4.5rem] max-h-28"
+                    rows={3}
                     placeholder="Describe your search..."
                     value={textInput}
                     onChange={(e) => setTextInput(e.target.value)}
+                    disabled={busy}
                   />
                 ) : (
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     <label className="text-xs text-gray-400 uppercase">Upload Image</label>
                     <input
                       type="file"
                       accept="image/*"
-                      className="w-full text-sm text-white file:bg-emerald-800 file:text-white file:px-3 file:py-2 file:rounded file:border-none"
+                      className="w-full min-w-0 text-xs text-white file:bg-emerald-800 file:text-white file:px-2 file:py-1.5 file:rounded file:border-none"
                       onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      disabled={busy}
                     />
                   </div>
                 )}
@@ -193,79 +218,94 @@ export const ControlPanel = ({
                 variant="success"
                 onClick={handleObjectAdd}
                 disabled={
-                  inputMode === 'manual'
+                  busy ||
+                  (inputMode === 'manual'
                     ? !selectedObject
                     : inputMode === 'text'
                     ? !textInput.trim() || !apiKey.trim()
-                    : !imageFile
+                    : !imageFile)
                 }
                 style={{ flexShrink: 0 }}
               >
                 {inputMode === 'text' ? 'Generate' : inputMode === 'image' ? 'Upload' : 'Add'}
               </Button>
             </div>
+            {loadingImage && (
+              <IndeterminateProgress label="Processing image…" />
+            )}
+            {loadingText && (
+              <IndeterminateProgress label="Generating from text…" />
+            )}
           </div>
 
-          {/* Search Type - Show only after objects added */}
           {hasObjects && (
-            <>
-              <div className="space-y-2 mt-2">
+            <div className="flex flex-col gap-2 pt-2 shrink-0">
+              <div className="space-y-1.5 shrink-0">
                 <label className="text-xs text-gray-300 uppercase font-semibold">Search Mode</label>
                 <div className="flex border border-emerald-800 rounded overflow-hidden">
                   <button
-                    className={`flex-1 py-2 text-sm font-semibold border-r border-emerald-800/50 ${searchType === 'Object' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                    type="button"
+                    className={`flex-1 py-1.5 text-xs font-semibold border-r border-emerald-800/50 ${searchType === 'Object' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                     onClick={() => onSearchTypeChange('Object')}
+                    disabled={busy}
                   >
                     Object
                   </button>
                   <button
-                    className={`flex-1 py-2 text-sm font-semibold ${searchType === 'Location' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                    type="button"
+                    className={`flex-1 py-1.5 text-xs font-semibold ${searchType === 'Location' ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                     onClick={() => onSearchTypeChange('Location')}
+                    disabled={busy}
                   >
                     Location
                   </button>
                 </div>
               </div>
 
-              {/* Cardinal Orientation - Only for Object-centric searches */}
               {searchType === 'Object' && (
-                <div className="space-y-2 pt-2">
+                <div className="space-y-1.5 shrink-0">
                   <label className="text-xs text-gray-300 uppercase font-semibold">Cardinal Orientation</label>
                   <div className="flex border border-emerald-800 rounded overflow-hidden">
                     <button
-                      className={`flex-1 py-2 text-sm font-semibold border-r border-emerald-800/50 ${knowsCardinality ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                      type="button"
+                      className={`flex-1 py-1.5 text-xs font-semibold border-r border-emerald-800/50 ${knowsCardinality ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                       onClick={() => setKnowsCardinality(true)}
+                      disabled={busy}
                     >
                       Known
                     </button>
                     <button
-                      className={`flex-1 py-2 text-sm font-semibold ${!knowsCardinality ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
+                      type="button"
+                      className={`flex-1 py-1.5 text-xs font-semibold ${!knowsCardinality ? 'bg-emerald-800 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}
                       onClick={() => setKnowsCardinality(false)}
+                      disabled={busy}
                     >
                       Not Known
                     </button>
                   </div>
                 </div>
               )}
-              
-              {/* Action Buttons */}
-              <div className="space-y-2 pt-2">
+
+              <div className="flex flex-col gap-2 shrink-0">
                 <Button 
                   variant="success"
                   className="w-full"
                   onClick={onSubmitQuery}
+                  disabled={busy}
                 >
                   Submit Query
                 </Button>
+                {loadingSubmit && <IndeterminateProgress label="Running search…" />}
                 <Button 
                   variant="outline-success"
                   className="w-full"
                   onClick={handleReset}
+                  disabled={busy}
                 >
                   Clear Canvas
                 </Button>
               </div>
-            </>
+            </div>
           )}
         </>
       )}

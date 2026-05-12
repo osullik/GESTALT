@@ -1,14 +1,56 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useLayoutEffect, useEffect } from 'react';
 
 export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, onDelete }) => {
   const [position, setPosition] = useState({ x: initialX, y: initialY });
   const [isDragging, setIsDragging] = useState(false);
   const dragRef = useRef(null);
   const dragOffset = useRef({ x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
+  const onPositionChangeRef = useRef(onPositionChange);
+  onPositionChangeRef.current = onPositionChange;
 
-  useEffect(() => {
-    setPosition({ x: initialX, y: initialY });
-  }, [initialX, initialY]);
+  useLayoutEffect(() => {
+    const el = dragRef.current;
+    const parent = el?.parentElement;
+    if (!parent) return;
+
+    const clamp = (x, y) => {
+      const boxEl = dragRef.current;
+      const p = boxEl?.parentElement;
+      if (!boxEl || !p) return { x, y };
+      const bw = Math.max(boxEl.offsetWidth, 1);
+      const bh = Math.max(boxEl.offsetHeight, 1);
+      const pw = p.clientWidth;
+      const ph = p.clientHeight;
+      return {
+        x: Math.max(0, Math.min(x, Math.max(0, pw - bw))),
+        y: Math.max(0, Math.min(y, Math.max(0, ph - bh))),
+      };
+    };
+
+    const syncFromProps = () => {
+      if (isDraggingRef.current) return;
+      const next = clamp(initialX, initialY);
+      setPosition(next);
+      if (next.x !== initialX || next.y !== initialY) {
+        onPositionChangeRef.current?.(id, next.x, next.y);
+      }
+    };
+
+    syncFromProps();
+
+    const ro = new ResizeObserver(() => {
+      setPosition((prev) => {
+        const next = clamp(prev.x, prev.y);
+        if (next.x !== prev.x || next.y !== prev.y) {
+          onPositionChangeRef.current?.(id, next.x, next.y);
+        }
+        return next;
+      });
+    });
+    ro.observe(parent);
+    return () => ro.disconnect();
+  }, [initialX, initialY, id]);
 
   const handleMouseDown = (e) => {
     if (!dragRef.current) return;
@@ -20,6 +62,7 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
     };
+    isDraggingRef.current = true;
     setIsDragging(true);
   };
 
@@ -41,10 +84,13 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
       newY = Math.max(0, Math.min(newY, parentRect.height - boxHeight));
 
       setPosition({ x: newX, y: newY });
-      onPositionChange?.(id, newX, newY);
+      onPositionChangeRef.current?.(id, newX, newY);
     };
 
-    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseUp = () => {
+      isDraggingRef.current = false;
+      setIsDragging(false);
+    };
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -53,7 +99,7 @@ export const DraggableBox = ({ id, name, initialX, initialY, onPositionChange, o
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, id, onPositionChange]);
+  }, [isDragging, id]);
 
   return (
     <div
