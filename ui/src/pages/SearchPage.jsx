@@ -94,17 +94,44 @@ export const SearchPage = () => {
     });
   };
 
-  const handleImageUpload = useCallback(async (file) => {
-    if (!file) return;
+  const handleImageUpload = useCallback(async (file, apiKey) => {
+    console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: called', {
+      hasFile: !!file,
+      fileName: file?.name,
+      fileSize: file?.size,
+      fileType: file?.type,
+      hasApiKey: !!apiKey?.trim(),
+      currentRegion,
+      objectCount: objects.length,
+    });
+    if (!file) {
+      console.warn('[IMAGE_DEBUG] SearchPage.handleImageUpload: no file provided, aborting');
+      return;
+    }
 
     setLoadingImage(true);
+    const start = performance.now();
     try {
       const formData = new FormData();
       formData.append('image', file);
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: formData prepared', {
+        formDataKeys: [...formData.keys()],
+      });
 
-      const response = await gestaltAPI.generateFromImage(formData);
+      const response = await gestaltAPI.generateFromImage(formData, apiKey);
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: API response received', {
+        elapsedMs: Math.round(performance.now() - start),
+        responseData: response.data,
+      });
+
       const objectsDict = response.data.objects;
       const keys = Object.keys(objectsDict);
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: building boxes', {
+        objectKeyCount: keys.length,
+        objectKeys: keys,
+        objectsDict,
+      });
+
       const newBoxes = keys.map((key, index) => {
         const obj = objectsDict[key];
         return {
@@ -114,14 +141,23 @@ export const SearchPage = () => {
           y: obj.y,
         };
       });
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: setting boxes', { newBoxes });
       setBoxes(newBoxes);
       setShowResults(false);
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: completed successfully');
     } catch (error) {
-      console.error('Error generating objects from image:', error);
+      console.error('[IMAGE_DEBUG] SearchPage.handleImageUpload: failed', {
+        elapsedMs: Math.round(performance.now() - start),
+        message: error.message,
+        status: error.response?.status,
+        responseData: error.response?.data,
+        stack: error.stack,
+      });
     } finally {
       setLoadingImage(false);
+      console.log('[IMAGE_DEBUG] SearchPage.handleImageUpload: finished, loadingImage=false');
     }
-  }, []);
+  }, [currentRegion, objects.length]);
 
   const handleTextInput = useCallback(async (textInput, apiKey) => {
     setLoadingText(true);

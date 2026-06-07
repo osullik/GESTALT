@@ -79,7 +79,14 @@ export const ControlPanel = ({
       await onTextInput(textInput, apiKey);
       setTextInput('');
     } else if (inputMode === 'image' && imageFile) {
-      await onImageUpload(imageFile);
+      console.log('[IMAGE_DEBUG] ControlPanel.handleObjectAdd: uploading image', {
+        fileName: imageFile.name,
+        fileSize: imageFile.size,
+        fileType: imageFile.type,
+        lastModified: imageFile.lastModified,
+      });
+      await onImageUpload(imageFile, apiKey);
+      console.log('[IMAGE_DEBUG] ControlPanel.handleObjectAdd: image upload handler returned');
       setImageFile(null);
     }
   };
@@ -155,19 +162,21 @@ export const ControlPanel = ({
           {/* gap-2 matches space between textarea and Generate */}
           <div className="flex flex-col gap-2 pt-1 min-h-0">
             <label className="text-xs text-gray-300 uppercase font-semibold">Add Objects</label>
-            {inputMode === 'text' && (
+            {(inputMode === 'text' || inputMode === 'image') && (
               <>
-                <select
-                  className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  disabled={busy}
-                >
-                  <option value="">Choose Model...</option>
-                  {modelTypes.map(model => (
-                    <option key={model.id} value={model.name}>{model.name}</option>
-                  ))}
-                </select>
+                {inputMode === 'text' && (
+                  <select
+                    className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
+                    value={selectedModel}
+                    onChange={(e) => setSelectedModel(e.target.value)}
+                    disabled={busy}
+                  >
+                    <option value="">Choose Model...</option>
+                    {modelTypes.map(model => (
+                      <option key={model.id} value={model.name}>{model.name}</option>
+                    ))}
+                  </select>
+                )}
                 <input
                   type="text"
                   className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
@@ -208,7 +217,16 @@ export const ControlPanel = ({
                       type="file"
                       accept="image/*"
                       className="w-full min-w-0 text-xs text-white file:bg-emerald-800 file:text-white file:px-2 file:py-1.5 file:rounded file:border-none"
-                      onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                      onChange={(e) => {
+                        const selected = e.target.files?.[0] || null;
+                        console.log('[IMAGE_DEBUG] ControlPanel: image file selected', {
+                          hasFile: !!selected,
+                          fileName: selected?.name,
+                          fileSize: selected?.size,
+                          fileType: selected?.type,
+                        });
+                        setImageFile(selected);
+                      }}
                       disabled={busy}
                     />
                   </div>
@@ -223,7 +241,7 @@ export const ControlPanel = ({
                     ? !selectedObject
                     : inputMode === 'text'
                     ? !textInput.trim() || !apiKey.trim()
-                    : !imageFile)
+                    : !imageFile || !apiKey.trim())
                 }
                 style={{ flexShrink: 0 }}
               >
