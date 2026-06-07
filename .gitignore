@@ -51,3 +51,10 @@ papers/auto_fig
 
 # ML Model stuff
 *.pt
+
+# Scratch directory checkpoints and PyTorch weights
+scratch/**/checkpoints/
+scratch/**/*.pt
+scratch/**/*.pth
+scratch/**/*.ckpt
+scratch/**/*.safetensors
