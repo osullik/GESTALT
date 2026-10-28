@@ -162,21 +162,19 @@ export const ControlPanel = ({
           {/* gap-2 matches space between textarea and Generate */}
           <div className="flex flex-col gap-2 pt-1 min-h-0">
             <label className="text-xs text-gray-300 uppercase font-semibold">Add Objects</label>
-            {(inputMode === 'text' || inputMode === 'image') && (
+            {inputMode === 'text' && (
               <>
-                {inputMode === 'text' && (
-                  <select
-                    className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
-                    value={selectedModel}
-                    onChange={(e) => setSelectedModel(e.target.value)}
-                    disabled={busy}
-                  >
-                    <option value="">Choose Model...</option>
-                    {modelTypes.map(model => (
-                      <option key={model.id} value={model.name}>{model.name}</option>
-                    ))}
-                  </select>
-                )}
+                <select
+                  className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  disabled={busy}
+                >
+                  <option value="">Choose Model...</option>
+                  {modelTypes.map(model => (
+                    <option key={model.id} value={model.name}>{model.name}</option>
+                  ))}
+                </select>
                 <input
                   type="text"
                   className="w-full min-w-0 min-h-10 bg-gray-800 text-white border border-emerald-800/50 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-800"
@@ -241,7 +239,7 @@ export const ControlPanel = ({
                     ? !selectedObject
                     : inputMode === 'text'
                     ? !textInput.trim() || !apiKey.trim()
-                    : !imageFile || !apiKey.trim())
+                    : !imageFile)
                 }
                 style={{ flexShrink: 0 }}
               >

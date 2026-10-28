@@ -9,6 +9,12 @@ data/output
 
 #environment files
 gestalt_env/
+.env
+.env.*
+!.env.example
+
+# Third-party cloned repos
+external/
 
 #Python Stuff to ignore
 __pycache__
@@ -48,6 +54,8 @@ papers/auto_fig
 #Image Files
 *.jpg
 *.jpeg
+# Allow the landing page background to be committed despite the *.jpg rule
+!ui/public/cover.jpg
 
 # ML Model stuff
 *.pt
